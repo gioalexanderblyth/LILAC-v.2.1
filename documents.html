@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LILAC Documents</title>
+<link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": {
+                            DEFAULT: "#137fec",
+                            "50": "#e8f2fe",
+                            "100": "#d1e6fd",
+                            "200": "#a2cbfb",
+                            "300": "#74b1f9",
+                            "400": "#4596f7",
+                            "500": "#137fec",
+                            "600": "#0f66bc",
+                            "700": "#0c4c8d",
+                            "800": "#08335d",
+                            "900": "#04192e"
+                        },
+                        "background-light": "#f1f5f9",
+                        "background-dark": "#0f172a",
+                        "card-light": "#ffffff",
+                        "card-dark": "#1e293b",
+                        "text-light": "#0f172a",
+                        "text-dark": "#e2e8f0",
+                        "text-muted-light": "#64748b",
+                        "text-muted-dark": "#94a3b8",
+                        "border-light": "#e2e8f0",
+                        "border-dark": "#334155",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "0.75rem",
+                        "xl": "1rem",
+                        "full": "9999px"
+                    },
+                    boxShadow: {
+                        'soft': '0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05)',
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.filled {
+            font-variation-settings: 'FILL' 1;
+        }
+        .dark .chartjs-grid-color {
+            color: theme('colors.border-dark');
+        }
+        .chartjs-grid-color {
+            color: theme('colors.border-light');
+        }
+        .dark .chartjs-tick-color {
+            color: theme('colors.text-muted-dark');
+        }
+        .chartjs-tick-color {
+            color: theme('colors.text-muted-light');
+        }
+        .dark .chartjs-legend-color {
+            color: theme('colors.text-dark');
+        }
+        .chartjs-legend-color {
+            color: theme('colors.text-light');
+        }
+        .sidebar-collapsed .sidebar-text {
+            display: none;
+        }
+        .sidebar-collapsed .sidebar-logo-text {
+            display: none;
+        }
+        .sidebar-collapsed .sidebar {
+            width: 5rem;
+        }
+        .sidebar-expanded .sidebar {
+            width: 16rem;
+        }
+        .sidebar-collapsed .sidebar-profile-info {
+            display: none;
+        }
+        .sidebar-collapsed .sidebar-profile-picture {
+            display: none;
+        }
+        /* Add styles for expanded sidebar */
+        .sidebar-expanded .sidebar-profile-picture {
+            display: block;
+        }
+        .sidebar-expanded .sidebar-profile-info {
+            display: block;
+        }
+        .sidebar-collapsed main {
+            margin-left: 2rem;
+        }
+        .sidebar-expanded main {
+            margin-left: 0 !important;
+        }
+        .sidebar-expanded .main-content {
+            padding-left: 2rem;
+        }
+        .sidebar-collapsed .main-content {
+            padding-left: 2rem;
+        }
+        .sidebar-collapsed .sidebar-toggle-icon-open {
+            display: none;
+        }
+        .sidebar-collapsed .sidebar-toggle-icon-closed {
+            display: block;
+        }
+        .sidebar-toggle-icon-closed {
+            display: none;
+        }
+        .sidebar-collapsed .sidebar-nav-link {
+            justify-content: center;
+        }
+        .sidebar-collapsed .sidebar-toggle-container {
+            justify-content: center;
+        }
+        .sidebar-collapsed .profile-container {
+            justify-content: center;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-text-light dark:text-text-dark">
+<div class="flex h-screen sidebar-collapsed" id="app-container">
+<aside class="sidebar bg-card-light dark:bg-card-dark border-r border-border-light dark:border-border-dark flex flex-col">
+<div class="flex items-center justify-start px-4 h-20 border-b border-border-light dark:border-border-dark">
+<div class="flex items-center gap-3">
+<img alt="CPU LILAC Logo" class="h-11 w-11" src="assets/images/cpu-logo.svg.png" width="32" height="32"/>
+<h1 class="text-xl font-bold text-text-light dark:text-text-dark sidebar-logo-text hidden">LILAC</h1>
+</div>
+</div>
+<nav class="flex-1 px-4 py-6 space-y-2">
+<a class="flex items-center justify-center gap-3 px-4 py-2.5 rounded-lg bg-primary-50 dark:bg-primary-900/40 text-primary-600 dark:text-primary-300 font-semibold sidebar-nav-link" href="documents.html">
+<span class="material-symbols-outlined filled">description</span>
+<span class="sidebar-text hidden">Documents</span>
+</a>
+<a class="flex items-center justify-center gap-3 px-4 py-2.5 rounded-lg text-text-muted-light dark:text-text-muted-dark hover:bg-gray-100 dark:hover:bg-background-dark hover:text-text-light dark:hover:text-text-dark transition-colors duration-200 sidebar-nav-link" href="awards.html">
+<span class="material-symbols-outlined">emoji_events</span>
+<span class="sidebar-text hidden">Awards Progress</span>
+</a>
+<a class="flex items-center justify-center gap-3 px-4 py-2.5 rounded-lg text-text-muted-light dark:text-text-muted-dark hover:bg-gray-100 dark:hover:bg-background-dark hover:text-text-light dark:hover:text-text-dark transition-colors duration-200 sidebar-nav-link" href="events-activities.html">
+<span class="material-symbols-outlined">event</span>
+<span class="sidebar-text hidden">Events &amp; Activities</span>
+</a>
+<a class="flex items-center justify-center gap-3 px-4 py-2.5 rounded-lg text-text-muted-light dark:text-text-muted-dark hover:bg-gray-100 dark:hover:bg-background-dark hover:text-text-light dark:hover:text-text-dark transition-colors duration-200 sidebar-nav-link" href="scheduler.html">
+<span class="material-symbols-outlined">calendar_today</span>
+<span class="sidebar-text hidden">Scheduler</span>
+</a>
+<a class="flex items-center justify-center gap-3 px-4 py-2.5 rounded-lg text-text-muted-light dark:text-text-muted-dark hover:bg-gray-100 dark:hover:bg-background-dark hover:text-text-light dark:hover:text-text-dark transition-colors duration-200 sidebar-nav-link" href="mou-moa.html">
+<span class="material-symbols-outlined">handshake</span>
+<span class="sidebar-text hidden">MOUs &amp; MOAs</span>
+</a>
+<a class="flex items-center justify-center gap-3 px-4 py-2.5 rounded-lg text-text-muted-light dark:text-text-muted-dark hover:bg-gray-100 dark:hover:bg-background-dark hover:text-text-light dark:hover:text-text-dark transition-colors duration-200 sidebar-nav-link" href="templates.html">
+<span class="material-symbols-outlined">description</span>
+<span class="sidebar-text hidden">Templates</span>
+</a>
+<a class="flex items-center justify-center gap-3 px-4 py-2.5 rounded-lg text-text-muted-light dark:text-text-muted-dark hover:bg-gray-100 dark:hover:bg-background-dark hover:text-text-light dark:hover:text-text-dark transition-colors duration-200 sidebar-nav-link" href="documents.html">
+<span class="material-symbols-outlined">school</span>
+<span class="sidebar-text hidden">Registrar Forms</span>
+</a>
+</nav>
+<div class="px-4 py-4 border-t border-border-light dark:border-border-dark">
+<div class="flex items-center justify-between profile-container">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-cover bg-center sidebar-profile-picture hidden" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC23fvgOSZIK6K5vguUgvVeU1XYFfp1LB3d4zICMvW6bispRl-eHHfnOtSsvRU3MgvmOpSYMCZhcSBIksvjlEHtkGMxuCFsQkuT0suo2-O9n3py7mlzFFETXCOIfvLVGGUj1aaG8ENOeDXXy_ifek2uG3R3--ghDflKvuAm9vrceoK8doav0lNYVbLz1bnWy6REWcrCPuPZZ8upfPqShoQpSDjICl16zMEcRuHzjt05z9cFITLKPdZTfMF-1dLK-klh8UhjeDeE4Q7p");'></div>
+<div class="sidebar-profile-info hidden">
+<p class="font-semibold text-text-light dark:text-text-dark">Admin User</p>
+<a class="text-sm text-primary-600 dark:text-primary-400 hover:underline" href="profile.html">View Profile</a>
+</div>
+</div>
+<button class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-background-dark transition-colors" id="sidebar-toggle">
+<span class="material-symbols-outlined sidebar-toggle-icon-open hidden">chevron_left</span>
+<span class="material-symbols-outlined sidebar-toggle-icon-closed block">chevron_right</span>
+</button>
+</div>
+</div>
+</aside>
+<main class="flex-1 overflow-y-auto">
+<header class="sticky top-0 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm z-30 px-6 lg:px-8 py-4 border-b border-border-light dark:border-border-dark flex justify-between items-center h-20">
+<h1 class="text-2xl font-bold text-text-light dark:text-text-dark">Documents</h1>
+<div class="flex items-center gap-2">
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-200 dark:hover:bg-white/10 text-text-muted-light dark:text-text-muted-dark transition-colors duration-200">
+<span class="material-symbols-outlined">search</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-200 dark:hover:bg-white/10 text-text-muted-light dark:text-text-muted-dark transition-colors duration-200">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-200 dark:hover:bg-white/10 text-text-muted-light dark:text-text-muted-dark transition-colors duration-200" id="theme-toggle">
+<span class="material-symbols-outlined dark:hidden">light_mode</span>
+<span class="material-symbols-outlined hidden dark:inline">dark_mode</span>
+</button>
+</div>
+</header>
+<div class="p-2 lg:p-6 main-content">
+
+<div class="mb-6 p-6 bg-card-light dark:bg-card-dark rounded-xl border border-border-light dark:border-border-dark relative">
+<div class="flex items-center gap-4 mb-4">
+<input type="text" placeholder="Search documents..." class="flex-1 bg-background-light dark:bg-background-dark border border-border-light dark:border-border-dark rounded-lg py-2 px-4 focus:outline-none focus:ring-primary focus:border-primary text-sm search-input" />
+<button id="advanced-search-toggle" class="flex items-center gap-1 px-4 py-2 border border-border-light dark:border-border-dark rounded-lg text-sm font-medium text-text-light dark:text-text-dark hover:bg-gray-100 dark:hover:bg-background-dark">
+<span class="material-symbols-outlined text-base">tune</span>
+Advanced
+</button>
+<button class="bg-primary text-white px-4 py-2 rounded-lg font-medium text-sm flex items-center gap-2">
+    <svg fill="currentColor" height="20" viewBox="0 0 256 256" width="20" xmlns="http://www.w3.org/2000/svg">
+        <path d="M224,128a8,8,0,0,1-8,8H136v80a8,8,0,0,1-16,0V136H40a8,8,0,0,1,0-16h80V40a8,8,0,0,1,16,0v80h80A8,8,0,0,1,224,128Z"></path>
+    </svg>
+    New Document
+</button>
+</div>
+<div id="advanced-search-section" class="hidden grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+<div>
+<label for="category-filter" class="block text-sm font-medium text-text-light dark:text-text-dark mb-1">Category</label>
+<select id="category-filter" class="w-full bg-card-light dark:bg-background-dark border border-border-light dark:border-border-dark rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-primary focus:border-primary text-sm text-text-light dark:text-text-dark">
+<option>All</option>
+<option>MOU/MOA</option>
+<option>Templates</option>
+<option>Registrar Forms</option>
+</select>
+</div>
+<div>
+<label for="date-from" class="block text-sm font-medium text-text-light dark:text-text-dark mb-1">Date Uploaded From</label>
+<input id="date-from" type="date" class="w-full bg-card-light dark:bg-background-dark border border-border-light dark:border-border-dark rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-primary focus:border-primary text-sm text-text-light dark:text-text-dark" />
+</div>
+<div>
+<label for="date-to" class="block text-sm font-medium text-text-light dark:text-text-dark mb-1">Date Uploaded To</label>
+<input id="date-to" type="date" class="w-full bg-card-light dark:bg-background-dark border border-border-light dark:border-border-dark rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-primary focus:border-primary text-sm text-text-light dark:text-text-dark" />
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<div class="p-4 rounded-lg border border-border-light dark:border-border-dark bg-gray-50 dark:bg-white/5">
+<p class="text-sm text-text-muted-light dark:text-text-muted-dark">Total Documents</p>
+<p class="text-4xl font-bold text-text-light dark:text-text-dark">5</p>
+</div>
+<div class="p-4 rounded-lg border border-border-light dark:border-border-dark bg-gray-50 dark:bg-white/5">
+<p class="text-sm text-text-muted-light dark:text-text-muted-dark">MOU/MOA</p>
+<p class="text-2xl font-bold text-text-light dark:text-text-dark">2</p>
+</div>
+<div class="p-4 rounded-lg border border-border-light dark:border-border-dark bg-gray-50 dark:bg-white/5">
+<p class="text-sm text-text-muted-light dark:text-text-muted-dark">Templates</p>
+<p class="text-2xl font-bold text-text-light dark:text-text-dark">2</p>
+</div>
+</div>
+</div>
+<div class="bg-card-light dark:bg-card-dark rounded-xl overflow-hidden border border-border-light dark:border-border-dark">
+<table class="w-full text-sm text-left text-text-muted-light dark:text-text-muted-dark">
+<thead class="text-xs text-text-light dark:text-text-dark uppercase bg-gray-50 dark:bg-white/5">
+<tr>
+<th scope="col" class="px-6 py-3">
+<button class="flex items-center gap-1">Document Name<span class="material-symbols-outlined text-base">unfold_more</span></button>
+</th>
+<th scope="col" class="px-6 py-3">
+<button class="flex items-center gap-1">Category<span class="material-symbols-outlined text-base">unfold_more</span></button>
+</th>
+<th scope="col" class="px-6 py-3">
+<button class="flex items-center gap-1">Date Uploaded<span class="material-symbols-outlined text-base">unfold_more</span></button>
+</th>
+<th scope="col" class="px-6 py-3">Actions</th>
+</tr>
+</thead>
+<tbody>
+<tr class="bg-card-light dark:bg-card-dark border-b border-border-light dark:border-border-dark hover:bg-gray-50 dark:hover:bg-white/5">
+<td class="px-6 py-4 font-medium text-text-light dark:text-text-dark whitespace-nowrap">CPU-CBA MOA 2024.pdf</td>
+<td class="px-6 py-4">MOU/MOA</td>
+<td class="px-6 py-4">2024-05-15</td>
+<td class="px-6 py-4 flex items-center gap-4">
+<a href="#" class="font-medium text-primary hover:underline">View</a>
+<a href="#" class="font-medium text-amber-600 hover:underline">Edit</a>
+<a href="#" class="font-medium text-red-500 hover:underline">Delete</a>
+</td>
+</tr>
+<tr class="bg-card-light dark:bg-card-dark border-b border-border-light dark:border-border-dark hover:bg-gray-50 dark:hover:bg-white/5">
+<td class="px-6 py-4 font-medium text-text-light dark:text-text-dark whitespace-nowrap">Faculty Research Grant Template.docx</td>
+<td class="px-6 py-4">Templates</td>
+<td class="px-6 py-4">2024-04-20</td>
+<td class="px-6 py-4 flex items-center gap-4">
+<a href="#" class="font-medium text-primary hover:underline">View</a>
+<a href="#" class="font-medium text-amber-600 hover:underline">Edit</a>
+<a href="#" class="font-medium text-red-500 hover:underline">Delete</a>
+</td>
+</tr>
+<tr class="bg-card-light dark:bg-card-dark border-b border-border-light dark:border-border-dark hover:bg-gray-50 dark:hover:bg-white/5">
+<td class="px-6 py-4 font-medium text-text-light dark:text-text-dark whitespace-nowrap">Request for Transcript Form.pdf</td>
+<td class="px-6 py-4">Registrar Forms</td>
+<td class="px-6 py-4">2024-03-10</td>
+<td class="px-6 py-4 flex items-center gap-4">
+<a href="#" class="font-medium text-primary hover:underline">View</a>
+<a href="#" class="font-medium text-amber-600 hover:underline">Edit</a>
+<a href="#" class="font-medium text-red-500 hover:underline">Delete</a>
+</td>
+</tr>
+<tr class="bg-card-light dark:bg-card-dark border-b border-border-light dark:border-border-dark hover:bg-gray-50 dark:hover:bg-white/5">
+<td class="px-6 py-4 font-medium text-text-light dark:text-text-dark whitespace-nowrap">Internship Agreement Template.docx</td>
+<td class="px-6 py-4">Templates</td>
+<td class="px-6 py-4">2024-02-28</td>
+<td class="px-6 py-4 flex items-center gap-4">
+<a href="#" class="font-medium text-primary hover:underline">View</a>
+<a href="#" class="font-medium text-amber-600 hover:underline">Edit</a>
+<a href="#" class="font-medium text-red-500 hover:underline">Delete</a>
+</td>
+</tr>
+<tr class="bg-card-light dark:bg-card-dark hover:bg-gray-50 dark:hover:bg-white/5">
+<td class="px-6 py-4 font-medium text-text-light dark:text-text-dark whitespace-nowrap">CPU-Engineering MOU 2023.pdf</td>
+<td class="px-6 py-4">MOU/MOA</td>
+<td class="px-6 py-4">2023-11-05</td>
+<td class="px-6 py-4 flex items-center gap-4">
+<a href="#" class="font-medium text-primary hover:underline">View</a>
+<a href="#" class="font-medium text-amber-600 hover:underline">Edit</a>
+<a href="#" class="font-medium text-red-500 hover:underline">Delete</a>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</main>
+</div>
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const themeToggle = document.getElementById('theme-toggle');
+            const sidebarToggle = document.getElementById('sidebar-toggle');
+            const appContainer = document.getElementById('app-container');
+            const sidebar = document.querySelector('.sidebar');
+            const mainContent = document.querySelector('main');
+            const sidebarLogoText = document.querySelector('.sidebar-logo-text');
+            const sidebarTexts = document.querySelectorAll('.sidebar-text');
+            const sidebarProfileInfo = document.querySelector('.sidebar-profile-info');
+            const sidebarProfilePicture = document.querySelector('.sidebar-profile-picture');
+            const openIcon = document.querySelector('.sidebar-toggle-icon-open');
+            const closedIcon = document.querySelector('.sidebar-toggle-icon-closed');
+            const navLinks = document.querySelectorAll('.sidebar-nav-link');
+            const profileContainer = document.querySelector('.profile-container');
+            const toggleContainer = document.querySelector('.sidebar-toggle-container');
+            // Prevent navigating when clicking the current page link
+            const currentPath = window.location.pathname.split('/').pop();
+            navLinks.forEach(link => {
+                const href = link.getAttribute('href');
+                if (href === currentPath) {
+                    link.addEventListener('click', (e) => {
+                        e.preventDefault();
+                    });
+                }
+            });
+            // Function to toggle sidebar
+            const toggleSidebar = () => {
+                const isCollapsed = appContainer.classList.contains('sidebar-collapsed');
+                if (isCollapsed) {
+                    appContainer.classList.remove('sidebar-collapsed');
+                    sidebar.style.width = '16rem';
+                    mainContent.style.marginLeft = '0';
+                    sidebarLogoText.classList.remove('hidden');
+                    sidebarTexts.forEach(text => text.classList.remove('hidden'));
+                    sidebarProfileInfo.classList.remove('hidden');
+                    sidebarProfilePicture.classList.remove('hidden');
+                    openIcon.style.display = 'block';
+                    closedIcon.style.display = 'none';
+                    navLinks.forEach(link => link.classList.remove('justify-center'));
+                    profileContainer.classList.remove('justify-center');
+                    toggleContainer.classList.remove('justify-center');
+                } else {
+                    appContainer.classList.add('sidebar-collapsed');
+                    sidebar.style.width = '5rem';
+                    mainContent.style.marginLeft = '5rem';
+                    sidebarLogoText.classList.add('hidden');
+                    sidebarTexts.forEach(text => text.classList.add('hidden'));
+                    sidebarProfileInfo.classList.add('hidden');
+                    sidebarProfilePicture.classList.add('hidden');
+                    openIcon.style.display = 'none';
+                    closedIcon.style.display = 'block';
+                    navLinks.forEach(link => link.classList.add('justify-center'));
+                    profileContainer.classList.add('justify-center');
+                    toggleContainer.classList.add('justify-center');
+                }
+                // Add a small delay for the chart to re-render after transition
+                setTimeout(() => {
+                    if (window.awardsProgressChartInstance) {
+                        window.awardsProgressChartInstance.resize();
+                    }
+                }, 350);
+            };
+            sidebarToggle.addEventListener('click', toggleSidebar);
+            // Function to toggle dark mode
+            const toggleDarkMode = (enable) => {
+                if (enable) {
+                    document.documentElement.classList.add('dark');
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                    localStorage.setItem('theme', 'light');
+                }
+                // Force a re-render to ensure all elements update
+                document.body.offsetHeight;
+            };
+            // Check for saved theme in localStorage
+            if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                toggleDarkMode(true);
+            } else {
+                toggleDarkMode(false);
+            }
+            // Event listener for theme toggle button
+            themeToggle.addEventListener('click', () => {
+                const isCurrentlyDark = document.documentElement.classList.contains('dark');
+                toggleDarkMode(!isCurrentlyDark);
+                // Re-render chart on theme change
+                if (window.awardsProgressChartInstance) {
+                    window.awardsProgressChartInstance.destroy();
+                }
+                renderChart();
+            });
+
+            // Advanced Search toggle
+            const advancedSearchToggle = document.getElementById('advanced-search-toggle');
+            const advancedSearchSection = document.getElementById('advanced-search-section');
+            if (advancedSearchToggle && advancedSearchSection) {
+                advancedSearchToggle.addEventListener('click', () => {
+                    advancedSearchSection.classList.toggle('hidden');
+                });
+            }
+            // Chart.js rendering
+            const renderChart = () => {
+                const canvas = document.getElementById('awardsProgressChart');
+                if (!canvas) {
+                    return; // Skip rendering if chart element is not present on this page state
+                }
+                const ctx = canvas.getContext('2d');
+                const isDarkMode = document.documentElement.classList.contains('dark');
+                const gridColor = isDarkMode ? tailwind.theme.extend.colors.border-dark : tailwind.theme.extend.colors.border-light;
+                const tickColor = isDarkMode ? tailwind.theme.extend.colors['text-muted-dark'] : tailwind.theme.extend.colors['text-muted-light'];
+                const legendColor = isDarkMode ? tailwind.theme.extend.colors['text-dark'] : tailwind.theme.extend.colors['text-light'];
+                const data = {
+                    labels: ['Teaching', 'Research', 'Extension', 'Support', 'Admin'],
+                    datasets: [{
+                        label: 'Award Progress',
+                        data: [75, 60, 90, 45, 82],
+                        backgroundColor: [
+                            'rgba(19, 127, 236, 0.2)',
+                            'rgba(34, 197, 94, 0.2)',
+                            'rgba(234, 179, 8, 0.2)',
+                            'rgba(239, 68, 68, 0.2)',
+                            'rgba(99, 102, 241, 0.2)',
+                        ],
+                        borderColor: [
+                            'rgb(19, 127, 236)',
+                            'rgb(34, 197, 94)',
+                            'rgb(234, 179, 8)',
+                            'rgb(239, 68, 68)',
+                            'rgb(99, 102, 241)',
+                        ],
+                        borderWidth: 2,
+                        borderRadius: 8,
+                        borderSkipped: false,
+                    }]
+                };
+                const options = {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) label += ': ';
+                                    if (context.parsed.y !== null) label += context.parsed.y + '%';
+                                    return label;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            grid: { color: gridColor, drawBorder: false },
+                            ticks: { color: tickColor, padding: 10, callback: v => v + '%' }
+                        },
+                        x: { grid: { display: false }, ticks: { color: tickColor, padding: 10 } }
+                    }
+                };
+                window.awardsProgressChartInstance = new Chart(ctx, { type: 'bar', data, options });
+            };
+            renderChart();
+        });
+    </script>
+
+</body></html>
+
+
+
