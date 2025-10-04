@@ -29,3 +29,21 @@ INSERT OR IGNORE INTO mou_moa (institution, location, contact_email, term, sign_
 ('EduTech Solutions', 'Singapore', 'info@edutech.sg', '2 Years', '2021-11-20', '2023-11-20', 'Expired', 'edutech_mou.pdf', '/uploads/edutech_mou.pdf'),
 ('Community Dev Corp.', 'New York, NY', 'contact@commdev.org', '1 Year', '2023-09-30', '2024-09-30', 'Expires Soon', 'community_dev_mou.pdf', '/uploads/community_dev_mou.pdf'),
 ('Research Institute of Manila', 'Manila, PH', 'admin@rim.edu.ph', '4 Years', '2021-03-01', '2025-03-01', 'Active', 'rim_mou.pdf', '/uploads/rim_mou.pdf'); 
+
+-- Events & Activities schema
+CREATE TABLE IF NOT EXISTS events (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    title VARCHAR(255) NOT NULL,
+    type VARCHAR(20) NOT NULL CHECK(type IN ('event','activity')),
+    location VARCHAR(255) NOT NULL,
+    start_time TIME NOT NULL,
+    end_time TIME NOT NULL,
+    date DATE NOT NULL,
+    category VARCHAR(100) NOT NULL,
+    thumbnail_url VARCHAR(500),
+    eligible_for_awards INTEGER NOT NULL DEFAULT 0,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE INDEX IF NOT EXISTS idx_events_date ON events(date);
+CREATE INDEX IF NOT EXISTS idx_events_eligible ON events(eligible_for_awards);

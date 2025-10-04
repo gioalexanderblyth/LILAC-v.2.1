@@ -187,10 +187,7 @@
 <header class="sticky top-0 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm z-30 px-6 lg:px-8 py-4 border-b border-border-light dark:border-border-dark flex justify-between items-center h-20">
 <h1 class="text-2xl font-bold text-text-light dark:text-text-dark">Calendar</h1>
 <div class="flex items-center gap-2">
-<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-200 dark:hover:bg-white/10 text-text-muted-light dark:text-text-muted-dark transition-colors duration-200">
-<span class="material-symbols-outlined">search</span>
-</button>
-<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-200 dark:hover:bg-white/10 text-text-muted-light dark:text-text-muted-dark transition-colors duration-200">
+					<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-200 dark:hover:bg-white/10 text-text-muted-light dark:text-text-muted-dark transition-colors duration-200">
 <span class="material-symbols-outlined">notifications</span>
 </button>
 <button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-200 dark:hover:bg-white/10 text-text-muted-light dark:text-text-muted-dark transition-colors duration-200" id="theme-toggle">
@@ -204,13 +201,13 @@
 <!-- Preserve existing schedulerTest main content below -->
 <div class="flex-1 flex p-3 space-x-2">
 <div class="w-56 flex-shrink-0 flex flex-col space-y-4">
-<button class="w-full bg-white text-gray-700 py-2 px-4 rounded-lg border border-gray-300 flex items-center justify-center space-x-2 hover:bg-gray-50 transition-colors mt-4" onclick="openCreateModal()">
-<span class="material-symbols-outlined text-gray-600">add</span>
+<button class="w-full flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium text-white bg-primary rounded-lg hover:bg-primary/90 transition-colors mt-4" onclick="openCreateModal()">
+<span class="material-symbols-outlined text-base">add</span>
 <span>Create</span>
 </button>
 <div class="p-2">
 <div class="flex items-center justify-between mb-1">
-<h3 id="sidebarMonthDisplay" class="text-sm font-semibold text-gray-800">October 2025</h3>
+<h3 id="sidebarMonthDisplay" class="text-sm font-semibold text-text-light dark:text-text-dark">October 2025</h3>
 <div class="flex items-center space-x-1">
 <button id="sidebarPrevBtn" class="w-6 h-6 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center">
 <span class="material-symbols-outlined text-xs text-gray-600">chevron_left</span>
@@ -300,14 +297,17 @@
 <h3 id="mainMonthDisplay" class="text-xl font-semibold text-text-light dark:text-text-dark">October 2025</h3>
 </div>
 <div class="flex items-center space-x-4">
-<button id="todayBtn" class="px-4 py-1.5 rounded-full border border-gray-300 bg-white text-gray-800 text-sm font-medium hover:bg-gray-50">Today</button>
+<button id="todayBtn" class="px-4 py-1.5 rounded-full border border-border-light bg-card-light text-text-light text-sm font-medium hover:bg-gray-50 dark:bg-background-dark/50 dark:text-text-dark dark:border-border-dark dark:hover:bg-card-dark">Today</button>
 <div class="relative">
-<select id="viewSelect" class="appearance-none bg-white border border-gray-300 rounded-full py-2 pl-4 pr-8 text-sm font-medium focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary">
-<option value="Month">Month</option>
-<option value="Week">Week</option>
-<option value="Day">Day</option>
-</select>
-<span class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none">expand_more</span>
+<button id="viewBtn" class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-text-light bg-card-light border border-border-light rounded-full hover:bg-gray-50 dark:bg-background-dark/50 dark:text-text-dark dark:border-border-dark dark:hover:bg-card-dark">
+<span id="viewBtnLabel">Month</span>
+<span class="material-symbols-outlined text-base">expand_more</span>
+</button>
+<div id="viewDropdown" class="absolute right-0 mt-2 w-40 bg-card-light dark:bg-background-dark rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 z-50 hidden overflow-hidden">
+<button data-view="Month" class="w-full text-left px-4 py-2 text-sm text-text-light dark:text-text-dark hover:bg-gray-100 dark:hover:bg-gray-800">Month</button>
+<button data-view="Week" class="w-full text-left px-4 py-2 text-sm text-text-light dark:text-text-dark hover:bg-gray-100 dark:hover:bg-gray-800">Week</button>
+<button data-view="Day" class="w-full text-left px-4 py-2 text-sm text-text-light dark:text-text-dark hover:bg-gray-100 dark:hover:bg-gray-800">Day</button>
+</div>
 </div>
 
 </div>
@@ -339,13 +339,22 @@
     
 </div>
 
+<!-- Week Calendar Container (hidden by default) -->
+<div id="weekCalendarContainer" class="hidden border border-border-light dark:border-border-dark rounded-lg overflow-hidden">
+    <div class="bg-card-light dark:bg-card-dark">
+        <div id="weekHeader" class="grid" style="grid-template-columns: 80px repeat(7, 1fr);"></div>
+    </div>
+    <div class="h-px bg-gray-200 dark:bg-gray-700"></div>
+    <div id="weekGrid" class="grid" style="grid-template-columns: 80px repeat(7, 1fr);"></div>
+</div>
+
 <script>
 // Event Details Modal (inserted outside other modals so it can open independently)
 </script>
 
 <!-- Event Details Modal -->
-<div id="eventDetailModal" class="fixed inset-0 bg-black/30 hidden items-start justify-center z-[9999]">
-    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-xl mt-24 mx-4 max-h-[85vh] overflow-y-auto">
+<div id="eventDetailModal" class="fixed inset-0 bg-black/30 hidden items-center justify-center z-[9999]">
+    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-xl mx-4 max-h-[85vh] overflow-y-auto">
         <div class="p-4 border-b flex items-center justify-between">
             <div class="flex items-center gap-3">
                 <span id="detailColorDot" class="w-3.5 h-3.5 rounded-full bg-blue-500"></span>
@@ -587,13 +596,15 @@
 </div>
                  
                  
-                 <!-- Add Video Conferencing -->
-                 <div class="flex items-center space-x-3 text-gray-600 hover:text-gray-800 cursor-pointer">
-                     <div class="w-6 h-6 bg-gradient-to-r from-blue-400 to-green-400 rounded flex items-center justify-center">
-                         <span class="material-symbols-outlined text-white text-sm">videocam</span>
-</div>
-                     <span>Add Google Meet video conferencing</span>
-</div>
+                <!-- Event Type Selector (replaces Google Meet row) -->
+                <div class="flex items-center space-x-3 text-gray-700">
+                    <span class="material-symbols-outlined">category</span>
+                    <label for="eventTypeSelect" class="sr-only">Type</label>
+                    <select id="eventTypeSelect" class="bg-transparent border-0 text-sm font-medium focus:outline-none">
+                        <option value="Event">Event</option>
+                        <option value="Activity">Activity</option>
+                    </select>
+                </div>
                  
                  <!-- Add Location -->
                  <div class="flex items-center space-x-3 text-gray-600 hover:text-gray-800 cursor-pointer" onclick="editLocation()">
@@ -667,7 +678,6 @@
 </div>
                                              <div class="w-6 h-6 rounded-full bg-transparent border-2 border-gray-300 cursor-pointer hover:ring-2 hover:ring-gray-300 relative group" onclick="selectColor('transparent', this)" title="No Color">
                                                  <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-gray-800 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">No Color</div>
-</div>
 </div>
 </div>
 </div>
@@ -1023,16 +1033,17 @@ window.saveEvent = function() {
      console.log('Save button clicked!'); // Debug log
      
      try {
-         const title = document.getElementById('eventTitle').value;
+        const title = document.getElementById('eventTitle').value;
          console.log('Title:', title); // Debug log
          
          const startTime = document.getElementById('startTimeBtn').textContent;
          const endTime = document.getElementById('endTimeBtn').textContent;
          const date = document.querySelector('button[onclick="toggleTimePicker()"]').textContent;
-         const location = document.getElementById('locationText').textContent;
+        const location = document.getElementById('locationText').textContent;
          const description = document.getElementById('descriptionText').textContent;
+        const eventType = (document.getElementById('eventTypeSelect') && document.getElementById('eventTypeSelect').value) || 'Event';
          
-         console.log('Form data:', { title, startTime, endTime, date, location, description }); // Debug log
+        console.log('Form data:', { title, startTime, endTime, date, location, description, eventType }); // Debug log
          
          if (!title.trim()) {
              alert('Please enter a title for the event');
@@ -1069,7 +1080,8 @@ window.saveEvent = function() {
                     endTime: endTime,
                     location: location !== 'Add location' ? location : '',
                     description: description !== 'Add description or a Google Drive attachment' ? description : '',
-                    color: selectedColor
+                    color: selectedColor,
+                    type: eventType
                 };
                 eventData = events[idx];
             }
@@ -1084,7 +1096,8 @@ window.saveEvent = function() {
                 endTime: endTime,
                 location: location !== 'Add location' ? location : '',
                 description: description !== 'Add description or a Google Drive attachment' ? description : '',
-                color: selectedColor
+                color: selectedColor,
+                type: eventType
             };
             // Add event to storage
             events.push(eventData);
@@ -1209,20 +1222,55 @@ function renderMyEvents() {
         const d = dayMatch ? parseInt(dayMatch[0]) : ev.dayNumber || 1;
         return new Date(y, m, d);
     };
-    const sorted = [...events].sort((a,b) => toDate(a) - toDate(b));
-    sorted.forEach(ev => {
-        const item = document.createElement('div');
-        item.className = 'flex items-center gap-2 p-2 rounded hover:bg-gray-100 cursor-pointer';
-        const dot = document.createElement('span');
-        dot.className = `w-2.5 h-2.5 rounded-full ${ev.color || 'bg-blue-500'}`;
-        const text = document.createElement('div');
-        text.className = 'flex-1 text-xs';
-        text.textContent = `${ev.title}`;
-        item.appendChild(dot);
-        item.appendChild(text);
-        item.addEventListener('click', () => openEventDetail(ev));
-        list.appendChild(item);
-    });
+    	const sorted = [...events].sort((a,b) => toDate(a) - toDate(b));
+		// Helper to format date like "Oct 1, 2025"
+					sorted.forEach(ev => {
+				const row = document.createElement('div');
+				row.className = 'group flex items-center justify-between rounded-lg px-2 py-1 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800/60';
+
+				const title = document.createElement('div');
+				title.className = 'text-[13px] font-semibold text-text-light dark:text-text-dark truncate';
+				title.textContent = ev.title || 'Untitled Event';
+
+				const menu = document.createElement('button');
+				menu.type = 'button';
+				menu.className = 'ml-3 shrink-0 text-text-muted-light dark:text-text-muted-dark opacity-0 group-hover:opacity-100 transition-opacity';
+				menu.innerHTML = '<span class="material-symbols-outlined text-[18px]">more_horiz</span>';
+
+				row.appendChild(title);
+				row.appendChild(menu);
+
+				// Open details when clicking anywhere except the menu icon
+				row.addEventListener('click', (e) => {
+					if (!(e.target.closest && e.target.closest('button'))) {
+						openEventDetail(ev);
+					}
+				});
+				list.appendChild(row);
+			});
+}
+
+function setView(viewName) {
+    const btn = document.getElementById('viewBtnLabel');
+    const dropdown = document.getElementById('viewDropdown');
+    if (btn) btn.textContent = viewName;
+    if (dropdown) dropdown.classList.add('hidden');
+    const dayContainer = document.getElementById('dayCalendarContainer');
+    const weekContainer = document.getElementById('weekCalendarContainer');
+    const mainGrid = document.getElementById('mainCalendarGrid');
+    if (dayContainer) dayContainer.classList.add('hidden');
+    if (weekContainer) weekContainer.classList.add('hidden');
+    if (mainGrid) mainGrid.innerHTML = '';
+    if (viewName === 'Month') {
+        renderCalendar();
+        renderEventsOnCalendar();
+    } else if (viewName === 'Day') {
+        if (dayContainer) dayContainer.classList.remove('hidden');
+        renderDayView(new Date(currentCalendarDate.getFullYear(), currentCalendarDate.getMonth(), 1));
+    } else if (viewName === 'Week') {
+        if (weekContainer) weekContainer.classList.remove('hidden');
+        renderWeekView(new Date(currentCalendarDate.getFullYear(), currentCalendarDate.getMonth(), 1));
+    }
 }
 
 // Render Day view for a specific date
@@ -1294,6 +1342,101 @@ function renderDayView(dateObj) {
     });
 }
  
+// Render Week view for a given date (week of the 1st day's week)
+function renderWeekView(dateObj) {
+    const weekHeader = document.getElementById('weekHeader');
+    const weekGrid = document.getElementById('weekGrid');
+    if (!weekHeader || !weekGrid) return;
+    weekHeader.innerHTML = '';
+    weekGrid.innerHTML = '';
+
+    // Determine start of week (Sunday)
+    const ref = new Date(dateObj.getFullYear(), dateObj.getMonth(), dateObj.getDate());
+    const start = new Date(ref);
+    start.setDate(ref.getDate() - ref.getDay());
+
+    const dayNames = ['SUN','MON','TUE','WED','THU','FRI','SAT'];
+
+    // Header row: empty corner + 7 days
+    const corner = document.createElement('div');
+    corner.className = 'p-3 text-[11px] text-gray-500';
+    corner.textContent = 'GMT+08';
+    weekHeader.appendChild(corner);
+    for (let i = 0; i < 7; i++) {
+        const d = new Date(start);
+        d.setDate(start.getDate() + i);
+        const head = document.createElement('div');
+        head.className = 'p-3 border-l border-border-light dark:border-border-dark';
+        head.innerHTML = `<div class="text-[11px] text-gray-500 text-center">${dayNames[d.getDay()]}</div><div class="text-2xl font-semibold text-gray-800 dark:text-gray-100 text-center">${d.getDate()}</div>`;
+        weekHeader.appendChild(head);
+    }
+
+    // Left time labels column + 7 columns each with 24 slots
+    for (let h = 0; h < 24; h++) {
+        const label = document.createElement('div');
+        label.className = 'text-[11px] text-gray-500 px-2 py-3 border-b border-border-light dark:border-border-dark';
+        const displayHour = ((h + 11) % 12) + 1;
+        const ampm = h < 12 ? 'AM' : 'PM';
+        label.textContent = `${displayHour} ${ampm}`;
+        weekGrid.appendChild(label);
+        for (let i = 0; i < 7; i++) {
+            const cell = document.createElement('div');
+            cell.className = 'relative h-12 border-l border-b border-border-light dark:border-border-dark';
+            weekGrid.appendChild(cell);
+        }
+    }
+
+    // Place events in appropriate day column and hour
+    const monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    const toYMD = (ev) => {
+        const text = ev.date || '';
+        const yMatch = text.match(/\b(19|20)\d{2}\b/);
+        const mIndex = monthNames.findIndex(n => text.includes(n));
+        const dMatch = text.match(/\b\d{1,2}\b/);
+        const y = yMatch ? parseInt(yMatch[0]) : currentCalendarDate.getFullYear();
+        const m = mIndex !== -1 ? mIndex : currentCalendarDate.getMonth();
+        const d = dMatch ? parseInt(dMatch[0]) : ev.dayNumber || 1;
+        return { y, m, d };
+    };
+
+    events.forEach(ev => {
+        const { y, m, d } = toYMD(ev);
+        const evDate = new Date(y, m, d);
+        // Only show events within this week range
+        const end = new Date(start);
+        end.setDate(start.getDate() + 6);
+        if (evDate < start || evDate > end) return;
+
+        // Compute target column offset: +1 for time labels column, +h*8 stride
+        const dayOffset = Math.floor((evDate - start) / 86400000); // 0..6
+        const time = (ev.startTime || '9:00am').toLowerCase();
+        const match = time.match(/(\d{1,2}):(\d{2})(am|pm)/);
+        let hourIndex = 9;
+        if (match) {
+            let hour = parseInt(match[1]);
+            const minute = parseInt(match[2]);
+            const meridiem = match[3];
+            if (meridiem === 'pm' && hour !== 12) hour += 12;
+            if (meridiem === 'am' && hour === 12) hour = 0;
+            hourIndex = hour;
+        }
+        // In the weekGrid, each row adds 8 columns (1 label + 7 days). Target cell index:
+        const rowStartIndex = hourIndex * 8; // 8 columns per hour row
+        const cellIndex = rowStartIndex + 1 + dayOffset; // +1 to skip label column
+        const cell = weekGrid.children[cellIndex];
+        if (!cell) return;
+        const block = document.createElement('div');
+        block.className = `${ev.color || 'bg-blue-500'} text-white text-xs px-2 py-1 rounded absolute left-2 right-2 top-1 cursor-pointer`;
+        block.textContent = ev.title;
+        block.dataset.eventId = String(ev.id);
+        block.addEventListener('click', (e) => {
+            e.stopPropagation();
+            openEventDetail(ev);
+        });
+        cell.appendChild(block);
+    });
+}
+
 function openEventDetail(event) {
     const modal = document.getElementById('eventDetailModal');
     if (!modal) { console.error('eventDetailModal not found'); return; }
@@ -1304,18 +1447,7 @@ function openEventDetail(event) {
     document.getElementById('detailReminder').textContent = 'The day before at 5pm';
     const colorDot = document.getElementById('detailColorDot');
     colorDot.className = `w-3.5 h-3.5 rounded-full ${event.color || 'bg-blue-500'}`;
-    // Position modal near the clicked event if possible
-    try {
-        const activeEl = document.querySelector(`.event-bar[data-event-id="${event.id}"]`);
-        if (activeEl) {
-            const rect = activeEl.getBoundingClientRect();
-            const card = document.querySelector('#eventDetailModal > div');
-            if (card) {
-                card.style.marginTop = `${Math.max(20, rect.top + window.scrollY - 80)}px`;
-            }
-        }
-    } catch (_) {}
-
+    
     // Compose readable date from stored date string if available
     const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     let dateText = event.date;
@@ -1326,8 +1458,11 @@ function openEventDetail(event) {
     }
     document.getElementById('detailDate').textContent = dateText || '';
 
-    modal.classList.remove('hidden');
-    modal.classList.add('flex');
+    	// Ensure container centers content and resets any prior inline offsets
+	const card = document.querySelector('#eventDetailModal > div');
+	if (card) { card.style.marginTop = '0px'; }
+	modal.classList.remove('hidden');
+	modal.classList.add('flex');
     modal.style.display = 'flex';
 }
 
@@ -1527,18 +1662,24 @@ function renderSidebarCalendar() {
     // Close the modal
     closeDatePickerModal();
 
-    // Switch to Day view for the selected date
+       // Show selected date in the currently chosen view (Day or Week)
     const mainGrid = document.getElementById('mainCalendarGrid');
     const dayContainer = document.getElementById('dayCalendarContainer');
-    const viewSelect = document.getElementById('viewSelect');
-    if (mainGrid && dayContainer) {
-        mainGrid.innerHTML = '';
-        dayContainer.classList.remove('hidden');
+    const weekContainer = document.getElementById('weekCalendarContainer');
+    const viewLabel = document.getElementById('viewBtnLabel');
+    const isWeek = viewLabel && viewLabel.textContent.trim() === 'Week';
+    if (mainGrid) mainGrid.innerHTML = '';
+    if (isWeek) {
+        if (dayContainer) dayContainer.classList.add('hidden');
+        if (weekContainer) weekContainer.classList.remove('hidden');
+        renderWeekView(new Date(currentCalendarDate.getFullYear(), currentCalendarDate.getMonth(), selectedDate));
+    } else {
+        if (weekContainer) weekContainer.classList.add('hidden');
+        if (dayContainer) dayContainer.classList.remove('hidden');
         renderDayView(new Date(currentCalendarDate.getFullYear(), currentCalendarDate.getMonth(), selectedDate));
-        // Update view selector to Day to reflect current context
-        if (viewSelect) viewSelect.value = 'Day';
+        if (viewLabel) viewLabel.textContent = 'Day';
     }
- }
+}
  
  // Close modal when clicking outside
  document.getElementById('createModal').addEventListener('click', function(e) {
@@ -1636,22 +1777,25 @@ function renderSidebarCalendar() {
         sidebarCalendarDate = new Date(currentCalendarDate.getTime());
         renderSidebarCalendar();
     });
-    if (viewSelect) viewSelect.addEventListener('change', function() {
-        if (this.value === 'Month') {
-            // Return to month grid
-            const dayContainer = document.getElementById('dayCalendarContainer');
-            if (dayContainer) dayContainer.classList.add('hidden');
-            renderCalendar();
-            renderEventsOnCalendar();
-        } else if (this.value === 'Day') {
-            // Show current day of currentCalendarDate (default to 1st)
-            const dayContainer = document.getElementById('dayCalendarContainer');
-            const mainGrid = document.getElementById('mainCalendarGrid');
-            if (mainGrid) mainGrid.innerHTML = '';
-            if (dayContainer) dayContainer.classList.remove('hidden');
-            renderDayView(new Date(currentCalendarDate.getFullYear(), currentCalendarDate.getMonth(), 1));
-        }
-    });
+    // Replace native select with custom dropdown handlers
+    const viewBtn = document.getElementById('viewBtn');
+    const viewDropdown = document.getElementById('viewDropdown');
+    const viewLabel = document.getElementById('viewBtnLabel');
+    if (viewBtn && viewDropdown) {
+        viewBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            viewDropdown.classList.toggle('hidden');
+        });
+        viewDropdown.querySelectorAll('button[data-view]').forEach(btn => {
+            btn.addEventListener('click', () => setView(btn.getAttribute('data-view')));
+        });
+        document.addEventListener('click', (e) => {
+            if (!viewDropdown.contains(e.target) && !viewBtn.contains(e.target)) {
+                viewDropdown.classList.add('hidden');
+            }
+        });
+    }
+
 
     // Render the calendars
     renderCalendar();

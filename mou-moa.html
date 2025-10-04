@@ -221,10 +221,7 @@
 <header class="sticky top-0 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm z-30 px-6 lg:px-8 py-4 border-b border-border-light dark:border-border-dark flex justify-between items-center h-20">
 <h1 class="text-2xl font-bold text-text-light dark:text-text-dark">MOUs & MOAs</h1>
 <div class="flex items-center gap-2">
-<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-200 dark:hover:bg-white/10 text-text-muted-light dark:text-text-muted-dark transition-colors duration-200">
-<span class="material-symbols-outlined">search</span>
-</button>
-<div class="relative">
+						<div class="relative">
     <button id="notificationBtn" class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-200 dark:hover:bg-white/10 text-text-muted-light dark:text-text-muted-dark transition-colors duration-200 relative">
 <span class="material-symbols-outlined">notifications</span>
         <!-- Notification Badge -->
@@ -1023,8 +1020,9 @@
                 const isCollapsed = appContainer.classList.contains('sidebar-collapsed');
                 if (isCollapsed) {
                     appContainer.classList.remove('sidebar-collapsed');
-                    sidebar.style.width = '16rem';
-                    mainContent.style.marginLeft = '0';
+                    appContainer.classList.add('sidebar-expanded');
+                    sidebar.style.width = '';
+                    mainContent.style.marginLeft = '';
                     sidebarLogoText.classList.remove('hidden');
                     sidebarTexts.forEach(text => text.classList.remove('hidden'));
                     sidebarProfileInfo.classList.remove('hidden');
@@ -1036,8 +1034,9 @@
                     toggleContainer.classList.remove('justify-center');
                 } else {
                     appContainer.classList.add('sidebar-collapsed');
-                    sidebar.style.width = '5rem';
-                    mainContent.style.marginLeft = '5rem';
+                    appContainer.classList.remove('sidebar-expanded');
+                    sidebar.style.width = '';
+                    mainContent.style.marginLeft = '';
                     sidebarLogoText.classList.add('hidden');
                     sidebarTexts.forEach(text => text.classList.add('hidden'));
                     sidebarProfileInfo.classList.add('hidden');
@@ -1048,7 +1047,6 @@
                     profileContainer.classList.add('justify-center');
                     toggleContainer.classList.add('justify-center');
                 }
-                // Add a small delay for the chart to re-render after transition
                 setTimeout(() => {
                     if (window.awardsProgressChartInstance) {
                         window.awardsProgressChartInstance.resize();
