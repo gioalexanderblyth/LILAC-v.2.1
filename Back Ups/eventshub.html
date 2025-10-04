@@ -334,17 +334,17 @@
       </div>
       <div class="bg-card-light dark:bg-card-dark p-4 rounded-xl shadow-soft">
         <div class="flex justify-between items-center mb-4">
-          <button class="p-1 rounded-full hover:bg-gray-100 dark:hover:bg-background-dark">
+          <button id="prevMonth" class="p-1 rounded-full hover:bg-gray-100 dark:hover:bg-background-dark transition-colors">
             <span class="material-symbols-outlined">chevron_left</span>
           </button>
-          <h4 class="font-semibold text-text-light dark:text-text-dark">April 2025</h4>
+          <h4 id="calendarTitle" class="font-semibold text-text-light dark:text-text-dark">Loading...</h4>
           <div class="flex items-center gap-2">
-            <button class="p-1 rounded-full hover:bg-gray-100 dark:hover:bg-background-dark">
+            <button id="nextMonth" class="p-1 rounded-full hover:bg-gray-100 dark:hover:bg-background-dark transition-colors">
             <span class="material-symbols-outlined">chevron_right</span>
             </button>
           </div>
         </div>
-        <div class="grid grid-cols-7 text-center text-xs text-text-muted-light dark:text-text-muted-dark">
+        <div class="grid grid-cols-7 text-center text-xs text-text-muted-light dark:text-text-muted-dark" id="calendarGrid">
           <div class="py-2">S</div>
           <div class="py-2">M</div>
           <div class="py-2">T</div>
@@ -352,65 +352,20 @@
           <div class="py-2">T</div>
           <div class="py-2">F</div>
           <div class="py-2">S</div>
-          <div class="py-2 text-gray-400 dark:text-gray-600">29</div>
-          <div class="py-2 text-gray-400 dark:text-gray-600">30</div>
-          <div class="py-2 text-gray-400 dark:text-gray-600">31</div>
-          <div class="py-2">1</div>
-          <div class="py-2">2</div>
-          <div class="py-2">3</div>
-          <div class="py-2">4</div>
-          <div class="py-2">5</div>
-          <div class="py-2">6</div>
-          <div class="py-2">7</div>
-          <div class="py-2">8</div>
-          <div class="py-2">9</div>
-          <div class="py-2">10</div>
-          <div class="py-2">11</div>
-          <div class="py-2">12</div>
-          <div class="py-2">13</div>
-          <div class="py-2 relative"><span class="absolute inset-0 flex items-center justify-center w-6 h-6 mx-auto bg-primary text-white rounded-full">14</span></div>
-          <div class="py-2">15</div>
-          <div class="py-2">16</div>
-          <div class="py-2">17</div>
-          <div class="py-2 relative"><span class="absolute inset-0 flex items-center justify-center w-6 h-6 mx-auto bg-primary text-white rounded-full">18</span></div>
-          <div class="py-2">19</div>
-          <div class="py-2">20</div>
-          <div class="py-2">21</div>
-          <div class="py-2">22</div>
-          <div class="py-2">23</div>
-          <div class="py-2">24</div>
-          <div class="py-2">25</div>
-          <div class="py-2">26</div>
-          <div class="py-2">27</div>
-          <div class="py-2">28</div>
-          <div class="py-2">29</div>
-          <div class="py-2">30</div>
-          <div class="py-2">31</div>
-          <div class="py-2 text-gray-400 dark:text-gray-600">1</div>
+          <!-- Calendar days will be generated dynamically -->
+        </div>
+        <div class="mt-3 pt-3 border-t border-border-light dark:border-border-dark">
+          <div class="flex items-center justify-center gap-4 text-xs text-text-muted-light dark:text-text-muted-dark">
+            <div class="flex items-center gap-1">
+              <div class="w-1 h-1 bg-primary rounded-full"></div>
+              <span>Scheduled Events</span>
+            </div>
+          </div>
         </div>
       </div>
       <div class="bg-card-light dark:bg-card-dark p-4 rounded-xl shadow-soft">
-        <div class="space-y-4">
-          <div class="flex gap-4 items-start">
-            <div class="text-center">
-              <p class="font-bold text-primary">14</p>
-              <p class="text-xs text-text-muted-light dark:text-text-muted-dark">Tue</p>
-    </div>
-            <div class="border-l-2 border-primary pl-4">
-              <p class="font-semibold text-sm text-text-light dark:text-text-dark">Urban Wellness Expo: Fitness & Health</p>
-              <p class="text-xs text-text-muted-light dark:text-text-muted-dark"><span class="material-symbols-outlined text-xs align-middle">location_on</span> Riverside Center, Bangkok, TH</p>
-        </div>
-          </div>
-          <div class="flex gap-4 items-start">
-            <div class="text-center">
-              <p class="font-bold text-primary">18</p>
-              <p class="text-xs text-text-muted-light dark:text-text-muted-dark">Sun</p>
-        </div>
-            <div class="border-l-2 border-primary pl-4">
-              <p class="font-semibold text-sm text-text-light dark:text-text-dark">Neon Nights Live: The Ultimate DJ...</p>
-              <p class="text-xs text-text-muted-light dark:text-text-muted-dark"><span class="material-symbols-outlined text-xs align-middle">location_on</span> The Glass Hall, Tokyo, JPN</p>
-      </div>
-    </div>
+        <div id="todayEventsContainer" class="space-y-4">
+          <!-- Today's events will be dynamically loaded here -->
         </div>
       </div>
       <!-- Popular Event moved under mini calendar list -->
@@ -489,7 +444,14 @@
         
         <div class="flex items-center gap-3">
           <span class="material-symbols-outlined text-text-muted-light dark:text-text-muted-dark">place</span>
-          <input id="evLocation" type="text" class="flex-1 bg-transparent border-0 border-b border-transparent outline-none focus:outline-none ring-0 focus:ring-0 focus:border-border-light dark:focus:border-border-dark shadow-none focus:shadow-none text-sm transition-colors" placeholder="Add location" style="box-shadow: none !important;" />
+          <div class="flex-1">
+            <input id="evLocation" type="text" class="w-full bg-transparent border-0 border-b border-transparent outline-none focus:outline-none ring-0 focus:ring-0 focus:border-border-light dark:focus:border-border-dark shadow-none focus:shadow-none text-sm transition-colors" placeholder="Add location (e.g., Iloilo)" style="box-shadow: none !important;" />
+            <div id="locationSuggestions" class="hidden mt-2 rounded-lg border border-border-light dark:border-border-dark bg-white dark:bg-card-dark shadow-lg max-h-48 overflow-y-auto">
+              <div id="suggestionsList" class="p-2 space-y-1">
+                <!-- Location suggestions will appear here -->
+              </div>
+            </div>
+          </div>
         </div>
         <div class="flex items-center gap-3">
           <span class="material-symbols-outlined text-text-muted-light dark:text-text-muted-dark">description</span>
@@ -503,6 +465,70 @@
   </div>
   
 </div>
+
+<!-- Reminder Selection Modal -->
+<div id="reminderModal" class="fixed inset-0 bg-black/30 hidden items-center justify-center z-[9999]">
+  <div class="bg-white dark:bg-card-dark rounded-lg shadow-xl w-full max-w-md mx-4 border border-border-light dark:border-border-dark relative">
+    <button id="closeReminderModal" class="absolute top-2 right-2 rounded-full p-2 hover:bg-gray-100 dark:hover:bg-white/10">
+      <span class="material-symbols-outlined">close</span>
+    </button>
+    <div class="p-6 pt-12">
+      <div class="mb-4">
+        <h3 class="text-lg font-semibold text-text-light dark:text-text-dark">Set Reminder</h3>
+        <p class="text-sm text-text-muted-light dark:text-text-muted-dark mt-1">Choose when you'd like to be reminded about this event</p>
+      </div>
+      
+      <div id="eventInfo" class="mb-6 p-3 bg-gray-50 dark:bg-white/5 rounded-lg">
+        <h4 class="font-medium text-text-light dark:text-text-dark" id="reminderEventTitle"></h4>
+        <p class="text-sm text-text-muted-light dark:text-text-muted-dark" id="reminderEventDateTime"></p>
+      </div>
+      
+      <div class="space-y-3">
+        <label class="flex items-center p-3 border border-border-light dark:border-border-dark rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
+          <input type="radio" name="reminderTime" value="1hour" class="mr-3">
+          <div>
+            <div class="font-medium text-text-light dark:text-text-dark">1 Hour Before</div>
+            <div class="text-sm text-text-muted-light dark:text-text-muted-dark">Quick reminder for immediate events</div>
+          </div>
+        </label>
+        
+        <label class="flex items-center p-3 border border-border-light dark:border-border-dark rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
+          <input type="radio" name="reminderTime" value="1day" class="mr-3">
+          <div>
+            <div class="font-medium text-text-light dark:text-text-dark">1 Day Before</div>
+            <div class="text-sm text-text-muted-light dark:text-text-muted-dark">Standard advance notice</div>
+          </div>
+        </label>
+        
+        <label class="flex items-center p-3 border border-border-light dark:border-border-dark rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
+          <input type="radio" name="reminderTime" value="1week" class="mr-3">
+          <div>
+            <div class="font-medium text-text-light dark:text-text-dark">1 Week Before</div>
+            <div class="text-sm text-text-muted-light dark:text-text-muted-dark">Early planning reminder</div>
+          </div>
+        </label>
+        
+        <label class="flex items-center p-3 border border-border-light dark:border-border-dark rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
+          <input type="radio" name="reminderTime" value="custom" class="mr-3">
+          <div class="flex-1">
+            <div class="font-medium text-text-light dark:text-text-dark">Custom Time</div>
+            <div class="text-sm text-text-muted-light dark:text-text-muted-dark mb-2">Set your own reminder time</div>
+            <div class="flex items-center gap-2">
+              <input type="number" id="customDays" min="0" max="365" class="w-16 px-2 py-1 border border-border-light dark:border-border-dark rounded text-sm bg-transparent" placeholder="0">
+              <span class="text-sm text-text-muted-light dark:text-text-muted-dark">days before</span>
+            </div>
+          </div>
+        </label>
+      </div>
+      
+      <div class="flex items-center justify-end mt-6 gap-3">
+        <button id="cancelReminder" class="px-4 py-2 text-text-muted-light dark:text-text-muted-dark hover:text-text-light dark:hover:text-text-dark transition-colors">Cancel</button>
+        <button id="setReminder" class="bg-primary text-white px-6 py-2 rounded-lg hover:bg-primary/90 font-medium">Set Reminder</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
         document.addEventListener('DOMContentLoaded', () => {
             const themeToggle = document.getElementById('theme-toggle');
@@ -707,44 +733,535 @@
             cancelAddEvent && cancelAddEvent.addEventListener('click', closeModal);
 
             saveAddEvent && saveAddEvent.addEventListener('click', () => {
-                const month = (document.getElementById('evMonth').value || '').toUpperCase().slice(0,3) || 'JAN';
-                const day = document.getElementById('evDay').value || '01';
-                const year = document.getElementById('evYear').value || new Date().getFullYear();
-                const type = document.getElementById('evType').value || 'Conference';
+                // Get event data from modal
                 const title = document.getElementById('evTitle').value || 'Untitled Event';
-                const time = document.getElementById('evTime').value || '';
+                const date = document.getElementById('evDate').value;
+                const timeRange = document.getElementById('evTimeRangeText').textContent || '--:-- -- - --:-- --';
                 const location = document.getElementById('evLocation').value || '';
-                const desc = document.getElementById('evDesc').value || '';
-                const eligible = document.getElementById('evEligible').checked;
-                const container = document.querySelector('.overflow-x-auto > .flex');
-                if (!container) { closeModal(); return; }
-                const card = document.createElement('div');
-                card.className = 'relative flex-shrink-0 w-80 pt-8';
-                card.innerHTML = `
-      <div class="absolute left-1/2 -translate-x-1/2 top-0 w-4 h-4 bg-primary rounded-full border-2 border-background z-10"></div>
-      <div class="card h-full pt-8 relative border-2 border-primary shadow-lg shadow-primary/20 rounded-xl px-5 pb-5">
-        ${eligible ? `<div class=\"absolute -top-4 left-1/2 -translate-x-1/2 bg-primary text-white text-xs font-medium px-4 py-1.5 rounded-full flex items-center space-x-1 whitespace-nowrap z-20\"><span class=\"material-symbols-outlined text-sm\">star</span><span>Eligible for Award</span></div>` : ''}
-        <div class="flex justify-between items-start mb-4">
-          <div class="text-left">
-            <p class="text-sm text-subtext leading-none">${month}</p>
-            <p class="text-4xl font-semibold text-text leading-none">${day}</p>
-            <p class="text-sm text-subtext leading-none">${year}</p>
-          </div>
-          <span class="text-xs font-medium px-3 py-1 rounded-full whitespace-nowrap bg-gray-200/60 dark:bg-white/10 text-text-light dark:text-text-dark">${type}</span>
-        </div>
-        <h3 class="font-medium text-lg mb-2 text-text">${title}</h3>
-        ${time ? `<p class=\"text-xs text-subtext mb-1\">Time: ${time}</p>` : ''}
-        ${location ? `<p class=\"text-xs text-subtext mb-3\">Location: ${location}</p>` : ''}
-        ${desc ? `<p class=\"text-sm text-subtext leading-relaxed\">${desc}</p>` : ''}
-      </div>`;
-                container.appendChild(card);
-                const totalEl = Array.from(document.querySelectorAll('p.text-3xl.font-bold')).find(el => el.previousElementSibling && el.previousElementSibling.textContent.includes('Total Events'));
-                if (totalEl) {
-                    const val = parseInt(totalEl.textContent.trim(), 10) || 0;
-                    totalEl.textContent = String(val + 1);
+                const description = document.getElementById('evDesc').value || '';
+                
+                // Validate required fields
+                if (!title.trim() || !date) {
+                    alert('Please fill in the event title and date.');
+                    return;
                 }
+                
+                // Check if event is in the future (for upcoming events section only)
+                const eventDate = new Date(date);
+                const today = new Date();
+                today.setHours(0, 0, 0, 0); // Reset time to start of day for comparison
+                
+                const isFutureEvent = eventDate >= today;
+                
+                // Create event object with assigned image
+                const eventData = {
+                    id: Date.now(), // Simple ID generation
+                    title: title.trim(),
+                    date: date,
+                    timeRange: timeRange,
+                    location: location.trim(),
+                    description: description.trim(),
+                    imageUrl: getRandomEventImage(), // Assign image once and store it
+                    createdAt: new Date().toISOString()
+                };
+                
+                // Save to localStorage (all events, regardless of date)
+                const savedEvents = JSON.parse(localStorage.getItem('upcomingEvents') || '[]');
+                savedEvents.push(eventData);
+                localStorage.setItem('upcomingEvents', JSON.stringify(savedEvents));
+                
+                // Debug logging
+                console.log('Event saved:', eventData);
+                console.log('All saved events:', savedEvents);
+                
+                // Add to upcoming events section only if it's a future event
+                if (isFutureEvent) {
+                    addEventToUpcomingSection(eventData);
+                }
+                
+                // Refresh today's events if the new event is today
+                loadTodayEvents();
+                
+                // Refresh calendar to show event indicators
+                setTimeout(() => {
+                    if (typeof window.renderCalendar === 'function') {
+                        console.log('Refreshing calendar...');
+                        window.renderCalendar();
+                    }
+                }, 100);
+                
+                // Clear form
+                document.getElementById('evTitle').value = '';
+                document.getElementById('evDate').value = '';
+                document.getElementById('evTimeRangeText').textContent = '--:-- -- - --:-- --';
+                document.getElementById('evLocation').value = '';
+                document.getElementById('evDesc').value = '';
+                
+                // Close modal
                 closeModal();
             });
+
+            // Function to create a fallback data URL image
+            function createFallbackImage(title) {
+                const canvas = document.createElement('canvas');
+                canvas.width = 400;
+                canvas.height = 200;
+                const ctx = canvas.getContext('2d');
+                
+                // Create gradient background
+                const gradient = ctx.createLinearGradient(0, 0, 400, 200);
+                gradient.addColorStop(0, '#137fec');
+                gradient.addColorStop(1, '#0c4c8d');
+                
+                ctx.fillStyle = gradient;
+                ctx.fillRect(0, 0, 400, 200);
+                
+                // Add text
+                ctx.fillStyle = 'white';
+                ctx.font = 'bold 24px Inter, sans-serif';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                
+                // Wrap text if too long
+                const words = title.toUpperCase().split(' ');
+                let line = '';
+                let y = 80;
+                
+                for (let i = 0; i < words.length; i++) {
+                    const testLine = line + words[i] + ' ';
+                    const metrics = ctx.measureText(testLine);
+                    const testWidth = metrics.width;
+                    
+                    if (testWidth > 350 && i > 0) {
+                        ctx.fillText(line, 200, y);
+                        line = words[i] + ' ';
+                        y += 30;
+                    } else {
+                        line = testLine;
+                    }
+                }
+                ctx.fillText(line, 200, y);
+                
+                // Add event icon
+                ctx.font = '48px Material Symbols Outlined';
+                ctx.fillText('📅', 200, 120);
+                
+                return canvas.toDataURL();
+            }
+
+            // Function to get unique random event image
+            function getRandomEventImage() {
+                const eventImages = [
+                    // More reliable image sources - using direct image URLs
+                    'https://source.unsplash.com/400x200/?conference',
+                    'https://source.unsplash.com/400x200/?meeting',
+                    'https://source.unsplash.com/400x200/?event',
+                    'https://source.unsplash.com/400x200/?business',
+                    'https://source.unsplash.com/400x200/?workshop',
+                    'https://source.unsplash.com/400x200/?seminar',
+                    'https://source.unsplash.com/400x200/?training',
+                    'https://source.unsplash.com/400x200/?presentation',
+                    'https://source.unsplash.com/400x200/?networking',
+                    'https://source.unsplash.com/400x200/?education',
+                    'https://source.unsplash.com/400x200/?technology',
+                    'https://source.unsplash.com/400x200/?innovation',
+                    'https://source.unsplash.com/400x200/?teamwork',
+                    'https://source.unsplash.com/400x200/?collaboration',
+                    'https://source.unsplash.com/400x200/?development',
+                    'https://source.unsplash.com/400x200/?learning',
+                    'https://source.unsplash.com/400x200/?community',
+                    'https://source.unsplash.com/400x200/?celebration',
+                    'https://source.unsplash.com/400x200/?achievement',
+                    'https://source.unsplash.com/400x200/?success',
+                    
+                    // Additional reliable sources
+                    'https://source.unsplash.com/400x200/?office',
+                    'https://source.unsplash.com/400x200/?professional',
+                    'https://source.unsplash.com/400x200/?leadership',
+                    'https://source.unsplash.com/400x200/?growth',
+                    'https://source.unsplash.com/400x200/?future',
+                    'https://source.unsplash.com/400x200/?progress',
+                    'https://source.unsplash.com/400x200/?inspiration',
+                    'https://source.unsplash.com/400x200/?motivation',
+                    'https://source.unsplash.com/400x200/?goals',
+                    'https://source.unsplash.com/400x200/?vision'
+                ];
+                
+                // Get currently used images from stored events
+                const savedEvents = JSON.parse(localStorage.getItem('upcomingEvents') || '[]');
+                const usedImages = new Set();
+                
+                // Add images from stored events
+                savedEvents.forEach(event => {
+                    if (event.imageUrl) {
+                        usedImages.add(event.imageUrl);
+                    }
+                });
+                
+                // Filter out used images
+                const availableImages = eventImages.filter(img => !usedImages.has(img));
+                
+                // If all images are used, reset and use any image
+                if (availableImages.length === 0) {
+                    return eventImages[Math.floor(Math.random() * eventImages.length)];
+                }
+                
+                // Return a random image from available images
+                return availableImages[Math.floor(Math.random() * availableImages.length)];
+            }
+
+            // Function to add event to upcoming events section
+            function addEventToUpcomingSection(eventData) {
+                const upcomingEventsContainer = document.querySelector('.grid.grid-cols-1.sm\\:grid-cols-2.lg\\:grid-cols-3.gap-4');
+                if (!upcomingEventsContainer) return;
+                
+                // Use stored image URL or get a new one if not available (for backward compatibility)
+                let eventImage = eventData.imageUrl || getRandomEventImage();
+                
+                // If no image URL is available, create a fallback
+                if (!eventImage) {
+                    eventImage = createFallbackImage(eventData.title);
+                }
+                
+                // Create event card
+                const eventCard = document.createElement('div');
+                eventCard.className = 'space-y-3';
+                eventCard.setAttribute('data-dynamic', 'true');
+                eventCard.setAttribute('data-event-id', eventData.id);
+                eventCard.innerHTML = `
+                    <div class="w-full h-32 bg-gradient-to-br from-primary/20 to-primary/40 rounded-lg flex items-center justify-center overflow-hidden">
+                        <img alt="${eventData.title} banner" class="w-full h-full object-cover rounded-lg" 
+                             src="${eventImage}" 
+                             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+                             onload="this.nextElementSibling.style.display='none';"
+                             loading="lazy"/>
+                        <div class="hidden w-full h-full bg-gradient-to-br from-primary/30 to-primary/50 rounded-lg flex items-center justify-center">
+                            <div class="text-center text-white">
+                                <span class="material-symbols-outlined text-4xl mb-2">event</span>
+                                <p class="text-sm font-medium">${eventData.title.toUpperCase()}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <h4 class="font-semibold text-text-light dark:text-text-dark">${eventData.title.toUpperCase()}</h4>
+                    <p class="text-xs text-text-muted-light dark:text-text-muted-dark"><span class="material-symbols-outlined text-sm align-middle">location_on</span> ${eventData.location || 'Location not specified'}</p>
+                    <p class="text-xs text-text-muted-light dark:text-text-muted-dark"><span class="material-symbols-outlined text-sm align-middle">calendar_today</span> ${formatEventDate(eventData.date)} ⋅ ${eventData.timeRange}</p>
+                    <button class="w-full bg-primary/10 text-primary font-semibold py-2 rounded-lg hover:bg-primary/20 transition-colors remind-me-btn" data-event-id="${eventData.id}" data-event-title="${eventData.title}" data-event-date="${eventData.date}" data-event-time="${eventData.timeRange}">Remind Me</button>
+                `;
+                
+                // Add to the container
+                upcomingEventsContainer.appendChild(eventCard);
+                
+                // Limit to 3 events maximum (remove oldest dynamic events if needed)
+                const dynamicEvents = upcomingEventsContainer.querySelectorAll('[data-dynamic="true"]');
+                if (dynamicEvents.length > 3) {
+                    dynamicEvents[0].remove(); // Remove the oldest (first) event
+                }
+            }
+
+            // Function to format event date
+            function formatEventDate(dateString) {
+                const date = new Date(dateString);
+                const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+                return `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
+            }
+
+            // Function to load existing events from localStorage
+            function loadUpcomingEvents() {
+                const savedEvents = JSON.parse(localStorage.getItem('upcomingEvents') || '[]');
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+                
+                // Filter future events and sort by date
+                const futureEvents = savedEvents
+                    .filter(event => new Date(event.date) >= today)
+                    .sort((a, b) => new Date(a.date) - new Date(b.date))
+                    .slice(0, 3); // Show only the next 3 events
+                
+                const upcomingEventsContainer = document.querySelector('.grid.grid-cols-1.sm\\:grid-cols-2.lg\\:grid-cols-3.gap-4');
+                if (!upcomingEventsContainer) return;
+                
+                // If we have saved events, replace the static content
+                if (futureEvents.length > 0) {
+                    // Clear all existing content
+                    upcomingEventsContainer.innerHTML = '';
+                    
+                    // Add saved events
+                    futureEvents.forEach(event => {
+                        addEventToUpcomingSection(event);
+                    });
+                }
+                // If no saved events, keep the original static content (do nothing)
+            }
+
+            // Function to load today's events
+            function loadTodayEvents() {
+                const todayEventsContainer = document.getElementById('todayEventsContainer');
+                if (!todayEventsContainer) return;
+                
+                const savedEvents = JSON.parse(localStorage.getItem('upcomingEvents') || '[]');
+                const today = new Date();
+                const todayString = today.toISOString().split('T')[0]; // Format: YYYY-MM-DD
+                
+                // Filter events for today and limit to 5
+                const todayEvents = savedEvents.filter(event => event.date === todayString).slice(0, 5);
+                
+                // Clear container
+                todayEventsContainer.innerHTML = '';
+                
+                if (todayEvents.length === 0) {
+                    // Show "No events" message
+                    todayEventsContainer.innerHTML = `
+                        <div class="text-center py-8">
+                            <span class="material-symbols-outlined text-4xl text-text-muted-light dark:text-text-muted-dark mb-2">event_busy</span>
+                            <p class="text-text-muted-light dark:text-text-muted-dark">No events scheduled for today</p>
+                        </div>
+                    `;
+                } else {
+                    // Display today's events (max 5)
+                    todayEvents.forEach(event => {
+                        const eventDate = new Date(event.date);
+                        const dayOfWeek = eventDate.toLocaleDateString('en-US', { weekday: 'short' });
+                        const dayOfMonth = eventDate.getDate();
+                        
+                        const eventElement = document.createElement('div');
+                        eventElement.className = 'flex gap-4 items-start';
+                        eventElement.innerHTML = `
+                            <div class="text-center">
+                                <p class="font-bold text-primary">${dayOfMonth}</p>
+                                <p class="text-xs text-text-muted-light dark:text-text-muted-dark">${dayOfWeek}</p>
+                            </div>
+                            <div class="border-l-2 border-primary pl-4">
+                                <p class="font-semibold text-sm text-text-light dark:text-text-dark">${event.title.toUpperCase()}</p>
+                                <p class="text-xs text-text-muted-light dark:text-text-muted-dark"><span class="material-symbols-outlined text-xs align-middle">location_on</span> ${event.location || 'Location not specified'}</p>
+                            </div>
+                        `;
+                        todayEventsContainer.appendChild(eventElement);
+                    });
+                }
+            }
+
+            // Load events when page loads
+            loadUpcomingEvents();
+            loadTodayEvents();
+
+            // Reminder System Functionality
+            let currentReminderEvent = null;
+
+            // Function to open reminder modal
+            function openReminderModal(eventData) {
+                currentReminderEvent = eventData;
+                const modal = document.getElementById('reminderModal');
+                const titleElement = document.getElementById('reminderEventTitle');
+                const dateTimeElement = document.getElementById('reminderEventDateTime');
+                
+                if (modal && titleElement && dateTimeElement) {
+                    titleElement.textContent = eventData.title;
+                    dateTimeElement.textContent = `${formatEventDate(eventData.date)} ⋅ ${eventData.timeRange}`;
+                    modal.classList.remove('hidden');
+                    modal.classList.add('flex');
+                }
+            }
+
+            // Function to close reminder modal
+            function closeReminderModal() {
+                const modal = document.getElementById('reminderModal');
+                if (modal) {
+                    modal.classList.add('hidden');
+                    modal.classList.remove('flex');
+                    currentReminderEvent = null;
+                    
+                    // Reset form
+                    document.querySelectorAll('input[name="reminderTime"]').forEach(radio => {
+                        radio.checked = false;
+                    });
+                    document.getElementById('customDays').value = '';
+                }
+            }
+
+            // Function to set reminder
+            function setReminder() {
+                if (!currentReminderEvent) return;
+
+                const selectedReminder = document.querySelector('input[name="reminderTime"]:checked');
+                if (!selectedReminder) {
+                    alert('Please select a reminder time.');
+                    return;
+                }
+
+                let reminderTime = null;
+                const eventDate = new Date(currentReminderEvent.date);
+                
+                // Calculate reminder time based on selection
+                switch (selectedReminder.value) {
+                    case '1hour':
+                        reminderTime = new Date(eventDate.getTime() - (60 * 60 * 1000)); // 1 hour before
+                        break;
+                    case '1day':
+                        reminderTime = new Date(eventDate.getTime() - (24 * 60 * 60 * 1000)); // 1 day before
+                        break;
+                    case '1week':
+                        reminderTime = new Date(eventDate.getTime() - (7 * 24 * 60 * 60 * 1000)); // 1 week before
+                        break;
+                    case 'custom':
+                        const customDays = parseInt(document.getElementById('customDays').value);
+                        if (isNaN(customDays) || customDays < 0) {
+                            alert('Please enter a valid number of days.');
+                            return;
+                        }
+                        reminderTime = new Date(eventDate.getTime() - (customDays * 24 * 60 * 60 * 1000));
+                        break;
+                }
+
+                // Check if reminder time is in the past
+                if (reminderTime <= new Date()) {
+                    alert('Reminder time cannot be in the past. Please choose a different time.');
+                    return;
+                }
+
+                // Store reminder
+                const reminder = {
+                    id: Date.now(),
+                    eventId: currentReminderEvent.id,
+                    eventTitle: currentReminderEvent.title,
+                    eventDate: currentReminderEvent.date,
+                    eventTime: currentReminderEvent.timeRange,
+                    reminderTime: reminderTime.toISOString(),
+                    reminderType: selectedReminder.value,
+                    createdAt: new Date().toISOString()
+                };
+
+                // Save to localStorage
+                const savedReminders = JSON.parse(localStorage.getItem('eventReminders') || '[]');
+                savedReminders.push(reminder);
+                localStorage.setItem('eventReminders', JSON.stringify(savedReminders));
+
+                // Show confirmation
+                alert(`Reminder set for ${formatReminderDate(reminderTime)}!`);
+                
+                // Close modal
+                closeReminderModal();
+
+                // Update button text to show reminder is set
+                updateReminderButton(currentReminderEvent.id, true);
+            }
+
+            // Function to format reminder date
+            function formatReminderDate(date) {
+                const now = new Date();
+                const diffTime = date.getTime() - now.getTime();
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                
+                if (diffDays === 0) {
+                    return 'today at ' + date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                } else if (diffDays === 1) {
+                    return 'tomorrow at ' + date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                } else if (diffDays > 1) {
+                    return `in ${diffDays} days at ` + date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                } else {
+                    return date.toLocaleDateString() + ' at ' + date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                }
+            }
+
+            // Function to update reminder button state
+            function updateReminderButton(eventId, hasReminder) {
+                const button = document.querySelector(`button[data-event-id="${eventId}"]`);
+                if (button) {
+                    if (hasReminder) {
+                        button.textContent = 'Reminder Set ✓';
+                        button.classList.add('bg-green-100', 'text-green-700', 'dark:bg-green-900/20', 'dark:text-green-400');
+                        button.classList.remove('bg-primary/10', 'text-primary');
+                    } else {
+                        button.textContent = 'Remind Me';
+                        button.classList.remove('bg-green-100', 'text-green-700', 'dark:bg-green-900/20', 'dark:text-green-400');
+                        button.classList.add('bg-primary/10', 'text-primary');
+                    }
+                }
+            }
+
+            // Function to check for reminders
+            function checkReminders() {
+                const savedReminders = JSON.parse(localStorage.getItem('eventReminders') || '[]');
+                const now = new Date();
+                
+                savedReminders.forEach(reminder => {
+                    const reminderTime = new Date(reminder.reminderTime);
+                    
+                    // Check if it's time to show the reminder (within 1 minute)
+                    if (Math.abs(now.getTime() - reminderTime.getTime()) <= 60000) {
+                        showNotification(reminder);
+                        
+                        // Remove the reminder after showing
+                        const updatedReminders = savedReminders.filter(r => r.id !== reminder.id);
+                        localStorage.setItem('eventReminders', JSON.stringify(updatedReminders));
+                        
+                        // Update button state
+                        updateReminderButton(reminder.eventId, false);
+                    }
+                });
+            }
+
+            // Function to show notification
+            function showNotification(reminder) {
+                // Request notification permission if not already granted
+                if (Notification.permission === 'default') {
+                    Notification.requestPermission();
+                }
+                
+                if (Notification.permission === 'granted') {
+                    const notification = new Notification(`Event Reminder: ${reminder.eventTitle}`, {
+                        body: `Your event is coming up on ${formatEventDate(reminder.eventDate)} at ${reminder.eventTime}`,
+                        icon: 'assets/images/cpu-logo.svg.png',
+                        tag: `reminder-${reminder.id}`,
+                        requireInteraction: true
+                    });
+                    
+                    // Auto-close after 10 seconds
+                    setTimeout(() => notification.close(), 10000);
+                } else {
+                    // Fallback to alert if notifications are not allowed
+                    alert(`Reminder: ${reminder.eventTitle}\nYour event is coming up on ${formatEventDate(reminder.eventDate)} at ${reminder.eventTime}`);
+                }
+            }
+
+            // Event listeners for reminder modal
+            document.addEventListener('click', (e) => {
+                // Handle "Remind Me" button clicks
+                if (e.target.classList.contains('remind-me-btn')) {
+                    const eventData = {
+                        id: e.target.getAttribute('data-event-id'),
+                        title: e.target.getAttribute('data-event-title'),
+                        date: e.target.getAttribute('data-event-date'),
+                        timeRange: e.target.getAttribute('data-event-time')
+                    };
+                    openReminderModal(eventData);
+                }
+                
+                // Handle modal close buttons
+                if (e.target.id === 'closeReminderModal' || e.target.id === 'cancelReminder') {
+                    closeReminderModal();
+                }
+                
+                // Handle set reminder button
+                if (e.target.id === 'setReminder') {
+                    setReminder();
+                }
+                
+                // Handle custom days input
+                if (e.target.id === 'customDays') {
+                    document.querySelector('input[name="reminderTime"][value="custom"]').checked = true;
+                }
+            });
+
+            // Check reminders every minute
+            setInterval(checkReminders, 60000);
+
+            // Check for existing reminders on page load
+            setTimeout(() => {
+                const savedReminders = JSON.parse(localStorage.getItem('eventReminders') || '[]');
+                savedReminders.forEach(reminder => {
+                    updateReminderButton(reminder.eventId, true);
+                });
+            }, 1000);
 
             // Fetch and render award-eligible cards
             const eligibleContainer = document.getElementById('eligibleCards');
@@ -993,6 +1510,505 @@
                     timePopover.classList.add('hidden');
                 }
             });
+
+            // Location Autocomplete for Location Field
+            let autocompleteService = null;
+            let placesService = null;
+            const locationInput = document.getElementById('evLocation');
+            const locationSuggestions = document.getElementById('locationSuggestions');
+            const suggestionsList = document.getElementById('suggestionsList');
+
+            const loadGoogleMaps = () => {
+                if (window.google && window.google.maps && window.google.maps.places) {
+                    return Promise.resolve();
+                }
+                
+                return new Promise((resolve, reject) => {
+                    // Check if script already exists
+                    if (document.querySelector('script[src*="maps.googleapis.com"]')) {
+                        // Script exists but might not be loaded yet
+                        const checkLoaded = () => {
+                            if (window.google && window.google.maps && window.google.maps.places) {
+                                resolve();
+                            } else {
+                                setTimeout(checkLoaded, 100);
+                            }
+                        };
+                        checkLoaded();
+                        return;
+                    }
+                    
+                    const script = document.createElement('script');
+                    script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyD1p_x_nw6wT7_zUnILTuG17fHNOf0zFC4&libraries=places&loading=async&callback=initPlacesCallback';
+                    script.async = true;
+                    script.defer = true;
+                    script.onerror = () => {
+                        console.warn('Google Maps API failed to load. Please check your API key and internet connection.');
+                        reject(new Error('Failed to load Google Maps API'));
+                    };
+                    
+                    // Create callback function
+                    window.initPlacesCallback = () => {
+                        delete window.initPlacesCallback; // Clean up
+                        resolve();
+                    };
+                    
+                    document.head.appendChild(script);
+                });
+            };
+
+            const showLocationSuggestions = async (query) => {
+                if (!query.trim() || query.length < 2) {
+                    locationSuggestions.classList.add('hidden');
+                    return;
+                }
+
+                // Always show fallback suggestions first for better UX
+                showFallbackSuggestions(query);
+
+                // Try to load Google Places API in the background
+                try {
+                    await loadGoogleMaps();
+                    
+                    if (!autocompleteService) {
+                        autocompleteService = new google.maps.places.AutocompleteService();
+                    }
+
+                    // Use the legacy API which is still working - restricted to Iloilo only
+                    autocompleteService.getPlacePredictions({
+                        input: query,
+                        types: ['geocode', 'establishment'],
+                        componentRestrictions: { country: 'ph' },
+                        location: new google.maps.LatLng(10.7202, 122.5621), // Iloilo City coordinates
+                        radius: 50000 // 50km radius around Iloilo
+                    }, (predictions, status) => {
+                        if (status === google.maps.places.PlacesServiceStatus.OK && predictions) {
+                            // Filter predictions to only show Iloilo locations (strict filtering)
+                            const iloiloPredictions = predictions.filter(prediction => {
+                                const desc = prediction.description.toLowerCase();
+                                return desc.includes('iloilo') && 
+                                       !desc.includes('manila') &&
+                                       !desc.includes('cebu') &&
+                                       !desc.includes('davao') &&
+                                       !desc.includes('baguio') &&
+                                       !desc.includes('bacolod') &&
+                                       !desc.includes('tacloban') &&
+                                       !desc.includes('antique') &&
+                                       !desc.includes('capiz') &&
+                                       !desc.includes('aklan') &&
+                                       !desc.includes('negros') &&
+                                       !desc.includes('guimaras');
+                            });
+                            if (iloiloPredictions.length > 0) {
+                                displaySuggestions(iloiloPredictions);
+                            }
+                            // If no Iloilo predictions, keep fallback suggestions
+                        } else {
+                            console.log('Places API status:', status);
+                            // Keep fallback suggestions if API fails
+                        }
+                    });
+
+                } catch (error) {
+                    console.log('Places API failed:', error);
+                    // Fallback suggestions are already shown
+                }
+            };
+
+            const displaySuggestions = (predictions) => {
+                suggestionsList.innerHTML = '';
+                
+                predictions.slice(0, 5).forEach((prediction, index) => {
+                    const suggestionItem = document.createElement('div');
+                    suggestionItem.className = 'flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 cursor-pointer transition-colors select-none';
+                    suggestionItem.style.pointerEvents = 'auto';
+                    suggestionItem.innerHTML = `
+                        <span class="material-symbols-outlined text-text-muted-light dark:text-text-muted-dark text-sm">place</span>
+                        <div class="flex-1">
+                            <p class="text-sm font-medium text-text-light dark:text-text-dark">${prediction.structured_formatting.main_text}</p>
+                            <p class="text-xs text-text-muted-light dark:text-text-muted-dark">${prediction.structured_formatting.secondary_text}</p>
+                        </div>
+                    `;
+                    
+                    // Add click event with proper event handling
+                    suggestionItem.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        locationInput.value = prediction.description;
+                        locationSuggestions.classList.add('hidden');
+                        // Trigger input event to update any other listeners
+                        locationInput.dispatchEvent(new Event('input', { bubbles: true }));
+                    });
+                    
+                    // Add mousedown event as backup
+                    suggestionItem.addEventListener('mousedown', (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                    });
+                    
+                    suggestionsList.appendChild(suggestionItem);
+                });
+                
+                locationSuggestions.classList.remove('hidden');
+            };
+
+            const showFallbackSuggestions = (query) => {
+                console.log('Showing ILOILO-ONLY Events fallback suggestions for:', query); // Debug log
+                
+                // STRICT ILOILO-ONLY LOCATIONS - No other provinces or cities
+                const commonLocations = [
+                    // Iloilo City and Province - Main Areas
+                    'Iloilo City, Philippines', 'Central Philippine University, Iloilo City, Philippines', 'University of the Philippines Visayas, Iloilo City, Philippines',
+                    'West Visayas State University, Iloilo City, Philippines', 'University of San Agustin, Iloilo City, Philippines',
+                    'St. Paul University Iloilo, Iloilo City, Philippines', 'Iloilo Science and Technology University, Iloilo City, Philippines',
+                    
+                    // Iloilo City Districts and Barangays
+                    'Mandurriao, Iloilo City, Philippines', 'Molo, Iloilo City, Philippines', 'Jaro, Iloilo City, Philippines',
+                    'La Paz, Iloilo City, Philippines', 'Lapuz, Iloilo City, Philippines', 'Arevalo, Iloilo City, Philippines',
+                    'City Proper, Iloilo City, Philippines', 'Villa Arevalo, Iloilo City, Philippines',
+                    
+                    // Iloilo Province Municipalities
+                    'Miagao, Iloilo, Philippines', 'San Joaquin, Iloilo, Philippines', 'Guimbal, Iloilo, Philippines',
+                    'Tigbauan, Iloilo, Philippines', 'Oton, Iloilo, Philippines', 'Pavia, Iloilo, Philippines',
+                    'Santa Barbara, Iloilo, Philippines', 'New Lucena, Iloilo, Philippines', 'Zarraga, Iloilo, Philippines',
+                    'Leganes, Iloilo, Philippines', 'Dumangas, Iloilo, Philippines', 'Barotac Nuevo, Iloilo, Philippines',
+                    'Barotac Viejo, Iloilo, Philippines', 'Anilao, Iloilo, Philippines', 'Banate, Iloilo, Philippines',
+                    'Bingawan, Iloilo, Philippines', 'Cabatuan, Iloilo, Philippines', 'Calinog, Iloilo, Philippines',
+                    'Carles, Iloilo, Philippines', 'Concepcion, Iloilo, Philippines', 'Dingle, Iloilo, Philippines',
+                    'Dueñas, Iloilo, Philippines', 'Estancia, Iloilo, Philippines',
+                    'Igbaras, Iloilo, Philippines', 'Janiuay, Iloilo, Philippines', 'Lambunao, Iloilo, Philippines',
+                    'Maasin, Iloilo, Philippines', 'Passi City, Iloilo, Philippines', 'Pototan, Iloilo, Philippines',
+                    'San Dionisio, Iloilo, Philippines', 'San Enrique, Iloilo, Philippines', 'San Miguel, Iloilo, Philippines',
+                    'San Rafael, Iloilo, Philippines', 'Sara, Iloilo, Philippines', 'Tubungan, Iloilo, Philippines',
+                    
+                    // Popular Iloilo Landmarks and Places
+                    'Iloilo Business Park, Mandurriao, Iloilo City, Philippines', 'SM City Iloilo, Mandurriao, Iloilo City, Philippines',
+                    'Robinsons Place Iloilo, La Paz, Iloilo City, Philippines', 'Festive Walk Iloilo, Mandurriao, Iloilo City, Philippines',
+                    'Iloilo Convention Center, Mandurriao, Iloilo City, Philippines', 'Iloilo International Airport, Cabatuan, Iloilo, Philippines',
+                    'Miagao Church, Miagao, Iloilo, Philippines', 'Jaro Cathedral, Jaro, Iloilo City, Philippines',
+                    'Molo Church, Molo, Iloilo City, Philippines', 'Casa Mariquit, Jaro, Iloilo City, Philippines',
+                    'Iloilo Museum of Contemporary Art, Mandurriao, Iloilo City, Philippines', 'Plaza Libertad, City Proper, Iloilo City, Philippines',
+                    'Esplanade, Iloilo City, Philippines', 'Iloilo River, Iloilo City, Philippines',
+                    
+                    // Iloilo Universities and Schools
+                    'Central Philippine University, Jaro, Iloilo City, Philippines', 'University of the Philippines Visayas, Miagao, Iloilo, Philippines',
+                    'West Visayas State University, La Paz, Iloilo City, Philippines', 'University of San Agustin, Jaro, Iloilo City, Philippines',
+                    'St. Paul University Iloilo, Jaro, Iloilo City, Philippines', 'Iloilo Science and Technology University, La Paz, Iloilo City, Philippines',
+                    'John B. Lacson Foundation Maritime University, Molo, Iloilo City, Philippines', 'Iloilo Doctors College, Mandurriao, Iloilo City, Philippines',
+                    'Assumption Iloilo, Jaro, Iloilo City, Philippines', 'Ateneo de Iloilo, Mandurriao, Iloilo City, Philippines',
+                    'Colegio de San Jose, Jaro, Iloilo City, Philippines', 'St. Therese MTC Colleges, La Paz, Iloilo City, Philippines',
+                    
+                    // Iloilo Hospitals and Medical Centers
+                    'Iloilo Doctors Hospital, Mandurriao, Iloilo City, Philippines', 'West Visayas State University Medical Center, La Paz, Iloilo City, Philippines',
+                    'St. Paul Hospital Iloilo, Jaro, Iloilo City, Philippines', 'Iloilo Mission Hospital, Jaro, Iloilo City, Philippines',
+                    'The Medical City Iloilo, Mandurriao, Iloilo City, Philippines', 'QualiMed Hospital Iloilo, Mandurriao, Iloilo City, Philippines',
+                    
+                    // Iloilo Government Offices
+                    'Iloilo Provincial Capitol, Iloilo City, Philippines', 'Iloilo City Hall, City Proper, Iloilo City, Philippines',
+                    'Iloilo City Government Center, Mandurriao, Iloilo City, Philippines', 'Department of Trade and Industry Iloilo, Iloilo City, Philippines',
+                    'Bureau of Internal Revenue Iloilo, Iloilo City, Philippines', 'Social Security System Iloilo, Iloilo City, Philippines',
+                    
+                    // Iloilo Shopping and Commercial Areas
+                    'Gaisano City Iloilo, La Paz, Iloilo City, Philippines', 'Atrium Mall, Mandurriao, Iloilo City, Philippines',
+                    'Plaza Libertad Commercial Complex, City Proper, Iloilo City, Philippines', 'Iloilo Central Market, City Proper, Iloilo City, Philippines',
+                    'Iloilo Terminal Market, City Proper, Iloilo City, Philippines', 'Megaworld Iloilo Business Park, Mandurriao, Iloilo City, Philippines'
+                ];
+
+                const filtered = commonLocations.filter(location => 
+                    location.toLowerCase().includes(query.toLowerCase())
+                );
+
+                if (filtered.length > 0) {
+                    suggestionsList.innerHTML = '';
+                    filtered.slice(0, 8).forEach(location => {
+                        const suggestionItem = document.createElement('div');
+                        suggestionItem.className = 'flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 cursor-pointer transition-colors select-none';
+                        suggestionItem.style.pointerEvents = 'auto';
+                        suggestionItem.innerHTML = `
+                            <span class="material-symbols-outlined text-text-muted-light dark:text-text-muted-dark text-sm">place</span>
+                            <div class="flex-1">
+                                <p class="text-sm font-medium text-text-light dark:text-text-dark">${location}</p>
+                                <p class="text-xs text-text-muted-light dark:text-text-muted-dark">Suggested location</p>
+                            </div>
+                        `;
+                        
+                        // Add click event with proper event handling
+                        suggestionItem.addEventListener('click', (e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            locationInput.value = location;
+                            locationSuggestions.classList.add('hidden');
+                            // Trigger input event to update any other listeners
+                            locationInput.dispatchEvent(new Event('input', { bubbles: true }));
+                        });
+                        
+                        // Add mousedown event as backup
+                        suggestionItem.addEventListener('mousedown', (e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                        });
+                        
+                        suggestionsList.appendChild(suggestionItem);
+                    });
+                    locationSuggestions.classList.remove('hidden');
+                } else {
+                    locationSuggestions.classList.add('hidden');
+                }
+            };
+
+            // Add event listener to location input
+            if (locationInput) {
+                let timeoutId;
+                locationInput.addEventListener('input', (e) => {
+                    clearTimeout(timeoutId);
+                    const query = e.target.value.trim();
+                    
+                    timeoutId = setTimeout(() => {
+                        showLocationSuggestions(query);
+                    }, 300); // Debounce for 300ms
+                });
+
+                // Hide suggestions when clicking outside
+                document.addEventListener('click', (e) => {
+                    if (!locationInput.contains(e.target) && !locationSuggestions.contains(e.target)) {
+                        locationSuggestions.classList.add('hidden');
+                    }
+                });
+
+                // Handle keyboard navigation
+                locationInput.addEventListener('keydown', (e) => {
+                    const suggestions = suggestionsList.querySelectorAll('div');
+                    const activeSuggestion = suggestionsList.querySelector('[data-active="true"]');
+                    
+                    if (e.key === 'ArrowDown') {
+                        e.preventDefault();
+                        if (activeSuggestion) {
+                            activeSuggestion.classList.remove('bg-primary/10');
+                            activeSuggestion.removeAttribute('data-active');
+                            const next = activeSuggestion.nextElementSibling;
+                            if (next) {
+                                next.classList.add('bg-primary/10');
+                                next.setAttribute('data-active', 'true');
+                            }
+                        } else if (suggestions[0]) {
+                            suggestions[0].classList.add('bg-primary/10');
+                            suggestions[0].setAttribute('data-active', 'true');
+                        }
+                    } else if (e.key === 'ArrowUp') {
+                        e.preventDefault();
+                        if (activeSuggestion) {
+                            activeSuggestion.classList.remove('bg-primary/10');
+                            activeSuggestion.removeAttribute('data-active');
+                            const prev = activeSuggestion.previousElementSibling;
+                            if (prev) {
+                                prev.classList.add('bg-primary/10');
+                                prev.setAttribute('data-active', 'true');
+                            }
+                        }
+                    } else if (e.key === 'Enter') {
+                        e.preventDefault();
+                        if (activeSuggestion) {
+                            activeSuggestion.click();
+                        }
+                    } else if (e.key === 'Escape') {
+                        locationSuggestions.classList.add('hidden');
+                    }
+                });
+            }
+
+            // Calendar Navigation Functionality
+            window.currentDate = new Date();
+            
+            window.monthNames = [
+                'January', 'February', 'March', 'April', 'May', 'June',
+                'July', 'August', 'September', 'October', 'November', 'December'
+            ];
+
+            window.updateCalendarTitle = function() {
+                const month = window.monthNames[window.currentDate.getMonth()];
+                const year = window.currentDate.getFullYear();
+                const titleElement = document.getElementById('calendarTitle');
+                if (titleElement) {
+                    titleElement.textContent = `${month} ${year}`;
+                }
+            }
+
+            window.renderCalendar = function() {
+                const year = window.currentDate.getFullYear();
+                const month = window.currentDate.getMonth();
+                
+                // Get first day of month and number of days
+                const firstDay = new Date(year, month, 1);
+                const lastDay = new Date(year, month + 1, 0);
+                const daysInMonth = lastDay.getDate();
+                const startDay = firstDay.getDay(); // 0 = Sunday, 1 = Monday, etc.
+
+                // Get the calendar days container
+                const calendarContainer = document.getElementById('calendarGrid');
+                if (!calendarContainer) return;
+
+                // Clear existing days (keep the first 7 header days: S M T W T F S)
+                const allDays = calendarContainer.querySelectorAll('.py-2');
+                for (let i = 7; i < allDays.length; i++) {
+                    allDays[i].remove();
+                }
+
+                // Add empty cells for days before the first day of the month
+                for (let i = 0; i < startDay; i++) {
+                    const prevMonth = new Date(year, month, -startDay + i + 1);
+                    const dayElement = document.createElement('div');
+                    dayElement.className = 'py-2 text-gray-400 dark:text-gray-600 relative';
+                    
+                    // Check if this previous month day has events
+                    const hasEvent = checkForEvents(prevMonth.getFullYear(), prevMonth.getMonth(), prevMonth.getDate());
+                    
+                    if (hasEvent) {
+                        dayElement.innerHTML = `
+                            <div class="relative inline-block w-full text-center">
+                                <span class="text-gray-400 dark:text-gray-600">${prevMonth.getDate()}</span>
+                                <div class="absolute -top-1 -right-1 w-1 h-1 bg-primary rounded-full"></div>
+                            </div>
+                        `;
+                    } else {
+                        dayElement.textContent = prevMonth.getDate();
+                    }
+                    
+                    calendarContainer.appendChild(dayElement);
+                }
+
+                // Add days of the current month
+                for (let day = 1; day <= daysInMonth; day++) {
+                    const dayElement = document.createElement('div');
+                    dayElement.className = 'py-2 relative cursor-pointer hover:bg-gray-100 dark:hover:bg-white/10 rounded-lg transition-colors';
+                    
+                    // Check if this day has events
+                    const hasEvent = checkForEvents(year, month, day);
+                    const isToday = isCurrentDay(year, month, day);
+                    
+                    if (hasEvent) {
+                        // Show day number with a dot indicator in upper right
+                        dayElement.innerHTML = `
+                            <div class="relative inline-block w-full text-center">
+                                <span class="font-medium ${isToday ? 'text-white bg-primary rounded-full w-6 h-6 flex items-center justify-center mx-auto' : 'text-text-light dark:text-text-dark'}">${day}</span>
+                                <div class="absolute -top-1 -right-1 w-1 h-1 bg-primary rounded-full"></div>
+                            </div>
+                        `;
+                    } else {
+                        // Regular day without events
+                        if (isToday) {
+                            dayElement.innerHTML = `<span class="font-medium text-white bg-primary rounded-full w-6 h-6 flex items-center justify-center mx-auto">${day}</span>`;
+                        } else {
+                            dayElement.textContent = day;
+                        }
+                    }
+                    
+                    calendarContainer.appendChild(dayElement);
+                }
+
+                // Add empty cells for days after the last day of the month
+                const remainingCells = 42 - (startDay + daysInMonth); // 6 rows * 7 days = 42
+                for (let i = 1; i <= remainingCells; i++) {
+                    const nextMonth = new Date(year, month + 1, i);
+                    const dayElement = document.createElement('div');
+                    dayElement.className = 'py-2 text-gray-400 dark:text-gray-600 relative';
+                    
+                    // Check if this next month day has events
+                    const hasEvent = checkForEvents(nextMonth.getFullYear(), nextMonth.getMonth(), nextMonth.getDate());
+                    
+                    if (hasEvent) {
+                        dayElement.innerHTML = `
+                            <div class="relative inline-block w-full text-center">
+                                <span class="text-gray-400 dark:text-gray-600">${nextMonth.getDate()}</span>
+                                <div class="absolute -top-1 -right-1 w-1 h-1 bg-primary rounded-full"></div>
+                            </div>
+                        `;
+                    } else {
+                        dayElement.textContent = nextMonth.getDate();
+                    }
+                    
+                    calendarContainer.appendChild(dayElement);
+                }
+            }
+
+            function checkForEvents(year, month, day) {
+                // Check if this date has any scheduled events (including today)
+                const savedEvents = JSON.parse(localStorage.getItem('upcomingEvents') || '[]');
+                const checkDate = new Date(year, month, day);
+                const dateString = checkDate.toISOString().split('T')[0]; // Format: YYYY-MM-DD
+                
+                // Check if there are events on this date (past, present, or future)
+                const hasEvents = savedEvents.some(event => event.date === dateString);
+                
+                // Debug logging
+                if (hasEvents) {
+                    console.log(`Events found for ${dateString}:`, savedEvents.filter(event => event.date === dateString));
+                }
+                
+                return hasEvents;
+            }
+
+            function isCurrentDay(year, month, day) {
+                // Check if this date is today
+                const today = new Date();
+                const checkDate = new Date(year, month, day);
+                
+                return today.getFullYear() === year &&
+                       today.getMonth() === month &&
+                       today.getDate() === day;
+            }
+
+
+            // Event listeners for navigation buttons
+            const prevBtn = document.getElementById('prevMonth');
+            const nextBtn = document.getElementById('nextMonth');
+            
+            if (prevBtn) {
+                prevBtn.addEventListener('click', () => {
+                    window.currentDate.setMonth(window.currentDate.getMonth() - 1);
+                    window.updateCalendarTitle();
+                    window.renderCalendar();
+                });
+            }
+
+            if (nextBtn) {
+                nextBtn.addEventListener('click', () => {
+                    window.currentDate.setMonth(window.currentDate.getMonth() + 1);
+                    window.updateCalendarTitle();
+                    window.renderCalendar();
+                });
+            }
+
+            // Initialize calendar immediately
+            window.updateCalendarTitle();
+            window.renderCalendar();
+            
+            // Add manual refresh function for debugging
+            window.refreshCalendar = function() {
+                console.log('Manual calendar refresh triggered');
+                window.renderCalendar();
+            };
+            
+            // Add function to check stored events
+            window.checkStoredEvents = function() {
+                const events = JSON.parse(localStorage.getItem('upcomingEvents') || '[]');
+                console.log('All stored events:', events);
+                events.forEach((event, index) => {
+                    console.log(`Event ${index + 1}:`, {
+                        title: event.title,
+                        date: event.date,
+                        id: event.id
+                    });
+                });
+                return events;
+            };
+        });
+
+        // Also initialize calendar when page loads (backup)
+        window.addEventListener('load', () => {
+            if (typeof window.updateCalendarTitle === 'function' && typeof window.renderCalendar === 'function') {
+                window.updateCalendarTitle();
+                window.renderCalendar();
+            }
         });
     </script>
 
