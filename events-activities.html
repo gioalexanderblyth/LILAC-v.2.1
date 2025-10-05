@@ -196,9 +196,27 @@
 <header class="sticky top-0 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm z-30 px-6 lg:px-8 py-4 border-b border-border-light dark:border-border-dark flex justify-between items-center h-20">
 <h1 class="text-2xl font-bold text-text-light dark:text-text-dark">Events & Activities</h1>
 <div class="flex items-center gap-2">
-<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-200 dark:hover:bg-white/10 text-text-muted-light dark:text-text-muted-dark transition-colors duration-200">
+<div class="relative">
+<button id="notificationBell" class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-200 dark:hover:bg-white/10 text-text-muted-light dark:text-text-muted-dark transition-colors duration-200">
 <span class="material-symbols-outlined">notifications</span>
+<!-- Notification badge -->
+<span id="notificationBadge" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center hidden">0</span>
 </button>
+
+<!-- Notification dropdown -->
+<div id="notificationDropdown" class="hidden absolute right-0 top-12 w-80 bg-white dark:bg-card-dark rounded-lg shadow-xl border border-border-light dark:border-border-dark z-50 max-h-96 overflow-y-auto">
+<div class="p-4 border-b border-border-light dark:border-border-dark flex items-center justify-between">
+<h3 class="font-semibold text-text-light dark:text-text-dark">Notifications</h3>
+<button id="clearAllNotifications" class="text-xs text-primary hover:text-primary/80 transition-colors">Clear All</button>
+</div>
+<div id="notificationList" class="divide-y divide-border-light dark:divide-border-dark">
+<!-- Notifications will be populated here -->
+</div>
+<div id="noNotifications" class="p-4 text-center text-text-muted-light dark:text-text-muted-dark text-sm">
+No notifications yet
+</div>
+</div>
+</div>
 <button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-200 dark:hover:bg-white/10 text-text-muted-light dark:text-text-muted-dark transition-colors duration-200" id="theme-toggle">
 <span class="material-symbols-outlined dark:hidden">light_mode</span>
 <span class="material-symbols-outlined hidden dark:inline">dark_mode</span>
@@ -250,12 +268,12 @@
       <div class="bg-card-light dark:bg-card-dark p-6 rounded-xl shadow-soft">
         <div class="flex justify-between items-center mb-4">
           <div>
-            <h3 class="text-xl font-bold text-text-light dark:text-text-dark">Top Destinations</h3>
-            <p class="text-sm text-text-muted-light dark:text-text-muted-dark">Top locations where unforgettable events happen.</p>
+            <h3 class="text-xl font-bold text-text-light dark:text-text-dark">Completed Events</h3>
+            <p class="text-sm text-text-muted-light dark:text-text-muted-dark">Recent events that have already taken place.</p>
           </div>
           
       </div>
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div id="completedEventsContainer" class="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div class="relative rounded-lg overflow-hidden">
             <img alt="Boston" class="w-full h-24 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDHNe0QLxtol2rvONurdog1VJ6jxZfwr7qIBBCHLUejzPAOKt1KoloM2RPDWJxBLK-e38UEwPoqIxBPQW03FARIOs2yWwLxH3t1daZO1mzOWZXaO9j8180jZ1d7zN_GQQB44sIppexOqXcAnjBygbDkMC725FsJUnyn3A_4o84RnbwQ5zzC6h_TJ76CMhCpJSSF72FHAe09LgySczibXciFbX9Fz4eEJ0yQp_Yj_hODoUg8gFS_TAkaM8875JygeVlKxMn97q6OplPc"/>
             <div class="absolute inset-0 bg-black/40 flex items-center justify-center">
@@ -277,52 +295,6 @@
     </div>
   </div>
 
-      <div class="bg-card-light dark:bg-card-dark p-6 rounded-xl shadow-soft">
-        <div class="flex justify-between items-center mb-4">
-          <h3 class="text-xl font-bold text-text-light dark:text-text-dark">Japan Event</h3>
-          
-        </div>
-        <div class="flex flex-col md:flex-row gap-6">
-          <img alt="Japan travel" class="w-full md:w-1/3 h-48 md:h-auto object-cover rounded-lg" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA6M-V6M-lJQTc48iIjkTSO00d9n_QzFqt5T-VDk7KK7byMRoITlrPIb8x4yW9o4F6a7bc4FOwBS9PcTxR7HQ9QfPSEI94GIZmlvh3e0WCGBmEV9lFonyTwUoEWadEbP5-W55POnkgNvCI1rWTwCjgaqEEJOw-Veb4TK7lr_KrSVt2uY1wLbIfoizky8Sq4Bge1u-2v81uSmLCya7t1pF5nzsx7zgSro_4fseriJHH6A-wl0C5QVEyY9WyizXsaEa7Aeuf9uQNfm9r0"/>
-          <div class="flex-1 space-y-3">
-            <div class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-background-dark">
-              <p class="font-bold text-lg text-text-muted-light dark:text-text-muted-dark">20 <span class="block text-xs font-normal">May</span></p>
-              <div>
-                <p class="font-semibold text-text-light dark:text-text-dark">The Weekend</p>
-                <p class="text-xs text-text-muted-light dark:text-text-muted-dark">The Glass Hall, Tokyo, Japan</p>
-              </div>
-            </div>
-            <div class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-background-dark">
-              <p class="font-bold text-lg text-text-muted-light dark:text-text-muted-dark">22 <span class="block text-xs font-normal">May</span></p>
-              <div>
-                <p class="font-semibold text-text-light dark:text-text-dark">Blackpink</p>
-                <p class="text-xs text-text-muted-light dark:text-text-muted-dark">The Glass Hall, Tokyo, Japan</p>
-              </div>
-            </div>
-            <div class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-background-dark">
-              <p class="font-bold text-lg text-text-muted-light dark:text-text-muted-dark">26 <span class="block text-xs font-normal">May</span></p>
-              <div>
-                <p class="font-semibold text-text-light dark:text-text-dark">Twice</p>
-                <p class="text-xs text-text-muted-light dark:text-text-muted-dark">The Glass Hall, Tokyo, Japan</p>
-          </div>
-        </div>
-            <div class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-background-dark">
-              <p class="font-bold text-lg text-text-muted-light dark:text-text-muted-dark">30 <span class="block text-xs font-normal">May</span></p>
-              <div>
-                <p class="font-semibold text-text-light dark:text-text-dark">Wanna one</p>
-                <p class="text-xs text-text-muted-light dark:text-text-muted-dark">The Glass Hall, Tokyo, Japan</p>
-      </div>
-    </div>
-            <div class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-background-dark">
-              <p class="font-bold text-lg text-text-muted-light dark:text-text-muted-dark">2 <span class="block text-xs font-normal">June</span></p>
-              <div>
-                <p class="font-semibold text-text-light dark:text-text-dark">BTS</p>
-                <p class="text-xs text-text-muted-light dark:text-text-muted-dark">The Glass Hall, Tokyo, Japan</p>
-              </div>
-        </div>
-          </div>
-        </div>
-      </div>
     </div>
 
     <div class="space-y-6">
@@ -358,7 +330,7 @@
           <div class="flex items-center justify-center gap-4 text-xs text-text-muted-light dark:text-text-muted-dark">
             <div class="flex items-center gap-1">
               <div class="w-1 h-1 bg-primary rounded-full"></div>
-              <span>Scheduled Events</span>
+              <span id="scheduledEventsTitle">Scheduled Events</span>
             </div>
           </div>
         </div>
@@ -468,62 +440,76 @@
 
 <!-- Reminder Selection Modal -->
 <div id="reminderModal" class="fixed inset-0 bg-black/30 hidden items-center justify-center z-[9999]">
-  <div class="bg-white dark:bg-card-dark rounded-lg shadow-xl w-full max-w-md mx-4 border border-border-light dark:border-border-dark relative">
-    <button id="closeReminderModal" class="absolute top-2 right-2 rounded-full p-2 hover:bg-gray-100 dark:hover:bg-white/10">
-      <span class="material-symbols-outlined">close</span>
+  <div class="bg-white dark:bg-card-dark rounded-lg shadow-xl w-full max-w-sm mx-4 border border-border-light dark:border-border-dark relative">
+    <button id="closeReminderModal" class="absolute top-2 right-2 rounded-full p-1.5 hover:bg-gray-100 dark:hover:bg-white/10">
+      <span class="material-symbols-outlined text-lg">close</span>
     </button>
-    <div class="p-6 pt-12">
-      <div class="mb-4">
-        <h3 class="text-lg font-semibold text-text-light dark:text-text-dark">Set Reminder</h3>
-        <p class="text-sm text-text-muted-light dark:text-text-muted-dark mt-1">Choose when you'd like to be reminded about this event</p>
+    <div class="p-4 pt-10">
+      <div class="mb-3">
+        <h3 class="text-base font-semibold text-text-light dark:text-text-dark">Set Reminder</h3>
+        <p class="text-xs text-text-muted-light dark:text-text-muted-dark mt-1">Choose when you'd like to be reminded about this event</p>
       </div>
       
-      <div id="eventInfo" class="mb-6 p-3 bg-gray-50 dark:bg-white/5 rounded-lg">
-        <h4 class="font-medium text-text-light dark:text-text-dark" id="reminderEventTitle"></h4>
-        <p class="text-sm text-text-muted-light dark:text-text-muted-dark" id="reminderEventDateTime"></p>
+      <div id="eventInfo" class="mb-4 p-2 bg-gray-50 dark:bg-white/5 rounded-lg">
+        <h4 class="font-medium text-sm text-text-light dark:text-text-dark" id="reminderEventTitle"></h4>
+        <p class="text-xs text-text-muted-light dark:text-text-muted-dark" id="reminderEventDateTime"></p>
       </div>
       
-      <div class="space-y-3">
-        <label class="flex items-center p-3 border border-border-light dark:border-border-dark rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
-          <input type="radio" name="reminderTime" value="1hour" class="mr-3">
+      <div class="space-y-2">
+        <label class="flex items-center p-2 border border-border-light dark:border-border-dark rounded cursor-pointer hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
+          <input type="radio" name="reminderTime" value="1hour" class="mr-2">
           <div>
-            <div class="font-medium text-text-light dark:text-text-dark">1 Hour Before</div>
-            <div class="text-sm text-text-muted-light dark:text-text-muted-dark">Quick reminder for immediate events</div>
+            <div class="font-medium text-sm text-text-light dark:text-text-dark">1 Hour Before</div>
+            <div class="text-xs text-text-muted-light dark:text-text-muted-dark">Quick reminder</div>
           </div>
         </label>
         
-        <label class="flex items-center p-3 border border-border-light dark:border-border-dark rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
-          <input type="radio" name="reminderTime" value="1day" class="mr-3">
+        <label class="flex items-center p-2 border border-border-light dark:border-border-dark rounded cursor-pointer hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
+          <input type="radio" name="reminderTime" value="1day" class="mr-2">
           <div>
-            <div class="font-medium text-text-light dark:text-text-dark">1 Day Before</div>
-            <div class="text-sm text-text-muted-light dark:text-text-muted-dark">Standard advance notice</div>
+            <div class="font-medium text-sm text-text-light dark:text-text-dark">1 Day Before</div>
+            <div class="text-xs text-text-muted-light dark:text-text-muted-dark">Standard notice</div>
           </div>
         </label>
         
-        <label class="flex items-center p-3 border border-border-light dark:border-border-dark rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
-          <input type="radio" name="reminderTime" value="1week" class="mr-3">
+        <label class="flex items-center p-2 border border-border-light dark:border-border-dark rounded cursor-pointer hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
+          <input type="radio" name="reminderTime" value="1week" class="mr-2">
           <div>
-            <div class="font-medium text-text-light dark:text-text-dark">1 Week Before</div>
-            <div class="text-sm text-text-muted-light dark:text-text-muted-dark">Early planning reminder</div>
+            <div class="font-medium text-sm text-text-light dark:text-text-dark">1 Week Before</div>
+            <div class="text-xs text-text-muted-light dark:text-text-muted-dark">Early planning</div>
           </div>
         </label>
         
-        <label class="flex items-center p-3 border border-border-light dark:border-border-dark rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
-          <input type="radio" name="reminderTime" value="custom" class="mr-3">
+        <label class="flex items-start p-2 border border-border-light dark:border-border-dark rounded cursor-pointer hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
+          <input type="radio" name="reminderTime" value="custom" class="mr-2 mt-1">
           <div class="flex-1">
-            <div class="font-medium text-text-light dark:text-text-dark">Custom Time</div>
-            <div class="text-sm text-text-muted-light dark:text-text-muted-dark mb-2">Set your own reminder time</div>
-            <div class="flex items-center gap-2">
-              <input type="number" id="customDays" min="0" max="365" class="w-16 px-2 py-1 border border-border-light dark:border-border-dark rounded text-sm bg-transparent" placeholder="0">
-              <span class="text-sm text-text-muted-light dark:text-text-muted-dark">days before</span>
+            <div class="font-medium text-sm text-text-light dark:text-text-dark">Custom Date & Time</div>
+            <div class="mt-2 space-y-2">
+              <div class="flex items-center gap-2">
+                <span class="text-xs text-text-muted-light dark:text-text-muted-dark">Date:</span>
+                <input type="date" id="customDate" class="px-2 py-1 border border-border-light dark:border-border-dark rounded text-xs bg-transparent flex-1">
+                <button type="button" onclick="setToday()" class="px-2 py-1 text-xs bg-primary/10 text-primary rounded hover:bg-primary/20">Today</button>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="text-xs text-text-muted-light dark:text-text-muted-dark">Time:</span>
+                <input type="time" id="customTime" class="px-2 py-1 border border-border-light dark:border-border-dark rounded text-xs bg-transparent flex-1">
+                <button type="button" onclick="setCurrentTime()" class="px-2 py-1 text-xs bg-primary/10 text-primary rounded hover:bg-primary/20">Now</button>
+              </div>
+              <div class="text-xs text-text-muted-light dark:text-text-muted-dark">
+                Or specify days before:
+              </div>
+              <div class="flex items-center gap-2">
+                <input type="number" id="customDays" min="0" max="365" class="w-12 px-1 py-0.5 border border-border-light dark:border-border-dark rounded text-xs bg-transparent" placeholder="0">
+                <span class="text-xs text-text-muted-light dark:text-text-muted-dark">days before</span>
+              </div>
             </div>
           </div>
         </label>
       </div>
       
-      <div class="flex items-center justify-end mt-6 gap-3">
-        <button id="cancelReminder" class="px-4 py-2 text-text-muted-light dark:text-text-muted-dark hover:text-text-light dark:hover:text-text-dark transition-colors">Cancel</button>
-        <button id="setReminder" class="bg-primary text-white px-6 py-2 rounded-lg hover:bg-primary/90 font-medium">Set Reminder</button>
+      <div class="flex items-center justify-end mt-4 gap-2">
+        <button id="cancelReminder" class="px-3 py-1.5 text-sm text-text-muted-light dark:text-text-muted-dark hover:text-text-light dark:hover:text-text-dark transition-colors">Cancel</button>
+        <button id="setReminder" class="bg-primary text-white px-4 py-1.5 rounded text-sm font-medium hover:bg-primary/90">Set Reminder</button>
       </div>
     </div>
   </div>
@@ -732,7 +718,7 @@
             closeAddEvent && closeAddEvent.addEventListener('click', closeModal);
             cancelAddEvent && cancelAddEvent.addEventListener('click', closeModal);
 
-            saveAddEvent && saveAddEvent.addEventListener('click', () => {
+            saveAddEvent && saveAddEvent.addEventListener('click', async () => {
                 // Get event data from modal
                 const title = document.getElementById('evTitle').value || 'Untitled Event';
                 const date = document.getElementById('evDate').value;
@@ -746,60 +732,192 @@
                     return;
                 }
                 
-                // Check if event is in the future (for upcoming events section only)
-                const eventDate = new Date(date);
-                const today = new Date();
-                today.setHours(0, 0, 0, 0); // Reset time to start of day for comparison
+                // Parse time range to get start and end times
+                const timeMatch = timeRange.match(/(\d{1,2}:\d{2})\s*(AM|PM)?\s*-\s*(\d{1,2}:\d{2})\s*(AM|PM)?/i);
+                let startTime = '09:00:00';
+                let endTime = '17:00:00';
                 
-                const isFutureEvent = eventDate >= today;
-                
-                // Create event object with assigned image
-                const eventData = {
-                    id: Date.now(), // Simple ID generation
-                    title: title.trim(),
-                    date: date,
-                    timeRange: timeRange,
-                    location: location.trim(),
-                    description: description.trim(),
-                    imageUrl: getRandomEventImage(), // Assign image once and store it
-                    createdAt: new Date().toISOString()
-                };
-                
-                // Save to localStorage (all events, regardless of date)
-                const savedEvents = JSON.parse(localStorage.getItem('upcomingEvents') || '[]');
-                savedEvents.push(eventData);
-                localStorage.setItem('upcomingEvents', JSON.stringify(savedEvents));
-                
-                // Debug logging
-                console.log('Event saved:', eventData);
-                console.log('All saved events:', savedEvents);
-                
-                // Add to upcoming events section only if it's a future event
-                if (isFutureEvent) {
-                    addEventToUpcomingSection(eventData);
+                if (timeMatch) {
+                    startTime = parseTime(timeMatch[1], timeMatch[2]);
+                    endTime = parseTime(timeMatch[3], timeMatch[4]);
                 }
                 
-                // Refresh today's events if the new event is today
-                loadTodayEvents();
+                // Create event object for database
+                const eventData = {
+                    title: title.trim(),
+                    type: 'event',
+                    location: location.trim(),
+                    start_time: startTime,
+                    end_time: endTime,
+                    date: date,
+                    category: 'General',
+                    description: description.trim(),
+                    image_url: getRandomEventImage(),
+                    eligible_for_awards: 0
+                };
                 
-                // Refresh calendar to show event indicators
-                setTimeout(() => {
-                    if (typeof window.renderCalendar === 'function') {
-                        console.log('Refreshing calendar...');
-                        window.renderCalendar();
+                try {
+                    // Check if we're running in file mode (can't make HTTP requests)
+                    const isFileProtocol = window.location.protocol === 'file:';
+                    
+                    if (isFileProtocol) {
+                        console.log('Running in file mode - saving to localStorage only');
+                        throw new Error('File mode - database not available');
                     }
-                }, 100);
-                
-                // Clear form
-                document.getElementById('evTitle').value = '';
-                document.getElementById('evDate').value = '';
-                document.getElementById('evTimeRangeText').textContent = '--:-- -- - --:-- --';
-                document.getElementById('evLocation').value = '';
-                document.getElementById('evDesc').value = '';
-                
-                // Close modal
-                closeModal();
+                    
+                    // Save to database
+                    const response = await fetch('api/events.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        },
+                        body: JSON.stringify(eventData)
+                    });
+                    
+                    let result;
+                    if (response.ok) {
+                        const responseText = await response.text();
+                        try {
+                            result = JSON.parse(responseText);
+                        } catch (parseError) {
+                            console.error('Failed to parse save response as JSON:', parseError);
+                            console.log('Response was:', responseText);
+                            throw new Error('API returned invalid JSON');
+                        }
+                    } else {
+                        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                    }
+                    
+                    if (response.ok && result.success) {
+                        // Database save successful
+                        console.log('Event saved to database:', result);
+                        
+                        // Create frontend event object
+                        const frontendEventData = {
+                            id: result.id,
+                            title: eventData.title,
+                            date: eventData.date,
+                            timeRange: timeRange,
+                            location: eventData.location,
+                            description: eventData.description,
+                            imageUrl: eventData.image_url,
+                            createdAt: new Date().toISOString()
+                        };
+                        
+                        // Also save to localStorage as backup
+                        const savedEvents = JSON.parse(localStorage.getItem('upcomingEvents') || '[]');
+                        savedEvents.push(frontendEventData);
+                        localStorage.setItem('upcomingEvents', JSON.stringify(savedEvents));
+                        
+                        // Check if event is in the future (for upcoming events section only)
+                        const eventDate = new Date(date);
+                        const today = new Date();
+                        today.setHours(0, 0, 0, 0);
+                        const isFutureEvent = eventDate >= today;
+                        
+                        // Add to upcoming events section only if it's a future event
+                        if (isFutureEvent) {
+                            addEventToUpcomingSection(frontendEventData);
+                        }
+                        
+                        // Refresh today's events if the new event is today
+                        loadTodayEvents();
+                        
+                        // Refresh completed events (in case this was a past event)
+                        loadCompletedEvents();
+                        
+                        // Refresh calendar to show event indicators
+                        setTimeout(() => {
+                            if (typeof window.renderCalendar === 'function') {
+                                console.log('Refreshing calendar...');
+                                window.renderCalendar();
+                            }
+                        }, 100);
+                        
+                        // Clear form
+                        document.getElementById('evTitle').value = '';
+                        document.getElementById('evDate').value = '';
+                        document.getElementById('evTimeRangeText').textContent = '--:-- -- - --:-- --';
+                        document.getElementById('evLocation').value = '';
+                        document.getElementById('evDesc').value = '';
+                        
+                        // Close modal
+                        closeModal();
+                        
+                    } else {
+                        throw new Error(result.error || 'Failed to save event to database');
+                    }
+                    
+                } catch (error) {
+                    console.error('Database save failed, falling back to localStorage:', error);
+                    
+                    // Fallback to localStorage if database fails
+                    const fallbackEventData = {
+                        id: Date.now(),
+                        title: title.trim(),
+                        date: date,
+                        timeRange: timeRange,
+                        location: location.trim(),
+                        description: description.trim(),
+                        imageUrl: getRandomEventImage(),
+                        createdAt: new Date().toISOString()
+                    };
+                    
+                    const savedEvents = JSON.parse(localStorage.getItem('upcomingEvents') || '[]');
+                    savedEvents.push(fallbackEventData);
+                    localStorage.setItem('upcomingEvents', JSON.stringify(savedEvents));
+                    
+                    // Check if event is in the future
+                    const eventDate = new Date(date);
+                    const today = new Date();
+                    today.setHours(0, 0, 0, 0);
+                    const isFutureEvent = eventDate >= today;
+                    
+                    if (isFutureEvent) {
+                        addEventToUpcomingSection(fallbackEventData);
+                    }
+                    
+                    loadTodayEvents();
+                    
+                    // Refresh completed events
+                    loadCompletedEvents();
+                    
+                    setTimeout(() => {
+                        if (typeof window.renderCalendar === 'function') {
+                            window.renderCalendar();
+                        }
+                    }, 100);
+                    
+                    // Clear form and close modal
+                    document.getElementById('evTitle').value = '';
+                    document.getElementById('evDate').value = '';
+                    document.getElementById('evTimeRangeText').textContent = '--:-- -- - --:-- --';
+                    document.getElementById('evLocation').value = '';
+                    document.getElementById('evDesc').value = '';
+                    closeModal();
+                    
+                    alert('Event saved locally. Database connection failed.');
+                }
             });
+
+            // Helper function to parse time format
+            function parseTime(timeStr, ampm) {
+                if (!timeStr) return '09:00:00';
+                
+                let [hours, minutes] = timeStr.split(':');
+                hours = parseInt(hours);
+                minutes = parseInt(minutes) || 0;
+                
+                // Handle AM/PM
+                if (ampm && ampm.toUpperCase() === 'PM' && hours !== 12) {
+                    hours += 12;
+                } else if (ampm && ampm.toUpperCase() === 'AM' && hours === 12) {
+                    hours = 0;
+                }
+                
+                return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:00`;
+            }
 
             // Function to create a fallback data URL image
             function createFallbackImage(title) {
@@ -851,40 +969,41 @@
 
             // Function to get unique random event image
             function getRandomEventImage() {
+                // Use multiple reliable image sources for better success rate
                 const eventImages = [
-                    // More reliable image sources - using direct image URLs
-                    'https://source.unsplash.com/400x200/?conference',
-                    'https://source.unsplash.com/400x200/?meeting',
-                    'https://source.unsplash.com/400x200/?event',
-                    'https://source.unsplash.com/400x200/?business',
-                    'https://source.unsplash.com/400x200/?workshop',
-                    'https://source.unsplash.com/400x200/?seminar',
-                    'https://source.unsplash.com/400x200/?training',
-                    'https://source.unsplash.com/400x200/?presentation',
-                    'https://source.unsplash.com/400x200/?networking',
-                    'https://source.unsplash.com/400x200/?education',
-                    'https://source.unsplash.com/400x200/?technology',
-                    'https://source.unsplash.com/400x200/?innovation',
-                    'https://source.unsplash.com/400x200/?teamwork',
-                    'https://source.unsplash.com/400x200/?collaboration',
-                    'https://source.unsplash.com/400x200/?development',
-                    'https://source.unsplash.com/400x200/?learning',
-                    'https://source.unsplash.com/400x200/?community',
-                    'https://source.unsplash.com/400x200/?celebration',
-                    'https://source.unsplash.com/400x200/?achievement',
-                    'https://source.unsplash.com/400x200/?success',
+                    // Picsum Photos - Very reliable service
+                    'https://picsum.photos/400/200?random=' + Math.floor(Math.random() * 1000),
+                    'https://picsum.photos/400/200?random=' + Math.floor(Math.random() * 1000),
+                    'https://picsum.photos/400/200?random=' + Math.floor(Math.random() * 1000),
+                    'https://picsum.photos/400/200?random=' + Math.floor(Math.random() * 1000),
+                    'https://picsum.photos/400/200?random=' + Math.floor(Math.random() * 1000),
+                    'https://picsum.photos/400/200?random=' + Math.floor(Math.random() * 1000),
+                    'https://picsum.photos/400/200?random=' + Math.floor(Math.random() * 1000),
+                    'https://picsum.photos/400/200?random=' + Math.floor(Math.random() * 1000),
+                    'https://picsum.photos/400/200?random=' + Math.floor(Math.random() * 1000),
+                    'https://picsum.photos/400/200?random=' + Math.floor(Math.random() * 1000),
                     
                     // Additional reliable sources
+                    'https://source.unsplash.com/400x200/?business',
+                    'https://source.unsplash.com/400x200/?meeting',
+                    'https://source.unsplash.com/400x200/?conference',
+                    'https://source.unsplash.com/400x200/?event',
+                    'https://source.unsplash.com/400x200/?workshop',
+                    'https://source.unsplash.com/400x200/?seminar',
+                    'https://source.unsplash.com/400x200/?presentation',
+                    'https://source.unsplash.com/400x200/?education',
+                    'https://source.unsplash.com/400x200/?technology',
                     'https://source.unsplash.com/400x200/?office',
-                    'https://source.unsplash.com/400x200/?professional',
-                    'https://source.unsplash.com/400x200/?leadership',
-                    'https://source.unsplash.com/400x200/?growth',
-                    'https://source.unsplash.com/400x200/?future',
-                    'https://source.unsplash.com/400x200/?progress',
-                    'https://source.unsplash.com/400x200/?inspiration',
-                    'https://source.unsplash.com/400x200/?motivation',
-                    'https://source.unsplash.com/400x200/?goals',
-                    'https://source.unsplash.com/400x200/?vision'
+                    'https://source.unsplash.com/400x200/?teamwork',
+                    'https://source.unsplash.com/400x200/?success',
+                    'https://source.unsplash.com/400x200/?achievement',
+                    'https://source.unsplash.com/400x200/?celebration',
+                    'https://source.unsplash.com/400x200/?graduation',
+                    'https://source.unsplash.com/400x200/?ceremony',
+                    'https://source.unsplash.com/400x200/?training',
+                    'https://source.unsplash.com/400x200/?learning',
+                    'https://source.unsplash.com/400x200/?community',
+                    'https://source.unsplash.com/400x200/?innovation'
                 ];
                 
                 // Get currently used images from stored events
@@ -929,13 +1048,14 @@
                 eventCard.setAttribute('data-dynamic', 'true');
                 eventCard.setAttribute('data-event-id', eventData.id);
                 eventCard.innerHTML = `
-                    <div class="w-full h-32 bg-gradient-to-br from-primary/20 to-primary/40 rounded-lg flex items-center justify-center overflow-hidden">
-                        <img alt="${eventData.title} banner" class="w-full h-full object-cover rounded-lg" 
-                             src="${eventImage}" 
+                    <div class="w-full h-32 bg-gradient-to-br from-primary/20 to-primary/40 rounded-lg overflow-hidden relative">
+                        <img alt="${eventData.title} banner" 
+                             class="w-full h-full object-cover rounded-lg transition-opacity duration-300" 
+                             src="${eventImage}"
                              onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
                              onload="this.nextElementSibling.style.display='none';"
                              loading="lazy"/>
-                        <div class="hidden w-full h-full bg-gradient-to-br from-primary/30 to-primary/50 rounded-lg flex items-center justify-center">
+                        <div class="hidden absolute inset-0 bg-gradient-to-br from-primary/30 to-primary/50 rounded-lg flex items-center justify-center">
                             <div class="text-center text-white">
                                 <span class="material-symbols-outlined text-4xl mb-2">event</span>
                                 <p class="text-sm font-medium">${eventData.title.toUpperCase()}</p>
@@ -993,45 +1113,140 @@
                 // If no saved events, keep the original static content (do nothing)
             }
 
-            // Function to load today's events
-            function loadTodayEvents() {
+            // Function to load completed events (past events)
+            function loadCompletedEvents() {
+                const savedEvents = JSON.parse(localStorage.getItem('upcomingEvents') || '[]');
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+                
+                // Filter past events and sort by date (most recent first)
+                const pastEvents = savedEvents
+                    .filter(event => new Date(event.date) < today)
+                    .sort((a, b) => new Date(b.date) - new Date(a.date))
+                    .slice(0, 3); // Show only the last 3 completed events
+                
+                const completedEventsContainer = document.getElementById('completedEventsContainer');
+                if (!completedEventsContainer) return;
+                
+                // If we have past events, replace the static content
+                if (pastEvents.length > 0) {
+                    completedEventsContainer.innerHTML = '';
+                    
+                    // Add past events
+                    pastEvents.forEach(event => {
+                        addCompletedEventCard(event);
+                    });
+                } else {
+                    // If no past events, show placeholder cards
+                    showCompletedEventsPlaceholder();
+                }
+            }
+            
+            // Function to add a completed event card
+            function addCompletedEventCard(eventData) {
+                const completedEventsContainer = document.getElementById('completedEventsContainer');
+                if (!completedEventsContainer) return;
+                
+                // Use the event's stored image or generate a fallback
+                const eventImage = eventData.imageUrl || getRandomEventImage();
+                
+                const eventCard = document.createElement('div');
+                eventCard.className = 'relative rounded-lg overflow-hidden';
+                eventCard.innerHTML = `
+                    <img alt="${eventData.title}" class="w-full h-24 object-cover" src="${eventImage}"/>
+                    <div class="absolute inset-0 bg-black/40 flex items-center justify-center">
+                        <p class="text-white font-bold text-lg">${eventData.title}</p>
+                    </div>
+                `;
+                
+                completedEventsContainer.appendChild(eventCard);
+            }
+            
+            // Function to show placeholder cards when no completed events exist
+            function showCompletedEventsPlaceholder() {
+                const completedEventsContainer = document.getElementById('completedEventsContainer');
+                if (!completedEventsContainer) return;
+                
+                const placeholderEvents = [
+                    { title: 'No Recent Events', image: 'https://via.placeholder.com/300x100/6b7280/ffffff?text=No+Events' },
+                    { title: 'Check Back Later', image: 'https://via.placeholder.com/300x100/6b7280/ffffff?text=Check+Back' },
+                    { title: 'Events Coming Soon', image: 'https://via.placeholder.com/300x100/6b7280/ffffff?text=Coming+Soon' }
+                ];
+                
+                completedEventsContainer.innerHTML = '';
+                
+                placeholderEvents.forEach(placeholder => {
+                    const eventCard = document.createElement('div');
+                    eventCard.className = 'relative rounded-lg overflow-hidden opacity-60';
+                    eventCard.innerHTML = `
+                        <img alt="${placeholder.title}" class="w-full h-24 object-cover" src="${placeholder.image}"/>
+                        <div class="absolute inset-0 bg-black/40 flex items-center justify-center">
+                            <p class="text-white font-bold text-lg">${placeholder.title}</p>
+                        </div>
+                    `;
+                    
+                    completedEventsContainer.appendChild(eventCard);
+                });
+            }
+
+            // Function to select a calendar date and load its events
+            window.selectCalendarDate = function(dateString) {
+                window.selectedCalendarDate = dateString;
+                console.log('Selected date:', dateString);
+                
+                // Re-render calendar to update highlighting
+                window.renderCalendar();
+                
+                // Load events for selected date
+                loadEventsForDate(dateString);
+            };
+
+            // Function to load events for a specific date
+            function loadEventsForDate(dateString) {
                 const todayEventsContainer = document.getElementById('todayEventsContainer');
+                const scheduledEventsTitle = document.getElementById('scheduledEventsTitle');
                 if (!todayEventsContainer) return;
                 
                 const savedEvents = JSON.parse(localStorage.getItem('upcomingEvents') || '[]');
-                const today = new Date();
-                const todayString = today.toISOString().split('T')[0]; // Format: YYYY-MM-DD
-                
-                // Filter events for today and limit to 5
-                const todayEvents = savedEvents.filter(event => event.date === todayString).slice(0, 5);
+                const eventsForDate = savedEvents.filter(event => event.date === dateString).slice(0, 5);
                 
                 // Clear container
                 todayEventsContainer.innerHTML = '';
                 
-                if (todayEvents.length === 0) {
+                // Format date for display
+                const dateObj = new Date(dateString);
+                const formattedDate = dateObj.toLocaleDateString('en-US', { 
+                    weekday: 'long', 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                });
+                
+                // Update section title
+                if (scheduledEventsTitle) {
+                    scheduledEventsTitle.textContent = `Events for ${formattedDate}`;
+                }
+                
+                if (eventsForDate.length === 0) {
                     // Show "No events" message
                     todayEventsContainer.innerHTML = `
                         <div class="text-center py-8">
                             <span class="material-symbols-outlined text-4xl text-text-muted-light dark:text-text-muted-dark mb-2">event_busy</span>
-                            <p class="text-text-muted-light dark:text-text-muted-dark">No events scheduled for today</p>
+                            <p class="text-text-muted-light dark:text-text-muted-dark">No events scheduled for ${formattedDate}</p>
                         </div>
                     `;
                 } else {
-                    // Display today's events (max 5)
-                    todayEvents.forEach(event => {
-                        const eventDate = new Date(event.date);
-                        const dayOfWeek = eventDate.toLocaleDateString('en-US', { weekday: 'short' });
-                        const dayOfMonth = eventDate.getDate();
-                        
+                    // Show events for the selected date
+                    eventsForDate.forEach(event => {
                         const eventElement = document.createElement('div');
-                        eventElement.className = 'flex gap-4 items-start';
+                        eventElement.className = 'flex items-start space-x-3 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg';
                         eventElement.innerHTML = `
-                            <div class="text-center">
-                                <p class="font-bold text-primary">${dayOfMonth}</p>
-                                <p class="text-xs text-text-muted-light dark:text-text-muted-dark">${dayOfWeek}</p>
+                            <div class="flex-shrink-0">
+                                <div class="w-2 h-2 bg-primary rounded-full mt-2"></div>
                             </div>
-                            <div class="border-l-2 border-primary pl-4">
-                                <p class="font-semibold text-sm text-text-light dark:text-text-dark">${event.title.toUpperCase()}</p>
+                            <div class="flex-1 min-w-0">
+                                <h4 class="text-sm font-medium text-text-light dark:text-text-dark">${event.title}</h4>
+                                <p class="text-xs text-text-muted-light dark:text-text-muted-dark"><span class="material-symbols-outlined text-xs align-middle">schedule</span> ${event.timeRange}</p>
                                 <p class="text-xs text-text-muted-light dark:text-text-muted-dark"><span class="material-symbols-outlined text-xs align-middle">location_on</span> ${event.location || 'Location not specified'}</p>
                             </div>
                         `;
@@ -1040,9 +1255,185 @@
                 }
             }
 
-            // Load events when page loads
-            loadUpcomingEvents();
-            loadTodayEvents();
+            // Function to load today's events (now just calls loadEventsForDate with today's date)
+            function loadTodayEvents() {
+                const today = new Date();
+                const todayString = today.toISOString().split('T')[0]; // Format: YYYY-MM-DD
+                
+                // Set today as selected if no date is selected yet
+                if (!window.selectedCalendarDate) {
+                    window.selectedCalendarDate = todayString;
+                }
+                
+                // Load events for today
+                loadEventsForDate(todayString);
+            }
+
+            // Function to load events from database
+            async function loadEventsFromDatabase() {
+                try {
+                    // Check if we're running on localhost (server mode) or file:// (direct file access)
+                    const isLocalhost = window.location.protocol === 'http:' && window.location.hostname === 'localhost';
+                    const isFileProtocol = window.location.protocol === 'file:';
+                    
+                    if (isFileProtocol) {
+                        console.log('Running in file mode - skipping database load, using localStorage only');
+                        loadUpcomingEvents();
+                        loadTodayEvents();
+                        return false;
+                    }
+                    
+                    const response = await fetch('api/events.php?action=calendar', {
+                        method: 'GET',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        }
+                    });
+                    
+                    if (response.ok) {
+                        const responseText = await response.text();
+                        console.log('Raw API response:', responseText);
+                        
+                        let dbEvents;
+                        try {
+                            dbEvents = JSON.parse(responseText);
+                        } catch (parseError) {
+                            console.error('Failed to parse API response as JSON:', parseError);
+                            console.log('Response was:', responseText);
+                            throw new Error('API returned invalid JSON');
+                        }
+                        
+                        console.log('Events loaded from database:', dbEvents);
+                        
+                        // Convert database events to localStorage format for compatibility
+                        const convertedEvents = dbEvents.map(event => ({
+                            id: event.id,
+                            title: event.title,
+                            date: event.date,
+                            timeRange: event.timeRange,
+                            location: event.location,
+                            description: event.description,
+                            imageUrl: event.imageUrl,
+                            createdAt: event.createdAt
+                        }));
+                        
+                        // Save to localStorage for compatibility with existing functions
+                        localStorage.setItem('upcomingEvents', JSON.stringify(convertedEvents));
+                        
+                        // Reload the UI with database events
+                        loadUpcomingEvents();
+                        loadTodayEvents();
+                        loadCompletedEvents();
+                        
+                        // Refresh calendar if function exists
+                        if (typeof window.renderCalendar === 'function') {
+                            window.renderCalendar();
+                        }
+                        
+                        return true;
+                    } else {
+                        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                    }
+                } catch (error) {
+                    console.error('Failed to load events from database:', error);
+                    
+                    // Show user-friendly message for common issues
+                    if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
+                        console.log('Database server appears to be offline. Using localStorage fallback.');
+                    } else if (error.message.includes('invalid JSON')) {
+                        console.log('Database server returned invalid response. Using localStorage fallback.');
+                    }
+                    
+                    // Fall back to localStorage
+                    loadUpcomingEvents();
+                    loadTodayEvents();
+                    loadCompletedEvents();
+                    return false;
+                }
+            }
+
+            // Function to create sample past events for demonstration
+            function createSamplePastEvents() {
+                const savedEvents = JSON.parse(localStorage.getItem('upcomingEvents') || '[]');
+                const today = new Date();
+                const hasPastEvents = savedEvents.some(event => new Date(event.date) < today);
+                
+                // Only create sample events if none exist
+                if (!hasPastEvents) {
+                    const samplePastEvents = [
+                        {
+                            id: Date.now() + 1,
+                            title: 'Tech Conference 2024',
+                            date: '2024-11-15',
+                            timeRange: '09:00 - 17:00',
+                            location: 'San Francisco, CA',
+                            description: 'Annual technology conference featuring latest innovations',
+                            imageUrl: getRandomEventImage(),
+                            createdAt: new Date().toISOString()
+                        },
+                        {
+                            id: Date.now() + 2,
+                            title: 'Art Exhibition Opening',
+                            date: '2024-10-20',
+                            timeRange: '18:00 - 21:00',
+                            location: 'New York, NY',
+                            description: 'Contemporary art exhibition opening night',
+                            imageUrl: getRandomEventImage(),
+                            createdAt: new Date().toISOString()
+                        },
+                        {
+                            id: Date.now() + 3,
+                            title: 'Music Festival',
+                            date: '2024-09-05',
+                            timeRange: '14:00 - 23:00',
+                            location: 'Austin, TX',
+                            description: 'Summer music festival with multiple stages',
+                            imageUrl: getRandomEventImage(),
+                            createdAt: new Date().toISOString()
+                        }
+                    ];
+                    
+                    // Add sample events to localStorage
+                    const allEvents = [...savedEvents, ...samplePastEvents];
+                    localStorage.setItem('upcomingEvents', JSON.stringify(allEvents));
+                    
+                    console.log('Created sample past events for demonstration');
+                }
+            }
+
+            // Load events when page loads - try database first, fallback to localStorage
+            loadEventsFromDatabase();
+            
+            // Create sample past events if none exist (for demonstration)
+            createSamplePastEvents();
+            
+            // Show helpful message about server mode
+            document.addEventListener('DOMContentLoaded', () => {
+                const isFileProtocol = window.location.protocol === 'file:';
+                if (isFileProtocol) {
+                    console.log(`
+🚀 LILAC Events System - File Mode
+===================================
+You're running in file mode (opening HTML directly).
+For full database functionality, please:
+
+1. Open Command Prompt/PowerShell
+2. Navigate to the project folder:
+   cd "C:\\Users\\Admin\\Documents\\GitHub\\LILAC-v.2.1"
+3. Start the PHP server:
+   php -S localhost:8000
+4. Open in browser: http://localhost:8000/events-activities.html
+
+Current mode: localStorage only (events will persist in browser)
+                    `);
+                } else {
+                    console.log('🚀 LILAC Events System - Server Mode (Full database functionality enabled)');
+                }
+                
+                // Load completed events after DOM is ready
+                loadCompletedEvents();
+            });
 
             // Reminder System Functionality
             let currentReminderEvent = null;
@@ -1075,6 +1466,8 @@
                         radio.checked = false;
                     });
                     document.getElementById('customDays').value = '';
+                    document.getElementById('customDate').value = '';
+                    document.getElementById('customTime').value = '';
                 }
             }
 
@@ -1103,12 +1496,27 @@
                         reminderTime = new Date(eventDate.getTime() - (7 * 24 * 60 * 60 * 1000)); // 1 week before
                         break;
                     case 'custom':
+                        // Check if custom date and time are provided
+                        const customDate = document.getElementById('customDate').value;
+                        const customTime = document.getElementById('customTime').value;
                         const customDays = parseInt(document.getElementById('customDays').value);
-                        if (isNaN(customDays) || customDays < 0) {
-                            alert('Please enter a valid number of days.');
+                        
+                        if (customDate && customTime) {
+                            // Use specific date and time
+                            reminderTime = new Date(`${customDate}T${customTime}`);
+                            console.log('Custom date/time reminder set:', {
+                                customDate: customDate,
+                                customTime: customTime,
+                                reminderTime: reminderTime.toISOString(),
+                                currentTime: new Date().toISOString()
+                            });
+                        } else if (customDays && !isNaN(customDays) && customDays >= 0) {
+                            // Use days before event
+                            reminderTime = new Date(eventDate.getTime() - (customDays * 24 * 60 * 60 * 1000));
+                        } else {
+                            alert('Please specify either a custom date & time or number of days before the event.');
                             return;
                         }
-                        reminderTime = new Date(eventDate.getTime() - (customDays * 24 * 60 * 60 * 1000));
                         break;
                 }
 
@@ -1116,6 +1524,23 @@
                 if (reminderTime <= new Date()) {
                     alert('Reminder time cannot be in the past. Please choose a different time.');
                     return;
+                }
+
+                // Check if reminder already exists for this event
+                const savedReminders = JSON.parse(localStorage.getItem('eventReminders') || '[]');
+                const existingReminder = savedReminders.find(r => r.eventId === currentReminderEvent.id);
+                
+                if (existingReminder) {
+                    const shouldReplace = confirm(`A reminder has already been set for this event.\n\nCurrent reminder: ${formatReminderDate(new Date(existingReminder.reminderTime))}\n\nDo you want to replace it with a new reminder?`);
+                    
+                    if (shouldReplace) {
+                        // Remove existing reminder
+                        const updatedReminders = savedReminders.filter(r => r.eventId !== currentReminderEvent.id);
+                        localStorage.setItem('eventReminders', JSON.stringify(updatedReminders));
+                        updateReminderButton(currentReminderEvent.id, false);
+                    } else {
+                        return; // User cancelled
+                    }
                 }
 
                 // Store reminder
@@ -1131,12 +1556,12 @@
                 };
 
                 // Save to localStorage
-                const savedReminders = JSON.parse(localStorage.getItem('eventReminders') || '[]');
                 savedReminders.push(reminder);
                 localStorage.setItem('eventReminders', JSON.stringify(savedReminders));
 
-                // Show confirmation
-                alert(`Reminder set for ${formatReminderDate(reminderTime)}!`);
+                // Show confirmation with more details
+                const confirmationMessage = `Reminder set successfully!\n\nEvent: ${currentReminderEvent.title}\nReminder Time: ${formatReminderDate(reminderTime)}\n\nYou will be notified at this time.`;
+                alert(confirmationMessage);
                 
                 // Close modal
                 closeReminderModal();
@@ -1148,19 +1573,55 @@
             // Function to format reminder date
             function formatReminderDate(date) {
                 const now = new Date();
-                const diffTime = date.getTime() - now.getTime();
-                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                const reminderDate = new Date(date);
+                
+                // Get dates without time for comparison
+                const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+                const reminderDay = new Date(reminderDate.getFullYear(), reminderDate.getMonth(), reminderDate.getDate());
+                const tomorrow = new Date(today);
+                tomorrow.setDate(tomorrow.getDate() + 1);
+                
+                // Calculate difference in days
+                const diffTime = reminderDay.getTime() - today.getTime();
+                const diffDays = Math.round(diffTime / (1000 * 60 * 60 * 24));
+                
+                console.log('Reminder formatting debug:', {
+                    now: now.toISOString(),
+                    reminderDate: reminderDate.toISOString(),
+                    today: today.toISOString(),
+                    reminderDay: reminderDay.toISOString(),
+                    diffDays: diffDays
+                });
                 
                 if (diffDays === 0) {
-                    return 'today at ' + date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                    return 'today at ' + reminderDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
                 } else if (diffDays === 1) {
-                    return 'tomorrow at ' + date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                    return 'tomorrow at ' + reminderDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
                 } else if (diffDays > 1) {
-                    return `in ${diffDays} days at ` + date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                    return `in ${diffDays} days at ` + reminderDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
                 } else {
-                    return date.toLocaleDateString() + ' at ' + date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                    return reminderDate.toLocaleDateString() + ' at ' + reminderDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
                 }
             }
+
+            // Helper functions for reminder modal
+            function setToday() {
+                const today = new Date();
+                const dateString = today.toISOString().split('T')[0]; // Format: YYYY-MM-DD
+                document.getElementById('customDate').value = dateString;
+                console.log('Set today\'s date:', dateString);
+            }
+            
+            function setCurrentTime() {
+                const now = new Date();
+                const timeString = now.toTimeString().slice(0, 5); // Format: HH:MM
+                document.getElementById('customTime').value = timeString;
+                console.log('Set current time:', timeString);
+            }
+            
+            // Make functions globally available
+            window.setToday = setToday;
+            window.setCurrentTime = setCurrentTime;
 
             // Function to update reminder button state
             function updateReminderButton(eventId, hasReminder) {
@@ -1181,6 +1642,7 @@
             // Function to check for reminders
             function checkReminders() {
                 const savedReminders = JSON.parse(localStorage.getItem('eventReminders') || '[]');
+                const shownNotifications = JSON.parse(localStorage.getItem('shownNotifications') || '[]');
                 const now = new Date();
                 
                 savedReminders.forEach(reminder => {
@@ -1188,9 +1650,27 @@
                     
                     // Check if it's time to show the reminder (within 1 minute)
                     if (Math.abs(now.getTime() - reminderTime.getTime()) <= 60000) {
-                        showNotification(reminder);
+                        // Check if notification has already been shown for this reminder
+                        const alreadyShown = shownNotifications.some(shown => shown.reminderId === reminder.id);
                         
-                        // Remove the reminder after showing
+                        if (!alreadyShown) {
+                            showNotification(reminder);
+                            
+                            // Mark notification as shown
+                            shownNotifications.push({
+                                reminderId: reminder.id,
+                                eventId: reminder.eventId,
+                                shownAt: now.toISOString()
+                            });
+                            
+                            // Keep only last 100 shown notifications to prevent storage bloat
+                            if (shownNotifications.length > 100) {
+                                shownNotifications.splice(0, shownNotifications.length - 100);
+                            }
+                            localStorage.setItem('shownNotifications', JSON.stringify(shownNotifications));
+                        }
+                        
+                        // Remove the reminder after showing (regardless of whether notification was shown)
                         const updatedReminders = savedReminders.filter(r => r.id !== reminder.id);
                         localStorage.setItem('eventReminders', JSON.stringify(updatedReminders));
                         
@@ -1208,10 +1688,13 @@
                 }
                 
                 if (Notification.permission === 'granted') {
+                    // Use a unique tag to prevent duplicate browser notifications
+                    const notificationTag = `reminder-${reminder.eventId}-${reminder.id}`;
+                    
                     const notification = new Notification(`Event Reminder: ${reminder.eventTitle}`, {
                         body: `Your event is coming up on ${formatEventDate(reminder.eventDate)} at ${reminder.eventTime}`,
                         icon: 'assets/images/cpu-logo.svg.png',
-                        tag: `reminder-${reminder.id}`,
+                        tag: notificationTag, // Browser will replace any existing notification with same tag
                         requireInteraction: true
                     });
                     
@@ -1220,6 +1703,21 @@
                 } else {
                     // Fallback to alert if notifications are not allowed
                     alert(`Reminder: ${reminder.eventTitle}\nYour event is coming up on ${formatEventDate(reminder.eventDate)} at ${reminder.eventTime}`);
+                }
+            }
+            
+            // Function to clean up old shown notifications (call this periodically)
+            function cleanupOldNotifications() {
+                const shownNotifications = JSON.parse(localStorage.getItem('shownNotifications') || '[]');
+                const oneWeekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+                
+                const recentNotifications = shownNotifications.filter(shown => 
+                    new Date(shown.shownAt) > oneWeekAgo
+                );
+                
+                if (recentNotifications.length !== shownNotifications.length) {
+                    localStorage.setItem('shownNotifications', JSON.stringify(recentNotifications));
+                    console.log('Cleaned up old notification records');
                 }
             }
 
@@ -1236,8 +1734,10 @@
                     openReminderModal(eventData);
                 }
                 
-                // Handle modal close buttons
-                if (e.target.id === 'closeReminderModal' || e.target.id === 'cancelReminder') {
+                // Handle modal close buttons - check both the button and its child elements
+                if (e.target.id === 'closeReminderModal' || 
+                    e.target.closest('#closeReminderModal') || 
+                    e.target.id === 'cancelReminder') {
                     closeReminderModal();
                 }
                 
@@ -1246,14 +1746,25 @@
                     setReminder();
                 }
                 
-                // Handle custom days input
-                if (e.target.id === 'customDays') {
+                // Handle custom inputs
+                if (e.target.id === 'customDays' || e.target.id === 'customDate' || e.target.id === 'customTime') {
                     document.querySelector('input[name="reminderTime"][value="custom"]').checked = true;
+                }
+                
+                // Handle clicking outside the modal to close it
+                if (e.target.id === 'reminderModal') {
+                    closeReminderModal();
                 }
             });
 
             // Check reminders every minute
             setInterval(checkReminders, 60000);
+            
+            // Clean up old notifications every hour
+            setInterval(cleanupOldNotifications, 60 * 60 * 1000);
+            
+            // Run cleanup once on page load
+            cleanupOldNotifications();
 
             // Check for existing reminders on page load
             setTimeout(() => {
@@ -1262,6 +1773,168 @@
                     updateReminderButton(reminder.eventId, true);
                 });
             }, 1000);
+
+            // Notification System for Navbar
+            let notifications = JSON.parse(localStorage.getItem('appNotifications') || '[]');
+            
+            // Function to add notification
+            function addNotification(type, title, message, data = {}) {
+                // Check for duplicate notifications (same type, title, and data within last 5 minutes)
+                const now = new Date();
+                const fiveMinutesAgo = new Date(now.getTime() - 5 * 60 * 1000);
+                
+                const isDuplicate = notifications.some(notif => 
+                    notif.type === type && 
+                    notif.title === title && 
+                    JSON.stringify(notif.data) === JSON.stringify(data) &&
+                    new Date(notif.timestamp) > fiveMinutesAgo
+                );
+                
+                if (isDuplicate) {
+                    console.log('Duplicate notification prevented:', title);
+                    return; // Don't add duplicate notification
+                }
+                
+                const notification = {
+                    id: Date.now(),
+                    type: type, // 'reminder', 'event', 'system'
+                    title: title,
+                    message: message,
+                    data: data,
+                    timestamp: new Date().toISOString(),
+                    read: false
+                };
+                
+                notifications.unshift(notification); // Add to beginning
+                
+                // Keep only last 50 notifications
+                if (notifications.length > 50) {
+                    notifications = notifications.slice(0, 50);
+                }
+                
+                localStorage.setItem('appNotifications', JSON.stringify(notifications));
+                updateNotificationUI();
+            }
+            
+            // Function to update notification UI
+            function updateNotificationUI() {
+                const badge = document.getElementById('notificationBadge');
+                const list = document.getElementById('notificationList');
+                const noNotifications = document.getElementById('noNotifications');
+                
+                const unreadCount = notifications.filter(n => !n.read).length;
+                
+                // Update badge
+                if (unreadCount > 0) {
+                    badge.textContent = unreadCount > 99 ? '99+' : unreadCount.toString();
+                    badge.classList.remove('hidden');
+                } else {
+                    badge.classList.add('hidden');
+                }
+                
+                // Update notification list
+                if (notifications.length === 0) {
+                    list.innerHTML = '';
+                    noNotifications.classList.remove('hidden');
+                } else {
+                    noNotifications.classList.add('hidden');
+                    list.innerHTML = notifications.map(notification => {
+                        const timeAgo = getTimeAgo(new Date(notification.timestamp));
+                        const iconClass = notification.type === 'reminder' ? 'schedule' : 
+                                        notification.type === 'event' ? 'event' : 'info';
+                        
+                        return `
+                            <div class="p-3 hover:bg-gray-50 dark:hover:bg-white/5 cursor-pointer ${notification.read ? 'opacity-60' : ''}" 
+                                 onclick="markNotificationAsRead(${notification.id})">
+                                <div class="flex items-start gap-3">
+                                    <span class="material-symbols-outlined text-lg text-primary mt-0.5">${iconClass}</span>
+                                    <div class="flex-1 min-w-0">
+                                        <p class="font-medium text-sm text-text-light dark:text-text-dark">${notification.title}</p>
+                                        <p class="text-xs text-text-muted-light dark:text-text-muted-dark mt-1">${notification.message}</p>
+                                        <p class="text-xs text-text-muted-light dark:text-text-muted-dark mt-1">${timeAgo}</p>
+                                    </div>
+                                    ${!notification.read ? '<div class="w-2 h-2 bg-primary rounded-full mt-2"></div>' : ''}
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+                }
+            }
+            
+            // Function to mark notification as read
+            window.markNotificationAsRead = function(notificationId) {
+                const notification = notifications.find(n => n.id === notificationId);
+                if (notification) {
+                    notification.read = true;
+                    localStorage.setItem('appNotifications', JSON.stringify(notifications));
+                    updateNotificationUI();
+                }
+            }
+            
+            // Function to get time ago
+            function getTimeAgo(date) {
+                const now = new Date();
+                const diffInSeconds = Math.floor((now - date) / 1000);
+                
+                if (diffInSeconds < 60) return 'Just now';
+                if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)}m ago`;
+                if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)}h ago`;
+                if (diffInSeconds < 2592000) return `${Math.floor(diffInSeconds / 86400)}d ago`;
+                return date.toLocaleDateString();
+            }
+            
+            // Function to clear all notifications
+            function clearAllNotifications() {
+                notifications = [];
+                localStorage.setItem('appNotifications', JSON.stringify(notifications));
+                updateNotificationUI();
+            }
+            
+            // Update the showNotification function to also add to navbar
+            const originalShowNotification = showNotification;
+            function showNotification(reminder) {
+                // Add to navbar notifications
+                addNotification(
+                    'reminder',
+                    `Event Reminder: ${reminder.eventTitle}`,
+                    `Your event is coming up on ${formatEventDate(reminder.eventDate)} at ${reminder.eventTime}`,
+                    { eventId: reminder.eventId }
+                );
+                
+                // Still show browser notification as backup
+                originalShowNotification(reminder);
+            }
+            
+            // Notification bell click handler
+            document.addEventListener('click', (e) => {
+                const bell = document.getElementById('notificationBell');
+                const dropdown = document.getElementById('notificationDropdown');
+                const clearAllBtn = document.getElementById('clearAllNotifications');
+                
+                if (bell && bell.contains(e.target)) {
+                    dropdown.classList.toggle('hidden');
+                } else if (clearAllBtn && clearAllBtn.contains(e.target)) {
+                    clearAllNotifications();
+                } else if (dropdown && !dropdown.contains(e.target)) {
+                    dropdown.classList.add('hidden');
+                }
+            });
+            
+            // Initialize notification UI on page load
+            updateNotificationUI();
+
+            // Add direct event listeners for reminder modal close button
+            document.addEventListener('DOMContentLoaded', () => {
+                const closeReminderBtn = document.getElementById('closeReminderModal');
+                if (closeReminderBtn) {
+                    closeReminderBtn.addEventListener('click', closeReminderModal);
+                }
+                
+                const cancelReminderBtn = document.getElementById('cancelReminder');
+                if (cancelReminderBtn) {
+                    cancelReminderBtn.addEventListener('click', closeReminderModal);
+                }
+            });
 
             // Fetch and render award-eligible cards
             const eligibleContainer = document.getElementById('eligibleCards');
@@ -1833,6 +2506,9 @@
                 }
             }
 
+            // Track selected calendar date
+            window.selectedCalendarDate = null;
+
             window.renderCalendar = function() {
                 const year = window.currentDate.getFullYear();
                 const month = window.currentDate.getMonth();
@@ -1866,7 +2542,7 @@
                         dayElement.innerHTML = `
                             <div class="relative inline-block w-full text-center">
                                 <span class="text-gray-400 dark:text-gray-600">${prevMonth.getDate()}</span>
-                                <div class="absolute -top-1 -right-1 w-1 h-1 bg-primary rounded-full"></div>
+                                <div class="absolute top-0 right-0 w-1.5 h-1.5 bg-primary rounded-full transform translate-x-0.5 -translate-y-0.5 border-0 outline-none" style="border-radius: 50%; min-width: 6px; min-height: 6px; max-width: 6px; max-height: 6px;"></div>
                             </div>
                         `;
                     } else {
@@ -1879,28 +2555,41 @@
                 // Add days of the current month
                 for (let day = 1; day <= daysInMonth; day++) {
                     const dayElement = document.createElement('div');
-                    dayElement.className = 'py-2 relative cursor-pointer hover:bg-gray-100 dark:hover:bg-white/10 rounded-lg transition-colors';
+                    dayElement.className = 'py-2 relative cursor-pointer transition-colors';
+                    
+                    // Create date string for this day
+                    const dateString = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
                     
                     // Check if this day has events
                     const hasEvent = checkForEvents(year, month, day);
                     const isToday = isCurrentDay(year, month, day);
+                    const isSelected = window.selectedCalendarDate === dateString;
+                    
+                    // Determine styling based on state
+                    let dayClasses = 'font-medium';
+                    if (isToday) {
+                        dayClasses += ' text-white bg-primary rounded-full w-6 h-6 flex items-center justify-center mx-auto';
+                    } else {
+                        dayClasses += ' text-text-light dark:text-text-dark';
+                    }
                     
                     if (hasEvent) {
                         // Show day number with a dot indicator in upper right
                         dayElement.innerHTML = `
                             <div class="relative inline-block w-full text-center">
-                                <span class="font-medium ${isToday ? 'text-white bg-primary rounded-full w-6 h-6 flex items-center justify-center mx-auto' : 'text-text-light dark:text-text-dark'}">${day}</span>
-                                <div class="absolute -top-1 -right-1 w-1 h-1 bg-primary rounded-full"></div>
+                                <span class="${dayClasses}">${day}</span>
+                                <div class="absolute top-0 right-0 w-1.5 h-1.5 bg-primary rounded-full transform translate-x-0.5 -translate-y-0.5 border-0 outline-none" style="border-radius: 50%; min-width: 6px; min-height: 6px; max-width: 6px; max-height: 6px;"></div>
                             </div>
                         `;
                     } else {
                         // Regular day without events
-                        if (isToday) {
-                            dayElement.innerHTML = `<span class="font-medium text-white bg-primary rounded-full w-6 h-6 flex items-center justify-center mx-auto">${day}</span>`;
-                        } else {
-                            dayElement.textContent = day;
-                        }
+                        dayElement.innerHTML = `<span class="${dayClasses}">${day}</span>`;
                     }
+                    
+                    // Add click listener
+                    dayElement.addEventListener('click', () => {
+                        selectCalendarDate(dateString);
+                    });
                     
                     calendarContainer.appendChild(dayElement);
                 }
@@ -1919,7 +2608,7 @@
                         dayElement.innerHTML = `
                             <div class="relative inline-block w-full text-center">
                                 <span class="text-gray-400 dark:text-gray-600">${nextMonth.getDate()}</span>
-                                <div class="absolute -top-1 -right-1 w-1 h-1 bg-primary rounded-full"></div>
+                                <div class="absolute top-0 right-0 w-1.5 h-1.5 bg-primary rounded-full transform translate-x-0.5 -translate-y-0.5 border-0 outline-none" style="border-radius: 50%; min-width: 6px; min-height: 6px; max-width: 6px; max-height: 6px;"></div>
                             </div>
                         `;
                     } else {
@@ -1937,11 +2626,12 @@
                 const dateString = checkDate.toISOString().split('T')[0]; // Format: YYYY-MM-DD
                 
                 // Check if there are events on this date (past, present, or future)
-                const hasEvents = savedEvents.some(event => event.date === dateString);
+                const eventsOnDate = savedEvents.filter(event => event.date === dateString);
+                const hasEvents = eventsOnDate.length > 0;
                 
-                // Debug logging
+                // Debug logging - only show if there are actually events
                 if (hasEvents) {
-                    console.log(`Events found for ${dateString}:`, savedEvents.filter(event => event.date === dateString));
+                    console.log(`Events found for ${dateString}:`, eventsOnDate);
                 }
                 
                 return hasEvents;
@@ -1981,6 +2671,11 @@
             // Initialize calendar immediately
             window.updateCalendarTitle();
             window.renderCalendar();
+            
+            // Set today as the initial selected date
+            const today = new Date();
+            const todayString = today.toISOString().split('T')[0];
+            window.selectedCalendarDate = todayString;
             
             // Add manual refresh function for debugging
             window.refreshCalendar = function() {

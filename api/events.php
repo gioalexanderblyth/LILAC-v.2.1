@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit();
 }
 
-$dbFile = '../database/mou_moa.db';
+$dbFile = dirname(__DIR__) . '/database/mou_moa.db';
 $dbDir = dirname($dbFile);
 if (!is_dir($dbDir)) { mkdir($dbDir, 0755, true); }
 
@@ -18,7 +18,7 @@ function db() {
     try {
         $pdo = new PDO("sqlite:$dbFile");
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $sql = file_get_contents('../database.sql');
+        $sql = file_get_contents(dirname(__DIR__) . '/database.sql');
         $pdo->exec($sql);
         return $pdo;
     } catch (PDOException $e) {
@@ -57,22 +57,59 @@ function listAll($pdo) {
     echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
 }
 
+function getEventsForCalendar($pdo) {
+    $stmt = $pdo->query('SELECT * FROM events ORDER BY date ASC, start_time ASC');
+    $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+    // Transform events to match the frontend format
+    $transformedEvents = array_map(function($event) {
+        return [
+            'id' => $event['id'],
+            'title' => $event['title'],
+            'date' => $event['date'],
+            'timeRange' => $event['start_time'] . ' - ' . $event['end_time'],
+            'location' => $event['location'],
+            'description' => $event['description'],
+            'imageUrl' => $event['image_url'],
+            'createdAt' => $event['created_at'],
+            'type' => $event['type'],
+            'category' => $event['category'],
+            'eligible_for_awards' => $event['eligible_for_awards']
+        ];
+    }, $events);
+    
+    echo json_encode($transformedEvents);
+}
+
 function create($pdo, $data) {
-    $required = ['title','type','location','start_time','end_time','date','category'];
+    $required = ['title','location','date'];
     foreach ($required as $f) { if (empty($data[$f])) { throw new Exception("Field '$f' is required"); } }
-    $stmt = $pdo->prepare('INSERT INTO events (title,type,location,start_time,end_time,date,category,thumbnail_url,eligible_for_awards) VALUES (?,?,?,?,?,?,?,?,?)');
+    
+    // Set defaults for optional fields
+    $type = $data['type'] ?? 'event';
+    $start_time = $data['start_time'] ?? '09:00:00';
+    $end_time = $data['end_time'] ?? '17:00:00';
+    $category = $data['category'] ?? 'General';
+    $description = $data['description'] ?? '';
+    $image_url = $data['image_url'] ?? null;
+    $thumbnail_url = $data['thumbnail_url'] ?? null;
+    $eligible_for_awards = !empty($data['eligible_for_awards']) ? 1 : 0;
+    
+    $stmt = $pdo->prepare('INSERT INTO events (title,type,location,start_time,end_time,date,category,description,image_url,thumbnail_url,eligible_for_awards) VALUES (?,?,?,?,?,?,?,?,?,?,?)');
     $stmt->execute([
         $data['title'],
-        $data['type'],
+        $type,
         $data['location'],
-        $data['start_time'],
-        $data['end_time'],
+        $start_time,
+        $end_time,
         $data['date'],
-        $data['category'],
-        $data['thumbnail_url'] ?? null,
-        !empty($data['eligible_for_awards']) ? 1 : 0,
+        $category,
+        $description,
+        $image_url,
+        $thumbnail_url,
+        $eligible_for_awards,
     ]);
-    echo json_encode(['id' => $pdo->lastInsertId()]);
+    echo json_encode(['id' => $pdo->lastInsertId(), 'success' => true]);
 }
 
 function details($pdo, $id) {
@@ -87,10 +124,13 @@ try {
     $pdo = db();
     $method = $_SERVER['REQUEST_METHOD'];
     $action = $_GET['action'] ?? 'list';
+    
     if ($method === 'GET' && $action === 'eligible') { getEligible($pdo); return; }
+    if ($method === 'GET' && $action === 'calendar') { getEventsForCalendar($pdo); return; }
     if ($method === 'GET' && isset($_GET['id'])) { details($pdo, (int)$_GET['id']); return; }
     if ($method === 'GET') { listAll($pdo); return; }
     if ($method === 'POST') { $data = json_decode(file_get_contents('php://input'), true) ?? []; create($pdo, $data); return; }
+    
     http_response_code(405);
     echo json_encode(['error'=>'Method not allowed']);
 } catch (Exception $e) {

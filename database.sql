@@ -40,7 +40,9 @@ CREATE TABLE IF NOT EXISTS events (
     end_time TIME NOT NULL,
     date DATE NOT NULL,
     category VARCHAR(100) NOT NULL,
+    description TEXT,
     thumbnail_url VARCHAR(500),
+    image_url VARCHAR(500),
     eligible_for_awards INTEGER NOT NULL DEFAULT 0,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
