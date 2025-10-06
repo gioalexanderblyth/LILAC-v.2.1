@@ -36,10 +36,10 @@
                         "background-dark": "#0F172A",
                         "card-light": "#FFFFFF",
                         "card-dark": "#1E293B",
-                        "text-light-primary": "#1E293B",
-                        "text-dark-primary": "#F8FAFC",
-                        "text-light-secondary": "#64748B",
-                        "text-dark-secondary": "#94A3B8",
+                        "text-light": "#0f172a",
+                        "text-dark": "#e2e8f0",
+                        "text-muted-light": "#64748b",
+                        "text-muted-dark": "#94a3b8",
                         "border-light": "#E2E8F0",
                         "border-dark": "#334155",
 
@@ -245,7 +245,7 @@
 
 </head>
 
-<body class="bg-background-light dark:bg-background-dark font-display text-text-light-primary dark:text-text-dark-primary">
+<body class="bg-background-light dark:bg-background-dark font-display text-text-light dark:text-text-dark">
 <div class="flex h-screen sidebar-collapsed" id="app-container">
 
 <aside class="sidebar bg-card-light dark:bg-card-dark border-r border-border-light dark:border-border-dark flex flex-col">
@@ -256,61 +256,56 @@
 
 <img alt="CPU LILAC Logo" class="h-11 w-11" src="assets/images/cpu-logo.svg.png" width="32" height="32"/>
 
-<h1 class="text-xl font-bold text-text-light-primary dark:text-text-dark-primary sidebar-logo-text hidden">LILAC</h1>
+<h1 class="text-xl font-bold text-text-light dark:text-text-dark sidebar-logo-text hidden">LILAC</h1>
 </div>
 
 </div>
 
 <nav class="flex-1 px-4 py-6 space-y-2">
 
-<a class="flex items-center justify-center gap-3 px-4 py-2.5 rounded-lg bg-primary-50 dark:bg-primary-900/40 text-primary-600 dark:text-primary-300 font-semibold sidebar-nav-link" href="documents.html">
-
-<span class="material-symbols-outlined filled">description</span>
-
-<span class="sidebar-text hidden">Documents</span>
-
+<a class="flex items-center justify-center gap-3 px-4 py-2.5 rounded-lg text-text-muted-light dark:text-text-muted-dark hover:bg-gray-100 dark:hover:bg-background-dark hover:text-text-light dark:hover:text-text-dark transition-colors duration-200 sidebar-nav-link" href="dashboard.html">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="sidebar-text hidden">Dashboard</span>
 </a>
 
-<a class="flex items-center justify-center gap-3 px-4 py-2.5 rounded-lg text-text-light-secondary dark:text-text-dark-secondary hover:bg-gray-100 dark:hover:bg-background-dark hover:text-text-light-primary dark:hover:text-text-dark-primary transition-colors duration-200 sidebar-nav-link" href="awards.html">
+<a class="flex items-center justify-center gap-3 px-4 py-2.5 rounded-lg text-text-muted-light dark:text-text-muted-dark hover:bg-gray-100 dark:hover:bg-background-dark hover:text-text-light dark:hover:text-text-dark transition-colors duration-200 sidebar-nav-link" href="awards.html">
 <span class="material-symbols-outlined">emoji_events</span>
 
 <span class="sidebar-text hidden">Awards Progress</span>
 
 </a>
 
-<a class="flex items-center justify-center gap-3 px-4 py-2.5 rounded-lg text-text-light-secondary dark:text-text-dark-secondary hover:bg-gray-100 dark:hover:bg-background-dark hover:text-text-light-primary dark:hover:text-text-dark-primary transition-colors duration-200 sidebar-nav-link" href="events-activities.html">
+<a class="flex items-center justify-center gap-3 px-4 py-2.5 rounded-lg text-text-muted-light dark:text-text-muted-dark hover:bg-gray-100 dark:hover:bg-background-dark hover:text-text-light dark:hover:text-text-dark transition-colors duration-200 sidebar-nav-link" href="events-activities.html">
 <span class="material-symbols-outlined">event</span>
 
 <span class="sidebar-text hidden">Events &amp; Activities</span>
 
 </a>
 
-<a class="flex items-center justify-center gap-3 px-4 py-2.5 rounded-lg text-text-light-secondary dark:text-text-dark-secondary hover:bg-gray-100 dark:hover:bg-background-dark hover:text-text-light-primary dark:hover:text-text-dark-primary transition-colors duration-200 sidebar-nav-link" href="scheduler.html">
+<a class="flex items-center justify-center gap-3 px-4 py-2.5 rounded-lg text-text-muted-light dark:text-text-muted-dark hover:bg-gray-100 dark:hover:bg-background-dark hover:text-text-light dark:hover:text-text-dark transition-colors duration-200 sidebar-nav-link" href="scheduler.html">
 <span class="material-symbols-outlined">calendar_today</span>
 
 <span class="sidebar-text hidden">Scheduler</span>
 
 </a>
 
-<a class="flex items-center justify-center gap-3 px-4 py-2.5 rounded-lg text-text-light-secondary dark:text-text-dark-secondary hover:bg-gray-100 dark:hover:bg-background-dark hover:text-text-light-primary dark:hover:text-text-dark-primary transition-colors duration-200 sidebar-nav-link" href="mou-moa.html">
+<a class="flex items-center justify-center gap-3 px-4 py-2.5 rounded-lg text-text-muted-light dark:text-text-muted-dark hover:bg-gray-100 dark:hover:bg-background-dark hover:text-text-light dark:hover:text-text-dark transition-colors duration-200 sidebar-nav-link" href="mou-moa.html">
 <span class="material-symbols-outlined">handshake</span>
 
 <span class="sidebar-text hidden">MOUs &amp; MOAs</span>
 
 </a>
 
-<a class="flex items-center justify-center gap-3 px-4 py-2.5 rounded-lg text-text-light-secondary dark:text-text-dark-secondary hover:bg-gray-100 dark:hover:bg-background-dark hover:text-text-light-primary dark:hover:text-text-dark-primary transition-colors duration-200 sidebar-nav-link" href="templates.html">
+<a class="flex items-center justify-center gap-3 px-4 py-2.5 rounded-lg text-text-muted-light dark:text-text-muted-dark hover:bg-gray-100 dark:hover:bg-background-dark hover:text-text-light dark:hover:text-text-dark transition-colors duration-200 sidebar-nav-link" href="templates.html">
 <span class="material-symbols-outlined">description</span>
 
 <span class="sidebar-text hidden">Templates</span>
 
 </a>
 
-<a class="flex items-center justify-center gap-3 px-4 py-2.5 rounded-lg text-text-light-secondary dark:text-text-dark-secondary hover:bg-gray-100 dark:hover:bg-background-dark hover:text-text-light-primary dark:hover:text-text-dark-primary transition-colors duration-200 sidebar-nav-link" href="documents.html">
-<span class="material-symbols-outlined">school</span>
-
+<a class="flex items-center justify-center gap-3 px-4 py-2.5 rounded-lg bg-primary-50 dark:bg-primary-900/40 text-primary-600 dark:text-primary-300 font-semibold sidebar-nav-link" href="documents.html">
+<span class="material-symbols-outlined filled">school</span>
 <span class="sidebar-text hidden">Registrar Forms</span>
-
 </a>
 
 </nav>
@@ -325,7 +320,7 @@
 
 <div class="sidebar-profile-info hidden">
 
-<p class="font-semibold text-text-light-primary dark:text-text-dark-primary">Admin User</p>
+<p class="font-semibold text-text-light dark:text-text-dark">Admin User</p>
 <a class="text-sm text-primary-600 dark:text-primary-400 hover:underline" href="profile.html">View Profile</a>
 
 </div>
@@ -350,15 +345,32 @@
 
 <header class="sticky top-0 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm z-30 px-6 lg:px-8 py-4 border-b border-border-light dark:border-border-dark flex justify-between items-center h-20">
 
-<h1 class="text-2xl font-bold text-text-light-primary dark:text-text-dark-primary">Documents</h1>
+<h1 class="text-xl font-bold text-text-light dark:text-text-dark">Documents</h1>
 <div class="flex items-center gap-2">
 
-						<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-200 dark:hover:bg-white/10 text-text-light-secondary dark:text-text-dark-secondary transition-colors duration-200">
+<div class="relative">
+<button id="notificationBell" class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-200 dark:hover:bg-white/10 text-text-muted-light dark:text-text-muted-dark transition-colors duration-200">
 <span class="material-symbols-outlined">notifications</span>
-
+<!-- Notification badge -->
+<span id="notificationBadge" class="absolute -top-1 -right-1 bg-red-500 text-white text-sm rounded-full h-5 w-5 flex items-center justify-center hidden">0</span>
 </button>
 
-<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-200 dark:hover:bg-white/10 text-text-light-secondary dark:text-text-dark-secondary transition-colors duration-200" id="theme-toggle">
+<!-- Notification dropdown -->
+<div id="notificationDropdown" class="hidden absolute right-0 top-12 w-80 bg-white dark:bg-card-dark rounded-lg shadow-xl border border-border-light dark:border-border-dark z-50 max-h-96 overflow-y-auto">
+<div class="p-4 border-b border-border-light dark:border-border-dark flex items-center justify-between">
+<h3 class="font-semibold text-text-light dark:text-text-dark">Notifications</h3>
+<button id="clearAllNotifications" class="text-sm text-primary hover:text-primary/80 transition-colors">Clear All</button>
+</div>
+<div id="notificationList" class="divide-y divide-border-light dark:divide-border-dark">
+<!-- Notifications will be populated here -->
+</div>
+<div id="noNotifications" class="p-4 text-center text-text-muted-light dark:text-text-muted-dark text-sm">
+No notifications yet
+</div>
+</div>
+</div>
+
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-200 dark:hover:bg-white/10 text-text-muted-light dark:text-text-muted-dark transition-colors duration-200" id="theme-toggle">
 <span class="material-symbols-outlined dark:hidden">light_mode</span>
 
 <span class="material-symbols-outlined hidden dark:inline">dark_mode</span>
@@ -369,111 +381,89 @@
 
 </header>
 
-<div class="p-8">
-<div class="flex flex-col xl:flex-row gap-8">
+<div class="p-4">
+<div class="flex flex-col xl:flex-row gap-4">
 <div class="flex-1">
-<h1 class="text-2xl font-bold text-text-light-primary dark:text-text-dark-primary">Document Risk Intelligence</h1>
-<p class="text-text-light-secondary dark:text-text-dark-secondary mt-1">Track and manage risk levels extracted from analyzed documents, files, and reports.</p>
-<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-<div class="bg-card-light dark:bg-card-dark p-6 rounded-lg shadow-sm border border-border-light dark:border-border-dark">
+ 
+<div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-2">
+<div class="bg-card-light dark:bg-card-dark p-3 rounded-lg shadow-sm border border-border-light dark:border-border-dark doc-counter-card">
 <div class="flex justify-between items-center">
 <div class="flex items-center gap-4">
-<div class="bg-blue-100 dark:bg-blue-900/50 p-3 rounded-lg">
+<div class="bg-blue-100 dark:bg-blue-900/50 p-2 rounded-lg">
 <span class="material-icons text-blue-500 dark:text-blue-400">folder</span>
 </div>
-<h2 class="text-lg font-semibold text-text-light-primary dark:text-text-dark-primary">Total Documents</h2>
+<h2 class="text-sm font-semibold text-text-light dark:text-text-dark">Total Documents</h2>
 </div>
-<button class="text-text-light-secondary dark:text-text-dark-secondary">
-<span class="material-icons">more_horiz</span>
-</button>
+ 
 </div>
-<div class="mt-4">
-<span class="text-5xl font-bold text-text-light-primary dark:text-text-dark-primary">324</span>
-<span class="text-green-light dark:text-green-dark font-semibold ml-2">+3.1%</span>
+<div class="mt-2">
+<span id="counter-total" class="text-xl font-bold text-text-light dark:text-text-dark">0</span>
+ 
 </div>
-<p class="text-sm text-text-light-secondary dark:text-text-dark-secondary mt-1">Since last week</p>
-<div class="mt-4 flex items-center justify-between text-sm text-text-light-secondary dark:text-text-dark-secondary border-t border-border-light dark:border-border-dark pt-4">
-<a class="font-medium text-primary hover:underline" href="#">See Detail</a>
-<span class="material-icons">arrow_forward</span>
+ 
+ 
 </div>
-</div>
-<div class="bg-card-light dark:bg-card-dark p-6 rounded-lg shadow-sm border border-border-light dark:border-border-dark">
+<div class="bg-card-light dark:bg-card-dark p-3 rounded-lg shadow-sm border border-border-light dark:border-border-dark doc-counter-card">
 <div class="flex justify-between items-center">
 <div class="flex items-center gap-4">
-<div class="bg-green-100 dark:bg-green-900/50 p-3 rounded-lg">
+<div class="bg-green-100 dark:bg-green-900/50 p-2 rounded-lg">
 <span class="material-icons text-green-500 dark:text-green-400">handshake</span>
 </div>
-<h2 class="text-lg font-semibold text-text-light-primary dark:text-text-dark-primary">MOU</h2>
+<h2 class="text-sm font-semibold text-text-light dark:text-text-dark">MOU</h2>
 </div>
-<button class="text-text-light-secondary dark:text-text-dark-secondary">
-<span class="material-icons">more_horiz</span>
-</button>
+ 
 </div>
-<div class="mt-4">
-<span class="text-5xl font-bold text-text-light-primary dark:text-text-dark-primary">128</span>
-<span class="text-green-light dark:text-green-dark font-semibold ml-2">+5.6%</span>
+<div class="mt-2">
+<span id="counter-mou" class="text-xl font-bold text-text-light dark:text-text-dark">0</span>
+ 
 </div>
-<p class="text-sm text-text-light-secondary dark:text-text-dark-secondary mt-1">Successfully signed</p>
-<div class="mt-4 flex items-center justify-between text-sm text-text-light-secondary dark:text-text-dark-secondary border-t border-border-light dark:border-border-dark pt-4">
-<a class="font-medium text-primary hover:underline" href="#">See Detail</a>
-<span class="material-icons">arrow_forward</span>
+ 
+ 
 </div>
-</div>
-<div class="bg-card-light dark:bg-card-dark p-6 rounded-lg shadow-sm border border-border-light dark:border-border-dark">
+<div class="bg-card-light dark:bg-card-dark p-3 rounded-lg shadow-sm border border-border-light dark:border-border-dark doc-counter-card">
 <div class="flex justify-between items-center">
 <div class="flex items-center gap-4">
-<div class="bg-red-100 dark:bg-red-900/50 p-3 rounded-lg">
+<div class="bg-red-100 dark:bg-red-900/50 p-2 rounded-lg">
 <span class="material-icons text-red-500 dark:text-red-400">description</span>
 </div>
-<h2 class="text-lg font-semibold text-text-light-primary dark:text-text-dark-primary">Templates</h2>
+<h2 class="text-sm font-semibold text-text-light dark:text-text-dark">Templates</h2>
 </div>
-<button class="text-text-light-secondary dark:text-text-dark-secondary">
-<span class="material-icons">more_horiz</span>
-</button>
+ 
 
 </div>
-<div class="mt-4">
-<span class="text-5xl font-bold text-text-light-primary dark:text-text-dark-primary">42</span>
-<span class="text-red-light dark:text-red-dark font-semibold ml-2">-8.2%</span>
+<div class="mt-2">
+<span id="counter-templates" class="text-xl font-bold text-text-light dark:text-text-dark">0</span>
+ 
 </div>
-<p class="text-sm text-text-light-secondary dark:text-text-dark-secondary mt-1">Than last week</p>
-<div class="mt-4 flex items-center justify-between text-sm text-text-light-secondary dark:text-text-dark-secondary border-t border-border-light dark:border-border-dark pt-4">
-<a class="font-medium text-primary hover:underline" href="#">See Detail</a>
-<span class="material-icons">arrow_forward</span>
+ 
+ 
 </div>
-</div>
-<div class="bg-card-light dark:bg-card-dark p-6 rounded-lg shadow-sm border border-border-light dark:border-border-dark">
+<div class="bg-card-light dark:bg-card-dark p-3 rounded-lg shadow-sm border border-border-light dark:border-border-dark">
 <div class="flex justify-between items-center">
 <div class="flex items-center gap-4">
-<div class="bg-indigo-100 dark:bg-indigo-900/50 p-3 rounded-lg">
+<div class="bg-indigo-100 dark:bg-indigo-900/50 p-2 rounded-lg">
 <span class="material-icons text-indigo-500 dark:text-indigo-400">assignment_turned_in</span>
 </div>
-<h2 class="text-lg font-semibold text-text-light-primary dark:text-text-dark-primary">Compliance Score</h2>
+<h2 class="text-sm font-semibold text-text-light dark:text-text-dark">MOA</h2>
 </div>
-<button class="text-text-light-secondary dark:text-text-dark-secondary">
-<span class="material-icons">more_horiz</span>
-</button>
+ 
 
 </div>
 
-<div class="mt-4">
-<span class="text-5xl font-bold text-text-light-primary dark:text-text-dark-primary">87%</span>
-<span class="text-green-light dark:text-green-dark font-semibold ml-2">+90%</span>
+<div class="mt-2">
+<span id="counter-moa" class="text-xl font-bold text-text-light dark:text-text-dark">0</span>
+ 
 </div>
-<p class="text-sm text-text-light-secondary dark:text-text-dark-secondary mt-1">Higher than last week</p>
-<div class="mt-4 flex items-center justify-between text-sm text-text-light-secondary dark:text-text-dark-secondary border-t border-border-light dark:border-border-dark pt-4">
-<a class="font-medium text-primary hover:underline" href="#">See Detail</a>
-<span class="material-icons">arrow_forward</span>
-</div>
+ 
+ 
 </div>
 </div>
 </div>
 <div class="w-full xl:w-2/5 xl:max-w-md">
-<h1 class="text-2xl font-bold text-text-light-primary dark:text-text-dark-primary">Monthly Document Risk Trends</h1>
-<p class="text-text-light-secondary dark:text-text-dark-secondary mt-1">Explore how risk patterns evolve based on document assessments and classifications.</p>
-<div class="bg-card-light dark:bg-card-dark p-6 rounded-lg shadow-sm border border-border-light dark:border-border-dark mt-6">
+ 
+<div id="documentsReportCard" class="bg-card-light dark:bg-card-dark p-6 rounded-lg shadow-sm border border-border-light dark:border-border-dark mt-2">
 <div class="flex justify-between items-center">
-<h2 class="text-lg font-semibold">Risk Categories</h2>
+<h2 class="text-sm font-semibold">Documents Report</h2>
 <div class="relative">
 <select class="pl-4 pr-8 py-2 bg-background-light dark:bg-background-dark border border-border-light dark:border-border-dark rounded-md text-sm">
 <option>May 2025</option>
@@ -485,8 +475,8 @@
 
 </div>
 
-<div class="mt-6 flex items-center gap-8">
-<div class="relative w-40 h-40">
+<div class="mt-2 flex items-center gap-8">
+<div class="relative w-32 h-32">
 <svg class="w-full h-full transform -rotate-90" viewBox="0 0 120 120">
 <circle class="stroke-gray-200 dark:stroke-gray-700" cx="60" cy="60" fill="none" r="54" stroke-width="12"></circle>
 <circle class="stroke-current text-purple-500" cx="60" cy="60" fill="none" r="54" stroke-dasharray="240 339.292" stroke-linecap="round" stroke-width="12"></circle>
@@ -494,55 +484,52 @@
 <circle class="stroke-current text-green-500" cx="60" cy="60" fill="none" r="54" stroke-dasharray="80 339.292" stroke-dashoffset="-400" stroke-linecap="round" stroke-width="12"></circle>
 </svg>
 <div class="absolute inset-0 flex flex-col items-center justify-center">
-<span class="text-xs text-text-light-secondary dark:text-text-dark-secondary">Risks Event</span>
-<span class="text-2xl font-bold">34</span>
+<span class="text-sm text-text-muted-light dark:text-text-muted-dark">Risks Event</span>
+<span class="text-base font-bold">34</span>
 </div>
 
 </div>
 
 <div class="flex-1">
-<p class="text-sm text-text-light-secondary dark:text-text-dark-secondary">Estimated impact</p>
+<p class="text-sm text-text-muted-light dark:text-text-muted-dark">Estimated impact</p>
 <div class="flex items-baseline gap-2 mt-1">
-<span class="text-3xl font-bold text-text-light-primary dark:text-text-dark-primary">8,789.00 USD</span>
-<span class="text-sm font-semibold text-red-light dark:text-red-dark">-2.12%</span>
+<span class="text-base font-bold text-text-light dark:text-text-dark">8,789.00 USD</span>
+ 
 </div>
-<ul class="mt-4 space-y-3 text-sm">
+<ul class="mt-2 space-y-3 text-sm">
 <li class="flex justify-between items-center">
 <div class="flex items-center gap-2">
 <span class="w-2 h-2 rounded-full bg-purple-500"></span>
-<span class="text-text-light-secondary dark:text-text-dark-secondary">Cybersecurity</span>
+<span class="text-text-muted-light dark:text-text-muted-dark">Cybersecurity</span>
 </div>
-<span class="font-medium text-text-light-primary dark:text-text-dark-primary">24</span>
+<span class="font-medium text-text-light dark:text-text-dark">24</span>
 </li>
 <li class="flex justify-between items-center">
 <div class="flex items-center gap-2">
 <span class="w-2 h-2 rounded-full bg-blue-500"></span>
-<span class="text-text-light-secondary dark:text-text-dark-secondary">Compliance</span>
+<span class="text-text-muted-light dark:text-text-muted-dark">Compliance</span>
 </div>
-<span class="font-medium text-text-light-primary dark:text-text-dark-primary">32</span>
+<span class="font-medium text-text-light dark:text-text-dark">32</span>
 </li>
 <li class="flex justify-between items-center">
 <div class="flex items-center gap-2">
 <span class="w-2 h-2 rounded-full bg-cyan-500"></span>
-<span class="text-text-light-secondary dark:text-text-dark-secondary">Financial</span>
+<span class="text-text-muted-light dark:text-text-muted-dark">Financial</span>
 </div>
-<span class="font-medium text-text-light-primary dark:text-text-dark-primary">12</span>
+<span class="font-medium text-text-light dark:text-text-dark">12</span>
 </li>
 <li class="flex justify-between items-center">
 <div class="flex items-center gap-2">
 <span class="w-2 h-2 rounded-full bg-green-500"></span>
-<span class="text-text-light-secondary dark:text-text-dark-secondary">Operational</span>
+<span class="text-text-muted-light dark:text-text-muted-dark">Operational</span>
 </div>
-<span class="font-medium text-text-light-primary dark:text-text-dark-primary">6</span>
+<span class="font-medium text-text-light dark:text-text-dark">6</span>
 </li>
 </ul>
 </div>
 </div>
 
-<div class="mt-6 border-t border-border-light dark:border-border-dark pt-4 flex items-center text-xs text-text-light-secondary dark:text-text-dark-secondary">
-<span class="material-icons text-base mr-1">sync</span>
-             Last Synced: May 20, 2025 – 12:10 PM
-</div>
+ 
 
 </div>
 
@@ -550,21 +537,20 @@
 
 </div>
 
-<div class="mt-10">
+<div class="mt-2">
 <div class="flex flex-col md:flex-row justify-between md:items-center">
 <div>
-<h2 class="text-2xl font-bold text-text-light-primary dark:text-text-dark-primary">Documents List</h2>
-<p class="text-text-light-secondary dark:text-text-dark-secondary mt-1">Track document risk and compliance.</p>
+ 
+<p class="text-text-muted-light dark:text-text-muted-dark mt-1">Upload and track your documents here</p>
 </div>
-<div class="flex items-center gap-2 mt-4 md:mt-0">
-<button class="px-4 py-2 text-sm font-medium rounded-md bg-background-light dark:bg-card-dark border border-border-light dark:border-border-dark hover:bg-gray-100 dark:hover:bg-slate-700">Applications</button>
+<div class="flex items-center gap-2 mt-2 md:mt-0">
 <button class="px-4 py-2 text-sm font-medium rounded-md bg-primary text-white">Documents</button>
 </div>
 </div>
-<div class="mt-6 bg-card-light dark:bg-card-dark p-4 rounded-lg shadow-sm border border-border-light dark:border-border-dark">
+<div class="mt-2 bg-card-light dark:bg-card-dark p-4 rounded-lg shadow-sm border border-border-light dark:border-border-dark">
 <div class="overflow-x-auto">
 <table class="w-full min-w-[800px] text-sm text-left">
-<thead class="text-xs text-text-light-secondary dark:text-text-dark-secondary uppercase border-b border-border-light dark:border-border-dark">
+<thead class="text-sm text-text-muted-light dark:text-text-muted-dark uppercase border-b border-border-light dark:border-border-dark">
 <tr>
 <th class="py-3 px-4 font-medium" scope="col">Name/Title of the Document</th>
 <th class="py-3 px-4 font-medium" scope="col">Category</th>
@@ -576,104 +562,8 @@
 
 <tbody>
 
-<tr class="border-b border-border-light dark:border-border-dark hover:bg-gray-50 dark:hover:bg-slate-800">
-<td class="py-4 px-4 font-medium text-text-light-primary dark:text-text-dark-primary">Project Alpha MOU</td>
-<td class="py-4 px-4 text-text-light-secondary dark:text-text-dark-secondary">MOU</td>
-<td class="py-4 px-4 text-text-light-secondary dark:text-text-dark-secondary">May 17, 2025</td>
-<td class="py-4 px-4">
-<div class="flex items-center gap-2">
-<button class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-slate-700">
-<span class="material-icons text-base text-text-light-secondary dark:text-text-dark-secondary">visibility</span>
-</button>
-<button class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-slate-700">
-<span class="material-icons text-base text-text-light-secondary dark:text-text-dark-secondary">edit</span>
-</button>
-<button class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-slate-700">
-<span class="material-icons text-base text-text-light-secondary dark:text-text-dark-secondary">delete</span>
-</button>
-</div>
-</td>
-
-</tr>
-
-<tr class="border-b border-border-light dark:border-border-dark hover:bg-gray-50 dark:hover:bg-slate-800">
-<td class="py-4 px-4 font-medium text-text-light-primary dark:text-text-dark-primary">Q2 Financials Report</td>
-<td class="py-4 px-4 text-text-light-secondary dark:text-text-dark-secondary">Templates</td>
-<td class="py-4 px-4 text-text-light-secondary dark:text-text-dark-secondary">May 18, 2025</td>
-<td class="py-4 px-4">
-<div class="flex items-center gap-2">
-<button class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-slate-700">
-<span class="material-icons text-base text-text-light-secondary dark:text-text-dark-secondary">visibility</span>
-</button>
-<button class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-slate-700">
-<span class="material-icons text-base text-text-light-secondary dark:text-text-dark-secondary">edit</span>
-</button>
-<button class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-slate-700">
-<span class="material-icons text-base text-text-light-secondary dark:text-text-dark-secondary">delete</span>
-</button>
-</div>
-</td>
-
-</tr>
-
-<tr class="border-b border-border-light dark:border-border-dark hover:bg-gray-50 dark:hover:bg-slate-800">
-<td class="py-4 px-4 font-medium text-text-light-primary dark:text-text-dark-primary">Vendor Agreement Template</td>
-<td class="py-4 px-4 text-text-light-secondary dark:text-text-dark-secondary">Templates</td>
-<td class="py-4 px-4 text-text-light-secondary dark:text-text-dark-secondary">May 16, 2025</td>
-<td class="py-4 px-4">
-<div class="flex items-center gap-2">
-<button class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-slate-700">
-<span class="material-icons text-base text-text-light-secondary dark:text-text-dark-secondary">visibility</span>
-</button>
-<button class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-slate-700">
-<span class="material-icons text-base text-text-light-secondary dark:text-text-dark-secondary">edit</span>
-</button>
-<button class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-slate-700">
-<span class="material-icons text-base text-text-light-secondary dark:text-text-dark-secondary">delete</span>
-</button>
-</div>
-</td>
-
-</tr>
-
-<tr class="border-b border-border-light dark:border-border-dark hover:bg-gray-50 dark:hover:bg-slate-800">
-<td class="py-4 px-4 font-medium text-text-light-primary dark:text-text-dark-primary">Beta Partnership MOU</td>
-<td class="py-4 px-4 text-text-light-secondary dark:text-text-dark-secondary">MOU</td>
-<td class="py-4 px-4 text-text-light-secondary dark:text-text-dark-secondary">May 19, 2025</td>
-<td class="py-4 px-4">
-<div class="flex items-center gap-2">
-<button class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-slate-700">
-<span class="material-icons text-base text-text-light-secondary dark:text-text-dark-secondary">visibility</span>
-</button>
-<button class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-slate-700">
-<span class="material-icons text-base text-text-light-secondary dark:text-text-dark-secondary">edit</span>
-</button>
-<button class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-slate-700">
-<span class="material-icons text-base text-text-light-secondary dark:text-text-dark-secondary">delete</span>
-</button>
-</div>
-</td>
-
-</tr>
-
-<tr class="hover:bg-gray-50 dark:hover:bg-slate-800">
-<td class="py-4 px-4 font-medium text-text-light-primary dark:text-text-dark-primary">Annual Compliance Report</td>
-<td class="py-4 px-4 text-text-light-secondary dark:text-text-dark-secondary">Templates</td>
-<td class="py-4 px-4 text-text-light-secondary dark:text-text-dark-secondary">May 20, 2025</td>
-<td class="py-4 px-4">
-<div class="flex items-center gap-2">
-<button class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-slate-700">
-<span class="material-icons text-base text-text-light-secondary dark:text-text-dark-secondary">visibility</span>
-</button>
-<button class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-slate-700">
-<span class="material-icons text-base text-text-light-secondary dark:text-text-dark-secondary">edit</span>
-</button>
-<button class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-slate-700">
-<span class="material-icons text-base text-text-light-secondary dark:text-text-dark-secondary">delete</span>
-</button>
-</div>
-</td>
-
+<tr>
+<td class="py-6 px-4 text-center text-text-muted-light dark:text-text-muted-dark" colspan="4">No documents yet</td>
 </tr>
 
 </tbody>
@@ -681,24 +571,14 @@
 </table>
 
 </div>
-<div class="flex justify-between items-center mt-4 pt-4 border-t border-border-light dark:border-border-dark text-sm">
-<button class="flex items-center gap-1 px-3 py-2 rounded-md border border-border-light dark:border-border-dark bg-card-light dark:bg-card-dark hover:bg-gray-100 dark:hover:bg-slate-700">
+<div class="flex justify-between items-center mt-2 pt-4 border-t border-border-light dark:border-border-dark text-sm">
+<button id="pagination-prev" class="flex items-center gap-1 px-3 py-2 rounded-md border border-border-light dark:border-border-dark bg-card-light dark:bg-card-dark hover:bg-gray-100 dark:hover:bg-slate-700">
 <span class="material-icons text-base">chevron_left</span> Prev
           </button>
 <nav>
-<ul class="flex items-center -space-x-px">
-<li><a class="px-3 py-2 leading-tight text-text-light-secondary dark:text-text-dark-secondary hover:text-primary dark:hover:text-primary" href="#">1</a></li>
-<li><a class="px-3 py-2 leading-tight text-text-light-secondary dark:text-text-dark-secondary hover:text-primary dark:hover:text-primary" href="#">2</a></li>
-<li><a class="px-3 py-2 leading-tight text-text-light-secondary dark:text-text-dark-secondary hover:text-primary dark:hover:text-primary" href="#">3</a></li>
-<li><a aria-current="page" class="z-10 px-3 py-2 leading-tight text-white bg-primary rounded-md" href="#">4</a></li>
-<li><a class="px-3 py-2 leading-tight text-text-light-secondary dark:text-text-dark-secondary hover:text-primary dark:hover:text-primary" href="#">5</a></li>
-<li><a class="px-3 py-2 leading-tight text-text-light-secondary dark:text-text-dark-secondary hover:text-primary dark:hover:text-primary" href="#">6</a></li>
-<li><a class="px-3 py-2 leading-tight text-text-light-secondary dark:text-text-dark-secondary hover:text-primary dark:hover:text-primary" href="#">7</a></li>
-<li><span class="px-3 py-2 leading-tight">...</span></li>
-<li><a class="px-3 py-2 leading-tight text-text-light-secondary dark:text-text-dark-secondary hover:text-primary dark:hover:text-primary" href="#">20</a></li>
-</ul>
+<ul id="pagination-pages" class="flex items-center -space-x-px"></ul>
 </nav>
-<button class="flex items-center gap-1 px-3 py-2 rounded-md border border-border-light dark:border-border-dark bg-card-light dark:bg-card-dark hover:bg-gray-100 dark:hover:bg-slate-700">
+<button id="pagination-next" class="flex items-center gap-1 px-3 py-2 rounded-md border border-border-light dark:border-border-dark bg-card-light dark:bg-card-dark hover:bg-gray-100 dark:hover:bg-slate-700">
             Next <span class="material-icons text-base">chevron_right</span>
 </button>
 </div>
@@ -743,7 +623,197 @@
 
             const toggleContainer = document.querySelector('.sidebar-toggle-container');
 
+            // Helper: Render documents table rows with the exact structure we expect
+            const documentsTableBody = document.getElementById('documents-table-body');
+
+            function renderDocuments(documents) {
+                if (!documentsTableBody) return;
+
+                // If no documents, keep the placeholder row
+                if (!Array.isArray(documents) || documents.length === 0) {
+                    documentsTableBody.innerHTML = '<tr><td class="py-6 px-4 text-center text-text-muted-light dark:text-text-muted-dark" colspan="4">No documents yet</td></tr>';
+                    return;
+                }
+
+                const rows = documents.map((doc, idx) => {
+                    const name = (doc && doc.name) ? doc.name : '';
+                    const category = (doc && doc.category) ? doc.category : '';
+                    const uploaded = (doc && doc.dateUploaded) ? doc.dateUploaded : '';
+                    const id = (doc && (doc.id !== undefined && doc.id !== null)) ? doc.id : String(idx);
+
+                    return (
+                        '<tr class="border-b border-border-light dark:border-border-dark hover:bg-gray-50 dark:hover:bg-slate-800">' +
+                        '<td class="py-4 px-4 font-medium text-text-light dark:text-text-dark">' + name + '</td>' +
+                        '<td class="py-4 px-4 text-text-muted-light dark:text-text-muted-dark">' + category + '</td>' +
+                        '<td class="py-4 px-4 text-text-muted-light dark:text-text-muted-dark">' + uploaded + '</td>' +
+                        '<td class="py-4 px-4">' +
+                        '  <div class="flex items-center gap-2">' +
+                        '    <button class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-slate-700" aria-label="View" data-action="view" data-id="' + id + '">' +
+                        '      <span class="material-icons text-base text-text-muted-light dark:text-text-muted-dark">visibility</span>' +
+                        '    </button>' +
+                        '    <button class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-slate-700" aria-label="Edit" data-action="edit" data-id="' + id + '">' +
+                        '      <span class="material-icons text-base text-text-muted-light dark:text-text-muted-dark">edit</span>' +
+                        '    </button>' +
+                        '    <button class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-slate-700" aria-label="Delete" data-action="delete" data-id="' + id + '">' +
+                        '      <span class="material-icons text-base text-text-muted-light dark:text-text-muted-dark">delete</span>' +
+                        '    </button>' +
+                        '  </div>' +
+                        '</td>' +
+                        '</tr>'
+                    );
+                }).join('');
+
+                documentsTableBody.innerHTML = rows;
+
+                // After rendering rows, update counters by category
+                try {
+                    const counts = { total: 0, MOU: 0, MOA: 0, Templates: 0 };
+                    counts.total = Array.isArray(documents) ? documents.length : 0;
+                    if (Array.isArray(documents)) {
+                        documents.forEach(d => {
+                            const cat = d && d.category ? String(d.category).trim() : '';
+                            if (cat in counts) counts[cat]++;
+                        });
+                    }
+
+                    const setText = (id, value) => {
+                        const el = document.getElementById(id);
+                        if (el) el.textContent = String(value);
+                    };
+                    setText('counter-total', counts.total);
+                    setText('counter-mou', counts.MOU);
+                    setText('counter-templates', counts.Templates);
+                    setText('counter-moa', counts.MOA);
+                } catch (_) { /* no-op */ }
+            }
+
+            // Expose for future integration (e.g., API fetch -> renderDocuments(data))
+            window.renderDocuments = renderDocuments;
+
+            // Delegated click handling for Actions (View/Edit/Delete)
+            if (documentsTableBody) {
+                documentsTableBody.addEventListener('click', (event) => {
+                    const target = event.target.closest('button[data-action]');
+                    if (!target) return;
+                    const action = target.getAttribute('data-action');
+                    const id = target.getAttribute('data-id');
+
+                    if (action === 'view') {
+                        if (typeof window.onViewDocument === 'function') {
+                            window.onViewDocument(id);
+                        } else {
+                            alert('View document: ' + id);
+                        }
+                    } else if (action === 'edit') {
+                        if (typeof window.onEditDocument === 'function') {
+                            window.onEditDocument(id);
+                        } else {
+                            alert('Edit document: ' + id);
+                        }
+                    } else if (action === 'delete') {
+                        if (typeof window.onDeleteDocument === 'function') {
+                            window.onDeleteDocument(id);
+                        } else {
+                            if (confirm('Delete document ' + id + '?')) {
+                                // Example optimistic remove from table
+                                const row = target.closest('tr');
+                                if (row && row.parentElement) {
+                                    row.parentElement.removeChild(row);
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
             // Prevent navigating when clicking the current page link
+
+            // Pagination logic (client-side demo)
+            const prevBtn = document.getElementById('pagination-prev');
+            const nextBtn = document.getElementById('pagination-next');
+            const pagesEl = document.getElementById('pagination-pages');
+
+            // Configure these with your actual totals
+            let currentPage = 4; // default active shown in UI
+            let totalPages = 20;
+
+            function renderPagination() {
+                if (!pagesEl) return;
+                const maxAround = 3; // show 1.. then current +/- up to 3, then .. last
+
+                const parts = [];
+                function pageItem(page, { active = false, disabled = false } = {}) {
+                    const activeClass = active ? 'z-10 px-3 py-2 leading-tight text-white bg-primary rounded-md' : 'px-3 py-2 leading-tight text-text-muted-light dark:text-text-muted-dark hover:text-primary dark:hover:text-primary';
+                    const aria = active ? ' aria-current="page"' : '';
+                    return `<li><a${aria} data-page="${page}" class="${activeClass}" href="#">${page}</a></li>`;
+                }
+
+                // Always show page 1
+                parts.push(pageItem(1, { active: currentPage === 1 }));
+
+                // Left ellipsis
+                if (currentPage - maxAround > 2) {
+                    parts.push('<li><span class="px-3 py-2 leading-tight">...</span></li>');
+                }
+
+                // Middle pages
+                const start = Math.max(2, currentPage - maxAround);
+                const end = Math.min(totalPages - 1, currentPage + maxAround);
+                for (let p = start; p <= end; p++) {
+                    parts.push(pageItem(p, { active: p === currentPage }));
+                }
+
+                // Right ellipsis
+                if (currentPage + maxAround < totalPages - 1) {
+                    parts.push('<li><span class="px-3 py-2 leading-tight">...</span></li>');
+                }
+
+                // Last page
+                if (totalPages > 1) {
+                    parts.push(pageItem(totalPages, { active: currentPage === totalPages }));
+                }
+
+                pagesEl.innerHTML = parts.join('');
+            }
+
+            function setPage(page) {
+                const newPage = Math.max(1, Math.min(totalPages, page));
+                if (newPage === currentPage) return;
+                currentPage = newPage;
+                renderPagination();
+                // Hook: load data for currentPage here, then call renderDocuments(data)
+            }
+
+            // Wire events
+            if (prevBtn) prevBtn.addEventListener('click', (e) => { e.preventDefault(); setPage(currentPage - 1); });
+            if (nextBtn) nextBtn.addEventListener('click', (e) => { e.preventDefault(); setPage(currentPage + 1); });
+            if (pagesEl) pagesEl.addEventListener('click', (e) => {
+                const target = e.target;
+                if (target && target.matches('a[data-page]')) {
+                    e.preventDefault();
+                    const page = parseInt(target.getAttribute('data-page'), 10);
+                    if (!Number.isNaN(page)) setPage(page);
+                }
+            });
+
+            renderPagination();
+
+            // Match counter card heights to the Documents Report card (desktop only)
+            function syncCounterHeights() {
+                const report = document.getElementById('documentsReportCard');
+                const counters = document.querySelectorAll('.doc-counter-card');
+                // Reset heights first
+                counters.forEach(c => c.style.minHeight = '');
+                if (!report) return;
+                const isDesktop = window.matchMedia('(min-width: 1024px)').matches; // ~lg breakpoint
+                if (!isDesktop) return;
+                const h = report.getBoundingClientRect().height;
+                counters.forEach(c => c.style.minHeight = h / 2 - 12 + 'px'); // two rows, minus small gap
+            }
+
+            window.addEventListener('resize', syncCounterHeights);
+            // defer to ensure layout complete
+            setTimeout(syncCounterHeights, 0);
 
             const currentPath = window.location.pathname.split('/').pop();
 
@@ -1051,181 +1121,6 @@
 
 </body></html>
 
-
-
-
-
-
-
-
-
-                toggleDarkMode(!isCurrentlyDark);
-
-                // Re-render chart on theme change
-
-                if (window.awardsProgressChartInstance) {
-
-                    window.awardsProgressChartInstance.destroy();
-
-                }
-
-                renderChart();
-
-            });
-
-
-
-            // Advanced Search toggle
-
-            const advancedSearchToggle = document.getElementById('advanced-search-toggle');
-
-            const advancedSearchSection = document.getElementById('advanced-search-section');
-
-            if (advancedSearchToggle && advancedSearchSection) {
-
-                advancedSearchToggle.addEventListener('click', () => {
-
-                    advancedSearchSection.classList.toggle('hidden');
-
-                });
-
-            }
-
-            // Chart.js rendering
-
-            const renderChart = () => {
-
-                const canvas = document.getElementById('awardsProgressChart');
-
-                if (!canvas) {
-
-                    return; // Skip rendering if chart element is not present on this page state
-
-                }
-
-                const ctx = canvas.getContext('2d');
-
-                const isDarkMode = document.documentElement.classList.contains('dark');
-
-                const gridColor = isDarkMode ? tailwind.theme.extend.colors.border-dark : tailwind.theme.extend.colors.border-light;
-
-                const tickColor = isDarkMode ? tailwind.theme.extend.colors['text-muted-dark'] : tailwind.theme.extend.colors['text-muted-light'];
-
-                const legendColor = isDarkMode ? tailwind.theme.extend.colors['text-dark'] : tailwind.theme.extend.colors['text-light'];
-
-                const data = {
-
-                    labels: ['Teaching', 'Research', 'Extension', 'Support', 'Admin'],
-
-                    datasets: [{
-
-                        label: 'Award Progress',
-
-                        data: [75, 60, 90, 45, 82],
-
-                        backgroundColor: [
-
-                            'rgba(19, 127, 236, 0.2)',
-
-                            'rgba(34, 197, 94, 0.2)',
-
-                            'rgba(234, 179, 8, 0.2)',
-
-                            'rgba(239, 68, 68, 0.2)',
-
-                            'rgba(99, 102, 241, 0.2)',
-
-                        ],
-
-                        borderColor: [
-
-                            'rgb(19, 127, 236)',
-
-                            'rgb(34, 197, 94)',
-
-                            'rgb(234, 179, 8)',
-
-                            'rgb(239, 68, 68)',
-
-                            'rgb(99, 102, 241)',
-
-                        ],
-
-                        borderWidth: 2,
-
-                        borderRadius: 8,
-
-                        borderSkipped: false,
-
-                    }]
-
-                };
-
-                const options = {
-
-                    responsive: true,
-
-                    maintainAspectRatio: true,
-
-                    plugins: {
-
-                        legend: { display: false },
-
-                        tooltip: {
-
-                            callbacks: {
-
-                                label: function(context) {
-
-                                    let label = context.dataset.label || '';
-
-                                    if (label) label += ': ';
-
-                                    if (context.parsed.y !== null) label += context.parsed.y + '%';
-
-                                    return label;
-
-                                }
-
-                            }
-
-                        }
-
-                    },
-
-                    scales: {
-
-                        y: {
-
-                            beginAtZero: true,
-
-                            max: 100,
-
-                            grid: { color: gridColor, drawBorder: false },
-
-                            ticks: { color: tickColor, padding: 10, callback: v => v + '%' }
-
-                        },
-
-                        x: { grid: { display: false }, ticks: { color: tickColor, padding: 10 } }
-
-                    }
-
-                };
-
-                window.awardsProgressChartInstance = new Chart(ctx, { type: 'bar', data, options });
-
-            };
-
-            renderChart();
-
-        });
-
-    </script>
-
-
-
-</body></html>
 
 
 

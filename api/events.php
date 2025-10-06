@@ -120,16 +120,34 @@ function details($pdo, $id) {
     echo json_encode($row);
 }
 
+function deleteEvent($pdo, $id) {
+    $stmt = $pdo->prepare('DELETE FROM events WHERE id = ?');
+    $stmt->execute([$id]);
+    if ($stmt->rowCount() === 0) {
+        http_response_code(404);
+        echo json_encode(['error' => 'Not found']);
+        return;
+    }
+    echo json_encode(['success' => true]);
+}
+
+function clearAllEvents($pdo) {
+    $pdo->exec('DELETE FROM events');
+    echo json_encode(['success' => true, 'cleared' => true]);
+}
+
 try {
     $pdo = db();
     $method = $_SERVER['REQUEST_METHOD'];
     $action = $_GET['action'] ?? 'list';
     
     if ($method === 'GET' && $action === 'eligible') { getEligible($pdo); return; }
+    if ($method === 'POST' && $action === 'clear') { clearAllEvents($pdo); return; }
     if ($method === 'GET' && $action === 'calendar') { getEventsForCalendar($pdo); return; }
     if ($method === 'GET' && isset($_GET['id'])) { details($pdo, (int)$_GET['id']); return; }
     if ($method === 'GET') { listAll($pdo); return; }
     if ($method === 'POST') { $data = json_decode(file_get_contents('php://input'), true) ?? []; create($pdo, $data); return; }
+    if ($method === 'DELETE') { $id = isset($_GET['id']) ? (int)$_GET['id'] : 0; if ($id) { deleteEvent($pdo, $id); return; } http_response_code(400); echo json_encode(['error'=>'ID is required']); return; }
     
     http_response_code(405);
     echo json_encode(['error'=>'Method not allowed']);

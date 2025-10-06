@@ -230,42 +230,21 @@ No notifications yet
         <!-- Dynamic award-eligible cards will be injected here -->
       </div>
 
-      <div class="bg-card-light dark:bg-card-dark p-6 rounded-xl shadow-soft">
+      <div id="upcomingEventsSection" class="bg-card-light dark:bg-card-dark p-6 rounded-xl shadow-soft hidden">
         <div class="flex justify-between items-center mb-4">
           <div>
-            <h3 class="text-xl font-bold text-text-light dark:text-text-dark">Upcoming Event</h3>
+            <h3 class="text-xl font-bold text-text-light dark:text-text-dark">Upcoming Events</h3>
             <p class="text-sm text-text-muted-light dark:text-text-muted-dark">Don't miss out—get notified for your favorite upcoming events.</p>
           </div>
-          
+        </div>
+        <div id="upcomingEventsContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <!-- Upcoming events will be injected here -->
+        </div>
       </div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          <div class="space-y-3">
-            <img alt="Wellness event banner" class="w-full h-32 object-cover rounded-lg" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCyLk-1H8jxRpdsJ34k3wDPRRi3VLfhuOoicTtQrVrw1d_FH52wGjT2dYbvj8HtUqfzX9WRMdoQcXhb_xIk8q4nIE6txehsMwRUShTrcCxwQxcdRkvDe5D83A7X_YBt-_7zWWZ5zHzKPqDEh5zDtyM7JsXFuYzLfHyJHc9UmrkQZ_Wig-pdiB6xJSi50cVc-IGgtMX1v0Et2aYe4qyTy2MTJoAII_X88Wjs5KrTLksgb_v2n_JpJsUKjKjAbzYFUa20rQMpTfnlEFV4"/>
-            <h4 class="font-semibold text-text-light dark:text-text-dark">Mind & Mood: Wellness and Yoga Retreat</h4>
-            <p class="text-xs text-text-muted-light dark:text-text-muted-dark"><span class="material-symbols-outlined text-sm align-middle">location_on</span> ABC Green Fields, Bali, Indonesia</p>
-            <p class="text-xs text-text-muted-light dark:text-text-muted-dark"><span class="material-symbols-outlined text-sm align-middle">calendar_today</span> Oct 20, 2025 ⋅ 8:30 - 9:00 AM</p>
-            <button class="w-full bg-primary/10 text-primary font-semibold py-2 rounded-lg hover:bg-primary/20 transition-colors">Remind Me</button>
-      </div>
-          <div class="space-y-3">
-            <img alt="DJ festival banner" class="w-full h-32 object-cover rounded-lg" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCkjMPIVPmYRe4OOkEbwIF9c1f70eFaDpMkpCijbWXONpOQkG8bE5ABsxQNvN_1MNFq9S54YkZttjOZ52YThD89EXZO-10aBYugt9QolMfqkYLDfMWliYUTQ_5OFSs2GgDXBMWddJqTO2j-h4EH9NuLkYxOXh9jFFa2L5z2wOgIuU_Ie5hDd7_aq9-SYIw-uRt8CvUv_iH9B6D6QuoYZ_PFdILrLIj1pqqyXDLOs6LYR3dlXjd_nI3lPhLcwYVxuz5tkO2AeoqAkJOI"/>
-            <h4 class="font-semibold text-text-light dark:text-text-dark">Sunset Beats Festival: Live DJ Marathon</h4>
-            <p class="text-xs text-text-muted-light dark:text-text-muted-dark"><span class="material-symbols-outlined text-sm align-middle">location_on</span> Marina Bay Sands, Singapore</p>
-            <p class="text-xs text-text-muted-light dark:text-text-muted-dark"><span class="material-symbols-outlined text-sm align-middle">calendar_today</span> Oct 12, 2025 ⋅ 4:00 - 11:00 PM</p>
-            <button class="w-full bg-primary/10 text-primary font-semibold py-2 rounded-lg hover:bg-primary/20 transition-colors">Remind Me</button>
-      </div>
-          <div class="space-y-3">
-            <img alt="Neon party banner" class="w-full h-32 object-cover rounded-lg" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCYGrAR5WI1d-mo-Bt3gC13I9svFmWw02rOdt2DjJzUSfl6byVLl0ydpkOWXCDootUM-tXZ3dy2rsneXjNL5ZpyxA7pNXdF0bmOQGHcFNgSFXQOYBPC2YFnEal_Iowyf_f_t5c0t1gN9AUNZtaXhWm6JMLuHzQxOfMmYH_muWyssbk34sogvRD0tWrr8R7XL6yhmo6k0oGeeksKnaFkqz0r3hzelAI3G8_pq8SA14KqFqP5YzxS-kwTmgAolhT0XQD-kodjpTH-2QV2"/>
-            <h4 class="font-semibold text-text-light dark:text-text-dark">Neon Nights Live: The Ultimate DJ Party Experience</h4>
-            <p class="text-xs text-text-muted-light dark:text-text-muted-dark"><span class="material-symbols-outlined text-sm align-middle">location_on</span> The Glass Hall, Tokyo, Japan</p>
-            <p class="text-xs text-text-muted-light dark:text-text-muted-dark"><span class="material-symbols-outlined text-sm align-middle">calendar_today</span> Nov. 18 2025 ⋅ 5:00 - 9:00 PM</p>
-            <button class="w-full bg-primary/10 text-primary font-semibold py-2 rounded-lg hover:bg-primary/20 transition-colors">Remind Me</button>
-      </div>
-    </div>
-  </div>
 
       
 
-      <div class="bg-card-light dark:bg-card-dark p-6 rounded-xl shadow-soft">
+      <div id="completedEventsSection" class="bg-card-light dark:bg-card-dark p-6 rounded-xl shadow-soft hidden">
         <div class="flex justify-between items-center mb-4">
           <div>
             <h3 class="text-xl font-bold text-text-light dark:text-text-dark">Completed Events</h3>
@@ -274,25 +253,8 @@ No notifications yet
           
       </div>
         <div id="completedEventsContainer" class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <div class="relative rounded-lg overflow-hidden">
-            <img alt="Boston" class="w-full h-24 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDHNe0QLxtol2rvONurdog1VJ6jxZfwr7qIBBCHLUejzPAOKt1KoloM2RPDWJxBLK-e38UEwPoqIxBPQW03FARIOs2yWwLxH3t1daZO1mzOWZXaO9j8180jZ1d7zN_GQQB44sIppexOqXcAnjBygbDkMC725FsJUnyn3A_4o84RnbwQ5zzC6h_TJ76CMhCpJSSF72FHAe09LgySczibXciFbX9Fz4eEJ0yQp_Yj_hODoUg8gFS_TAkaM8875JygeVlKxMn97q6OplPc"/>
-            <div class="absolute inset-0 bg-black/40 flex items-center justify-center">
-              <p class="text-white font-bold text-lg">Boston</p>
-      </div>
-    </div>
-          <div class="relative rounded-lg overflow-hidden">
-            <img alt="Chicago" class="w-full h-24 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDIkVbVAZy8T23An052R8iBghMRKiEEZLIIh-enNk-NVYHaJZjpJiDk1y1XQYjghvxOlLrLPltLTNOaPDzeev2teZZjfIXQJCt2WStZvRuzVsXtjR8AR1Nr3WMIVLmE685ONhjTvxrJg2qDUTMKm07MrL0VLy6MaXFE_Gf68ZAmm5luP9A-rIvfTGyyygClC-HMlumqjlrNksgBTzQfrOpOPRgrD6q1YyskubYWnsncArcMPyqdCLG4Kfts_nozZHx8s8IdU331ejzE"/>
-            <div class="absolute inset-0 bg-black/40 flex items-center justify-center">
-              <p class="text-white font-bold text-lg">Chicago</p>
-      </div>
-    </div>
-          <div class="relative rounded-lg overflow-hidden">
-            <img alt="Atlanta" class="w-full h-24 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBjsf3Ii8u0fkOEYmil2txPfbEKNbxuUmip9Or_22pNBNLtg8Cg0ajvT0JVv3My6HSaS58LKDHo8ZEqyNlcBRESvMfcwAtDkiOI2YNSgKqghokeDctcraqdFsvwAtgDiAqOiZS8tdFgKD1wIHmRriPl1dHkjbEJeoMWDPcHRBOIHS4znwreGJq88IZskPP5kl81ynerZXrHbJtHnDKcJC3QuJltWOYvsP9SbVKZOQC5LHUK62lxnC9tu9Ys5eNJXWN6anxOyTRq8SJb"/>
-            <div class="absolute inset-0 bg-black/40 flex items-center justify-center">
-              <p class="text-white font-bold text-lg">Atlanta</p>
-      </div>
-      </div>
-    </div>
+          <!-- Completed events will be injected here -->
+        </div>
   </div>
 
     </div>
@@ -340,8 +302,8 @@ No notifications yet
           <!-- Today's events will be dynamically loaded here -->
         </div>
       </div>
-      <!-- Popular Event moved under mini calendar list -->
-      <div class="bg-card-light dark:bg-card-dark p-6 rounded-xl shadow-soft">
+      <!-- Popular Event removed -->
+      <div class="hidden">
         <div class="flex justify-between items-center mb-4">
           <div>
             <h3 class="text-xl font-bold text-text-light dark:text-text-dark">Popular Event</h3>
@@ -391,13 +353,13 @@ No notifications yet
       <span class="material-symbols-outlined">close</span>
     </button>
     <div class="p-3 pt-10">
-      <input id="evTitle" type="text" class="w-full text-xl font-medium bg-transparent border-0 border-b border-border-light dark:border-border-dark focus:border-primary focus:ring-0 focus:outline-none pb-1.5 mb-2 placeholder:text-text-muted-light dark:placeholder:text-text-muted-dark" placeholder="Add title" />
+      <input id="evTitle" type="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" class="w-full text-xl font-medium bg-transparent border-0 border-b border-border-light dark:border-border-dark focus:border-primary focus:ring-0 focus:outline-none pb-1.5 mb-2 placeholder:text-text-muted-light dark:placeholder:text-text-muted-dark" placeholder="Add title" />
       <div class="space-y-3">
         <div class="flex items-start gap-3">
           <span class="material-symbols-outlined text-text-muted-light dark:text-text-muted-dark mt-1">schedule</span>
           <div class="flex-1">
             <div class="flex items-center gap-2 flex-wrap relative" id="timeRangeContainer">
-              <input id="evDate" type="date" class="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-full text-sm font-medium text-text-light dark:text-text-dark dark:bg-white/10 border-0 outline-none focus:outline-none ring-0 focus:ring-0" placeholder="mm/dd/yyyy" />
+              <input id="evDate" type="date" autocomplete="off" class="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-full text-sm font-medium text-text-light dark:text-text-dark dark:bg-white/10 border-0 outline-none focus:outline-none ring-0 focus:ring-0" placeholder="mm/dd/yyyy" />
               <button id="evTimeRangeBtn" type="button" class="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-full text-sm font-medium text-text-light dark:text-text-dark dark:bg-white/10 border-0 outline-none">
                 <span id="evTimeRangeText">--:-- -- - --:-- --</span>
               </button>
@@ -417,7 +379,7 @@ No notifications yet
         <div class="flex items-center gap-3">
           <span class="material-symbols-outlined text-text-muted-light dark:text-text-muted-dark">place</span>
           <div class="flex-1">
-            <input id="evLocation" type="text" class="w-full bg-transparent border-0 border-b border-transparent outline-none focus:outline-none ring-0 focus:ring-0 focus:border-border-light dark:focus:border-border-dark shadow-none focus:shadow-none text-sm transition-colors" placeholder="Add location (e.g., Iloilo)" style="box-shadow: none !important;" />
+            <input id="evLocation" type="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" class="w-full bg-transparent border-0 border-b border-transparent outline-none focus:outline-none ring-0 focus:ring-0 focus:border-border-light dark:focus:border-border-dark shadow-none focus:shadow-none text-sm transition-colors" placeholder="Add location (e.g., Iloilo)" style="box-shadow: none !important;" />
             <div id="locationSuggestions" class="hidden mt-2 rounded-lg border border-border-light dark:border-border-dark bg-white dark:bg-card-dark shadow-lg max-h-48 overflow-y-auto">
               <div id="suggestionsList" class="p-2 space-y-1">
                 <!-- Location suggestions will appear here -->
@@ -427,7 +389,7 @@ No notifications yet
         </div>
         <div class="flex items-center gap-3">
           <span class="material-symbols-outlined text-text-muted-light dark:text-text-muted-dark">description</span>
-          <input id="evDesc" type="text" class="flex-1 bg-transparent border-0 border-b border-transparent outline-none focus:outline-none ring-0 focus:ring-0 focus:border-border-light dark:focus:border-border-dark shadow-none focus:shadow-none text-sm transition-colors" placeholder="Add description or a Google Drive attachment" style="box-shadow: none !important;" />
+          <input id="evDesc" type="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" class="flex-1 bg-transparent border-0 border-b border-transparent outline-none focus:outline-none ring-0 focus:ring-0 focus:border-border-light dark:focus:border-border-dark shadow-none focus:shadow-none text-sm transition-colors" placeholder="Add description or a Google Drive attachment" style="box-shadow: none !important;" />
         </div>
       </div>
       <div class="flex items-center justify-end mt-3">
@@ -440,77 +402,79 @@ No notifications yet
 
 <!-- Reminder Selection Modal -->
 <div id="reminderModal" class="fixed inset-0 bg-black/30 hidden items-center justify-center z-[9999]">
-  <div class="bg-white dark:bg-card-dark rounded-lg shadow-xl w-full max-w-sm mx-4 border border-border-light dark:border-border-dark relative">
-    <button id="closeReminderModal" class="absolute top-2 right-2 rounded-full p-1.5 hover:bg-gray-100 dark:hover:bg-white/10">
-      <span class="material-symbols-outlined text-lg">close</span>
+  <div class="bg-white dark:bg-card-dark rounded-xl shadow-lg w-full max-w-md mx-4 border border-border-light dark:border-border-dark relative p-6">
+    <button id="closeReminderModal" class="absolute top-3 right-3 rounded-full p-1.5 hover:bg-gray-100 dark:hover:bg-white/10">
+      <span class="material-symbols-outlined">close</span>
     </button>
-    <div class="p-4 pt-10">
-      <div class="mb-3">
-        <h3 class="text-base font-semibold text-text-light dark:text-text-dark">Set Reminder</h3>
-        <p class="text-xs text-text-muted-light dark:text-text-muted-dark mt-1">Choose when you'd like to be reminded about this event</p>
+    <div class="flex justify-between items-start mb-4">
+      <div>
+        <h3 class="text-2xl font-bold text-text-light dark:text-text-dark">Set Reminder</h3>
+        <p class="text-subtext-light dark:text-subtext-dark text-sm">Choose when to be reminded.</p>
       </div>
-      
-      <div id="eventInfo" class="mb-4 p-2 bg-gray-50 dark:bg-white/5 rounded-lg">
-        <h4 class="font-medium text-sm text-text-light dark:text-text-dark" id="reminderEventTitle"></h4>
-        <p class="text-xs text-text-muted-light dark:text-text-muted-dark" id="reminderEventDateTime"></p>
+    </div>
+    <div class="bg-background-light dark:bg-background-dark p-4 rounded-lg mb-6">
+      <p class="font-semibold text-text-light dark:text-text-dark" id="reminderEventTitle"></p>
+      <p class="text-sm text-subtext-light dark:text-subtext-dark" id="reminderEventDateTime"></p>
+    </div>
+
+    <div class="space-y-4">
+      <p class="text-sm font-medium text-subtext-light dark:text-subtext-dark">QUICK REMINDERS</p>
+      <div class="grid grid-cols-3 gap-2">
+        <button type="button" class="flex flex-col items-center justify-center p-3 border border-border-light dark:border-border-dark rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:border-primary transition-colors text-center group" onclick="document.querySelector('input[name=reminderTime][value=custom]').checked=true; document.getElementById('customDays').value=0; document.getElementById('customTime').value='00:10';">
+          <span class="material-symbols-outlined text-subtext-light dark:text-subtext-dark group-hover:text-primary">schedule</span>
+          <span class="text-sm font-medium text-text-light dark:text-text-dark mt-1">10 min before</span>
+        </button>
+        <button type="button" class="flex flex-col items-center justify-center p-3 border border-border-light dark:border-border-dark rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:border-primary transition-colors text-center group" onclick="document.querySelector('input[name=reminderTime][value=1hour]').checked=true;">
+          <span class="material-symbols-outlined text-primary">schedule</span>
+          <span class="text-sm font-medium text-primary mt-1">1 hour before</span>
+        </button>
+        <button type="button" class="flex flex-col items-center justify-center p-3 border border-border-light dark:border-border-dark rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:border-primary transition-colors text-center group" onclick="document.querySelector('input[name=reminderTime][value=1day]').checked=true;">
+          <span class="material-symbols-outlined text-subtext-light dark:text-subtext-dark group-hover:text-primary">event</span>
+          <span class="text-sm font-medium text-text-light dark:text-text-dark mt-1">1 day before</span>
+        </button>
       </div>
-      
-      <div class="space-y-2">
-        <label class="flex items-center p-2 border border-border-light dark:border-border-dark rounded cursor-pointer hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
-          <input type="radio" name="reminderTime" value="1hour" class="mr-2">
-          <div>
-            <div class="font-medium text-sm text-text-light dark:text-text-dark">1 Hour Before</div>
-            <div class="text-xs text-text-muted-light dark:text-text-muted-dark">Quick reminder</div>
-          </div>
-        </label>
-        
-        <label class="flex items-center p-2 border border-border-light dark:border-border-dark rounded cursor-pointer hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
-          <input type="radio" name="reminderTime" value="1day" class="mr-2">
-          <div>
-            <div class="font-medium text-sm text-text-light dark:text-text-dark">1 Day Before</div>
-            <div class="text-xs text-text-muted-light dark:text-text-muted-dark">Standard notice</div>
-          </div>
-        </label>
-        
-        <label class="flex items-center p-2 border border-border-light dark:border-border-dark rounded cursor-pointer hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
-          <input type="radio" name="reminderTime" value="1week" class="mr-2">
-          <div>
-            <div class="font-medium text-sm text-text-light dark:text-text-dark">1 Week Before</div>
-            <div class="text-xs text-text-muted-light dark:text-text-muted-dark">Early planning</div>
-          </div>
-        </label>
-        
-        <label class="flex items-start p-2 border border-border-light dark:border-border-dark rounded cursor-pointer hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
-          <input type="radio" name="reminderTime" value="custom" class="mr-2 mt-1">
-          <div class="flex-1">
-            <div class="font-medium text-sm text-text-light dark:text-text-dark">Custom Date & Time</div>
-            <div class="mt-2 space-y-2">
-              <div class="flex items-center gap-2">
-                <span class="text-xs text-text-muted-light dark:text-text-muted-dark">Date:</span>
-                <input type="date" id="customDate" class="px-2 py-1 border border-border-light dark:border-border-dark rounded text-xs bg-transparent flex-1">
-                <button type="button" onclick="setToday()" class="px-2 py-1 text-xs bg-primary/10 text-primary rounded hover:bg-primary/20">Today</button>
-              </div>
-              <div class="flex items-center gap-2">
-                <span class="text-xs text-text-muted-light dark:text-text-muted-dark">Time:</span>
-                <input type="time" id="customTime" class="px-2 py-1 border border-border-light dark:border-border-dark rounded text-xs bg-transparent flex-1">
-                <button type="button" onclick="setCurrentTime()" class="px-2 py-1 text-xs bg-primary/10 text-primary rounded hover:bg-primary/20">Now</button>
-              </div>
-              <div class="text-xs text-text-muted-light dark:text-text-muted-dark">
-                Or specify days before:
-              </div>
-              <div class="flex items-center gap-2">
-                <input type="number" id="customDays" min="0" max="365" class="w-12 px-1 py-0.5 border border-border-light dark:border-border-dark rounded text-xs bg-transparent" placeholder="0">
-                <span class="text-xs text-text-muted-light dark:text-text-muted-dark">days before</span>
+
+      <div>
+        <p class="text-sm font-medium text-subtext-light dark:text-subtext-dark mt-6 mb-2">CUSTOM REMINDER</p>
+        <div class="grid grid-cols-2 gap-4">
+          <button type="button" class="flex items-center justify-between w-full p-3 border border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark rounded-lg hover:border-primary transition-colors group" onclick="document.querySelector('input[name=reminderTime][value=custom]').checked=true; document.getElementById('customDate').showPicker && document.getElementById('customDate').showPicker();">
+            <div class="flex items-center">
+              <span class="material-symbols-outlined text-subtext-light dark:text-subtext-dark group-hover:text-primary mr-3">calendar_today</span>
+              <div>
+                <p class="text-xs font-medium text-subtext-light dark:text-subtext-dark">Date</p>
+                <p class="text-sm font-semibold text-text-light dark:text-text-dark" id="customDatePreview">—</p>
               </div>
             </div>
-          </div>
-        </label>
+            <span class="material-symbols-outlined text-subtext-light dark:text-subtext-dark">arrow_drop_down</span>
+          </button>
+          <button type="button" class="flex items-center justify-between w-full p-3 border border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark rounded-lg hover:border-primary transition-colors group" onclick="document.querySelector('input[name=reminderTime][value=custom]').checked=true; document.getElementById('customTime').showPicker && document.getElementById('customTime').showPicker();">
+            <div class="flex items-center">
+              <span class="material-symbols-outlined text-subtext-light dark:text-subtext-dark group-hover:text-primary mr-3">schedule</span>
+              <div>
+                <p class="text-xs font-medium text-subtext-light dark:text-subtext-dark">Time</p>
+                <p class="text-sm font-semibold text-text-light dark:text-text-dark" id="customTimePreview">—</p>
+              </div>
+            </div>
+            <span class="material-symbols-outlined text-subtext-light dark:text-subtext-dark">arrow_drop_down</span>
+          </button>
+        </div>
       </div>
-      
-      <div class="flex items-center justify-end mt-4 gap-2">
-        <button id="cancelReminder" class="px-3 py-1.5 text-sm text-text-muted-light dark:text-text-muted-dark hover:text-text-light dark:hover:text-text-dark transition-colors">Cancel</button>
-        <button id="setReminder" class="bg-primary text-white px-4 py-1.5 rounded text-sm font-medium hover:bg-primary/90">Set Reminder</button>
+
+      <!-- Hidden actual controls to keep existing logic working -->
+      <div class="sr-only">
+        <label><input type="radio" name="reminderTime" value="1hour">1 hour</label>
+        <label><input type="radio" name="reminderTime" value="1day">1 day</label>
+        <label><input type="radio" name="reminderTime" value="1week">1 week</label>
+        <label><input type="radio" name="reminderTime" value="custom">custom</label>
+        <input type="date" id="customDate">
+        <input type="time" id="customTime">
+        <input type="number" id="customDays">
       </div>
+    </div>
+
+    <div class="flex justify-end space-x-3 mt-6">
+      <button id="cancelReminder" class="px-4 py-2 rounded-lg text-sm font-semibold text-subtext-light dark:text-subtext-dark hover:bg-background-light dark:hover:bg-background-dark transition-colors">Cancel</button>
+      <button id="setReminder" class="px-4 py-2 rounded-lg text-sm font-semibold bg-primary text-white hover:bg-blue-700 transition-colors">Set Reminder</button>
     </div>
   </div>
 </div>
@@ -757,12 +721,38 @@ No notifications yet
                 };
                 
                 try {
-                    // Check if we're running in file mode (can't make HTTP requests)
+                    // Decide if API calls are allowed (same rules as loaders)
+                    const serverEnabled = (localStorage.getItem('enableServerAPI') === '1');
                     const isFileProtocol = window.location.protocol === 'file:';
+                    const isPhpServer = window.location.protocol === 'http:' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
                     
-                    if (isFileProtocol) {
-                        console.log('Running in file mode - saving to localStorage only');
-                        throw new Error('File mode - database not available');
+                    // Auto-enable server API if running on localhost/127.0.0.1
+                    if (isPhpServer && !serverEnabled) {
+                        localStorage.setItem('enableServerAPI', '1');
+                        console.log('Auto-enabled server API for localhost/127.0.0.1');
+                    }
+                    
+                    if (isFileProtocol || !isPhpServer) {
+                        console.warn('Server API unavailable. Saving event locally to browser storage.');
+                        // Fallback: save to localStorage in the same shape used by renderers
+                        const savedEvents = JSON.parse(localStorage.getItem('upcomingEvents') || '[]');
+                        const localEvent = {
+                            id: Date.now(),
+                            title: eventData.title,
+                            date: eventData.date,
+                            timeRange: `${timeMatch ? timeMatch[1] : '09:00'}${timeMatch && timeMatch[2] ? ' ' + timeMatch[2].toUpperCase() : ''} - ${timeMatch ? timeMatch[3] : '05:00'}${timeMatch && timeMatch[4] ? ' ' + timeMatch[4].toUpperCase() : ''}`,
+                            location: eventData.location,
+                            description: eventData.description,
+                            imageUrl: eventData.image_url || getRandomEventImage(),
+                            createdAt: new Date().toISOString()
+                        };
+                        savedEvents.push(localEvent);
+                        localStorage.setItem('upcomingEvents', JSON.stringify(savedEvents));
+                        if (typeof loadUpcomingEvents === 'function') loadUpcomingEvents();
+                        if (typeof loadTodayEvents === 'function') loadTodayEvents();
+                        if (typeof loadCompletedEvents === 'function') loadCompletedEvents();
+                        closeModal();
+                        return;
                     }
                     
                     // Save to database
@@ -786,54 +776,37 @@ No notifications yet
                             throw new Error('API returned invalid JSON');
                         }
                     } else {
-                        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                        const respText = await response.text().catch(()=> '');
+                        throw new Error(`HTTP ${response.status}: ${response.statusText}${respText ? ' - ' + respText : ''}`);
                     }
                     
                     if (response.ok && result.success) {
                         // Database save successful
                         console.log('Event saved to database:', result);
+                        // Optimistic local update to reflect immediately
+                        try {
+                            const savedEvents = JSON.parse(localStorage.getItem('upcomingEvents') || '[]');
+                            const optimisticEvent = {
+                                id: result.id || Date.now(),
+                                title: eventData.title,
+                                date: eventData.date,
+                                timeRange: `${timeMatch ? timeMatch[1] : '09:00'}${timeMatch && timeMatch[2] ? ' ' + timeMatch[2].toUpperCase() : ''} - ${timeMatch ? timeMatch[3] : '05:00'}${timeMatch && timeMatch[4] ? ' ' + timeMatch[4].toUpperCase() : ''}`,
+                                location: eventData.location,
+                                description: eventData.description,
+                                imageUrl: eventData.image_url || getRandomEventImage(),
+                                createdAt: new Date().toISOString()
+                            };
+                            savedEvents.push(optimisticEvent);
+                            localStorage.setItem('upcomingEvents', JSON.stringify(savedEvents));
+                            if (typeof loadUpcomingEvents === 'function') loadUpcomingEvents();
+                            if (typeof loadTodayEvents === 'function') loadTodayEvents();
+                            if (typeof loadCompletedEvents === 'function') loadCompletedEvents();
+                        } catch {}
                         
-                        // Create frontend event object
-                        const frontendEventData = {
-                            id: result.id,
-                            title: eventData.title,
-                            date: eventData.date,
-                            timeRange: timeRange,
-                            location: eventData.location,
-                            description: eventData.description,
-                            imageUrl: eventData.image_url,
-                            createdAt: new Date().toISOString()
-                        };
-                        
-                        // Also save to localStorage as backup
-                        const savedEvents = JSON.parse(localStorage.getItem('upcomingEvents') || '[]');
-                        savedEvents.push(frontendEventData);
-                        localStorage.setItem('upcomingEvents', JSON.stringify(savedEvents));
-                        
-                        // Check if event is in the future (for upcoming events section only)
-                        const eventDate = new Date(date);
-                        const today = new Date();
-                        today.setHours(0, 0, 0, 0);
-                        const isFutureEvent = eventDate >= today;
-                        
-                        // Add to upcoming events section only if it's a future event
-                        if (isFutureEvent) {
-                            addEventToUpcomingSection(frontendEventData);
+                        // Re-fetch from DB so UI mirrors server state
+                        if (typeof loadEventsFromDatabase === 'function') {
+                            await loadEventsFromDatabase();
                         }
-                        
-                        // Refresh today's events if the new event is today
-                        loadTodayEvents();
-                        
-                        // Refresh completed events (in case this was a past event)
-                        loadCompletedEvents();
-                        
-                        // Refresh calendar to show event indicators
-                        setTimeout(() => {
-                            if (typeof window.renderCalendar === 'function') {
-                                console.log('Refreshing calendar...');
-                                window.renderCalendar();
-                            }
-                        }, 100);
                         
                         // Clear form
                         document.getElementById('evTitle').value = '';
@@ -850,54 +823,29 @@ No notifications yet
                     }
                     
                 } catch (error) {
-                    console.error('Database save failed, falling back to localStorage:', error);
-                    
-                    // Fallback to localStorage if database fails
-                    const fallbackEventData = {
-                        id: Date.now(),
-                        title: title.trim(),
-                        date: date,
-                        timeRange: timeRange,
-                        location: location.trim(),
-                        description: description.trim(),
-                        imageUrl: getRandomEventImage(),
-                        createdAt: new Date().toISOString()
-                    };
-                    
-                    const savedEvents = JSON.parse(localStorage.getItem('upcomingEvents') || '[]');
-                    savedEvents.push(fallbackEventData);
-                    localStorage.setItem('upcomingEvents', JSON.stringify(savedEvents));
-                    
-                    // Check if event is in the future
-                    const eventDate = new Date(date);
-                    const today = new Date();
-                    today.setHours(0, 0, 0, 0);
-                    const isFutureEvent = eventDate >= today;
-                    
-                    if (isFutureEvent) {
-                        addEventToUpcomingSection(fallbackEventData);
+                    console.error('Database save failed, saving locally instead:', error);
+                    // Fallback: save to localStorage so the UI still updates
+                    try {
+                        const savedEvents = JSON.parse(localStorage.getItem('upcomingEvents') || '[]');
+                        const localEvent = {
+                            id: Date.now(),
+                            title: eventData.title,
+                            date: eventData.date,
+                            timeRange: `${timeMatch ? timeMatch[1] : '09:00'}${timeMatch && timeMatch[2] ? ' ' + timeMatch[2].toUpperCase() : ''} - ${timeMatch ? timeMatch[3] : '05:00'}${timeMatch && timeMatch[4] ? ' ' + timeMatch[4].toUpperCase() : ''}`,
+                            location: eventData.location,
+                            description: eventData.description,
+                            imageUrl: eventData.image_url || getRandomEventImage(),
+                            createdAt: new Date().toISOString()
+                        };
+                        savedEvents.push(localEvent);
+                        localStorage.setItem('upcomingEvents', JSON.stringify(savedEvents));
+                        if (typeof loadUpcomingEvents === 'function') loadUpcomingEvents();
+                        if (typeof loadTodayEvents === 'function') loadTodayEvents();
+                        if (typeof loadCompletedEvents === 'function') loadCompletedEvents();
+                        closeModal();
+                    } catch (e) {
+                        alert('Failed to save event. If you are not running on localhost, events will not persist.');
                     }
-                    
-                    loadTodayEvents();
-                    
-                    // Refresh completed events
-                    loadCompletedEvents();
-                    
-                    setTimeout(() => {
-                        if (typeof window.renderCalendar === 'function') {
-                            window.renderCalendar();
-                        }
-                    }, 100);
-                    
-                    // Clear form and close modal
-                    document.getElementById('evTitle').value = '';
-                    document.getElementById('evDate').value = '';
-                    document.getElementById('evTimeRangeText').textContent = '--:-- -- - --:-- --';
-                    document.getElementById('evLocation').value = '';
-                    document.getElementById('evDesc').value = '';
-                    closeModal();
-                    
-                    alert('Event saved locally. Database connection failed.');
                 }
             });
 
@@ -1031,7 +979,7 @@ No notifications yet
 
             // Function to add event to upcoming events section
             function addEventToUpcomingSection(eventData) {
-                const upcomingEventsContainer = document.querySelector('.grid.grid-cols-1.sm\\:grid-cols-2.lg\\:grid-cols-3.gap-4');
+                const upcomingEventsContainer = document.getElementById('upcomingEventsContainer');
                 if (!upcomingEventsContainer) return;
                 
                 // Use stored image URL or get a new one if not available (for backward compatibility)
@@ -1071,9 +1019,9 @@ No notifications yet
                 // Add to the container
                 upcomingEventsContainer.appendChild(eventCard);
                 
-                // Limit to 3 events maximum (remove oldest dynamic events if needed)
+                // Limit to 6 events maximum (remove oldest dynamic events if needed)
                 const dynamicEvents = upcomingEventsContainer.querySelectorAll('[data-dynamic="true"]');
-                if (dynamicEvents.length > 3) {
+                if (dynamicEvents.length > 6) {
                     dynamicEvents[0].remove(); // Remove the oldest (first) event
                 }
             }
@@ -1085,61 +1033,99 @@ No notifications yet
                 return `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
             }
 
+            // Parse a YYYY-MM-DD or other date string to a local Date at 00:00
+            function parseDateOnly(dateString) {
+                if (!dateString) return new Date('Invalid Date');
+                // Prefer explicit midnight to avoid timezone shifting the day
+                // If date already contains a time, new Date will respect it
+                const isoMatch = /^\d{4}-\d{2}-\d{2}$/;
+                if (isoMatch.test(dateString)) {
+                    return new Date(`${dateString}T00:00:00`);
+                }
+                return new Date(dateString);
+            }
+
             // Function to load existing events from localStorage
             function loadUpcomingEvents() {
                 const savedEvents = JSON.parse(localStorage.getItem('upcomingEvents') || '[]');
+                console.log('loadUpcomingEvents - savedEvents from localStorage:', savedEvents);
                 const today = new Date();
                 today.setHours(0, 0, 0, 0);
-                
-                // Filter future events and sort by date
+                console.log('loadUpcomingEvents - today date:', today.toISOString().split('T')[0]);
                 const futureEvents = savedEvents
-                    .filter(event => new Date(event.date) >= today)
+                    .filter(event => {
+                        const eventDate = parseDateOnly(event.date);
+                        const isFuture = eventDate >= today;
+                        console.log(`Event "${event.title}" (${event.date}): isFuture = ${isFuture}`);
+                        return isFuture;
+                    })
                     .sort((a, b) => new Date(a.date) - new Date(b.date))
-                    .slice(0, 3); // Show only the next 3 events
-                
-                const upcomingEventsContainer = document.querySelector('.grid.grid-cols-1.sm\\:grid-cols-2.lg\\:grid-cols-3.gap-4');
+                    .slice(0, 6);
+                console.log('loadUpcomingEvents - futureEvents after filtering:', futureEvents);
+                const upcomingSection = document.getElementById('upcomingEventsSection');
+                const upcomingEventsContainer = document.getElementById('upcomingEventsContainer');
                 if (!upcomingEventsContainer) return;
-                
-                // If we have saved events, replace the static content
-                if (futureEvents.length > 0) {
-                    // Clear all existing content
-                    upcomingEventsContainer.innerHTML = '';
-                    
-                    // Add saved events
-                    futureEvents.forEach(event => {
-                        addEventToUpcomingSection(event);
-                    });
+                // Always clear any static/demo content
+                upcomingEventsContainer.innerHTML = '';
+                if (futureEvents.length === 0) {
+                    // Show empty state without clearing saved past events (needed for Completed section)
+                    const empty = document.createElement('div');
+                    empty.className = 'col-span-3 text-center text-text-muted-light dark:text-text-muted-dark py-6';
+                    empty.textContent = 'No upcoming events yet.';
+                    upcomingEventsContainer.appendChild(empty);
+                    if (upcomingSection) upcomingSection.classList.remove('hidden');
+                    return;
                 }
-                // If no saved events, keep the original static content (do nothing)
+                // We have future events; show section and render
+                if (upcomingSection) upcomingSection.classList.remove('hidden');
+                futureEvents.forEach(event => addEventToUpcomingSection(event));
             }
 
             // Function to load completed events (past events)
             function loadCompletedEvents() {
-                const savedEvents = JSON.parse(localStorage.getItem('upcomingEvents') || '[]');
+                // Load and sanitize local events to remove any seeded demo/test items
+                let savedEvents = JSON.parse(localStorage.getItem('upcomingEvents') || '[]');
+                const sanitized = savedEvents.filter(ev => !/\btest\b/i.test((ev.title || '')));
+                if (sanitized.length !== savedEvents.length) {
+                    savedEvents = sanitized;
+                    localStorage.setItem('upcomingEvents', JSON.stringify(savedEvents));
+                }
                 const today = new Date();
                 today.setHours(0, 0, 0, 0);
                 
                 // Filter past events and sort by date (most recent first)
                 const pastEvents = savedEvents
-                    .filter(event => new Date(event.date) < today)
+                    .filter(event => parseDateOnly(event.date) < today)
                     .sort((a, b) => new Date(b.date) - new Date(a.date))
-                    .slice(0, 3); // Show only the last 3 completed events
+                    .slice(0, 6); // Show up to 6 completed events
+                // If storage has stale items but both past and future are empty, purge storage once
+                try {
+                    const hasFuture = Array.isArray(savedEvents) && savedEvents.some(e => parseDateOnly(e.date) >= today);
+                    if ((!pastEvents || pastEvents.length === 0) && !hasFuture && Array.isArray(savedEvents) && savedEvents.length > 0) {
+                        localStorage.setItem('upcomingEvents', JSON.stringify([]));
+                    }
+                } catch {}
                 
+                const completedSection = document.getElementById('completedEventsSection');
                 const completedEventsContainer = document.getElementById('completedEventsContainer');
                 if (!completedEventsContainer) return;
                 
                 // If we have past events, replace the static content
-                if (pastEvents.length > 0) {
-                    completedEventsContainer.innerHTML = '';
-                    
-                    // Add past events
-                    pastEvents.forEach(event => {
-                        addCompletedEventCard(event);
-                    });
-                } else {
-                    // If no past events, show placeholder cards
-                    showCompletedEventsPlaceholder();
+                // Always replace content
+                completedEventsContainer.innerHTML = '';
+                if (pastEvents.length === 0) {
+                    // Show the section with an empty state when there are no past events
+                    if (completedSection) completedSection.classList.remove('hidden');
+                    const empty = document.createElement('div');
+                    empty.className = 'col-span-3 text-center text-text-muted-light dark:text-text-muted-dark py-6';
+                    empty.textContent = 'No completed events yet.';
+                    completedEventsContainer.appendChild(empty);
+                    return;
                 }
+                // We have past events; show the section
+                if (completedSection) completedSection.classList.remove('hidden');
+                // Add past events
+                pastEvents.forEach(event => { addCompletedEventCard(event); });
             }
             
             // Function to add a completed event card
@@ -1155,7 +1141,7 @@ No notifications yet
                 eventCard.innerHTML = `
                     <img alt="${eventData.title}" class="w-full h-24 object-cover" src="${eventImage}"/>
                     <div class="absolute inset-0 bg-black/40 flex items-center justify-center">
-                        <p class="text-white font-bold text-lg">${eventData.title}</p>
+                        <p class="text-white font-bold text-lg">${eventData.title.toUpperCase()}</p>
                     </div>
                 `;
                 
@@ -1163,31 +1149,7 @@ No notifications yet
             }
             
             // Function to show placeholder cards when no completed events exist
-            function showCompletedEventsPlaceholder() {
-                const completedEventsContainer = document.getElementById('completedEventsContainer');
-                if (!completedEventsContainer) return;
-                
-                const placeholderEvents = [
-                    { title: 'No Recent Events', image: 'https://via.placeholder.com/300x100/6b7280/ffffff?text=No+Events' },
-                    { title: 'Check Back Later', image: 'https://via.placeholder.com/300x100/6b7280/ffffff?text=Check+Back' },
-                    { title: 'Events Coming Soon', image: 'https://via.placeholder.com/300x100/6b7280/ffffff?text=Coming+Soon' }
-                ];
-                
-                completedEventsContainer.innerHTML = '';
-                
-                placeholderEvents.forEach(placeholder => {
-                    const eventCard = document.createElement('div');
-                    eventCard.className = 'relative rounded-lg overflow-hidden opacity-60';
-                    eventCard.innerHTML = `
-                        <img alt="${placeholder.title}" class="w-full h-24 object-cover" src="${placeholder.image}"/>
-                        <div class="absolute inset-0 bg-black/40 flex items-center justify-center">
-                            <p class="text-white font-bold text-lg">${placeholder.title}</p>
-                        </div>
-                    `;
-                    
-                    completedEventsContainer.appendChild(eventCard);
-                });
-            }
+            function showCompletedEventsPlaceholder() { /* not used anymore */ }
 
             // Function to select a calendar date and load its events
             window.selectCalendarDate = function(dateString) {
@@ -1245,11 +1207,18 @@ No notifications yet
                                 <div class="w-2 h-2 bg-primary rounded-full mt-2"></div>
                             </div>
                             <div class="flex-1 min-w-0">
-                                <h4 class="text-sm font-medium text-text-light dark:text-text-dark">${event.title}</h4>
+                                <h4 class="text-sm font-medium text-text-light dark:text-text-dark">${event.title.toUpperCase()}</h4>
                                 <p class="text-xs text-text-muted-light dark:text-text-muted-dark"><span class="material-symbols-outlined text-xs align-middle">schedule</span> ${event.timeRange}</p>
                                 <p class="text-xs text-text-muted-light dark:text-text-muted-dark"><span class="material-symbols-outlined text-xs align-middle">location_on</span> ${event.location || 'Location not specified'}</p>
                             </div>
                         `;
+                        // Open details modal on click
+                        eventElement.style.cursor = 'pointer';
+                        eventElement.addEventListener('click', () => {
+                            if (typeof openDetailsModalSmart === 'function') {
+                                openDetailsModalSmart(event);
+                            }
+                        });
                         todayEventsContainer.appendChild(eventElement);
                     });
                 }
@@ -1272,14 +1241,30 @@ No notifications yet
             // Function to load events from database
             async function loadEventsFromDatabase() {
                 try {
-                    // Check if we're running on localhost (server mode) or file:// (direct file access)
-                    const isLocalhost = window.location.protocol === 'http:' && window.location.hostname === 'localhost';
+                    // Feature flag: default to localStorage unless explicitly enabled
+                    const serverEnabled = (localStorage.getItem('enableServerAPI') === '1');
+                    if (!serverEnabled) {
+                        loadUpcomingEvents();
+                        loadTodayEvents();
+                        loadCompletedEvents();
+                        if (typeof window.renderCalendar === 'function') { window.renderCalendar(); }
+                        return false;
+                    }
+                    // Determine if we're likely running a PHP-capable local server
                     const isFileProtocol = window.location.protocol === 'file:';
+                    const isPhpServer = window.location.protocol === 'http:' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
                     
                     if (isFileProtocol) {
                         console.log('Running in file mode - skipping database load, using localStorage only');
                         loadUpcomingEvents();
                         loadTodayEvents();
+                        return false;
+                    }
+                    if (!isPhpServer) {
+                        loadUpcomingEvents();
+                        loadTodayEvents();
+                        loadCompletedEvents();
+                        if (typeof window.renderCalendar === 'function') { window.renderCalendar(); }
                         return false;
                     }
                     
@@ -1292,22 +1277,19 @@ No notifications yet
                     });
                     
                     if (response.ok) {
+                        const contentType = response.headers.get('content-type') || '';
                         const responseText = await response.text();
-                        console.log('Raw API response:', responseText);
-                        
-                        let dbEvents;
-                        try {
-                            dbEvents = JSON.parse(responseText);
-                        } catch (parseError) {
-                            console.error('Failed to parse API response as JSON:', parseError);
-                            console.log('Response was:', responseText);
-                            throw new Error('API returned invalid JSON');
+                        // Guard against static servers returning raw PHP instead of executing it
+                        if (!contentType.includes('application/json') || responseText.trim().startsWith('<?php')) {
+                            throw new Error('Non-JSON response from API (PHP not executing)');
                         }
+                        const dbEvents = JSON.parse(responseText);
                         
                         console.log('Events loaded from database:', dbEvents);
+                        console.log('Number of events loaded:', dbEvents.length);
                         
                         // Convert database events to localStorage format for compatibility
-                        const convertedEvents = dbEvents.map(event => ({
+                        let convertedEvents = dbEvents.map(event => ({
                             id: event.id,
                             title: event.title,
                             date: event.date,
@@ -1317,9 +1299,27 @@ No notifications yet
                             imageUrl: event.imageUrl,
                             createdAt: event.createdAt
                         }));
+                        // Remove any leftover demo/test events defensively
+                        convertedEvents = convertedEvents.filter(ev => !/\btest\b/i.test((ev.title || '')));
                         
-                        // Save to localStorage for compatibility with existing functions
-                        localStorage.setItem('upcomingEvents', JSON.stringify(convertedEvents));
+                        // Merge with any locally saved events to prevent UI flicker/disappear
+                        const localExisting = JSON.parse(localStorage.getItem('upcomingEvents') || '[]');
+                        // If server returned nothing, keep local cache as-is
+                        let merged;
+                        if (!Array.isArray(convertedEvents) || convertedEvents.length === 0) {
+                            merged = localExisting;
+                        } else {
+                            const keyOf = (e) => (e && (e.id ? `id:${e.id}` : `k:${(e.title||'').trim().toLowerCase()}|${e.date}|${(e.timeRange||'').trim()}`));
+                            const map = new Map();
+                            localExisting.forEach(e => { const k = keyOf(e); if (k) map.set(k, e); });
+                            convertedEvents.forEach(e => { const k = keyOf(e); if (k) map.set(k, e); });
+                            merged = Array.from(map.values());
+                            // Optional: keep most recent first by date desc, but UI re-sorts per section anyway
+                        }
+                        
+                        // Save merged list
+                        localStorage.setItem('upcomingEvents', JSON.stringify(merged));
+                        console.log('Saved merged events to localStorage:', merged);
                         
                         // Reload the UI with database events
                         loadUpcomingEvents();
@@ -1336,77 +1336,28 @@ No notifications yet
                         throw new Error(`HTTP ${response.status}: ${response.statusText}`);
                     }
                 } catch (error) {
-                    console.error('Failed to load events from database:', error);
-                    
-                    // Show user-friendly message for common issues
-                    if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
-                        console.log('Database server appears to be offline. Using localStorage fallback.');
-                    } else if (error.message.includes('invalid JSON')) {
-                        console.log('Database server returned invalid response. Using localStorage fallback.');
-                    }
-                    
+                    // Silent fallback to localStorage to avoid noisy console errors in non-server environments
                     // Fall back to localStorage
                     loadUpcomingEvents();
                     loadTodayEvents();
                     loadCompletedEvents();
+                    
+                    // Refresh calendar if function exists
+                    if (typeof window.renderCalendar === 'function') {
+                        window.renderCalendar();
+                    }
+                    
                     return false;
                 }
             }
 
-            // Function to create sample past events for demonstration
-            function createSamplePastEvents() {
-                const savedEvents = JSON.parse(localStorage.getItem('upcomingEvents') || '[]');
-                const today = new Date();
-                const hasPastEvents = savedEvents.some(event => new Date(event.date) < today);
-                
-                // Only create sample events if none exist
-                if (!hasPastEvents) {
-                    const samplePastEvents = [
-                        {
-                            id: Date.now() + 1,
-                            title: 'Tech Conference 2024',
-                            date: '2024-11-15',
-                            timeRange: '09:00 - 17:00',
-                            location: 'San Francisco, CA',
-                            description: 'Annual technology conference featuring latest innovations',
-                            imageUrl: getRandomEventImage(),
-                            createdAt: new Date().toISOString()
-                        },
-                        {
-                            id: Date.now() + 2,
-                            title: 'Art Exhibition Opening',
-                            date: '2024-10-20',
-                            timeRange: '18:00 - 21:00',
-                            location: 'New York, NY',
-                            description: 'Contemporary art exhibition opening night',
-                            imageUrl: getRandomEventImage(),
-                            createdAt: new Date().toISOString()
-                        },
-                        {
-                            id: Date.now() + 3,
-                            title: 'Music Festival',
-                            date: '2024-09-05',
-                            timeRange: '14:00 - 23:00',
-                            location: 'Austin, TX',
-                            description: 'Summer music festival with multiple stages',
-                            imageUrl: getRandomEventImage(),
-                            createdAt: new Date().toISOString()
-                        }
-                    ];
-                    
-                    // Add sample events to localStorage
-                    const allEvents = [...savedEvents, ...samplePastEvents];
-                    localStorage.setItem('upcomingEvents', JSON.stringify(allEvents));
-                    
-                    console.log('Created sample past events for demonstration');
-                }
-            }
+            // Disable demo seeding: no sample events
+            function createSamplePastEvents() { /* intentionally no-op */ }
 
             // Load events when page loads - try database first, fallback to localStorage
             loadEventsFromDatabase();
             
-            // Create sample past events if none exist (for demonstration)
-            createSamplePastEvents();
+            // Demo seeding disabled
             
             // Show helpful message about server mode
             document.addEventListener('DOMContentLoaded', () => {
@@ -1431,8 +1382,46 @@ Current mode: localStorage only (events will persist in browser)
                     console.log('🚀 LILAC Events System - Server Mode (Full database functionality enabled)');
                 }
                 
+                // Disable auto-clearing cached events in non-server mode to prevent wiping user-added items
+
                 // Load completed events after DOM is ready
                 loadCompletedEvents();
+
+                // Utility: allow quick clearing of local cached events
+                window.clearEventCache = () => {
+                    try {
+                        localStorage.removeItem('upcomingEvents');
+                        if (typeof loadUpcomingEvents === 'function') loadUpcomingEvents();
+                        if (typeof loadCompletedEvents === 'function') loadCompletedEvents();
+                        if (typeof loadTodayEvents === 'function') loadTodayEvents();
+                        console.log('Local event cache cleared.');
+                    } catch {}
+                };
+                // Utility: clear all events from server DB (localhost only)
+                window.clearServerEvents = async () => {
+                    try {
+                        const isPhpServer = window.location.protocol === 'http:' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
+                        if (!isPhpServer) { alert('Server clear only works on localhost.'); return; }
+                        const resp = await fetch('api/events.php?action=clear', { method: 'POST' });
+                        const j = await resp.json().catch(()=>({}));
+                        if (!resp.ok || j.error) throw new Error(j.error || 'Failed to clear');
+                        window.clearEventCache();
+                        console.log('Server events cleared.');
+                    } catch (e) {
+                        alert('Failed to clear server events.');
+                    }
+                };
+                // Keyboard shortcut: Ctrl+Alt+E to clear cached events
+                window.addEventListener('keydown', (e) => {
+                    if (e.ctrlKey && e.altKey && (e.key === 'E' || e.key === 'e')) {
+                        e.preventDefault();
+                        window.clearEventCache();
+                    }
+                    if (e.ctrlKey && e.altKey && (e.key === 'D' || e.key === 'd')) {
+                        e.preventDefault();
+                        window.clearServerEvents();
+                    }
+                });
             });
 
             // Reminder System Functionality
@@ -1444,10 +1433,15 @@ Current mode: localStorage only (events will persist in browser)
                 const modal = document.getElementById('reminderModal');
                 const titleElement = document.getElementById('reminderEventTitle');
                 const dateTimeElement = document.getElementById('reminderEventDateTime');
+                const datePrev = document.getElementById('customDatePreview');
+                const timePrev = document.getElementById('customTimePreview');
                 
                 if (modal && titleElement && dateTimeElement) {
-                    titleElement.textContent = eventData.title;
-                    dateTimeElement.textContent = `${formatEventDate(eventData.date)} ⋅ ${eventData.timeRange}`;
+                    titleElement.textContent = eventData.title || 'Event';
+                    const formattedDate = formatEventDate(eventData.date);
+                    dateTimeElement.textContent = `${formattedDate} ⋅ ${eventData.timeRange}`;
+                    if (datePrev) datePrev.textContent = formattedDate;
+                    if (timePrev) timePrev.textContent = (eventData.timeRange || '').split('-')[0]?.trim() || '—';
                     modal.classList.remove('hidden');
                     modal.classList.add('flex');
                 }
@@ -1887,6 +1881,9 @@ Current mode: localStorage only (events will persist in browser)
             function clearAllNotifications() {
                 notifications = [];
                 localStorage.setItem('appNotifications', JSON.stringify(notifications));
+                // Also clear reminders and any shown flags to avoid phantom counts
+                localStorage.removeItem('eventReminders');
+                localStorage.removeItem('shownNotifications');
                 updateNotificationUI();
             }
             
@@ -1920,7 +1917,19 @@ Current mode: localStorage only (events will persist in browser)
                 }
             });
             
-            // Initialize notification UI on page load
+            // Initialize notification UI on page load (cleanup if there are no events)
+            (function syncNotificationsWithEvents(){
+                try {
+                    const savedEvents = JSON.parse(localStorage.getItem('upcomingEvents') || '[]');
+                    if (!savedEvents || savedEvents.length === 0) {
+                        // No events -> clear reminders and unread notifications
+                        localStorage.removeItem('eventReminders');
+                        localStorage.removeItem('shownNotifications');
+                        notifications = [];
+                        localStorage.setItem('appNotifications', JSON.stringify([]));
+                    }
+                } catch {}
+            })();
             updateNotificationUI();
 
             // Add direct event listeners for reminder modal close button
@@ -1967,12 +1976,13 @@ Current mode: localStorage only (events will persist in browser)
 
             const buildEligibleCard = (item) => {
                 const wrap = document.createElement('div');
-                wrap.className = 'bg-card-light dark:bg-card-dark rounded-xl shadow-soft p-4 flex items-center';
+                wrap.className = 'bg-card-light dark:bg-card-dark rounded-xl shadow-soft p-4 flex items-center hover:bg-gray-50 dark:hover:bg-white/5 transition-colors';
+                wrap.style.cursor = 'pointer';
+                wrap.tabIndex = 0;
                 wrap.innerHTML = `
-                  <img alt="${item.category} thumbnail" class="w-24 h-full object-cover rounded-lg" src="${item.thumbnail_url || 'https://via.placeholder.com/96x96?text=img'}"/>
+                  <img alt="${item.title} thumbnail" class="w-24 h-full object-cover rounded-lg" src="${item.image_url || item.thumbnail_url || 'https://via.placeholder.com/96x96?text=img'}"/>
                   <div class="flex-1 pl-4">
-                    <p class="text-sm font-semibold text-primary">${(item.category || '').toUpperCase()} ${item.type}</p>
-                    <h3 class="font-bold text-lg text-text-light dark:text-text-dark mt-1">${item.title}</h3>
+                    <h3 class="font-bold text-lg text-text-light dark:text-text-dark mt-1">${item.title.toUpperCase()}</h3>
                     <div class="flex justify-between text-sm mt-3">
                       <div>
                         <p class="text-text-muted-light dark:text-text-muted-dark">Start</p>
@@ -1994,8 +2004,15 @@ Current mode: localStorage only (events will persist in browser)
                     <p class="text-xs -rotate-90 whitespace-nowrap text-text-muted-light dark:text-text-muted-dark">Eligible for awards</p>
                     <button class="mt-6 px-3 py-1.5 text-xs rounded-lg bg-primary/10 text-primary hover:bg-primary/20 view-details">View Details</button>
                   </div>`;
-                // click handler
-                wrap.querySelector('.view-details').addEventListener('click', () => openDetailsModal(item.id));
+                // click handlers
+                wrap.querySelector('.view-details').addEventListener('click', (e) => { e.stopPropagation(); openDetailsModalSmart(item); });
+                wrap.addEventListener('click', (e) => {
+                    if (e.target && e.target.closest && e.target.closest('.view-details')) return;
+                    openDetailsModalSmart(item);
+                });
+                wrap.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openDetailsModal(item.id); }
+                });
                 return wrap;
             };
 
@@ -2035,8 +2052,12 @@ Current mode: localStorage only (events will persist in browser)
                 if (!eligibleContainer) return;
                 renderEligibleState('loading');
                 try {
+                    const serverEnabled = (localStorage.getItem('enableServerAPI') === '1');
+                    if (!serverEnabled) { renderEligibleState('empty'); return; }
                     const res = await fetch('api/events.php?action=eligible', { cache: 'no-store' });
                     if (!res.ok) throw new Error('Network');
+                    const ct = res.headers.get('content-type') || '';
+                    if (!ct.includes('application/json')) throw new Error('Non-JSON');
                     const data = await res.json();
                     eligibleContainer.innerHTML = '';
                     let items = Array.isArray(data) ? data.slice(0,2) : [];
@@ -2069,26 +2090,51 @@ Current mode: localStorage only (events will persist in browser)
                       <button class="rounded-full p-2 hover:bg-gray-100 dark:hover:bg-white/10" id="closeEventDetails"><span class="material-symbols-outlined">close</span></button>
                     </div>
                     <div id="eventDetailsBody" class="p-4 grid gap-3 text-sm"></div>
+                    <div class="p-4 border-t flex items-center justify-end gap-2">
+                      <button id="deleteEventBtn" class="px-3 py-1.5 text-sm rounded-lg bg-red-600 text-white hover:bg-red-700">Delete</button>
+                    </div>
                   </div>`;
                 document.body.appendChild(modal);
                 modal.querySelector('#closeEventDetails').addEventListener('click', () => closeDetailsModal());
                 modal.addEventListener('click', (e)=>{ if(e.target===modal) closeDetailsModal(); });
             };
+            // Helper: remove from localStorage and refresh UI
+            const removeEventLocally = (evt) => {
+                try {
+                    const list = JSON.parse(localStorage.getItem('upcomingEvents') || '[]');
+                    const filtered = list.filter(e => {
+                        if (evt && evt.id && e.id) return e.id !== evt.id;
+                        // Fallback fuzzy match on key fields
+                        const sameTitle = (e.title || '').trim() === (evt.title || '').trim();
+                        const sameDate = (e.date || '') === (evt.date || '');
+                        const sameTime = (e.timeRange || '') === (evt.timeRange || '');
+                        const sameLoc = (e.location || '') === (evt.location || '');
+                        return !(sameTitle && sameDate && sameTime && sameLoc);
+                    });
+                    localStorage.setItem('upcomingEvents', JSON.stringify(filtered));
+                    // Refresh sections
+                    if (typeof loadUpcomingEvents === 'function') loadUpcomingEvents();
+                    if (typeof loadTodayEvents === 'function') loadTodayEvents();
+                    if (typeof loadCompletedEvents === 'function') loadCompletedEvents();
+                    if (typeof loadEligible === 'function') loadEligible();
+                } catch {}
+            };
             const openDetailsModal = async (id) => {
                 ensureDetailsModal();
                 const modal = document.getElementById('eventDetailsModal');
                 const body = document.getElementById('eventDetailsBody');
+                const delBtn = document.getElementById('deleteEventBtn');
                 body.innerHTML = '<div class="text-center text-text-muted-light dark:text-text-muted-dark">Loading...</div>';
                 modal.classList.remove('hidden'); modal.classList.add('flex');
                 try {
                     const res = await fetch(`api/events.php?id=${id}`);
                     const itm = await res.json();
+                    if (!res.ok || itm.error) throw new Error('Fetch failed');
                     body.innerHTML = `
                       <div class="flex items-start gap-4">
-                        <img src="${itm.thumbnail_url || 'https://via.placeholder.com/120x80?text=img'}" class="w-28 h-20 object-cover rounded" alt="thumb"/>
+                        <img src="${itm.image_url || itm.thumbnail_url || 'https://via.placeholder.com/120x80?text=img'}" class="w-28 h-20 object-cover rounded" alt="Event image"/>
                         <div>
-                          <p class="text-xs font-semibold text-primary">${(itm.category||'').toUpperCase()} ${itm.type}</p>
-                          <h4 class="text-lg font-bold">${itm.title}</h4>
+                          <h4 class="text-lg font-bold">${itm.title.toUpperCase()}</h4>
                           <p class="text-xs text-text-muted-light dark:text-text-muted-dark"><span class="material-symbols-outlined text-xs align-middle">location_on</span> ${itm.location}</p>
                         </div>
                       </div>
@@ -2099,8 +2145,79 @@ Current mode: localStorage only (events will persist in browser)
                         <div><span class="text-text-muted-light dark:text-text-muted-dark">Eligible</span><p class="font-semibold">${itm.eligible_for_awards ? 'Yes' : 'No'}</p></div>
                       </div>
                       <div class="mt-2 text-xs text-text-muted-light dark:text-text-muted-dark">Awards eligibility details will appear on the Awards page.</div>`;
+                    // Wire delete
+                    if (delBtn) {
+                        delBtn.onclick = async () => {
+                            const ok = confirm('Delete this event? This cannot be undone.');
+                            if (!ok) return;
+                            try {
+                    const resp = await fetch(`api/events.php?id=${itm.id}`, { method: 'DELETE' });
+                                const j = await resp.json().catch(()=>({}));
+                                if (!resp.ok || j.error) throw new Error(j.error||'Delete failed');
+                                closeDetailsModal();
+                                // Refresh sections fed by events
+                                typeof loadEligible === 'function' && loadEligible();
+                                if (typeof loadEventsFromDatabase === 'function') {
+                                    loadEventsFromDatabase();
+                                } else if (typeof loadTodayEvents === 'function') {
+                                    loadTodayEvents();
+                                }
+                            } catch (err) {
+                                // Offer local removal as fallback
+                                const proceedLocal = confirm('Server delete failed. Remove this event locally from the page?');
+                                if (proceedLocal) {
+                                    removeEventLocally(itm);
+                                    closeDetailsModal();
+                                }
+                            }
+                        };
+                    }
                 } catch {
-                    body.innerHTML = '<div class="text-center text-red-600 dark:text-red-400">Failed to load details.</div>';
+                    body.innerHTML = '<div class="text-center text-text-muted-light dark:text-text-muted-dark">Unable to load full details from the server. If available, open from local data.</div>';
+                    const delBtn2 = document.getElementById('deleteEventBtn');
+                    if (delBtn2) delBtn2.style.display = 'none';
+                }
+            };
+            // Smart open: try server by id; on failure, fall back to local object
+            const openDetailsModalSmart = async (candidate) => {
+                if (candidate && candidate.id) {
+                    await openDetailsModal(candidate.id);
+                    const body = document.getElementById('eventDetailsBody');
+                    if (body && body.textContent && body.textContent.includes('Unable to load full details')) {
+                        openDetailsModalFromData(candidate);
+                    }
+                } else {
+                    openDetailsModalFromData(candidate || {});
+                }
+            };
+            // Fallback: show modal from existing data object (no server fetch)
+            const openDetailsModalFromData = (itm) => {
+                ensureDetailsModal();
+                const modal = document.getElementById('eventDetailsModal');
+                const body = document.getElementById('eventDetailsBody');
+                const delBtn = document.getElementById('deleteEventBtn');
+                modal.classList.remove('hidden'); modal.classList.add('flex');
+                body.innerHTML = `
+                  <div class="flex items-start gap-4">
+                    <img src="${itm.imageUrl || itm.thumbnail_url || 'https://via.placeholder.com/120x80?text=img'}" class="w-28 h-20 object-cover rounded" alt="Event image"/>
+                    <div>
+                      <h4 class="text-lg font-bold">${itm.title.toUpperCase()}</h4>
+                      <p class="text-xs text-text-muted-light dark:text-text-muted-dark"><span class="material-symbols-outlined text-xs align-middle">location_on</span> ${itm.location || ''}</p>
+                    </div>
+                  </div>
+                  <div class="grid grid-cols-2 gap-3">
+                    <div><span class="text-text-muted-light dark:text-text-muted-dark">Time</span><p class="font-semibold">${itm.timeRange || ''}</p></div>
+                    <div><span class="text-text-muted-light dark:text-text-muted-dark">Date</span><p class="font-semibold">${itm.date ? new Date(itm.date).toLocaleDateString() : ''}</p></div>
+                  </div>`;
+                if (delBtn) {
+                    // Always allow local deletion here; hide only if no local data
+                    delBtn.style.display = '';
+                    delBtn.onclick = () => {
+                        const ok = confirm('Remove this event from the page?');
+                        if (!ok) return;
+                        removeEventLocally(itm || {});
+                        closeDetailsModal();
+                    };
                 }
             };
             const closeDetailsModal = () => {
@@ -2308,9 +2425,12 @@ Current mode: localStorage only (events will persist in browser)
                         e.preventDefault();
                         e.stopPropagation();
                         locationInput.value = prediction.description;
+                        locationInput.setAttribute('data-chosen-location', prediction.description);
                         locationSuggestions.classList.add('hidden');
                         // Trigger input event to update any other listeners
                         locationInput.dispatchEvent(new Event('input', { bubbles: true }));
+                        // Immediately hide suggestions and blur to close any overlays
+                        setTimeout(() => { locationSuggestions.classList.add('hidden'); locationInput.blur(); }, 0);
                     });
                     
                     // Add mousedown event as backup
@@ -2410,9 +2530,11 @@ Current mode: localStorage only (events will persist in browser)
                             e.preventDefault();
                             e.stopPropagation();
                             locationInput.value = location;
+                            locationInput.setAttribute('data-chosen-location', location);
                             locationSuggestions.classList.add('hidden');
                             // Trigger input event to update any other listeners
                             locationInput.dispatchEvent(new Event('input', { bubbles: true }));
+                            setTimeout(() => { locationSuggestions.classList.add('hidden'); locationInput.blur(); }, 0);
                         });
                         
                         // Add mousedown event as backup
@@ -2437,6 +2559,12 @@ Current mode: localStorage only (events will persist in browser)
                     const query = e.target.value.trim();
                     
                     timeoutId = setTimeout(() => {
+                        // Do not show suggestions if the value matches the last chosen suggestion exactly
+                        const lastChosen = locationInput.getAttribute('data-chosen-location');
+                        if (lastChosen && lastChosen === locationInput.value.trim()) {
+                            locationSuggestions.classList.add('hidden');
+                            return;
+                        }
                         showLocationSuggestions(query);
                     }, 300); // Debounce for 300ms
                 });
@@ -2565,10 +2693,10 @@ Current mode: localStorage only (events will persist in browser)
                     const isToday = isCurrentDay(year, month, day);
                     const isSelected = window.selectedCalendarDate === dateString;
                     
-                    // Determine styling based on state
-                    let dayClasses = 'font-medium';
+                    // Determine styling based on state (use fixed circle size for alignment)
+                    let dayClasses = 'inline-flex items-center justify-center w-6 h-6 mx-auto font-medium';
                     if (isToday) {
-                        dayClasses += ' text-white bg-primary rounded-full w-6 h-6 flex items-center justify-center mx-auto';
+                        dayClasses += ' text-white bg-primary rounded-full';
                     } else {
                         dayClasses += ' text-text-light dark:text-text-dark';
                     }
@@ -2622,8 +2750,11 @@ Current mode: localStorage only (events will persist in browser)
             function checkForEvents(year, month, day) {
                 // Check if this date has any scheduled events (including today)
                 const savedEvents = JSON.parse(localStorage.getItem('upcomingEvents') || '[]');
-                const checkDate = new Date(year, month, day);
-                const dateString = checkDate.toISOString().split('T')[0]; // Format: YYYY-MM-DD
+                // Build local date string to avoid timezone shifts
+                const y = String(year);
+                const m = String(month + 1).padStart(2, '0');
+                const d = String(day).padStart(2, '0');
+                const dateString = `${y}-${m}-${d}`;
                 
                 // Check if there are events on this date (past, present, or future)
                 const eventsOnDate = savedEvents.filter(event => event.date === dateString);
