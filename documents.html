@@ -16,8 +16,21 @@
 
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-
+<script>
+        // Apply theme immediately to prevent flash
+        (function() {
+            const savedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const shouldBeDark = savedTheme === 'dark' || (!savedTheme && prefersDark);
+            if (shouldBeDark) {
+                document.documentElement.classList.add('dark');
+            }
+        })();
+</script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
 
 <script>
 
@@ -241,6 +254,31 @@
 
         }
 
+        /* Ensure consistent sidebar icon styling */
+        .sidebar-nav-link {
+            border-radius: 0.5rem;
+            transition: all 0.2s ease;
+        }
+        
+        /* Hover effects for non-active links */
+        .sidebar-nav-link:not(.bg-primary-50):hover {
+            background-color: rgb(243 244 246); /* gray-100 */
+            transform: translateY(-1px);
+        }
+        
+        .dark .sidebar-nav-link:not(.bg-primary-50):hover {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+        
+        /* Ensure active state styling is preserved */
+        .sidebar-nav-link.bg-primary-50 {
+            background-color: rgb(239 246 255) !important; /* primary-50 */
+        }
+        
+        .dark .sidebar-nav-link.bg-primary-900\/40 {
+            background-color: rgba(59, 130, 246, 0.4) !important; /* primary-900/40 */
+        }
+
     </style>
 
 </head>
@@ -296,12 +334,7 @@
 
 </a>
 
-<a class="flex items-center justify-center gap-3 px-4 py-2.5 rounded-lg text-text-muted-light dark:text-text-muted-dark hover:bg-gray-100 dark:hover:bg-background-dark hover:text-text-light dark:hover:text-text-dark transition-colors duration-200 sidebar-nav-link" href="templates.html">
-<span class="material-symbols-outlined">description</span>
 
-<span class="sidebar-text hidden">Templates</span>
-
-</a>
 
 <a class="flex items-center justify-center gap-3 px-4 py-2.5 rounded-lg bg-primary-50 dark:bg-primary-900/40 text-primary-600 dark:text-primary-300 font-semibold sidebar-nav-link" href="documents.html">
 <span class="material-symbols-outlined filled">school</span>
@@ -475,55 +508,45 @@ No notifications yet
 
 </div>
 
-<div class="mt-2 flex items-center gap-8">
+                <div class="mt-2 flex items-center gap-8">
 <div class="relative w-32 h-32">
-<svg class="w-full h-full transform -rotate-90" viewBox="0 0 120 120">
+<svg id="documentsChart" class="w-full h-full transform -rotate-90" viewBox="0 0 120 120">
 <circle class="stroke-gray-200 dark:stroke-gray-700" cx="60" cy="60" fill="none" r="54" stroke-width="12"></circle>
-<circle class="stroke-current text-purple-500" cx="60" cy="60" fill="none" r="54" stroke-dasharray="240 339.292" stroke-linecap="round" stroke-width="12"></circle>
-<circle class="stroke-current text-blue-500" cx="60" cy="60" fill="none" r="54" stroke-dasharray="160 339.292" stroke-dashoffset="-240" stroke-linecap="round" stroke-width="12"></circle>
-<circle class="stroke-current text-green-500" cx="60" cy="60" fill="none" r="54" stroke-dasharray="80 339.292" stroke-dashoffset="-400" stroke-linecap="round" stroke-width="12"></circle>
+<circle id="mouSegment" class="stroke-current text-purple-500" cx="60" cy="60" fill="none" r="54" stroke-dasharray="0 339.292" stroke-linecap="round" stroke-width="12"></circle>
+<circle id="moaSegment" class="stroke-current text-blue-500" cx="60" cy="60" fill="none" r="54" stroke-dasharray="0 339.292" stroke-dashoffset="0" stroke-linecap="round" stroke-width="12"></circle>
+<circle id="templatesSegment" class="stroke-current text-green-500" cx="60" cy="60" fill="none" r="54" stroke-dasharray="0 339.292" stroke-dashoffset="0" stroke-linecap="round" stroke-width="12"></circle>
 </svg>
 <div class="absolute inset-0 flex flex-col items-center justify-center">
-<span class="text-sm text-text-muted-light dark:text-text-muted-dark">Risks Event</span>
-<span class="text-base font-bold">34</span>
 </div>
 
 </div>
 
-<div class="flex-1">
-<p class="text-sm text-text-muted-light dark:text-text-muted-dark">Estimated impact</p>
+                <div class="flex-1">
+<p class="text-sm text-text-muted-light dark:text-text-muted-dark">Document Categories</p>
 <div class="flex items-baseline gap-2 mt-1">
-<span class="text-base font-bold text-text-light dark:text-text-dark">8,789.00 USD</span>
- 
+<span id="mostUploadedCategory" class="text-base font-bold text-text-light dark:text-text-dark"></span>
 </div>
 <ul class="mt-2 space-y-3 text-sm">
 <li class="flex justify-between items-center">
 <div class="flex items-center gap-2">
 <span class="w-2 h-2 rounded-full bg-purple-500"></span>
-<span class="text-text-muted-light dark:text-text-muted-dark">Cybersecurity</span>
+<span class="text-text-muted-light dark:text-text-muted-dark">MOU</span>
 </div>
-<span class="font-medium text-text-light dark:text-text-dark">24</span>
+<span id="mouCount" class="font-medium text-text-light dark:text-text-dark">0</span>
 </li>
 <li class="flex justify-between items-center">
 <div class="flex items-center gap-2">
 <span class="w-2 h-2 rounded-full bg-blue-500"></span>
-<span class="text-text-muted-light dark:text-text-muted-dark">Compliance</span>
+<span class="text-text-muted-light dark:text-text-muted-dark">MOA</span>
 </div>
-<span class="font-medium text-text-light dark:text-text-dark">32</span>
-</li>
-<li class="flex justify-between items-center">
-<div class="flex items-center gap-2">
-<span class="w-2 h-2 rounded-full bg-cyan-500"></span>
-<span class="text-text-muted-light dark:text-text-muted-dark">Financial</span>
-</div>
-<span class="font-medium text-text-light dark:text-text-dark">12</span>
+<span id="moaCount" class="font-medium text-text-light dark:text-text-dark">0</span>
 </li>
 <li class="flex justify-between items-center">
 <div class="flex items-center gap-2">
 <span class="w-2 h-2 rounded-full bg-green-500"></span>
-<span class="text-text-muted-light dark:text-text-muted-dark">Operational</span>
+<span class="text-text-muted-light dark:text-text-muted-dark">Templates</span>
 </div>
-<span class="font-medium text-text-light dark:text-text-dark">6</span>
+<span id="templatesCount" class="font-medium text-text-light dark:text-text-dark">0</span>
 </li>
 </ul>
 </div>
@@ -538,13 +561,16 @@ No notifications yet
 </div>
 
 <div class="mt-2">
-<div class="flex flex-col md:flex-row justify-between md:items-center">
+<div class="flex flex-col md:flex-row justify-between md:items-center mt-10">
 <div>
  
 <p class="text-text-muted-light dark:text-text-muted-dark mt-1">Upload and track your documents here</p>
 </div>
 <div class="flex items-center gap-2 mt-2 md:mt-0">
-<button class="px-4 py-2 text-sm font-medium rounded-md bg-primary text-white">Documents</button>
+<button class="px-4 py-2 text-sm font-medium rounded-md bg-primary text-white flex items-center gap-2" id="addDocumentBtn">
+<span class="material-symbols-outlined text-sm">add</span>
+Add Document
+</button>
 </div>
 </div>
 <div class="mt-2 bg-card-light dark:bg-card-dark p-4 rounded-lg shadow-sm border border-border-light dark:border-border-dark">
@@ -560,9 +586,9 @@ No notifications yet
 
 </thead>
 
-<tbody>
+<tbody id="documents-table-body">
 
-<tr>
+<tr id="no-documents-row">
 <td class="py-6 px-4 text-center text-text-muted-light dark:text-text-muted-dark" colspan="4">No documents yet</td>
 </tr>
 
@@ -625,47 +651,64 @@ No notifications yet
 
             // Helper: Render documents table rows with the exact structure we expect
             const documentsTableBody = document.getElementById('documents-table-body');
+            const noDocumentsRow = document.getElementById('no-documents-row');
 
             function renderDocuments(documents) {
                 if (!documentsTableBody) return;
 
-                // If no documents, keep the placeholder row
+                // If no documents, show placeholder row
                 if (!Array.isArray(documents) || documents.length === 0) {
-                    documentsTableBody.innerHTML = '<tr><td class="py-6 px-4 text-center text-text-muted-light dark:text-text-muted-dark" colspan="4">No documents yet</td></tr>';
+                    noDocumentsRow.style.display = '';
+                    // Remove any existing document rows
+                    const existingRows = documentsTableBody.querySelectorAll('tr:not(#no-documents-row)');
+                    existingRows.forEach(row => row.remove());
                     return;
                 }
 
-                const rows = documents.map((doc, idx) => {
-                    const name = (doc && doc.name) ? doc.name : '';
-                    const category = (doc && doc.category) ? doc.category : '';
-                    const uploaded = (doc && doc.dateUploaded) ? doc.dateUploaded : '';
+                // Hide placeholder row
+                noDocumentsRow.style.display = 'none';
+
+                // Remove existing document rows first
+                const existingRows = documentsTableBody.querySelectorAll('tr:not(#no-documents-row)');
+                existingRows.forEach(row => row.remove());
+
+                // Add new document rows
+                documents.forEach((doc, idx) => {
+                    const name = (doc && doc.title) ? doc.title : (doc && doc.name) ? doc.name : 'Untitled Document';
+                    const category = (doc && doc.category) ? doc.category : 'Other';
+                    const uploaded = (doc && doc.uploadDate) ? 
+                        new Date(doc.uploadDate).toLocaleDateString() : 
+                        (doc && doc.dateUploaded) ? doc.dateUploaded : 'Unknown';
                     const id = (doc && (doc.id !== undefined && doc.id !== null)) ? doc.id : String(idx);
 
-                    return (
-                        '<tr class="border-b border-border-light dark:border-border-dark hover:bg-gray-50 dark:hover:bg-slate-800">' +
-                        '<td class="py-4 px-4 font-medium text-text-light dark:text-text-dark">' + name + '</td>' +
-                        '<td class="py-4 px-4 text-text-muted-light dark:text-text-muted-dark">' + category + '</td>' +
-                        '<td class="py-4 px-4 text-text-muted-light dark:text-text-muted-dark">' + uploaded + '</td>' +
-                        '<td class="py-4 px-4">' +
-                        '  <div class="flex items-center gap-2">' +
-                        '    <button class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-slate-700" aria-label="View" data-action="view" data-id="' + id + '">' +
-                        '      <span class="material-icons text-base text-text-muted-light dark:text-text-muted-dark">visibility</span>' +
-                        '    </button>' +
-                        '    <button class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-slate-700" aria-label="Edit" data-action="edit" data-id="' + id + '">' +
-                        '      <span class="material-icons text-base text-text-muted-light dark:text-text-muted-dark">edit</span>' +
-                        '    </button>' +
-                        '    <button class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-slate-700" aria-label="Delete" data-action="delete" data-id="' + id + '">' +
-                        '      <span class="material-icons text-base text-text-muted-light dark:text-text-muted-dark">delete</span>' +
-                        '    </button>' +
-                        '  </div>' +
-                        '</td>' +
-                        '</tr>'
-                    );
-                }).join('');
+                    const row = document.createElement('tr');
+                    row.className = 'border-b border-border-light dark:border-border-dark hover:bg-gray-50 dark:hover:bg-slate-800';
+                    row.innerHTML = `
+                        <td class="py-4 px-4 font-medium text-text-light dark:text-text-dark">${name}</td>
+                        <td class="py-4 px-4 text-text-muted-light dark:text-text-muted-dark text-center">${category}</td>
+                        <td class="py-4 px-4 text-text-muted-light dark:text-text-muted-dark text-center">${uploaded}</td>
+                        <td class="py-4 px-4">
+                            <div class="flex items-center gap-2">
+                                <button class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-slate-700" aria-label="View" data-action="view" data-id="${id}">
+                                    <span class="material-icons text-base text-text-muted-light dark:text-text-muted-dark">visibility</span>
+                                </button>
+                                <button class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-slate-700" aria-label="Edit" data-action="edit" data-id="${id}">
+                                    <span class="material-icons text-base text-text-muted-light dark:text-text-muted-dark">edit</span>
+                                </button>
+                                <button class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-slate-700" aria-label="Delete" data-action="delete" data-id="${id}">
+                                    <span class="material-icons text-base text-text-muted-light dark:text-text-muted-dark">delete</span>
+                                </button>
+                            </div>
+                        </td>
+                    `;
+                    documentsTableBody.appendChild(row);
+                });
 
-                documentsTableBody.innerHTML = rows;
+                // Update counters by category
+                updateDocumentCounters(documents);
+            }
 
-                // After rendering rows, update counters by category
+            function updateDocumentCounters(documents) {
                 try {
                     const counts = { total: 0, MOU: 0, MOA: 0, Templates: 0 };
                     counts.total = Array.isArray(documents) ? documents.length : 0;
@@ -684,8 +727,122 @@ No notifications yet
                     setText('counter-mou', counts.MOU);
                     setText('counter-templates', counts.Templates);
                     setText('counter-moa', counts.MOA);
-                } catch (_) { /* no-op */ }
+
+                    // Update Documents Report section
+                    updateDocumentsReport(documents, counts);
+                } catch (error) {
+                    console.error('Error updating counters:', error);
+                }
             }
+
+            function updateDocumentsReport(documents, counts) {
+                try {
+                    // Update total count in chart center
+                    const totalCountEl = document.getElementById('totalDocumentsCount');
+                    if (totalCountEl) {
+                        totalCountEl.textContent = counts.total;
+                    }
+
+                    // Update individual counts
+                    const setText = (id, value) => {
+                        const el = document.getElementById(id);
+                        if (el) el.textContent = String(value);
+                    };
+                    setText('mouCount', counts.MOU);
+                    setText('moaCount', counts.MOA);
+                    setText('templatesCount', counts.Templates);
+
+                    // Find most uploaded category
+                    let mostUploaded = '';
+                    let maxCount = 0;
+                    if (counts.MOU > maxCount) {
+                        mostUploaded = 'MOU';
+                        maxCount = counts.MOU;
+                    }
+                    if (counts.MOA > maxCount) {
+                        mostUploaded = 'MOA';
+                        maxCount = counts.MOA;
+                    }
+                    if (counts.Templates > maxCount) {
+                        mostUploaded = 'Templates';
+                        maxCount = counts.Templates;
+                    }
+
+                    const mostUploadedEl = document.getElementById('mostUploadedCategory');
+                    if (mostUploadedEl) {
+                        mostUploadedEl.textContent = maxCount > 0 ? `${mostUploaded} (${maxCount} documents)` : '';
+                    }
+
+                    // Update donut chart
+                    updateDonutChart(counts);
+
+                } catch (error) {
+                    console.error('Error updating documents report:', error);
+                }
+            }
+
+            function updateDonutChart(counts) {
+                try {
+                    const total = counts.MOU + counts.MOA + counts.Templates;
+                    if (total === 0) {
+                        // Hide all segments if no documents
+                        document.getElementById('mouSegment').style.strokeDasharray = '0 339.292';
+                        document.getElementById('moaSegment').style.strokeDasharray = '0 339.292';
+                        document.getElementById('templatesSegment').style.strokeDasharray = '0 339.292';
+                        return;
+                    }
+
+                    const circumference = 339.292;
+                    let currentOffset = 0;
+
+                    // MOU segment (purple)
+                    const mouPercentage = (counts.MOU / total) * 100;
+                    const mouLength = (mouPercentage / 100) * circumference;
+                    document.getElementById('mouSegment').style.strokeDasharray = `${mouLength} ${circumference}`;
+                    document.getElementById('mouSegment').style.strokeDashoffset = `-${currentOffset}`;
+                    currentOffset += mouLength;
+
+                    // MOA segment (blue)
+                    const moaPercentage = (counts.MOA / total) * 100;
+                    const moaLength = (moaPercentage / 100) * circumference;
+                    document.getElementById('moaSegment').style.strokeDasharray = `${moaLength} ${circumference}`;
+                    document.getElementById('moaSegment').style.strokeDashoffset = `-${currentOffset}`;
+                    currentOffset += moaLength;
+
+                    // Templates segment (green)
+                    const templatesPercentage = (counts.Templates / total) * 100;
+                    const templatesLength = (templatesPercentage / 100) * circumference;
+                    document.getElementById('templatesSegment').style.strokeDasharray = `${templatesLength} ${circumference}`;
+                    document.getElementById('templatesSegment').style.strokeDashoffset = `-${currentOffset}`;
+
+                } catch (error) {
+                    console.error('Error updating donut chart:', error);
+                }
+            }
+
+            // Load documents from localStorage on page load
+            function loadDocuments() {
+                try {
+                    const savedDocuments = JSON.parse(localStorage.getItem('documents') || '[]');
+                    renderDocuments(savedDocuments);
+                    
+                    // Add uppercase conversion for title input
+                    const titleInput = document.getElementById('documentTitle');
+                    if (titleInput) {
+                        titleInput.addEventListener('input', function(e) {
+                            const cursorPosition = e.target.selectionStart;
+                            e.target.value = e.target.value.toUpperCase();
+                            e.target.setSelectionRange(cursorPosition, cursorPosition);
+                        });
+                    }
+                } catch (error) {
+                    console.error('Error loading documents:', error);
+                    renderDocuments([]);
+                }
+            }
+
+            // Load documents when page loads
+            loadDocuments();
 
             // Expose for future integration (e.g., API fetch -> renderDocuments(data))
             window.renderDocuments = renderDocuments;
@@ -714,17 +871,58 @@ No notifications yet
                         if (typeof window.onDeleteDocument === 'function') {
                             window.onDeleteDocument(id);
                         } else {
-                            if (confirm('Delete document ' + id + '?')) {
-                                // Example optimistic remove from table
-                                const row = target.closest('tr');
-                                if (row && row.parentElement) {
-                                    row.parentElement.removeChild(row);
-                                }
+                            if (confirm('Delete document?')) {
+                                // Remove from Documents storage
+                                const existingDocuments = JSON.parse(localStorage.getItem('documents') || '[]');
+                                const updatedDocuments = existingDocuments.filter(doc => doc.id !== id);
+                                localStorage.setItem('documents', JSON.stringify(updatedDocuments));
+
+                                // Also remove corresponding MOU/MOA entry (if it was auto-imported)
+                                try {
+                                    const MOU_KEY = 'mou_moa_entries';
+                                    const mouEntries = JSON.parse(localStorage.getItem(MOU_KEY) || '[]');
+                                    const filteredMou = mouEntries.filter(entry => Number(entry.id) !== Number(id));
+                                    localStorage.setItem(MOU_KEY, JSON.stringify(filteredMou));
+                                } catch (_) {}
+
+                                // Best-effort backend delete
+                                try { fetch(`api/mou-moa.php?id=${encodeURIComponent(id)}`, { method: 'DELETE' }); } catch (_) {}
+
+                                // Update display
+                                renderDocuments(updatedDocuments);
                             }
                         }
                     }
                 });
             }
+
+            // Global delete handler so other pages can hook consistent behavior
+            window.onDeleteDocument = async function(id) {
+                if (!id) return;
+                if (!confirm('Delete document?')) return;
+                try {
+                    // Remove from Documents storage
+                    const existingDocuments = JSON.parse(localStorage.getItem('documents') || '[]');
+                    const updatedDocuments = existingDocuments.filter(doc => doc.id !== id);
+                    localStorage.setItem('documents', JSON.stringify(updatedDocuments));
+
+                    // Also remove corresponding MOU/MOA entry (imported from Documents)
+                    try {
+                        const MOU_KEY = 'mou_moa_entries';
+                        const mouEntries = JSON.parse(localStorage.getItem(MOU_KEY) || '[]');
+                        const filteredMou = mouEntries.filter(entry => Number(entry.id) !== Number(id));
+                        localStorage.setItem(MOU_KEY, JSON.stringify(filteredMou));
+                    } catch (_) {}
+
+                    // Best-effort backend delete
+                    try { await fetch(`api/mou-moa.php?id=${encodeURIComponent(id)}`, { method: 'DELETE' }); } catch (_) {}
+
+                    // Update UI
+                    renderDocuments(updatedDocuments);
+                } catch (e) {
+                    console.error('Delete failed', e);
+                }
+            };
 
             // Prevent navigating when clicking the current page link
 
@@ -1113,12 +1311,572 @@ No notifications yet
 
             renderChart();
 
+            // Modal functionality
+            const addDocumentBtn = document.getElementById('addDocumentBtn');
+            const addDocumentModal = document.getElementById('addDocumentModal');
+            const closeModal = document.getElementById('closeModal');
+            const cancelModal = document.getElementById('cancelModal');
+            const addDocumentForm = document.getElementById('addDocumentForm');
+            const documentFile = document.getElementById('documentFile');
+            const fileDropZone = document.getElementById('fileDropZone');
+            const filePreview = document.getElementById('filePreview');
+            const fileName = document.getElementById('fileName');
+            const fileSize = document.getElementById('fileSize');
+            const removeFile = document.getElementById('removeFile');
+
+            // Open modal
+            addDocumentBtn.addEventListener('click', () => {
+                addDocumentModal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            });
+
+            // Close modal functions
+            const closeModalFunc = () => {
+                addDocumentModal.classList.add('hidden');
+                document.body.style.overflow = '';
+                addDocumentForm.reset();
+                filePreview.classList.add('hidden');
+                documentFile.value = '';
+                
+                // Reset classification result
+                const classificationResult = document.getElementById('classificationResult');
+                classificationResult.classList.add('hidden');
+                documentFile.removeAttribute('data-classification');
+                documentFile.removeAttribute('data-confidence');
+            };
+
+            closeModal.addEventListener('click', closeModalFunc);
+            cancelModal.addEventListener('click', closeModalFunc);
+
+            // Close modal when clicking outside
+            addDocumentModal.addEventListener('click', (e) => {
+                if (e.target === addDocumentModal) {
+                    closeModalFunc();
+                }
+            });
+
+            // Close modal with Escape key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && !addDocumentModal.classList.contains('hidden')) {
+                    closeModalFunc();
+                }
+            });
+
+            // File upload functionality
+            fileDropZone.addEventListener('click', () => {
+                documentFile.click();
+            });
+
+            // Drag and drop functionality
+            fileDropZone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                fileDropZone.classList.add('border-primary', 'bg-primary/5');
+            });
+
+            fileDropZone.addEventListener('dragleave', () => {
+                fileDropZone.classList.remove('border-primary', 'bg-primary/5');
+            });
+
+            fileDropZone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                fileDropZone.classList.remove('border-primary', 'bg-primary/5');
+                const files = e.dataTransfer.files;
+                if (files.length > 0) {
+                    documentFile.files = files;
+                    handleFileSelect();
+                }
+            });
+
+            documentFile.addEventListener('change', handleFileSelect);
+
+            function handleFileSelect() {
+                const file = documentFile.files[0];
+                if (file) {
+                    // Check file size (10MB limit)
+                    if (file.size > 10 * 1024 * 1024) {
+                        alert('File size must be less than 10MB');
+                        documentFile.value = '';
+                        return;
+                    }
+                    
+                    fileName.textContent = file.name;
+                    fileSize.textContent = formatFileSize(file.size);
+                    filePreview.classList.remove('hidden');
+                    
+                    // Automatically analyze the document for classification
+                    analyzeDocument(file);
+                }
+            }
+
+            // Quick filename-only classification for instant feedback
+            function quickClassifyByFilename(filename) {
+                return classifyDocument(filename, filename);
+            }
+
+            async function analyzeDocument(file) {
+                const classificationResult = document.getElementById('classificationResult');
+                const classificationText = document.getElementById('classificationText');
+                
+                // Show loading state
+                classificationResult.classList.remove('hidden');
+                classificationText.textContent = 'Analyzing document content...';
+                
+                try {
+                    let extractedText = '';
+                    
+                    // Extract text based on file type
+                    if (file.type === 'application/pdf') {
+                        extractedText = await extractTextFromPDF(file);
+                    } else if (file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' || 
+                               file.type === 'application/msword') {
+                        extractedText = await extractTextFromWord(file);
+                    } else if (file.type === 'text/plain') {
+                        extractedText = await extractTextFromTxt(file);
+                    } else if (file.type.startsWith('image/')) {
+                        // 1) Instant, filename-only classification while OCR runs in background
+                        const quick = quickClassifyByFilename(file.name);
+                        documentFile.dataset.classification = quick.category;
+                        documentFile.dataset.confidence = quick.confidence;
+                        classificationText.textContent = `Quick classify: ${quick.category} - ${quick.confidence}% (refining with OCR...)`;
+
+                        // 2) Kick off OCR in background (no blocking)
+                        extractTextFromImage(file).then(text => {
+                            const refined = classifyDocument(text, file.name);
+                            // Only update if result is different or confidence is higher
+                            const currentCat = documentFile.dataset.classification;
+                            const currentConf = parseInt(documentFile.dataset.confidence || '0', 10);
+                            if (refined.category !== currentCat || parseInt(refined.confidence, 10) > currentConf) {
+                                documentFile.dataset.classification = refined.category;
+                                documentFile.dataset.confidence = refined.confidence;
+                                classificationText.textContent = `Classified as: ${refined.category} - ${refined.confidence}% confidence`;
+                            }
+                        }).catch(() => {/* keep quick result */});
+
+                        // Return early; we already set a quick result
+                        return;
+                    } else {
+                        // For other file types, classify based on filename
+                        extractedText = file.name;
+                    }
+                    
+                    // Classify the document
+                    const classification = classifyDocument(extractedText, file.name);
+                    
+                    // Update UI with classification result
+                    classificationText.textContent = `Classified as: ${classification.category} - ${classification.confidence}% confidence`;
+                    
+                    // Store classification for form submission
+                    documentFile.dataset.classification = classification.category;
+                    documentFile.dataset.confidence = classification.confidence;
+                    
+                } catch (error) {
+                    console.error('Error analyzing document:', error);
+                    classificationText.textContent = 'Unable to analyze document. Will be classified as "Other".';
+                    documentFile.dataset.classification = 'Other';
+                    documentFile.dataset.confidence = '0';
+                }
+            }
+
+            async function extractTextFromPDF(file) {
+                return new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onload = async function(e) {
+                        try {
+                            const typedarray = new Uint8Array(e.target.result);
+                            const pdf = await pdfjsLib.getDocument({ data: typedarray }).promise;
+                            let text = '';
+                            
+                            for (let i = 1; i <= pdf.numPages; i++) {
+                                const page = await pdf.getPage(i);
+                                const textContent = await page.getTextContent();
+                                text += textContent.items.map(item => item.str).join(' ') + ' ';
+                            }
+                            
+                            resolve(text);
+                        } catch (error) {
+                            reject(error);
+                        }
+                    };
+                    reader.readAsArrayBuffer(file);
+                });
+            }
+
+            async function extractTextFromWord(file) {
+                return new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        mammoth.extractRawText({ arrayBuffer: e.target.result })
+                            .then(result => resolve(result.value))
+                            .catch(error => reject(error));
+                    };
+                    reader.readAsArrayBuffer(file);
+                });
+            }
+
+            async function extractTextFromTxt(file) {
+                return new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        resolve(e.target.result);
+                    };
+                    reader.onerror = reject;
+                    reader.readAsText(file);
+                });
+            }
+
+            async function extractTextFromImage(file) {
+                return new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onload = async function(e) {
+                        try {
+                            // Update progress message
+                            const classificationText = document.getElementById('classificationText');
+                            classificationText.textContent = 'Extracting text from image using OCR...';
+                            
+                            // Downscale image to speed up OCR (max dimension 1200px)
+                            const img = new Image();
+                            img.src = e.target.result;
+                            await img.decode();
+                            const maxDim = 1200;
+                            const scale = Math.min(1, maxDim / Math.max(img.width, img.height));
+                            const canvas = document.createElement('canvas');
+                            canvas.width = Math.round(img.width * scale);
+                            canvas.height = Math.round(img.height * scale);
+                            const ctx = canvas.getContext('2d');
+                            // Draw grayscale for better OCR and performance
+                            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                            const data = imageData.data;
+                            for (let i = 0; i < data.length; i += 4) {
+                                const r = data[i], g = data[i+1], b = data[i+2];
+                                const y = (r*0.299 + g*0.587 + b*0.114) | 0;
+                                data[i] = data[i+1] = data[i+2] = y;
+                            }
+                            ctx.putImageData(imageData, 0, 0);
+                            const optimizedDataUrl = canvas.toDataURL('image/jpeg', 0.7);
+
+                            // Use Tesseract.js for OCR on optimized image
+                            const { data: { text } } = await Tesseract.recognize(
+                                optimizedDataUrl,
+                                'eng',
+                                {
+                                    logger: (m) => {
+                                        if (m.status === 'recognizing text') {
+                                            const progress = Math.round(m.progress * 100);
+                                            classificationText.textContent = `OCR Progress: ${progress}%`;
+                                        }
+                                    }
+                                }
+                            );
+                            
+                            console.log('OCR extracted text:', text);
+                            resolve(text || file.name); // Fallback to filename if no text extracted
+                        } catch (error) {
+                            console.error('OCR error:', error);
+                            // If OCR fails, fallback to filename analysis
+                            resolve(file.name);
+                        }
+                    };
+                    reader.onerror = reject;
+                    reader.readAsDataURL(file);
+                });
+            }
+
+            function classifyDocument(text, filename) {
+                const textToAnalyze = (text + ' ' + filename).toLowerCase();
+                
+                // MOU keywords
+                const mouKeywords = [
+                    'memorandum of understanding', 'mou', 'understanding', 'collaboration agreement',
+                    'partnership understanding', 'mutual understanding', 'cooperation agreement',
+                    'inter-institutional agreement'
+                ];
+                
+                // MOA keywords
+                const moaKeywords = [
+                    'memorandum of agreement', 'moa', 'agreement', 'service agreement',
+                    'contract agreement', 'binding agreement', 'formal agreement',
+                    'cooperative agreement', 'partnership agreement'
+                ];
+                
+                // Template keywords
+                const templateKeywords = [
+                    'template', 'form', 'sample', 'format', 'draft', 'example',
+                    'boilerplate', 'standard form', 'application form', 'report form'
+                ];
+                
+                let mouScore = 0;
+                let moaScore = 0;
+                let templateScore = 0;
+                
+                // Calculate scores for each category
+                mouKeywords.forEach(keyword => {
+                    if (textToAnalyze.includes(keyword)) {
+                        mouScore += keyword.length; // Longer keywords get higher scores
+                    }
+                });
+                
+                moaKeywords.forEach(keyword => {
+                    if (textToAnalyze.includes(keyword)) {
+                        moaScore += keyword.length;
+                    }
+                });
+                
+                templateKeywords.forEach(keyword => {
+                    if (textToAnalyze.includes(keyword)) {
+                        templateScore += keyword.length;
+                    }
+                });
+                
+                // Determine classification
+                let category = 'Other';
+                let confidence = 0;
+                
+                if (mouScore > moaScore && mouScore > templateScore && mouScore > 0) {
+                    category = 'MOU';
+                    confidence = Math.min(95, Math.max(60, (mouScore / (mouScore + moaScore + templateScore)) * 100));
+                } else if (moaScore > mouScore && moaScore > templateScore && moaScore > 0) {
+                    category = 'MOA';
+                    confidence = Math.min(95, Math.max(60, (moaScore / (mouScore + moaScore + templateScore)) * 100));
+                } else if (templateScore > mouScore && templateScore > moaScore && templateScore > 0) {
+                    category = 'Templates';
+                    confidence = Math.min(95, Math.max(60, (templateScore / (mouScore + moaScore + templateScore)) * 100));
+                } else {
+                    category = 'Other';
+                    confidence = 0;
+                }
+                
+                return { category, confidence: Math.round(confidence) };
+            }
+
+            function formatFileSize(bytes) {
+                if (bytes === 0) return '0 Bytes';
+                const k = 1024;
+                const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+                const i = Math.floor(Math.log(bytes) / Math.log(k));
+                return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+            }
+
+            // Remove file
+            removeFile.addEventListener('click', () => {
+                documentFile.value = '';
+                filePreview.classList.add('hidden');
+            });
+
+            // Form submission
+            addDocumentForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                const submitBtn = addDocumentForm.querySelector('button[type="submit"]');
+                const originalText = submitBtn.textContent;
+                
+                // Show loading state
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Uploading...';
+                
+                try {
+                    const formData = new FormData(addDocumentForm);
+                    const file = documentFile.files[0];
+                    const classification = documentFile.dataset.classification || 'Other';
+                    const confidence = documentFile.dataset.confidence || '0';
+                    
+                    const documentData = {
+                        title: formData.get('title').toUpperCase(), // Convert title to uppercase
+                        description: formData.get('description'),
+                        category: classification,
+                        confidence: confidence,
+                        fileName: file.name,
+                        fileSize: file.size,
+                        fileType: file.type,
+                        uploadDate: new Date().toISOString(),
+                        file: file
+                    };
+
+                    // Simulate upload process
+                    await new Promise(resolve => setTimeout(resolve, 2000));
+                    
+                    // Store document in appropriate locations based on classification
+                    await storeDocument(documentData);
+                    
+                    closeModalFunc();
+                    
+                } catch (error) {
+                    console.error('Upload error:', error);
+                    alert('Error uploading document. Please try again.');
+                } finally {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = originalText;
+                }
+            });
+
+            async function storeDocument(documentData) {
+                // Simulate storing in localStorage for demo purposes
+                // In a real application, this would be an API call to your backend
+                
+                const existingDocuments = JSON.parse(localStorage.getItem('documents') || '[]');
+                const newDocument = {
+                    id: Date.now().toString(),
+                    title: documentData.title,
+                    category: documentData.category,
+                    description: documentData.description,
+                    fileName: documentData.fileName,
+                    fileSize: documentData.fileSize,
+                    fileType: documentData.fileType,
+                    uploadDate: documentData.uploadDate,
+                    confidence: documentData.confidence
+                };
+                
+                existingDocuments.push(newDocument);
+                localStorage.setItem('documents', JSON.stringify(existingDocuments));
+                
+                // Also store in category-specific storage if needed
+                if (documentData.category === 'MOU' || documentData.category === 'MOA') {
+                    const existingMOUs = JSON.parse(localStorage.getItem('mou_moa_documents') || '[]');
+                    existingMOUs.push(newDocument);
+                    localStorage.setItem('mou_moa_documents', JSON.stringify(existingMOUs));
+                }
+                
+                if (documentData.category === 'Templates') {
+                    const existingTemplates = JSON.parse(localStorage.getItem('template_documents') || '[]');
+                    existingTemplates.push(newDocument);
+                    localStorage.setItem('template_documents', JSON.stringify(existingTemplates));
+                }
+                
+                // Update the documents table immediately
+                renderDocuments(existingDocuments);
+                
+                return newDocument;
+            }
+
+            function getRoutingInfo(category) {
+                switch (category) {
+                    case 'MOU':
+                        return '• Documents page (general documents)\n• MOU & MOAs page (MOU section)';
+                    case 'MOA':
+                        return '• Documents page (general documents)\n• MOU & MOAs page (MOA section)';
+                    case 'Templates':
+                        return '• Documents page (general documents)\n• Templates page (templates section)';
+                    case 'Other':
+                    default:
+                        return '• Documents page (general documents only)';
+                }
+            }
+
+        });
+
+        // Load profile picture from localStorage if available
+        document.addEventListener('DOMContentLoaded', function() {
+            try {
+                const profile = JSON.parse(localStorage.getItem('lilac_profile'));
+                if (profile && profile.avatar) {
+                    const sidebarProfilePicture = document.querySelector('.sidebar-profile-picture');
+                    if (sidebarProfilePicture) {
+                        sidebarProfilePicture.style.backgroundImage = `url('${profile.avatar}')`;
+                    }
+                    
+                    // Also update the profile name if available
+                    const profileName = document.querySelector('.sidebar-profile-info p');
+                    if (profileName && profile.name) {
+                        profileName.textContent = profile.name;
+                    }
+                }
+            } catch (error) {
+                console.log('No profile data found in localStorage');
+            }
         });
 
     </script>
 
+<!-- Add Document Modal -->
+<div id="addDocumentModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-card-dark rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+        <div class="flex items-center justify-between p-6 border-b border-border-light dark:border-border-dark">
+            <h2 class="text-xl font-semibold text-text-light dark:text-text-dark">Add New Document</h2>
+            <button id="closeModal" class="text-text-muted-light dark:text-text-muted-dark hover:text-text-light dark:hover:text-text-dark transition-colors">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+        
+        <form id="addDocumentForm" class="p-6 space-y-6">
+            <div>
+                <label for="documentTitle" class="block text-sm font-medium text-text-light dark:text-text-dark mb-2">Document Title</label>
+                <input type="text" id="documentTitle" name="title" required 
+                       class="w-full px-3 py-2 border border-border-light dark:border-border-dark rounded-md bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent uppercase"
+                       placeholder="Enter document title"
+                       style="text-transform: uppercase;">
+            </div>
+            
+            <div id="classificationResult" class="hidden">
+                <div class="flex items-center gap-2 p-3 bg-blue-50 dark:bg-blue-900/20 rounded-md border border-blue-200 dark:border-blue-800">
+                    <span class="material-symbols-outlined text-blue-500">auto_awesome</span>
+                    <div>
+                        <p class="text-sm font-medium text-blue-700 dark:text-blue-300">Document Classification</p>
+                        <p id="classificationText" class="text-xs text-blue-600 dark:text-blue-400"></p>
+                    </div>
+                </div>
+            </div>
+            
+            <div>
+                <label for="documentDescription" class="block text-sm font-medium text-text-light dark:text-text-dark mb-2">Description (Optional)</label>
+                <textarea id="documentDescription" name="description" rows="3"
+                          class="w-full px-3 py-2 border border-border-light dark:border-border-dark rounded-md bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent resize-none"
+                          placeholder="Enter document description"></textarea>
+            </div>
+            
+            <div>
+                <label for="documentFile" class="block text-sm font-medium text-text-light dark:text-text-dark mb-2">Upload File</label>
+                <div class="border-2 border-dashed border-border-light dark:border-border-dark rounded-lg p-6 text-center hover:border-primary transition-colors">
+                    <input type="file" id="documentFile" name="file" accept=".pdf,.doc,.docx,.txt,.jpg,.jpeg,.png" required
+                           class="hidden">
+                    <div id="fileDropZone" class="cursor-pointer">
+                        <span class="material-symbols-outlined text-4xl text-text-muted-light dark:text-text-muted-dark mb-2 block">cloud_upload</span>
+                        <p class="text-text-muted-light dark:text-text-muted-dark mb-2">
+                            <span class="font-medium text-primary">Click to upload</span> or drag and drop
+                        </p>
+                        <p class="text-sm text-text-muted-light dark:text-text-muted-dark">
+                            PDF, DOC, DOCX, TXT, JPG, PNG with OCR support (Max 10MB)
+                        </p>
+                    </div>
+                    <div id="filePreview" class="hidden mt-3">
+                        <div class="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-800 rounded-md">
+                            <span class="material-symbols-outlined text-green-500">description</span>
+                            <div class="flex-1">
+                                <p id="fileName" class="text-sm font-medium text-text-light dark:text-text-dark"></p>
+                                <p id="fileSize" class="text-xs text-text-muted-light dark:text-text-muted-dark"></p>
+                            </div>
+                            <button type="button" id="removeFile" class="text-red-500 hover:text-red-700">
+                                <span class="material-symbols-outlined">close</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flex justify-end gap-3 pt-4 border-t border-border-light dark:border-border-dark">
+                <button type="button" id="cancelModal" 
+                        class="px-4 py-2 text-sm font-medium text-text-muted-light dark:text-text-muted-dark hover:text-text-light dark:hover:text-text-dark transition-colors">
+                    Cancel
+                </button>
+                <button type="submit" 
+                        class="px-4 py-2 text-sm font-medium bg-primary text-white rounded-md hover:bg-primary/90 transition-colors">
+                    Upload Document
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
 
-
+<script>
+    (function() {
+        try {
+            var isDevHost = location.hostname === '127.0.0.1' || location.hostname === 'localhost';
+            if (isDevHost && location.port === '5500') {
+                var target = location.protocol + '//' + 'localhost' + ':8000' + location.pathname + location.search + location.hash;
+                location.replace(target);
+            }
+        } catch (e) { /* noop */ }
+    })();
+</script>
 </body></html>
 
 

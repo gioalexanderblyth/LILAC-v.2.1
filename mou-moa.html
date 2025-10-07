@@ -8,6 +8,17 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+        // Apply theme immediately to prevent flash
+        (function() {
+            const savedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const shouldBeDark = savedTheme === 'dark' || (!savedTheme && prefersDark);
+            if (shouldBeDark) {
+                document.documentElement.classList.add('dark');
+            }
+        })();
+</script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <!-- Add these libraries for file to image conversion -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
@@ -192,10 +203,7 @@
 <span class="material-symbols-outlined filled">handshake</span>
 <span class="sidebar-text hidden">MOUs &amp; MOAs</span>
 </a>
-<a class="flex items-center justify-center gap-3 px-4 py-2.5 rounded-lg text-text-muted-light dark:text-text-muted-dark hover:bg-gray-100 dark:hover:bg-background-dark hover:text-text-light dark:hover:text-text-dark transition-colors duration-200 sidebar-nav-link" href="templates.html">
-<span class="material-symbols-outlined">description</span>
-<span class="sidebar-text hidden">Templates</span>
-</a>
+
 <a class="flex items-center justify-center gap-3 px-4 py-2.5 rounded-lg text-text-muted-light dark:text-text-muted-dark hover:bg-gray-100 dark:hover:bg-background-dark hover:text-text-light dark:hover:text-text-dark transition-colors duration-200 sidebar-nav-link" href="documents.html">
 <span class="material-symbols-outlined">school</span>
 <span class="sidebar-text hidden">Registrar Forms</span>
@@ -465,6 +473,7 @@
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-text-muted-light dark:text-text-muted-dark uppercase tracking-wider">Sign Date</th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-text-muted-light dark:text-text-muted-dark uppercase tracking-wider">End Date</th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-text-muted-light dark:text-text-muted-dark uppercase tracking-wider">Status</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-text-muted-light dark:text-text-muted-dark uppercase tracking-wider">Category</th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-text-muted-light dark:text-text-muted-dark uppercase tracking-wider">File Link</th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-text-muted-light dark:text-text-muted-dark uppercase tracking-wider">Action</th>
                                 </tr>
@@ -507,7 +516,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" for="institution">Institution</label>
-                    <input class="w-full bg-gray-50 dark:bg-background-dark/50 border border-gray-300 dark:border-gray-700 rounded-lg px-3 py-2 text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary" id="institution" placeholder="e.g., Central Philippine University" type="text"/>
+                    <input class="w-full bg-gray-50 dark:bg-background-dark/50 border border-gray-300 dark:border-gray-700 rounded-lg px-3 py-2 text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary" id="institution" placeholder="e.g., Central Philippine University" type="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false"/>
                 </div>
                 <div class="relative">
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" for="location">Location</label>
@@ -544,9 +553,17 @@
                 <div>
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" for="auto-status">Status</label>
                     <div class="w-full bg-gray-100 dark:bg-background-dark/30 border border-gray-300 dark:border-gray-700 rounded-lg px-3 py-2 text-sm text-gray-500 dark:text-gray-400">
-                        <span id="autoStatusText">Will be determined automatically</span>
+                        <span id="autoStatusText">Auto-determined</span>
                     </div>
-                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Status is automatically set based on the end date</p>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" for="auto-category">Document Type</label>
+                    <div class="w-full bg-gray-100 dark:bg-background-dark/30 border border-gray-300 dark:border-gray-700 rounded-lg px-3 py-2 text-sm text-gray-500 dark:text-gray-400">
+                        <span id="autoCategoryText">Auto-detected</span>
+                    </div>
                 </div>
             </div>
             
@@ -809,7 +826,7 @@
         });
 
         // Confirm bulk delete
-        confirmBulkDeleteBtn.addEventListener('click', function() {
+        confirmBulkDeleteBtn.addEventListener('click', async function() {
             // Get IDs from actually checked checkboxes
             const checkedCheckboxes = document.querySelectorAll('.row-checkbox:checked');
             const idsToDelete = Array.from(checkedCheckboxes).map(checkbox => parseInt(checkbox.dataset.id));
@@ -820,10 +837,22 @@
                 const entries = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
                 
                 // Filter out selected entries
-                const filteredEntries = entries.filter(entry => !idsToDelete.includes(entry.id));
+                const filteredEntries = entries.filter(entry => !idsToDelete.includes(Number(entry.id)));
                 
                 // Save updated entries
                 localStorage.setItem(STORAGE_KEY, JSON.stringify(filteredEntries));
+
+                // Attempt backend deletions (best-effort)
+                try {
+                    await Promise.allSettled(idsToDelete.map(id => fetch(`api/mou-moa.php?id=${encodeURIComponent(id)}`, { method: 'DELETE' })));
+                } catch (_) {}
+                
+                // Also remove corresponding documents if they were imported from Documents
+                try {
+                    const documents = JSON.parse(localStorage.getItem('documents') || '[]');
+                    const updatedDocs = documents.filter(doc => !idsToDelete.includes(Number(doc.id)));
+                    localStorage.setItem('documents', JSON.stringify(updatedDocs));
+                } catch (_) {}
                 
                 // Remove rows from table
                 idsToDelete.forEach(id => {
@@ -850,6 +879,11 @@
                     if (paginationText) {
                         paginationText.innerHTML = `Showing <span class="font-medium">${startEntry}</span> to <span class="font-medium">${endEntry}</span> of <span class="font-medium">${totalEntries}</span> results`;
                     }
+                }
+                
+                // Refresh in-memory list for pagination handlers
+                if (typeof getAllEntries === 'function') {
+                    try { allEntries = filteredEntries; } catch (_) {}
                 }
                 
             } catch (error) {
@@ -915,6 +949,7 @@
             statusBadgeClass = 'bg-gray-100 text-gray-800 dark:bg-gray-900/50 dark:text-gray-300';
         }
         
+        newRow.setAttribute('data-id', data.id);
         newRow.innerHTML = `
             <td class="px-6 py-4 whitespace-nowrap text-center">
                 <input type="checkbox" class="row-checkbox w-4 h-4 text-primary bg-gray-100 border-gray-300 rounded focus:ring-primary dark:focus:ring-primary dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" data-id="${data.id}">
@@ -928,6 +963,7 @@
             <td class="px-6 py-4 whitespace-nowrap text-sm text-center">
                 <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${statusBadgeClass}">${data.status}</span>
             </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-text-muted-light dark:text-text-muted-dark text-center">${data.category || 'N/A'}</td>
             <td class="px-6 py-4 whitespace-nowrap text-sm text-center">
                 ${data.file_name ? 
                     `<button class="view-file-btn text-primary hover:text-primary/80 dark:text-primary-400 dark:hover:text-primary-300 flex items-center gap-1 mx-auto" data-file-path="${data.file_path}" data-file-name="${data.file_name}" title="View File">
@@ -1248,16 +1284,165 @@
                     selectedFileDisplay.classList.add('hidden');
                 }
             }
+            
+            // Function to analyze document type (MOU vs MOA)
+            async function analyzeDocumentType(file) {
+                const autoCategoryText = document.getElementById('autoCategoryText');
+                autoCategoryText.textContent = 'Analyzing document...';
+                autoCategoryText.className = 'text-blue-600 dark:text-blue-400';
+                
+                try {
+                    let detectedType = 'Unknown';
+                    
+                    // For PDF files, we'll use text extraction
+                    if (file.type === 'application/pdf') {
+                        detectedType = await analyzePDFContent(file);
+                    } 
+                    // For DOCX files, we'll analyze the filename and basic content
+                    else if (file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
+                        detectedType = await analyzeDOCXContent(file);
+                    }
+                    // For Images, run OCR (Tesseract.js)
+                    else if (file.type.startsWith('image/')) {
+                        detectedType = await analyzeImageContent(file);
+                    }
+                    
+                    // Update the display
+                    updateCategoryDisplay(detectedType);
+                    
+                } catch (error) {
+                    console.error('Error analyzing document:', error);
+                    updateCategoryDisplay('Unknown');
+                }
+            }
+            
+            // Function to analyze PDF content
+            async function analyzePDFContent(file) {
+                // For now, we'll use filename analysis as a fallback
+                // In a real implementation, you would use a PDF text extraction library
+                return analyzeFilename(file.name);
+            }
+            
+            // Function to analyze DOCX content
+            async function analyzeDOCXContent(file) {
+                // For now, we'll use filename analysis
+                // In a real implementation, you would extract text from DOCX
+                return analyzeFilename(file.name);
+            }
+            
+            // Lazy-load Tesseract.js
+            async function loadTesseract() {
+                return new Promise((resolve, reject) => {
+                    if (window.Tesseract) return resolve();
+                    const script = document.createElement('script');
+                    script.src = 'https://unpkg.com/tesseract.js@4.0.2/dist/tesseract.min.js';
+                    script.async = true;
+                    script.onload = () => resolve();
+                    script.onerror = () => reject(new Error('Failed to load Tesseract.js'));
+                    document.head.appendChild(script);
+                });
+            }
+
+            // OCR for images to detect MOU/MOA
+            async function analyzeImageContent(file) {
+                try {
+                    await loadTesseract();
+                    const imageUrl = URL.createObjectURL(file);
+                    const { data } = await window.Tesseract.recognize(imageUrl, 'eng', { logger: () => {} });
+                    URL.revokeObjectURL(imageUrl);
+                    const text = (data && data.text ? data.text : '').toLowerCase();
+                    if (!text) return analyzeFilename(file.name);
+                    const hasMou = text.includes('memorandum of understanding') || /\bmou\b/.test(text);
+                    const hasMoa = text.includes('memorandum of agreement') || /\bmoa\b/.test(text);
+                    if (hasMou && !hasMoa) return 'MOU';
+                    if (hasMoa && !hasMou) return 'MOA';
+                    // Tie-breaker: prefer exact phrases over acronyms
+                    if (text.indexOf('memorandum of understanding') !== -1 && text.indexOf('memorandum of agreement') === -1) return 'MOU';
+                    if (text.indexOf('memorandum of agreement') !== -1 && text.indexOf('memorandum of understanding') === -1) return 'MOA';
+                    return 'Unknown';
+                } catch (e) {
+                    console.warn('OCR failed, falling back to filename heuristic', e);
+                    return analyzeFilename(file.name);
+                }
+            }
+            
+            // Function to analyze filename for MOU/MOA indicators
+            function analyzeFilename(filename) {
+                const lowerFilename = filename.toLowerCase();
+                
+                // Check for MOU indicators
+                const mouKeywords = ['mou', 'memorandum of understanding', 'understanding'];
+                const mouScore = mouKeywords.reduce((score, keyword) => {
+                    return score + (lowerFilename.includes(keyword) ? 1 : 0);
+                }, 0);
+                
+                // Check for MOA indicators
+                const moaKeywords = ['moa', 'memorandum of agreement', 'agreement'];
+                const moaScore = moaKeywords.reduce((score, keyword) => {
+                    return score + (lowerFilename.includes(keyword) ? 1 : 0);
+                }, 0);
+                
+                // Determine type based on scores
+                if (mouScore > moaScore && mouScore > 0) {
+                    return 'MOU';
+                } else if (moaScore > mouScore && moaScore > 0) {
+                    return 'MOA';
+                } else {
+                    // If no clear indicators, use additional heuristics
+                    if (lowerFilename.includes('research') || lowerFilename.includes('collaboration')) {
+                        return 'MOU';
+                    } else if (lowerFilename.includes('service') || lowerFilename.includes('contract')) {
+                        return 'MOA';
+                    } else {
+                        return 'Unknown';
+                    }
+                }
+            }
+            
+            // Function to update category display
+            function updateCategoryDisplay(detectedType) {
+                const autoCategoryText = document.getElementById('autoCategoryText');
+                
+                switch (detectedType) {
+                    case 'MOU':
+                        autoCategoryText.textContent = 'MOU';
+                        autoCategoryText.className = 'text-green-600 dark:text-green-400';
+                        break;
+                    case 'MOA':
+                        autoCategoryText.textContent = 'MOA';
+                        autoCategoryText.className = 'text-blue-600 dark:text-blue-400';
+                        break;
+                    default:
+                        autoCategoryText.textContent = 'Unknown';
+                        autoCategoryText.className = 'text-orange-600 dark:text-orange-400';
+                        break;
+                }
+                
+                // Store the detected type for saving
+                window.detectedDocumentType = detectedType;
+            }
+            
+            // Function to reset category detection
+            function resetCategoryDetection() {
+                const autoCategoryText = document.getElementById('autoCategoryText');
+                autoCategoryText.textContent = 'Auto-detected';
+                autoCategoryText.className = 'text-gray-500 dark:text-gray-400';
+                window.detectedDocumentType = null;
+            }
 
             // Event listener for file input change
             if (fileUploadInput) {
                 fileUploadInput.addEventListener('change', function(event) {
                     const file = this.files[0];
                     if (file) {
-                        // Validate file type
-                        const allowedTypes = ['application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+                        // Validate file type (PDF, DOCX, and common image types)
+                        const allowedTypes = [
+                            'application/pdf',
+                            'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                            'image/png', 'image/jpeg', 'image/jpg', 'image/webp'
+                        ];
                         if (!allowedTypes.includes(file.type)) {
-                            alert('Please select a PDF or DOCX file.');
+                            alert('Please select a PDF, DOCX, or an image (PNG, JPG, WEBP).');
                             this.value = '';
                             return;
                         }
@@ -1270,6 +1455,12 @@
                         }
                         
                         updateSelectedFileDisplay(file);
+                        
+                        // Analyze file content to detect MOU vs MOA
+                        analyzeDocumentType(file);
+                    } else {
+                        updateSelectedFileDisplay(null);
+                        resetCategoryDetection();
                     }
                 });
             }
@@ -1279,13 +1470,14 @@
                 removeFileBtn.addEventListener('click', function() {
                     fileUploadInput.value = ''; // Clear the file input
                     updateSelectedFileDisplay(null); // Hide the display
+                    resetCategoryDetection();
                 });
             }
 
             // Enhanced status determination with "Expires Soon"
             function determineStatus(endDate) {
                 if (!endDate) {
-                    return 'Will be determined automatically';
+                    return 'Auto-determined';
                 }
                 
                 const today = new Date();
@@ -1465,6 +1657,7 @@
                     const location = document.getElementById('location').value.trim();
                     const contact = document.getElementById('contact').value.trim();
                     const term = document.getElementById('term').value.trim();
+                    const category = window.detectedDocumentType || 'Unknown';
                     const signDate = document.getElementById('sign-date').value;
                     const endDate = document.getElementById('end-date').value;
                     const fileUpload = document.getElementById('file-upload').files[0];
@@ -1511,6 +1704,7 @@
                         location: location,
                         contact_email: contact,
                         term: term,
+                        category: category,
                         sign_date: signDate,
                         end_date: endDate,
                         status: calculatedStatus || 'Active', // Ensure status is never undefined
@@ -1525,11 +1719,38 @@
                         saveBtn.disabled = true;
                         saveBtn.textContent = 'Saving...';
                         
-                        // Save to database
-                        const result = await saveToDatabase(newEntry);
-                        
-                        // Add to table display with the ID from database
-                        addRowToTable({...newEntry, id: result.id});
+                        let result;
+                        if (window.editingEntryId) {
+                            // Update existing entry
+                            newEntry.id = window.editingEntryId;
+                            result = await updateEntry(newEntry);
+                            
+                            // If this is an imported document, also update the original in Documents storage
+                            const entries = getAllEntries();
+                            const entryToUpdate = entries.find(entry => entry.id == window.editingEntryId || entry.id === window.editingEntryId);
+                            if (entryToUpdate && entryToUpdate.source === 'documents_page') {
+                                // Update the original document in Documents storage
+                                const documents = JSON.parse(localStorage.getItem('documents') || '[]');
+                                const docIndex = documents.findIndex(doc => doc.id == window.editingEntryId || doc.id === window.editingEntryId);
+                                if (docIndex !== -1) {
+                                    documents[docIndex].title = newEntry.institution;
+                                    documents[docIndex].description = newEntry.contact_email;
+                                    localStorage.setItem('documents', JSON.stringify(documents));
+                                }
+                            }
+                            
+                            // Update the table row
+                            updateTableRow(newEntry);
+                            
+                            // Reset editing state
+                            window.editingEntryId = undefined;
+                        } else {
+                            // Save new entry to database
+                            result = await saveToDatabase(newEntry);
+                            
+                            // Add to table display with the ID from database
+                            addRowToTable({...newEntry, id: result.id});
+                        }
                         
                         // Reset form
                         resetForm();
@@ -1567,6 +1788,7 @@
                     statusBadgeClass = 'bg-gray-100 text-gray-800 dark:bg-gray-900/50 dark:text-gray-300';
                 }
                 
+                newRow.setAttribute('data-id', data.id);
                 newRow.innerHTML = `
                     <td class="px-6 py-4 whitespace-nowrap text-center">
                         <input type="checkbox" class="row-checkbox w-4 h-4 text-primary bg-gray-100 border-gray-300 rounded focus:ring-primary dark:focus:ring-primary dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" data-id="${data.id}">
@@ -1580,6 +1802,7 @@
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-center">
                         <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${statusBadgeClass}">${data.status}</span>
                     </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-text-muted-light dark:text-text-muted-dark text-center">${data.category || 'N/A'}</td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-center">
                         ${data.file_name ? 
                             `<button class="view-file-btn text-primary hover:text-primary/80 dark:text-primary-400 dark:hover:text-primary-300 flex items-center gap-1 mx-auto" data-file-path="${data.file_path}" data-file-name="${data.file_name}" title="View File">
@@ -1629,6 +1852,7 @@
                 const editBtn = newRow.querySelector('.edit-btn');
                 if (editBtn) {
                     editBtn.addEventListener('click', function() {
+                        console.log('Edit button clicked for ID:', data.id, 'Type:', typeof data.id);
                         editEntry(data.id);
                     });
                 }
@@ -1655,7 +1879,7 @@
             // Function to delete entry with custom modal
             function deleteEntry(id) {
                 // Store the ID for the confirmation
-                window.pendingDeleteId = id;
+                window.pendingDeleteId = Number(id);
                 
                 // Show the delete confirmation modal
                 const deleteModal = document.getElementById('deleteConfirmModal');
@@ -1663,14 +1887,30 @@
             }
             
             // Function to confirm delete
-            function confirmDelete() {
+            async function confirmDelete() {
                 const id = window.pendingDeleteId;
                 if (!id) return;
                 
                 try {
+                    // Try to delete on backend (best-effort)
+                    try {
+                        await fetch(`api/mou-moa.php?id=${encodeURIComponent(id)}`, { method: 'DELETE' });
+                    } catch (_) {}
+                    
                     const entries = getAllEntries();
-                    const filteredEntries = entries.filter(entry => entry.id !== id);
+                    // Identify the entry being deleted
+                    const entryToDelete = entries.find(entry => Number(entry.id) === Number(id));
+                    // Remove from MOU/MOA storage
+                    const filteredEntries = entries.filter(entry => Number(entry.id) !== Number(id));
                     localStorage.setItem(STORAGE_KEY, JSON.stringify(filteredEntries));
+                    // Also remove the original document if it was auto-imported from Documents
+                    if (entryToDelete && (entryToDelete.source === 'documents_page' || entryToDelete.source === 'documents')) {
+                        try {
+                            const documents = JSON.parse(localStorage.getItem('documents') || '[]');
+                            const updatedDocs = documents.filter(doc => Number(doc.id) !== Number(id));
+                            localStorage.setItem('documents', JSON.stringify(updatedDocs));
+                        } catch (_) {}
+                    }
                     
                     // Remove related notifications
                     if (typeof removeNotificationsForEntry === 'function') {
@@ -1684,7 +1924,10 @@
                         row.remove();
                     }
                     
-                    // Update pagination display
+                    // Refresh in-memory list and update pagination display
+                    if (typeof getAllEntries === 'function') {
+                        try { allEntries = getAllEntries(); } catch (_) {}
+                    }
                     updatePaginationDisplay();
                     
                     // Close modal
@@ -1742,8 +1985,11 @@
                 document.getElementById('sign-date').value = '';
                 document.getElementById('end-date').value = '';
                 document.getElementById('file-upload').value = '';
-                autoStatusText.textContent = 'Will be determined automatically';
+                autoStatusText.textContent = 'Auto-determined';
                 autoStatusText.className = 'text-gray-500 dark:text-gray-400';
+                
+                // Reset category detection
+                resetCategoryDetection();
                 
                 // Hide selected file display
                 const selectedFileDisplay = document.getElementById('selected-file-display');
@@ -2056,10 +2302,112 @@
                 }
             }
             
+            // Function to update existing entry
+            async function updateEntry(entry) {
+                try {
+                    const entries = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+                    const index = entries.findIndex(e => e.id == entry.id || e.id === entry.id);
+                    if (index !== -1) {
+                        entries[index] = { ...entries[index], ...entry, updated_at: new Date().toISOString() };
+                        localStorage.setItem(STORAGE_KEY, JSON.stringify(entries));
+                        return { id: entry.id, message: 'Entry updated successfully' };
+                    } else {
+                        console.error('Entry not found for update. Looking for ID:', entry.id, 'Available IDs:', entries.map(e => e.id));
+                        throw new Error('Entry not found');
+                    }
+                } catch (error) {
+                    throw new Error('Failed to update data: ' + error.message);
+                }
+            }
+            
+            // Function to update table row
+            function updateTableRow(entry) {
+                const row = document.querySelector(`tr[data-id="${entry.id}"]`);
+                if (row) {
+                    // Update the row content
+                    const cells = row.querySelectorAll('td');
+                    if (cells.length >= 9) {
+                        cells[1].textContent = entry.institution;
+                        cells[2].textContent = entry.location;
+                        cells[3].textContent = entry.contact_email;
+                        cells[4].textContent = entry.term;
+                        cells[5].textContent = entry.sign_date;
+                        cells[6].textContent = entry.end_date;
+                        
+                        // Update status badge
+                        let statusBadgeClass = '';
+                        if (entry.status === 'Active') {
+                            statusBadgeClass = 'bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-300';
+                        } else if (entry.status === 'Expired') {
+                            statusBadgeClass = 'bg-red-100 text-red-800 dark:bg-red-900/50 dark:text-red-300';
+                        } else if (entry.status === 'Expires Soon') {
+                            statusBadgeClass = 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/50 dark:text-yellow-300';
+                        } else {
+                            statusBadgeClass = 'bg-gray-100 text-gray-800 dark:bg-gray-900/50 dark:text-gray-300';
+                        }
+                        cells[7].innerHTML = `<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${statusBadgeClass}">${entry.status}</span>`;
+                        
+                        // Update category
+                        cells[8].textContent = entry.category || 'N/A';
+                        
+                        // Update file link if needed
+                        if (cells[9]) {
+                            cells[9].innerHTML = entry.file_name ? 
+                                `<button class="view-file-btn text-primary hover:text-primary/80 dark:text-primary-400 dark:hover:text-primary-300 flex items-center gap-1 mx-auto" data-file-path="${entry.file_path}" data-file-name="${entry.file_name}" title="View File">
+                                    <span class="material-symbols-outlined text-sm">visibility</span>
+                                    <span>View</span>
+                                </button>` : 
+                                `<span class="text-gray-400 dark:text-gray-500 text-sm">No file</span>`;
+                        }
+                    }
+                }
+            }
+            
             // Function to load data from localStorage
             async function loadFromDatabase() {
                 try {
                     allEntries = getAllEntries();
+                    
+                    // Also load documents from Documents page that are classified as MOU/MOA
+                    const documentsFromDocsPage = JSON.parse(localStorage.getItem('documents') || '[]');
+                    const mouMoaDocuments = documentsFromDocsPage.filter(doc => 
+                        doc.category === 'MOU' || doc.category === 'MOA'
+                    );
+                    
+                    // Convert document format to MOU/MOA entry format
+                    const convertedEntries = mouMoaDocuments.map(doc => ({
+                        id: parseInt(doc.id) || doc.id, // Ensure ID is a number if possible
+                        institution: doc.title || doc.fileName || 'Auto-imported from Documents',
+                        location: 'Auto-imported from Documents',
+                        contact_email: 'Auto-imported from Documents',
+                        term: '1',
+                        sign_date: doc.uploadDate ? new Date(doc.uploadDate).toISOString().split('T')[0] : new Date().toISOString().split('T')[0],
+                        end_date: doc.uploadDate ? new Date(new Date(doc.uploadDate).getTime() + 365 * 24 * 60 * 60 * 1000).toISOString().split('T')[0] : new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+                        status: 'Active',
+                        file_name: doc.fileName || doc.title || 'Document',
+                        file_path: '', // No file path for imported documents
+                        category: doc.category,
+                        description: doc.description || '',
+                        confidence: doc.confidence || 0,
+                        created_at: doc.uploadDate || new Date().toISOString(),
+                        source: 'documents_page'
+                    }));
+                    
+                    // Add converted entries to existing entries (avoid duplicates)
+                    const existingIds = new Set(allEntries.map(entry => entry.id));
+                    const newEntries = convertedEntries.filter(entry => !existingIds.has(entry.id));
+                    
+                    // Store new entries in MOU & MOAs localStorage
+                    if (newEntries.length > 0) {
+                        console.log('Storing new imported entries:', newEntries);
+                        const updatedEntries = [...newEntries, ...allEntries];
+                        localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedEntries));
+                        allEntries = updatedEntries;
+                        console.log('Updated localStorage with', updatedEntries.length, 'total entries');
+                    } else {
+                        allEntries = [...newEntries, ...allEntries];
+                    }
+                    
                     currentPage = 1; // Reset to first page
                     displayCurrentPage();
                     updatePaginationDisplay();
@@ -2220,6 +2568,7 @@
                     statusBadgeClass = 'bg-gray-100 text-gray-800 dark:bg-gray-900/50 dark:text-gray-300';
                 }
                 
+                newRow.setAttribute('data-id', data.id);
                 newRow.innerHTML = `
                     <td class="px-6 py-4 whitespace-nowrap text-center">
                         <input type="checkbox" class="row-checkbox w-4 h-4 text-primary bg-gray-100 border-gray-300 rounded focus:ring-primary dark:focus:ring-primary dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" data-id="${data.id}">
@@ -2233,6 +2582,7 @@
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-center">
                         <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${statusBadgeClass}">${data.status}</span>
                     </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-text-muted-light dark:text-text-muted-dark text-center">${data.category || 'N/A'}</td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-center">
                         ${data.file_name ? 
                             `<button class="view-file-btn text-primary hover:text-primary/80 dark:text-primary-400 dark:hover:text-primary-300 flex items-center gap-1 mx-auto" data-file-path="${data.file_path}" data-file-name="${data.file_name}" title="View File">
@@ -2278,6 +2628,7 @@
                 const editBtn = newRow.querySelector('.edit-btn');
                 if (editBtn) {
                     editBtn.addEventListener('click', function() {
+                        console.log('Edit button clicked for ID:', data.id, 'Type:', typeof data.id);
                         editEntry(data.id);
                     });
                 }
@@ -2366,15 +2717,36 @@
             
             // Load existing data when page loads
             loadFromDatabase();
+            
+            // Add a manual refresh function for debugging
+            window.debugRefreshMOUData = function() {
+                console.log('Manually refreshing MOU data...');
+                loadFromDatabase();
+            };
+            
+            // Also refresh data when page becomes visible (user navigates back to this page)
+            document.addEventListener('visibilitychange', function() {
+                if (!document.hidden) {
+                    loadFromDatabase();
+                }
+            });
+            
+            // Refresh data when window gains focus (user switches back to this tab)
+            window.addEventListener('focus', function() {
+                loadFromDatabase();
+            });
 
             // Function to edit entry
             function editEntry(id) {
                 // Get the entry data from localStorage
                 const entries = getAllEntries();
-                const entryToEdit = entries.find(entry => entry.id === id);
+                // Try both string and number comparison for ID matching
+                const entryToEdit = entries.find(entry => entry.id == id || entry.id === id);
                 
                 if (!entryToEdit) {
-                    showErrorMessage('Entry not found');
+                    console.error('Entry not found for ID:', id, 'Available entries:', entries.map(e => ({ id: e.id, type: typeof e.id, institution: e.institution })));
+                    console.log('Full entries array:', entries);
+                    showErrorMessage('Entry not found. Please refresh the page and try again.');
                     return;
                 }
                 
@@ -2382,38 +2754,88 @@
                 window.editingEntryId = id;
                 
                 // Pre-fill the modal with existing data
-                document.getElementById('institution').value = entryToEdit.institution || '';
-                document.getElementById('location').value = entryToEdit.location || '';
-                document.getElementById('contact').value = entryToEdit.contact_email || '';
-                document.getElementById('term').value = entryToEdit.term || '';
-                document.getElementById('sign-date').value = entryToEdit.sign_date || '';
-                document.getElementById('end-date').value = entryToEdit.end_date || '';
+                try {
+                    const institutionField = document.getElementById('institution');
+                    const locationField = document.getElementById('location');
+                    const contactField = document.getElementById('contact');
+                    const termField = document.getElementById('term');
+                    const signDateField = document.getElementById('sign-date');
+                    const endDateField = document.getElementById('end-date');
+                    
+                    if (institutionField) institutionField.value = entryToEdit.institution || '';
+                    if (locationField) locationField.value = entryToEdit.location || '';
+                    if (contactField) contactField.value = entryToEdit.contact_email || '';
+                    if (termField) termField.value = entryToEdit.term || '';
+                    if (signDateField) signDateField.value = entryToEdit.sign_date || '';
+                    if (endDateField) endDateField.value = entryToEdit.end_date || '';
+                    
+                    console.log('Form fields populated successfully');
+                } catch (error) {
+                    console.error('Error populating form fields:', error);
+                }
+                
+                // Set the detected document type for editing
+                try {
+                    if (entryToEdit.category) {
+                        window.detectedDocumentType = entryToEdit.category;
+                        // Directly update category display without function dependency
+                        const autoCategoryText = document.getElementById('autoCategoryText');
+                        if (autoCategoryText) {
+                            autoCategoryText.textContent = `Auto-detected: ${entryToEdit.category}`;
+                            autoCategoryText.className = 'text-blue-600 dark:text-blue-400';
+                        }
+                    } else {
+                        // Reset category display
+                        const autoCategoryText = document.getElementById('autoCategoryText');
+                        if (autoCategoryText) {
+                            autoCategoryText.textContent = 'Auto-detected';
+                            autoCategoryText.className = 'text-gray-500 dark:text-gray-400';
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error setting category display:', error);
+                }
                 
                 // Update status display
-                const status = determineStatus(entryToEdit.end_date);
-                const autoStatusText = document.getElementById('autoStatusText');
-                autoStatusText.textContent = status;
-                
-                // Update text color based on status
-                if (status === 'Active') {
-                    autoStatusText.className = 'text-green-600 dark:text-green-400';
-                } else if (status === 'Expired') {
-                    autoStatusText.className = 'text-red-600 dark:text-red-400';
-                } else if (status === 'Expires Soon') {
-                    autoStatusText.className = 'text-yellow-600 dark:text-yellow-400';
-                } else {
-                    autoStatusText.className = 'text-gray-500 dark:text-gray-400';
+                try {
+                    const status = typeof determineStatus === 'function' ? determineStatus(entryToEdit.end_date) : 'Active';
+                    const autoStatusText = document.getElementById('autoStatusText');
+                    if (autoStatusText) {
+                        autoStatusText.textContent = status;
+                        
+                        // Update text color based on status
+                        if (status === 'Active') {
+                            autoStatusText.className = 'text-green-600 dark:text-green-400';
+                        } else if (status === 'Expired') {
+                            autoStatusText.className = 'text-red-600 dark:text-red-400';
+                        } else if (status === 'Expires Soon') {
+                            autoStatusText.className = 'text-yellow-600 dark:text-yellow-400';
+                        } else {
+                            autoStatusText.className = 'text-gray-500 dark:text-gray-400';
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error updating status display:', error);
                 }
                 
                 // Update modal title and button text
-                const modalTitle = document.querySelector('#addFileModal h3');
-                const saveBtn = document.getElementById('saveBtn');
-                modalTitle.textContent = 'Edit MOU/MOA File';
-                saveBtn.textContent = 'Update';
-                
-                // Show the modal
-                const modal = document.getElementById('addFileModal');
-                modal.classList.remove('hidden');
+                try {
+                    const modalTitle = document.querySelector('#addFileModal h3');
+                    const saveBtn = document.getElementById('saveBtn');
+                    if (modalTitle) modalTitle.textContent = 'Edit MOU/MOA File';
+                    if (saveBtn) saveBtn.textContent = 'Update';
+                    
+                    // Show the modal
+                    const modal = document.getElementById('addFileModal');
+                    if (modal) {
+                        modal.classList.remove('hidden');
+                        console.log('Modal opened successfully');
+                    } else {
+                        console.error('Modal element not found');
+                    }
+                } catch (error) {
+                    console.error('Error opening modal:', error);
+                }
             }
         });
     </script>
@@ -3942,7 +4364,7 @@
                 // Local function to determine status
                 function determineStatusLocal(endDate) {
                     if (!endDate) {
-                        return 'Will be determined automatically';
+                        return 'Auto-determined';
                     }
                     
                     const today = new Date();
@@ -3990,15 +4412,46 @@
                             window.editingEntryId = mouData.id;
                             
                             // Pre-fill the modal with existing data
-                            document.getElementById('institution').value = entryToEdit.institution || '';
-                            document.getElementById('location').value = entryToEdit.location || '';
-                            document.getElementById('contact').value = entryToEdit.contact_email || '';
-                            document.getElementById('term').value = entryToEdit.term || '';
-                            document.getElementById('sign-date').value = entryToEdit.sign_date || '';
-                            document.getElementById('end-date').value = entryToEdit.end_date || '';
+                            try {
+                                const institutionField = document.getElementById('institution');
+                                const locationField = document.getElementById('location');
+                                const contactField = document.getElementById('contact');
+                                const termField = document.getElementById('term');
+                                const signDateField = document.getElementById('sign-date');
+                                const endDateField = document.getElementById('end-date');
+                                
+                                if (institutionField) institutionField.value = entryToEdit.institution || '';
+                                if (locationField) locationField.value = entryToEdit.location || '';
+                                if (contactField) contactField.value = entryToEdit.contact_email || '';
+                                if (termField) termField.value = entryToEdit.term || '';
+                                if (signDateField) signDateField.value = entryToEdit.sign_date || '';
+                                if (endDateField) endDateField.value = entryToEdit.end_date || '';
+                                
+                                console.log('Form fields populated successfully from details modal');
+                            } catch (error) {
+                                console.error('Error populating form fields from details modal:', error);
+                            }
+                            
+                            // Set the detected document type for editing
+                            if (entryToEdit.category) {
+                                window.detectedDocumentType = entryToEdit.category;
+                                // Directly update category display without function dependency
+                                const autoCategoryText = document.getElementById('autoCategoryText');
+                                if (autoCategoryText) {
+                                    autoCategoryText.textContent = `Auto-detected: ${entryToEdit.category}`;
+                                    autoCategoryText.className = 'text-blue-600 dark:text-blue-400';
+                                }
+                            } else {
+                                // Reset category display
+                                const autoCategoryText = document.getElementById('autoCategoryText');
+                                if (autoCategoryText) {
+                                    autoCategoryText.textContent = 'Auto-detected';
+                                    autoCategoryText.className = 'text-gray-500 dark:text-gray-400';
+                                }
+                            }
                             
                             // Update status display
-                            const status = determineStatusLocal(entryToEdit.end_date);
+                            const status = typeof determineStatusLocal === 'function' ? determineStatusLocal(entryToEdit.end_date) : 'Active';
                             const autoStatusText = document.getElementById('autoStatusText');
                             if (autoStatusText) {
                                 autoStatusText.textContent = status;
@@ -4106,6 +4559,9 @@
         let mouLocationInput = null;
         let mouLocationSuggestions = null;
         let mouSuggestionsList = null;
+        // Track whether a location was explicitly selected to avoid re-showing suggestions
+        let mouLocationSelected = false;
+        let mouLastConfirmedLocation = '';
 
         // Initialize MOU location autocomplete when DOM is loaded
         document.addEventListener('DOMContentLoaded', function() {
@@ -4117,10 +4573,27 @@
                 // Add input event listener with debouncing
                 let inputTimeout;
                 mouLocationInput.addEventListener('input', function(e) {
+                    const value = e.target.value || '';
+                    // If user hasn't changed the confirmed selection, keep suggestions hidden
+                    if (mouLocationSelected && value.trim() === (mouLastConfirmedLocation || '').trim()) {
+                        mouLocationSuggestions.classList.add('hidden');
+                        return;
+                    }
+                    // If user edits the value, allow suggestions again
+                    mouLocationSelected = false;
                     clearTimeout(inputTimeout);
                     inputTimeout = setTimeout(() => {
-                        showMouLocationSuggestions(e.target.value);
+                        if (value.trim().length < 2) {
+                            mouLocationSuggestions.classList.add('hidden');
+                            return;
+                        }
+                        showMouLocationSuggestions(value);
                     }, 300);
+                });
+
+                // Hide suggestions on blur
+                mouLocationInput.addEventListener('blur', function() {
+                    setTimeout(() => mouLocationSuggestions.classList.add('hidden'), 100);
                 });
 
                 // Hide suggestions when clicking outside
@@ -4161,6 +4634,11 @@
                         e.preventDefault();
                         if (activeSuggestion) {
                             activeSuggestion.click();
+                        } else {
+                            // Treat current input as confirmed selection
+                            mouLastConfirmedLocation = mouLocationInput.value;
+                            mouLocationSelected = true;
+                            mouLocationSuggestions.classList.add('hidden');
                         }
                     } else if (e.key === 'Escape') {
                         mouLocationSuggestions.classList.add('hidden');
@@ -4294,6 +4772,8 @@
                     e.preventDefault();
                     e.stopPropagation();
                     mouLocationInput.value = prediction.description;
+                    mouLastConfirmedLocation = prediction.description;
+                    mouLocationSelected = true;
                     mouLocationSuggestions.classList.add('hidden');
                     // Trigger input event to update any other listeners
                     mouLocationInput.dispatchEvent(new Event('input', { bubbles: true }));
@@ -4406,6 +4886,8 @@
                         e.preventDefault();
                         e.stopPropagation();
                         mouLocationInput.value = location;
+                        mouLastConfirmedLocation = location;
+                        mouLocationSelected = true;
                         mouLocationSuggestions.classList.add('hidden');
                         // Trigger input event to update any other listeners
                         mouLocationInput.dispatchEvent(new Event('input', { bubbles: true }));
@@ -4425,8 +4907,40 @@
                 mouLocationSuggestions.classList.add('hidden');
             }
         };
+
+        // Load profile picture from localStorage if available
+        document.addEventListener('DOMContentLoaded', function() {
+            try {
+                const profile = JSON.parse(localStorage.getItem('lilac_profile'));
+                if (profile && profile.avatar) {
+                    const sidebarProfilePicture = document.querySelector('.sidebar-profile-picture');
+                    if (sidebarProfilePicture) {
+                        sidebarProfilePicture.style.backgroundImage = `url('${profile.avatar}')`;
+                    }
+                    
+                    // Also update the profile name if available
+                    const profileName = document.querySelector('.sidebar-profile-info p');
+                    if (profileName && profile.name) {
+                        profileName.textContent = profile.name;
+                    }
+                }
+            } catch (error) {
+                console.log('No profile data found in localStorage');
+            }
+        });
     </script>
 
+<script>
+    (function() {
+        try {
+            var isDevHost = location.hostname === '127.0.0.1' || location.hostname === 'localhost';
+            if (isDevHost && location.port === '5500') {
+                var target = location.protocol + '//' + 'localhost' + ':8000' + location.pathname + location.search + location.hash;
+                location.replace(target);
+            }
+        } catch (e) { }
+    })();
+</script>
 </body></html>
 
 

@@ -8,6 +8,17 @@
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
 <link rel="icon" href="assets/images/cpu-logo.svg.png">
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+        // Apply theme immediately to prevent flash
+        (function() {
+            const savedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const shouldBeDark = savedTheme === 'dark' || (!savedTheme && prefersDark);
+            if (shouldBeDark) {
+                document.documentElement.classList.add('dark');
+            }
+        })();
+</script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
         tailwind.config = {
@@ -135,6 +146,27 @@
         .sidebar-collapsed .profile-container {
             justify-content: center;
         }
+
+        /* Draggable modal styles */
+        .dragging {
+            user-select: none;
+        }
+        
+        .dragging * {
+            pointer-events: none;
+        }
+        
+        #addEventModalHeader {
+            cursor: move;
+        }
+        
+        #addEventModalHeader:hover {
+            background-color: rgba(0, 0, 0, 0.02);
+        }
+        
+        .dark #addEventModalHeader:hover {
+            background-color: rgba(255, 255, 255, 0.02);
+        }
     </style>
 </head>
 <body class="bg-background-light dark:bg-background-dark font-display text-text-light dark:text-text-dark">
@@ -167,10 +199,7 @@
 <span class="material-symbols-outlined">handshake</span>
 <span class="sidebar-text hidden">MOUs &amp; MOAs</span>
 </a>
-<a class="flex items-center justify-center gap-3 px-4 py-2.5 rounded-lg text-text-muted-light dark:text-text-muted-dark hover:bg-gray-100 dark:hover:bg-background-dark hover:text-text-light dark:hover:text-text-dark transition-colors duration-200 sidebar-nav-link" href="templates.html">
-<span class="material-symbols-outlined">description</span>
-<span class="sidebar-text hidden">Templates</span>
-</a>
+
 <a class="flex items-center justify-center gap-3 px-4 py-2.5 rounded-lg text-text-muted-light dark:text-text-muted-dark hover:bg-gray-100 dark:hover:bg-background-dark hover:text-text-light dark:hover:text-text-dark transition-colors duration-200 sidebar-nav-link" href="documents.html">
 <span class="material-symbols-outlined">school</span>
 <span class="sidebar-text hidden">Registrar Forms</span>
@@ -348,11 +377,17 @@ No notifications yet
 </div>
 <!-- Add Event Modal -->
 <div id="addEventModal" class="fixed inset-0 bg-black/30 hidden items-center justify-center z-[9999]">
-  <div class="bg-white dark:bg-card-dark rounded-lg shadow-xl w-full max-w-md mx-4 max-h-[85vh] overflow-y-auto border border-border-light dark:border-border-dark relative">
-    <button id="closeAddEvent" class="absolute top-2 right-2 rounded-full p-2 hover:bg-gray-100 dark:hover:bg-white/10">
-      <span class="material-symbols-outlined">close</span>
-    </button>
-    <div class="p-3 pt-10">
+  <div id="addEventModalCard" class="bg-white dark:bg-card-dark rounded-lg shadow-xl w-full max-w-md mx-4 max-h-[85vh] overflow-y-auto border border-border-light dark:border-border-dark relative">
+    <!-- Modal Header with hamburger and close icons -->
+    <div id="addEventModalHeader" class="flex justify-between items-center p-3 border-b border-border-light dark:border-border-dark cursor-move">
+      <button class="p-2 hover:bg-gray-100 dark:hover:bg-white/10 rounded-full transition-colors">
+        <span class="material-symbols-outlined text-text-muted-light dark:text-text-muted-dark">menu</span>
+      </button>
+      <button id="closeAddEvent" class="p-2 hover:bg-gray-100 dark:hover:bg-white/10 rounded-full transition-colors" data-no-drag>
+        <span class="material-symbols-outlined text-text-muted-light dark:text-text-muted-dark">close</span>
+      </button>
+    </div>
+    <div class="p-3">
       <input id="evTitle" type="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" class="w-full text-xl font-medium bg-transparent border-0 border-b border-border-light dark:border-border-dark focus:border-primary focus:ring-0 focus:outline-none pb-1.5 mb-2 placeholder:text-text-muted-light dark:placeholder:text-text-muted-dark" placeholder="Add title" />
       <div class="space-y-3">
         <div class="flex items-start gap-3">
@@ -682,6 +717,66 @@ No notifications yet
             closeAddEvent && closeAddEvent.addEventListener('click', closeModal);
             cancelAddEvent && cancelAddEvent.addEventListener('click', closeModal);
 
+            // Draggable Add Event Modal
+            const addEventModalHeader = document.getElementById('addEventModalHeader');
+            const addEventModalCard = document.getElementById('addEventModalCard');
+            if (addEventModalHeader && addEventModalCard && addEventModal) {
+                let isDragging = false;
+                let startX = 0, startY = 0, origLeft = 0, origTop = 0;
+
+                function onMouseDown(e) {
+                    // Ignore drags starting from non-draggable controls
+                    const target = e.target;
+                    if (target.closest('[data-no-drag]') || target.closest('button') || target.closest('input') || target.closest('select') || target.closest('a')) {
+                        return;
+                    }
+                    isDragging = true;
+                    addEventModal.classList.add('dragging');
+                    const rect = addEventModalCard.getBoundingClientRect();
+                    // Switch to absolute positioned card anchored to viewport
+                    addEventModalCard.style.position = 'absolute';
+                    addEventModalCard.style.left = `${rect.left}px`;
+                    addEventModalCard.style.top = `${rect.top + window.scrollY}px`;
+                    addEventModalCard.style.transform = 'none';
+                    startX = e.clientX;
+                    startY = e.clientY;
+                    origLeft = rect.left;
+                    origTop = rect.top + window.scrollY;
+                    document.addEventListener('mousemove', onMouseMove);
+                    document.addEventListener('mouseup', onMouseUp, { once: true });
+                }
+
+                function onMouseMove(e) {
+                    if (!isDragging) return;
+                    const dx = e.clientX - startX;
+                    const dy = e.clientY - startY;
+                    let nextLeft = origLeft + dx;
+                    let nextTop = origTop + dy;
+                    // Constrain within viewport
+                    const vw = window.innerWidth;
+                    const vh = window.innerHeight;
+                    const cr = addEventModalCard.getBoundingClientRect();
+                    const width = cr.width;
+                    const height = cr.height;
+                    nextLeft = Math.max(8, Math.min(nextLeft, vw - width - 8));
+                    nextTop = Math.max(8 + window.scrollY, Math.min(nextTop, window.scrollY + vh - height - 8));
+                    addEventModalCard.style.left = `${nextLeft}px`;
+                    addEventModalCard.style.top = `${nextTop}px`;
+                }
+
+                function onMouseUp() {
+                    isDragging = false;
+                    addEventModal.classList.remove('dragging');
+                    document.removeEventListener('mousemove', onMouseMove);
+                    // Persist final position
+                    const rect = addEventModalCard.getBoundingClientRect();
+                    const saved = { left: rect.left, top: rect.top + window.scrollY };
+                    localStorage.setItem('addEventModalPos', JSON.stringify(saved));
+                }
+
+                addEventModalHeader.addEventListener('mousedown', onMouseDown);
+            }
+
             saveAddEvent && saveAddEvent.addEventListener('click', async () => {
                 // Get event data from modal
                 const title = document.getElementById('evTitle').value || 'Untitled Event';
@@ -917,42 +1012,17 @@ No notifications yet
 
             // Function to get unique random event image
             function getRandomEventImage() {
-                // Use multiple reliable image sources for better success rate
+                // Use local assets from Events & Activities folder
                 const eventImages = [
-                    // Picsum Photos - Very reliable service
-                    'https://picsum.photos/400/200?random=' + Math.floor(Math.random() * 1000),
-                    'https://picsum.photos/400/200?random=' + Math.floor(Math.random() * 1000),
-                    'https://picsum.photos/400/200?random=' + Math.floor(Math.random() * 1000),
-                    'https://picsum.photos/400/200?random=' + Math.floor(Math.random() * 1000),
-                    'https://picsum.photos/400/200?random=' + Math.floor(Math.random() * 1000),
-                    'https://picsum.photos/400/200?random=' + Math.floor(Math.random() * 1000),
-                    'https://picsum.photos/400/200?random=' + Math.floor(Math.random() * 1000),
-                    'https://picsum.photos/400/200?random=' + Math.floor(Math.random() * 1000),
-                    'https://picsum.photos/400/200?random=' + Math.floor(Math.random() * 1000),
-                    'https://picsum.photos/400/200?random=' + Math.floor(Math.random() * 1000),
-                    
-                    // Additional reliable sources
-                    'https://source.unsplash.com/400x200/?business',
-                    'https://source.unsplash.com/400x200/?meeting',
-                    'https://source.unsplash.com/400x200/?conference',
-                    'https://source.unsplash.com/400x200/?event',
-                    'https://source.unsplash.com/400x200/?workshop',
-                    'https://source.unsplash.com/400x200/?seminar',
-                    'https://source.unsplash.com/400x200/?presentation',
-                    'https://source.unsplash.com/400x200/?education',
-                    'https://source.unsplash.com/400x200/?technology',
-                    'https://source.unsplash.com/400x200/?office',
-                    'https://source.unsplash.com/400x200/?teamwork',
-                    'https://source.unsplash.com/400x200/?success',
-                    'https://source.unsplash.com/400x200/?achievement',
-                    'https://source.unsplash.com/400x200/?celebration',
-                    'https://source.unsplash.com/400x200/?graduation',
-                    'https://source.unsplash.com/400x200/?ceremony',
-                    'https://source.unsplash.com/400x200/?training',
-                    'https://source.unsplash.com/400x200/?learning',
-                    'https://source.unsplash.com/400x200/?community',
-                    'https://source.unsplash.com/400x200/?innovation'
+                    './assets/Events & Activities/1.jpg',
+                    './assets/Events & Activities/2.jpg',
+                    './assets/Events & Activities/3.jpg',
+                    './assets/Events & Activities/4.jpg',
+                    './assets/Events & Activities/5.png',
+                    './assets/Events & Activities/6.jpg'
                 ];
+                
+                console.log('Using local event images:', eventImages);
                 
                 // Get currently used images from stored events
                 const savedEvents = JSON.parse(localStorage.getItem('upcomingEvents') || '[]');
@@ -982,13 +1052,10 @@ No notifications yet
                 const upcomingEventsContainer = document.getElementById('upcomingEventsContainer');
                 if (!upcomingEventsContainer) return;
                 
-                // Use stored image URL or get a new one if not available (for backward compatibility)
-                let eventImage = eventData.imageUrl || getRandomEventImage();
+                // FORCE use local images - ignore any stored external URLs
+                let eventImage = getRandomEventImage();
                 
-                // If no image URL is available, create a fallback
-                if (!eventImage) {
-                    eventImage = createFallbackImage(eventData.title);
-                }
+                console.log('Forcing local image for event:', eventData.title, 'Image:', eventImage);
                 
                 // Create event card
                 const eventCard = document.createElement('div');
@@ -1000,8 +1067,8 @@ No notifications yet
                         <img alt="${eventData.title} banner" 
                              class="w-full h-full object-cover rounded-lg transition-opacity duration-300" 
                              src="${eventImage}"
-                             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
-                             onload="this.nextElementSibling.style.display='none';"
+                             onerror="console.error('Failed to load image:', this.src); this.style.display='none'; this.nextElementSibling.style.display='flex';"
+                             onload="console.log('Successfully loaded image:', this.src); this.nextElementSibling.style.display='none';"
                              loading="lazy"/>
                         <div class="hidden absolute inset-0 bg-gradient-to-br from-primary/30 to-primary/50 rounded-lg flex items-center justify-center">
                             <div class="text-center text-white">
@@ -1060,7 +1127,7 @@ No notifications yet
                         return isFuture;
                     })
                     .sort((a, b) => new Date(a.date) - new Date(b.date))
-                    .slice(0, 6);
+                    .slice(0, 3);
                 console.log('loadUpcomingEvents - futureEvents after filtering:', futureEvents);
                 const upcomingSection = document.getElementById('upcomingEventsSection');
                 const upcomingEventsContainer = document.getElementById('upcomingEventsContainer');
@@ -1133,8 +1200,10 @@ No notifications yet
                 const completedEventsContainer = document.getElementById('completedEventsContainer');
                 if (!completedEventsContainer) return;
                 
-                // Use the event's stored image or generate a fallback
-                const eventImage = eventData.imageUrl || getRandomEventImage();
+                // FORCE use local images - ignore any stored external URLs
+                const eventImage = getRandomEventImage();
+                
+                console.log('Forcing local image for completed event:', eventData.title, 'Image:', eventImage);
                 
                 const eventCard = document.createElement('div');
                 eventCard.className = 'relative rounded-lg overflow-hidden';
@@ -2836,8 +2905,40 @@ Current mode: localStorage only (events will persist in browser)
                 window.renderCalendar();
             }
         });
+
+        // Load profile picture from localStorage if available
+        document.addEventListener('DOMContentLoaded', function() {
+            try {
+                const profile = JSON.parse(localStorage.getItem('lilac_profile'));
+                if (profile && profile.avatar) {
+                    const sidebarProfilePicture = document.querySelector('.sidebar-profile-picture');
+                    if (sidebarProfilePicture) {
+                        sidebarProfilePicture.style.backgroundImage = `url('${profile.avatar}')`;
+                    }
+                    
+                    // Also update the profile name if available
+                    const profileName = document.querySelector('.sidebar-profile-info p');
+                    if (profileName && profile.name) {
+                        profileName.textContent = profile.name;
+                    }
+                }
+            } catch (error) {
+                console.log('No profile data found in localStorage');
+            }
+        });
     </script>
 
+<script>
+    (function() {
+        try {
+            var isDevHost = location.hostname === '127.0.0.1' || location.hostname === 'localhost';
+            if (isDevHost && location.port === '5500') {
+                var target = location.protocol + '//' + 'localhost' + ':8000' + location.pathname + location.search + location.hash;
+                location.replace(target);
+            }
+        } catch (e) { }
+    })();
+</script>
 </body></html>
 
 

@@ -8,6 +8,17 @@
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <script>
+        // Apply theme immediately to prevent flash
+        (function() {
+            const savedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const shouldBeDark = savedTheme === 'dark' || (!savedTheme && prefersDark);
+            if (shouldBeDark) {
+                document.documentElement.classList.add('dark');
+            }
+        })();
+</script>
+<script>
         tailwind.config = {
             darkMode: "class",
             theme: {
@@ -151,10 +162,7 @@
 <span class="material-symbols-outlined">handshake</span>
 <span class="sidebar-text hidden">MOUs &amp; MOAs</span>
 </a>
-<a class="flex items-center justify-center gap-3 px-4 py-2.5 rounded-lg text-text-muted-light dark:text-text-muted-dark hover:bg-gray-100 dark:hover:bg-background-dark hover:text-text-light dark:hover:text-text-dark transition-colors duration-200 sidebar-nav-link" href="templates.html">
-<span class="material-symbols-outlined">description</span>
-<span class="sidebar-text hidden">Templates</span>
-</a>
+
 <a class="flex items-center justify-center gap-3 px-4 py-2.5 rounded-lg text-text-muted-light dark:text-text-muted-dark hover:bg-gray-100 dark:hover:bg-background-dark hover:text-text-light dark:hover:text-text-dark transition-colors duration-200 sidebar-nav-link" href="documents.html">
 <span class="material-symbols-outlined">school</span>
 <span class="sidebar-text hidden">Registrar Forms</span>
@@ -194,17 +202,18 @@
 <div class="bg-card-light dark:bg-card-dark p-6 sm:p-8 rounded-xl shadow-soft border border-border-light dark:border-border-dark">
 <div class="flex flex-col sm:flex-row items-center gap-6 sm:gap-8">
 <div class="relative">
-<img alt="User Profile Picture" class="w-32 h-32 rounded-full object-cover border-4 border-primary-500/50" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC23fvgOSZIK6K5vguUgvVeU1XYFfp1LB3d4zICMvW6bispRl-eHHfnOtSsvRU3MgvmOpSYMCZhcSBIksvjlEHtkGMxuCFsQkuT0suo2-O9n3py7mlzFFETXCOIfvLVGGUj1aaG8ENOeDXXy_ifek2uG3R3--ghDflKvuAm9vrceoK8doav0lNYVbLz1bnWy6REWcrCPuPZZ8upfPqShoQpSDjICl16zMEcRuHzjt05z9cFITLKPdZTfMF-1dLK-klh8UhjeDeE4Q7p"/>
-<button class="absolute bottom-1 right-1 bg-primary text-white p-1.5 rounded-full hover:bg-primary-600 transition-colors">
+<img id="profileAvatar" alt="User Profile Picture" class="w-32 h-32 rounded-full object-cover border-4 border-primary-500/50" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC23fvgOSZIK6K5vguUgvVeU1XYFfp1LB3d4zICMvW6bispRl-eHHfnOtSsvRU3MgvmOpSYMCZhcSBIksvjlEHtkGMxuCFsQkuT0suo2-O9n3py7mlzFFETXCOIfvLVGGUj1aaG8ENOeDXXy_ifek2uG3R3--ghDflKvuAm9vrceoK8doav0lNYVbLz1bnWy6REWcrCPuPZZ8upfPqShoQpSDjICl16zMEcRuHzjt05z9cFITLKPdZTfMF-1dLK-klh8UhjeDeE4Q7p"/>
+<button id="btnChangeAvatar" class="absolute bottom-1 right-1 bg-primary text-white p-1.5 rounded-full hover:bg-primary-600 transition-colors">
 <span class="material-symbols-outlined text-base">photo_camera</span>
 </button>
+<input id="avatarInput" type="file" accept="image/*" class="hidden"/>
 </div>
 <div class="text-center sm:text-left">
-<h2 class="text-2xl font-bold text-text-light dark:text-text-dark">Admin User</h2>
-<p class="text-text-muted-light dark:text-text-muted-dark mt-1">System Administrator</p>
+<h2 id="profileName" class="text-2xl font-bold text-text-light dark:text-text-dark">Admin User</h2>
+<p id="profileRole" class="text-text-muted-light dark:text-text-muted-dark mt-1">System Administrator</p>
 </div>
 <div class="sm:ml-auto flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
-<button class="flex items-center justify-center gap-2 w-full sm:w-auto bg-primary text-white font-semibold px-4 py-2.5 rounded-lg hover:bg-primary-600 transition-colors duration-200">
+<button id="btnEditProfile" class="flex items-center justify-center gap-2 w-full sm:w-auto bg-primary text-white font-semibold px-4 py-2.5 rounded-lg hover:bg-primary-600 transition-colors duration-200">
 <span class="material-symbols-outlined">edit</span>
 <span>Edit Profile</span>
 </button>
@@ -220,7 +229,7 @@
 </div>
 <div>
 <p class="text-sm text-text-muted-light dark:text-text-muted-dark">Email</p>
-<p class="font-medium text-text-light dark:text-text-dark">admin.user@cpu.edu.ph</p>
+<p id="profileEmail" class="font-medium text-text-light dark:text-text-dark">admin.user@cpu.edu.ph</p>
 </div>
 </div>
 <div class="flex items-center gap-3">
@@ -229,7 +238,7 @@
 </div>
 <div>
 <p class="text-sm text-text-muted-light dark:text-text-muted-dark">Phone</p>
-<p class="font-medium text-text-light dark:text-text-dark">+63 912 345 6789</p>
+<p id="profilePhone" class="font-medium text-text-light dark:text-text-dark">+63 912 345 6789</p>
 </div>
 </div>
 </div>
@@ -240,9 +249,9 @@
 <div class="flex items-center justify-between p-4 bg-gray-50 dark:bg-card-dark rounded-lg border border-border-light dark:border-border-dark">
 <div>
 <p class="font-semibold text-text-light dark:text-text-dark">Password</p>
-<p class="text-sm text-text-muted-light dark:text-text-muted-dark">Last changed: 3 months ago</p>
+<p id="passwordChangedAt" class="text-sm text-text-muted-light dark:text-text-muted-dark">Last changed: 3 months ago</p>
 </div>
-<button class="flex items-center justify-center gap-2 text-primary-600 dark:text-primary-400 font-semibold px-4 py-2 rounded-lg hover:bg-primary-50 dark:hover:bg-primary-900/30 transition-colors duration-200">
+<button id="btnChangePassword" class="flex items-center justify-center gap-2 text-primary-600 dark:text-primary-400 font-semibold px-4 py-2 rounded-lg hover:bg-primary-50 dark:hover:bg-primary-900/30 transition-colors duration-200">
 <span class="material-symbols-outlined">lock_reset</span>
 <span>Change Password</span>
 </button>
@@ -253,6 +262,81 @@
 </div>
 </main>
 </div>
+<!-- Edit Profile Modal -->
+<div id="editProfileModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/40 p-4">
+    <div class="w-full max-w-lg rounded-xl bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark shadow-soft">
+        <div class="p-4 border-b border-border-light dark:border-border-dark flex items-center justify-between">
+            <h3 class="font-semibold">Edit Profile</h3>
+            <button id="closeEditProfile" class="p-2 rounded hover:bg-gray-100 dark:hover:bg-white/10"><span class="material-symbols-outlined">close</span></button>
+        </div>
+        <form id="editProfileForm" class="p-4 space-y-4">
+            <div>
+                <label class="text-sm text-text-muted-light dark:text-text-muted-dark">Full Name</label>
+                <input id="inputName" type="text" class="mt-1 w-full rounded-lg border border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark" required />
+            </div>
+            <div>
+                <label class="text-sm text-text-muted-light dark:text-text-muted-dark">Role/Title</label>
+                <input id="inputRole" type="text" class="mt-1 w-full rounded-lg border border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark" required />
+            </div>
+            <div>
+                <label class="text-sm text-text-muted-light dark:text-text-muted-dark">Email</label>
+                <input id="inputEmail" type="email" class="mt-1 w-full rounded-lg border border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark" required />
+            </div>
+            <div>
+                <label class="text-sm text-text-muted-light dark:text-text-muted-dark">Phone</label>
+                <input id="inputPhone" type="tel" class="mt-1 w-full rounded-lg border border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark" />
+            </div>
+            <div class="flex justify-end gap-2 pt-2">
+                <button type="button" id="cancelEditProfile" class="px-4 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10">Cancel</button>
+                <button type="submit" class="px-4 py-2 rounded-lg bg-primary text-white hover:bg-primary-600">Save</button>
+            </div>
+        </form>
+    </div>
+    </div>
+
+<!-- Change Password Modal -->
+<div id="changePasswordModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/40 p-4">
+    <div class="w-full max-w-md rounded-xl bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark shadow-soft">
+        <div class="p-4 border-b border-border-light dark:border-border-dark flex items-center justify-between">
+            <h3 class="font-semibold">Change Password</h3>
+            <button id="closeChangePassword" class="p-2 rounded hover:bg-gray-100 dark:hover:bg-white/10"><span class="material-symbols-outlined">close</span></button>
+        </div>
+        <form id="changePasswordForm" class="p-4 space-y-4">
+            <div>
+                <label class="text-sm text-text-muted-light dark:text-text-muted-dark">Current Password</label>
+                <div class="relative mt-1">
+                    <input id="currentPassword" type="password" class="w-full rounded-lg border border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark pr-10" required />
+                    <button type="button" id="toggleCurrentPwd" class="absolute right-2 top-1/2 -translate-y-1/2 p-1 rounded hover:bg-gray-100 dark:hover:bg-white/10">
+                        <span class="material-symbols-outlined text-base">visibility</span>
+                    </button>
+                </div>
+            </div>
+            <div>
+                <label class="text-sm text-text-muted-light dark:text-text-muted-dark">New Password</label>
+                <div class="relative mt-1">
+                    <input id="newPassword" minlength="6" type="password" class="w-full rounded-lg border border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark pr-10" required />
+                    <button type="button" id="toggleNewPwd" class="absolute right-2 top-1/2 -translate-y-1/2 p-1 rounded hover:bg-gray-100 dark:hover:bg-white/10">
+                        <span class="material-symbols-outlined text-base">visibility</span>
+                    </button>
+                </div>
+            </div>
+            <div>
+                <label class="text-sm text-text-muted-light dark:text-text-muted-dark">Confirm Password</label>
+                <div class="relative mt-1">
+                    <input id="confirmPassword" minlength="6" type="password" class="w-full rounded-lg border border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark pr-10" required />
+                    <button type="button" id="toggleConfirmPwd" class="absolute right-2 top-1/2 -translate-y-1/2 p-1 rounded hover:bg-gray-100 dark:hover:bg-white/10">
+                        <span class="material-symbols-outlined text-base">visibility</span>
+                    </button>
+                </div>
+            </div>
+            <p id="pwdError" class="text-sm text-red-600 hidden">Passwords do not match.</p>
+            <div class="flex justify-end gap-2 pt-2">
+                <button type="button" id="cancelChangePassword" class="px-4 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10">Cancel</button>
+                <button type="submit" class="px-4 py-2 rounded-lg bg-primary text-white hover:bg-primary-600">Update</button>
+            </div>
+        </form>
+    </div>
+    </div>
 <script>
         document.addEventListener('DOMContentLoaded', () => {
             const themeToggle = document.getElementById('theme-toggle');
@@ -333,6 +417,125 @@
             // Event listener for theme toggle button
             themeToggle.addEventListener('click', () => {
                 toggleDarkMode(!document.documentElement.classList.contains('dark'));
+            });
+            // Profile data persistence (localStorage)
+            const defaultProfile = {
+                name: 'Admin User',
+                role: 'System Administrator',
+                email: 'admin.user@cpu.edu.ph',
+                phone: '+63 912 345 6789',
+                avatar: document.getElementById('profileAvatar').src,
+                password: 'admin',
+                passwordChangedAt: '3 months ago'
+            };
+
+            const getProfile = () => {
+                try { return JSON.parse(localStorage.getItem('lilac_profile')) || defaultProfile; } catch { return defaultProfile; }
+            };
+            const saveProfile = (p) => localStorage.setItem('lilac_profile', JSON.stringify(p));
+            const updateUI = (p) => {
+                document.getElementById('profileName').textContent = p.name;
+                document.getElementById('profileRole').textContent = p.role;
+                document.getElementById('profileEmail').textContent = p.email;
+                document.getElementById('profilePhone').textContent = p.phone;
+                document.getElementById('profileAvatar').src = p.avatar;
+                document.getElementById('passwordChangedAt').textContent = 'Last changed: ' + p.passwordChangedAt;
+                // sidebar mini
+                const mini = document.querySelector('.sidebar-profile-info p');
+                if (mini) mini.textContent = p.name;
+                const miniPic = document.querySelector('.sidebar-profile-picture');
+                if (miniPic) miniPic.style.backgroundImage = `url('${p.avatar}')`;
+            };
+            updateUI(getProfile());
+
+            // Edit Profile modal logic
+            const editModal = document.getElementById('editProfileModal');
+            const btnEdit = document.getElementById('btnEditProfile');
+            const closeEdit = document.getElementById('closeEditProfile');
+            const cancelEdit = document.getElementById('cancelEditProfile');
+            const formEdit = document.getElementById('editProfileForm');
+            const openEdit = () => {
+                const p = getProfile();
+                document.getElementById('inputName').value = p.name;
+                document.getElementById('inputRole').value = p.role;
+                document.getElementById('inputEmail').value = p.email;
+                document.getElementById('inputPhone').value = p.phone;
+                editModal.classList.remove('hidden');
+                editModal.classList.add('flex');
+            };
+            const closeEditFn = () => { editModal.classList.add('hidden'); editModal.classList.remove('flex'); };
+            btnEdit.addEventListener('click', openEdit);
+            closeEdit.addEventListener('click', closeEditFn);
+            cancelEdit.addEventListener('click', closeEditFn);
+            formEdit.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const p = getProfile();
+                p.name = document.getElementById('inputName').value.trim();
+                p.role = document.getElementById('inputRole').value.trim();
+                p.email = document.getElementById('inputEmail').value.trim();
+                p.phone = document.getElementById('inputPhone').value.trim();
+                saveProfile(p); updateUI(p); closeEditFn();
+            });
+
+            // Avatar change
+            const avatarBtn = document.getElementById('btnChangeAvatar');
+            const avatarInput = document.getElementById('avatarInput');
+            avatarBtn.addEventListener('click', () => avatarInput.click());
+            avatarInput.addEventListener('change', async () => {
+                const file = avatarInput.files && avatarInput.files[0];
+                if (!file) return;
+                const reader = new FileReader();
+                reader.onload = () => {
+                    const p = getProfile();
+                    p.avatar = reader.result;
+                    saveProfile(p); updateUI(p);
+                };
+                reader.readAsDataURL(file);
+            });
+
+            // Change password modal
+            const pwdModal = document.getElementById('changePasswordModal');
+            const btnPwd = document.getElementById('btnChangePassword');
+            const closePwd = document.getElementById('closeChangePassword');
+            const cancelPwd = document.getElementById('cancelChangePassword');
+            const formPwd = document.getElementById('changePasswordForm');
+            const pwdError = document.getElementById('pwdError');
+            const openPwd = () => { pwdModal.classList.remove('hidden'); pwdModal.classList.add('flex'); pwdError.classList.add('hidden'); };
+            const closePwdFn = () => { pwdModal.classList.add('hidden'); pwdModal.classList.remove('flex'); };
+            btnPwd.addEventListener('click', openPwd);
+            closePwd.addEventListener('click', closePwdFn);
+            cancelPwd.addEventListener('click', closePwdFn);
+            const clearPwdInputs = (focusCurrent = true) => {
+                document.getElementById('currentPassword').value = '';
+                document.getElementById('newPassword').value = '';
+                document.getElementById('confirmPassword').value = '';
+                if (focusCurrent) document.getElementById('currentPassword').focus();
+            };
+
+            // toggle visibility helpers
+            const bindToggle = (btnId, inputId) => {
+                const btn = document.getElementById(btnId);
+                const input = document.getElementById(inputId);
+                btn.addEventListener('click', () => {
+                    const isPwd = input.type === 'password';
+                    input.type = isPwd ? 'text' : 'password';
+                    btn.querySelector('span').textContent = isPwd ? 'visibility_off' : 'visibility';
+                });
+            };
+            bindToggle('toggleCurrentPwd', 'currentPassword');
+            bindToggle('toggleNewPwd', 'newPassword');
+            bindToggle('toggleConfirmPwd', 'confirmPassword');
+
+            formPwd.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const p = getProfile();
+                const current = document.getElementById('currentPassword').value;
+                const next = document.getElementById('newPassword').value;
+                const confirm = document.getElementById('confirmPassword').value;
+                if (next !== confirm) { pwdError.textContent = 'Passwords do not match.'; pwdError.classList.remove('hidden'); clearPwdInputs(false); return; }
+                if (p.password && current !== p.password) { pwdError.textContent = 'Current password is incorrect.'; pwdError.classList.remove('hidden'); clearPwdInputs(true); return; }
+                p.password = next; p.passwordChangedAt = new Date().toLocaleDateString();
+                saveProfile(p); updateUI(p); closePwdFn(); formPwd.reset();
             });
         });
     </script>

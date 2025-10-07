@@ -8,6 +8,17 @@
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <script>
+        // Apply theme immediately to prevent flash
+        (function() {
+            const savedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const shouldBeDark = savedTheme === 'dark' || (!savedTheme && prefersDark);
+            if (shouldBeDark) {
+                document.documentElement.classList.add('dark');
+            }
+        })();
+</script>
+<script>
         tailwind.config = {
             darkMode: "class",
             theme: {
@@ -187,10 +198,7 @@
 <span class="material-symbols-outlined">handshake</span>
 <span class="sidebar-text hidden">MOUs &amp; MOAs</span>
 </a>
-<a class="flex items-center justify-center gap-3 px-4 py-2.5 rounded-lg text-text-muted-light dark:text-text-muted-dark hover:bg-gray-100 dark:hover:bg-background-dark hover:text-text-light dark:hover:text-text-dark transition-colors duration-200 sidebar-nav-link" href="templates.html">
-<span class="material-symbols-outlined">description</span>
-<span class="sidebar-text hidden">Templates</span>
-</a>
+
 <a class="flex items-center justify-center gap-3 px-4 py-2.5 rounded-lg text-text-muted-light dark:text-text-muted-dark hover:bg-gray-100 dark:hover:bg-background-dark hover:text-text-light dark:hover:text-text-dark transition-colors duration-200 sidebar-nav-link" href="documents.html">
 <span class="material-symbols-outlined">school</span>
 <span class="sidebar-text hidden">Registrar Forms</span>
@@ -933,4 +941,36 @@
         });
     </script>
 
+<script>
+    (function() {
+        try {
+            var isDevHost = location.hostname === '127.0.0.1' || location.hostname === 'localhost';
+            if (isDevHost && location.port === '5500') {
+                var target = location.protocol + '//' + 'localhost' + ':8000' + location.pathname + location.search + location.hash;
+                location.replace(target);
+            }
+        } catch (e) { }
+    })();
+
+    // Load profile picture from localStorage if available
+    document.addEventListener('DOMContentLoaded', function() {
+        try {
+            const profile = JSON.parse(localStorage.getItem('lilac_profile'));
+            if (profile && profile.avatar) {
+                const sidebarProfilePicture = document.querySelector('.sidebar-profile-picture');
+                if (sidebarProfilePicture) {
+                    sidebarProfilePicture.style.backgroundImage = `url('${profile.avatar}')`;
+                }
+                
+                // Also update the profile name if available
+                const profileName = document.querySelector('.sidebar-profile-info p');
+                if (profileName && profile.name) {
+                    profileName.textContent = profile.name;
+                }
+            }
+        } catch (error) {
+            console.log('No profile data found in localStorage');
+        }
+    });
+</script>
 </body></html>
