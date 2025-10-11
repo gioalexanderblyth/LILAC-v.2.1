@@ -49,3 +49,62 @@ CREATE TABLE IF NOT EXISTS events (
 
 CREATE INDEX IF NOT EXISTS idx_events_date ON events(date);
 CREATE INDEX IF NOT EXISTS idx_events_eligible ON events(eligible_for_awards);
+
+-- Awards schema
+CREATE TABLE IF NOT EXISTS awards (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    title VARCHAR(255) NOT NULL,
+    date DATE,
+    description TEXT,
+    file_name VARCHAR(255),
+    file_path VARCHAR(500),
+    ocr_text TEXT,
+    created_by VARCHAR(100),
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS award_analysis (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    award_id INTEGER NOT NULL,
+    predicted_category VARCHAR(100) NOT NULL,
+    confidence REAL NOT NULL,
+    matched_categories_json TEXT NOT NULL, -- JSON array of category ids/names the award fits
+    checklist_json TEXT NOT NULL, -- JSON object of criteria -> met/partial/missing
+    recommendations_text TEXT,
+    evidence_json TEXT, -- snippets or fields used
+    manual_overridden INTEGER DEFAULT 0,
+    final_category VARCHAR(100),
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY(award_id) REFERENCES awards(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS award_links (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    award_id INTEGER NOT NULL,
+    event_id INTEGER NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY(award_id) REFERENCES awards(id) ON DELETE CASCADE,
+    FOREIGN KEY(event_id) REFERENCES events(id) ON DELETE CASCADE
+);
+
+CREATE INDEX IF NOT EXISTS idx_awards_date ON awards(date);
+CREATE INDEX IF NOT EXISTS idx_award_analysis_pred ON award_analysis(predicted_category);
+CREATE INDEX IF NOT EXISTS idx_award_analysis_final ON award_analysis(final_category);
+
+-- Award counters table for tracking counts per category
+CREATE TABLE IF NOT EXISTS award_counters (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    award_name VARCHAR(255) NOT NULL UNIQUE,
+    count INTEGER DEFAULT 0,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Initialize award counters with ICONS 2024 categories
+INSERT OR IGNORE INTO award_counters (award_name, count) VALUES
+('Global Citizenship Award', 0),
+('Outstanding International Education Program Award', 0),
+('Emerging Leadership Award', 0),
+('Internationalization Leadership Award', 0),
+('Best Regional Office for Internationalization Award', 0);
+
+CREATE INDEX IF NOT EXISTS idx_award_counters_name ON award_counters(award_name);

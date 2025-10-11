@@ -3,16 +3,18 @@ echo Starting LILAC Events System Server...
 echo.
 echo Make sure you have PHP installed and in your PATH.
 echo.
-echo Opening browser in 3 seconds...
-echo.
-
-cd /d "%~dp0"
-start http://localhost:8000/events-activities.html
-timeout /t 3 /nobreak > nul
-
-echo Starting PHP server on localhost:8000
+echo Preparing server...
 echo Press Ctrl+C to stop the server
 echo.
 echo Note: Make sure PHP is installed and in your PATH
 echo.
-php -S localhost:8000 -t .
+cd /d "%~dp0"
+set "PORT=8080"
+set "DOCROOT=%cd%"
+
+echo Starting PHP server on localhost:%PORT%
+start "LILAC PHP Server" cmd /k php -S localhost:%PORT% -t "%DOCROOT%"
+timeout /t 2 /nobreak > nul
+
+echo Opening browser...
+start http://localhost:%PORT%/events-activities.html

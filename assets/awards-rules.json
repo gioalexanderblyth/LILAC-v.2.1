@@ -1,0 +1,77 @@
+{
+  "match_threshold": 0.5,
+  "categories": {
+    "gca": {
+      "name": "Global Citizenship Award",
+      "keywords": {
+        "sdg": 2, "sustainable": 1.5, "inclusion": 1.5, "inclusive": 1.5,
+        "intercultural": 2, "diversity": 1.5, "equity": 1.5, "access": 1,
+        "community": 1, "engagement": 1, "global": 1.2, "citizenship": 2
+      },
+      "criteria": {
+        "intercultural_understanding": { "keywords": { "intercultural": 2, "inclusive": 1.5, "respect": 1 } },
+        "empower_changemakers": { "keywords": { "students": 1, "skills": 1, "sdg": 2 } },
+        "active_engagement": { "keywords": { "platform": 1, "engagement": 1.5, "action": 1 } }
+      }
+    },
+    "oiep": {
+      "name": "Outstanding International Education Program",
+      "keywords": {
+        "mobility": 2, "exchange": 2, "partnership": 2, "mou": 1.5,
+        "inclusive": 1.5, "diverse": 1, "collaboration": 1.5, "program": 1.2
+      },
+      "criteria": {
+        "access_to_global_opportunities": { "keywords": { "scholarship": 1, "financial": 1, "inclusive": 1.5 } },
+        "collaborative_innovation": { "keywords": { "partnership": 2, "collaboration": 1.5 } },
+        "barrier_reduction": { "keywords": { "barrier": 1, "access": 1, "inclusive": 1.5 } }
+      }
+    },
+    "ela": {
+      "name": "Emerging Leadership Award",
+      "roles": ["director","manager","supervisor"],
+      "keywords": {
+        "innovation": 1.5, "initiative": 1.2, "internationalization": 1.2, "mentorship": 1.2,
+        "inclusive": 1, "growth": 1
+      },
+      "criteria": {
+        "practice_innovation": { "keywords": { "innovative": 1.5, "creative": 1 } },
+        "strategic_growth": { "keywords": { "strategy": 1.2, "inclusive": 1 } },
+        "empower_others": { "keywords": { "mentor": 1.5, "training": 1 } }
+      }
+    },
+    "il": {
+      "name": "Internationalization Leadership Award",
+      "roles": ["president","vp","vice","chancellor","rector"],
+      "keywords": {
+        "policy": 1.5, "institutional": 1.5, "vision": 1, "leadership": 1.5,
+        "equity": 1, "sustainability": 1.2
+      },
+      "criteria": {
+        "bold_innovation": { "keywords": { "vision": 1, "integration": 1 } },
+        "cultivate_global_citizens": { "keywords": { "global": 1.2, "citizen": 1.2 } },
+        "ethical_inclusive_leadership": { "keywords": { "ethical": 1, "inclusive": 1 } }
+      }
+    },
+    "bro": {
+      "name": "Best Regional Office for Internationalization",
+      "keywords": {
+        "ched": 2, "regional": 2, "office": 1.5, "cooperation": 1.2,
+        "collaboration": 1.2, "ranking": 1, "enrollment": 1
+      },
+      "criteria": {
+        "comprehensive_efforts": { "keywords": { "initiative": 1, "program": 1 } },
+        "cooperation_with_ias": { "keywords": { "ias": 2, "support": 1 } },
+        "measurable_impact": { "keywords": { "ranking": 1, "enrollment": 1, "survey": 1 } }
+      }
+    }
+  },
+  "recommendations": {
+    "gca": "Document inclusive, intercultural activities aligned to SDGs; quantify student engagement and outcomes; provide evidence of accessibility and participation by diverse groups.",
+    "oiep": "Show breadth of partnerships and exchanges; include MOUs, selection policies supporting inclusivity, and measured program outcomes.",
+    "ela": "Highlight innovative projects led by the nominee; add mentorship/training artifacts and evidence of inclusive growth.",
+    "il": "Provide institution-wide policy documents, budgets, and impact metrics; emphasize ethical, inclusive leadership initiatives.",
+    "bro": "Cite CHED Regional Office collaborations with IAS and demonstrate measurable regional impact (rankings, enrollment, surveys)."
+  }
+}
+
+

@@ -57,6 +57,11 @@ function listAll($pdo) {
     echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
 }
 
+function listMinimal($pdo) {
+    $stmt = $pdo->query('SELECT id, title, date, location, category, eligible_for_awards FROM events ORDER BY date DESC');
+    echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
+}
+
 function getEventsForCalendar($pdo) {
     $stmt = $pdo->query('SELECT * FROM events ORDER BY date ASC, start_time ASC');
     $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -144,6 +149,7 @@ try {
     if ($method === 'GET' && $action === 'eligible') { getEligible($pdo); return; }
     if ($method === 'POST' && $action === 'clear') { clearAllEvents($pdo); return; }
     if ($method === 'GET' && $action === 'calendar') { getEventsForCalendar($pdo); return; }
+    if ($method === 'GET' && $action === 'list-minimal') { listMinimal($pdo); return; }
     if ($method === 'GET' && isset($_GET['id'])) { details($pdo, (int)$_GET['id']); return; }
     if ($method === 'GET') { listAll($pdo); return; }
     if ($method === 'POST') { $data = json_decode(file_get_contents('php://input'), true) ?? []; create($pdo, $data); return; }

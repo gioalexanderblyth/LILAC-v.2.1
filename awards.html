@@ -136,36 +136,7 @@
         .no-scrollbar::-webkit-scrollbar {
             display: none; /* Chrome, Safari */
         }
-        /* Consistent width for awards cards */
-        #awardsCarousel > div {
-            flex: 0 0 22rem; /* fixed width */
-            width: 22rem;
-            scroll-snap-align: start;
-            scroll-snap-stop: always;
-            will-change: transform;
-        }
-        @media (max-width: 640px) {
-            #awardsCarousel > div {
-                flex-basis: 18rem;
-                width: 18rem;
-            }
-        }
-        /* Arrow click slide animations */
-        @keyframes awardsSlideLeft { from { transform: translateX(12px); opacity: .96; } to { transform: translateX(0); opacity: 1; } }
-        @keyframes awardsSlideRight { from { transform: translateX(-12px); opacity: .96; } to { transform: translateX(0); opacity: 1; } }
-        .animate-slide-left { animation: awardsSlideLeft 300ms ease; }
-        .animate-slide-right { animation: awardsSlideRight 300ms ease; }
-        /* Track animation for overall movement */
-        @keyframes trackLeft {
-            from { transform: translateX(16px); }
-            to { transform: translateX(0); }
-        }
-        @keyframes trackRight {
-            from { transform: translateX(-16px); }
-            to { transform: translateX(0); }
-        }
-        .animate-track-left { animation: trackLeft 350ms ease-out; }
-        .animate-track-right { animation: trackRight 350ms ease-out; }
+        /* New counter cards styling is handled by Tailwind classes */
     </style>
 </head>
 <body class="bg-background-light dark:bg-background-dark font-display text-text-light dark:text-text-dark">
@@ -239,495 +210,151 @@
 <div class="mb-8">
 <div class="flex items-center justify-between mb-3">
 <h2 class="text-2xl font-bold text-text-light dark:text-text-dark mb-0">CHED Awards Overview</h2>
-<div class="flex items-center gap-2">
-<button id="awardsPrev" class="w-10 h-10 flex items-center justify-center rounded-full bg-white dark:bg-white/10 shadow hover:bg-gray-100 dark:hover:bg-white/20"><span class="material-symbols-outlined">chevron_left</span></button>
-<button id="awardsNext" class="w-10 h-10 flex items-center justify-center rounded-full bg-white dark:bg-white/10 shadow hover:bg-gray-100 dark:hover:bg-white/20"><span class="material-symbols-outlined">chevron_right</span></button>
+<button id="uploadBtn" class="inline-flex items-center gap-2 bg-primary hover:bg-primary/90 text-white font-semibold py-2 px-4 rounded-lg transition-colors">
+<span class="material-symbols-outlined">upload_file</span>
+Choose File
+</button>
 </div>
-</div>
-<div id="awardsViewport" class="overflow-hidden mb-8 no-scrollbar"><div id="awardsCarousel" class="flex gap-4 overflow-x-auto scroll-smooth snap-x snap-mandatory no-scrollbar">
-<div class="bg-card-light dark:bg-card-dark rounded-lg shadow-soft hover:shadow-xl transition-shadow duration-300 overflow-hidden inline-block align-top snap-start min-w-[22rem]">
-<div class="p-4 flex flex-col justify-between h-full">
-<div>
-<div class="flex items-start gap-3">
-<div class="relative w-20 h-20 flex-shrink-0">
-<svg class="w-full h-full progress-circle" viewBox="0 0 120 120">
-<circle class="text-gray-200 dark:text-gray-700" cx="60" cy="60" fill="transparent" r="52" stroke="currentColor" stroke-width="10"></circle>
-<circle class="text-primary" cx="60" cy="60" fill="transparent" r="52" stroke="currentColor" stroke-dasharray="326.72" stroke-dashoffset="114.35" stroke-linecap="round" stroke-width="10"></circle>
+<input class="sr-only" id="file-upload" name="file-upload" type="file" accept=".pdf,.docx,.jpg,.jpeg,.png"/>
+<div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6 mb-8">
+<div class="bg-card-light dark:bg-card-dark p-4 rounded-lg border border-border-light dark:border-border-dark flex flex-col items-center text-center" id="global-citizenship-counter-card">
+<div class="relative w-20 h-20 mb-2">
+<svg class="w-full h-full" viewBox="0 0 36 36">
+<path class="text-border-light dark:text-border-dark" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3"></path>
+<path class="text-primary" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="0, 100" stroke-linecap="round" stroke-width="3"></path>
 </svg>
-<span class="absolute inset-0 flex items-center justify-center text-xl font-bold text-text-light dark:text-text-dark">65%</span>
+<span class="absolute inset-0 flex items-center justify-center text-2xl font-bold text-text-light dark:text-text-dark" id="global-citizenship-count">0</span>
 </div>
-<div>
-<h3 class="text-base font-bold text-text-light dark:text-text-dark">Global Citizenship <span class="block">Award</span></h3>
-<p class="text-sm text-text-muted-light dark:text-text-muted-dark mt-1">Progress towards meeting criteria.</p>
+<h3 class="font-semibold text-text-light dark:text-text-dark text-sm">Global Citizenship Award</h3>
+<a class="mt-2 text-primary text-sm font-medium" href="#">View Details</a>
 </div>
-</div>
-</div>
-<button id="btn-global-details" class="mt-3 w-full bg-primary/10 dark:bg-primary/20 hover:bg-primary/20 dark:hover:bg-primary/30 text-primary font-semibold py-1.5 px-3 rounded-lg text-sm transition-colors">View Details</button>
-</div>
-</div>
-<div class="bg-card-light dark:bg-card-dark rounded-lg shadow-soft hover:shadow-xl transition-shadow duration-300 overflow-hidden inline-block align-top snap-start min-w-[22rem]">
-<div class="p-4 flex flex-col justify-between h-full">
-<div>
-<div class="flex items-start gap-3">
-<div class="relative w-20 h-20 flex-shrink-0">
-<svg class="w-full h-full progress-circle" viewBox="0 0 120 120">
-<circle class="text-gray-200 dark:text-gray-700" cx="60" cy="60" fill="transparent" r="52" stroke="currentColor" stroke-width="10"></circle>
-<circle class="text-primary" cx="60" cy="60" fill="transparent" r="52" stroke="currentColor" stroke-dasharray="326.72" stroke-dashoffset="81.68" stroke-linecap="round" stroke-width="10"></circle>
+<div class="bg-card-light dark:bg-card-dark p-4 rounded-lg border border-border-light dark:border-border-dark flex flex-col items-center text-center" id="outstanding-international-counter-card">
+<div class="relative w-20 h-20 mb-2">
+<svg class="w-full h-full" viewBox="0 0 36 36">
+<path class="text-border-light dark:text-border-dark" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3"></path>
+<path class="text-primary" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="0, 100" stroke-linecap="round" stroke-width="3"></path>
 </svg>
-<span class="absolute inset-0 flex items-center justify-center text-xl font-bold text-text-light dark:text-text-dark">75%</span>
+<span class="absolute inset-0 flex items-center justify-center text-2xl font-bold text-text-light dark:text-text-dark" id="outstanding-international-count">0</span>
 </div>
-<div>
-<h3 class="text-base font-bold text-text-light dark:text-text-dark">Outstanding International Education Program</h3>
-<p class="text-sm text-text-muted-light dark:text-text-muted-dark mt-1">Progress towards meeting criteria.</p>
+<h3 class="font-semibold text-text-light dark:text-text-dark text-sm">Outstanding International Education Program</h3>
+<a class="mt-2 text-primary text-sm font-medium" href="#">View Details</a>
 </div>
-</div>
-</div>
-<button id="btn-oiep-details" class="mt-3 w-full bg-primary/10 dark:bg-primary/20 hover:bg-primary/20 dark:hover:bg-primary/30 text-primary font-semibold py-1.5 px-3 rounded-lg text-sm transition-colors">View Details</button>
-</div>
-</div>
-<div class="bg-card-light dark:bg-card-dark rounded-lg shadow-soft hover:shadow-xl transition-shadow duration-300 overflow-hidden inline-block align-top snap-start min-w-[22rem]">
-<div class="p-4 flex flex-col justify-between h-full">
-<div>
-<div class="flex items-start gap-3">
-<div class="relative w-20 h-20 flex-shrink-0">
-<svg class="w-full h-full progress-circle" viewBox="0 0 120 120">
-<circle class="text-gray-200 dark:text-gray-700" cx="60" cy="60" fill="transparent" r="52" stroke="currentColor" stroke-width="10"></circle>
-<circle class="text-primary" cx="60" cy="60" fill="transparent" r="52" stroke="currentColor" stroke-dasharray="326.72" stroke-dashoffset="163.36" stroke-linecap="round" stroke-width="10"></circle>
+<div class="bg-card-light dark:bg-card-dark p-4 rounded-lg border border-border-light dark:border-border-dark flex flex-col items-center text-center" id="emerging-leadership-counter-card">
+<div class="relative w-20 h-20 mb-2">
+<svg class="w-full h-full" viewBox="0 0 36 36">
+<path class="text-border-light dark:text-border-dark" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3"></path>
+<path class="text-primary" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="0, 100" stroke-linecap="round" stroke-width="3"></path>
 </svg>
-<span class="absolute inset-0 flex items-center justify-center text-xl font-bold text-text-light dark:text-text-dark">50%</span>
+<span class="absolute inset-0 flex items-center justify-center text-2xl font-bold text-text-light dark:text-text-dark" id="emerging-leadership-count">0</span>
 </div>
-<div>
-<h3 class="text-base font-bold text-text-light dark:text-text-dark">Emerging Leadership <span class="block">Award</span></h3>
-<p class="text-sm text-text-muted-light dark:text-text-muted-dark mt-1">Progress towards meeting criteria.</p>
+<h3 class="font-semibold text-text-light dark:text-text-dark text-sm">Emerging Leadership Award</h3>
+<a class="mt-2 text-primary text-sm font-medium" href="#">View Details</a>
 </div>
-</div>
-</div>
-<button class="mt-3 w-full bg-primary/10 dark:bg-primary/20 hover:bg-primary/20 dark:hover:bg-primary/30 text-primary font-semibold py-1.5 px-3 rounded-lg text-sm transition-colors">View Details</button>
-</div>
-</div>
-<div class="bg-card-light dark:bg-card-dark rounded-lg shadow-soft hover:shadow-xl transition-shadow duration-300 overflow-hidden inline-block align-top snap-start min-w-[22rem]">
-<div class="p-4 flex flex-col justify-between h-full">
-<div>
-<div class="flex items-start gap-3">
-<div class="relative w-20 h-20 flex-shrink-0">
-<svg class="w-full h-full progress-circle" viewBox="0 0 120 120">
-<circle class="text-gray-200 dark:text-gray-700" cx="60" cy="60" fill="transparent" r="52" stroke="currentColor" stroke-width="10"></circle>
-<circle class="text-primary" cx="60" cy="60" fill="transparent" r="52" stroke="currentColor" stroke-dasharray="326.72" stroke-dashoffset="98.02" stroke-linecap="round" stroke-width="10"></circle>
+<div class="bg-card-light dark:bg-card-dark p-4 rounded-lg border border-border-light dark:border-border-dark flex flex-col items-center text-center" id="internationalization-leadership-counter-card">
+<div class="relative w-20 h-20 mb-2">
+<svg class="w-full h-full" viewBox="0 0 36 36">
+<path class="text-border-light dark:text-border-dark" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3"></path>
+<path class="text-primary" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="0, 100" stroke-linecap="round" stroke-width="3"></path>
 </svg>
-<span class="absolute inset-0 flex items-center justify-center text-xl font-bold text-text-light dark:text-text-dark">70%</span>
+<span class="absolute inset-0 flex items-center justify-center text-2xl font-bold text-text-light dark:text-text-dark" id="internationalization-leadership-count">0</span>
 </div>
-<div>
-<h3 class="text-base font-bold text-text-light dark:text-text-dark">Internationalization Leadership Award</h3>
-<p class="text-sm text-text-muted-light dark:text-text-muted-dark mt-1">Progress towards meeting criteria.</p>
+<h3 class="font-semibold text-text-light dark:text-text-dark text-sm">Internationalization Leadership Award</h3>
+<a class="mt-2 text-primary text-sm font-medium" href="#">View Details</a>
 </div>
-</div>
-</div>
-<button id="btn-leadership-details" class="mt-3 w-full bg-primary/10 dark:bg-primary/20 hover:bg-primary/20 dark:hover:bg-primary/30 text-primary font-semibold py-1.5 px-3 rounded-lg text-sm transition-colors">View Details</button>
-</div>
-</div>
-<div class="bg-card-light dark:bg-card-dark rounded-lg shadow-soft hover:shadow-xl transition-shadow duration-300 overflow-hidden inline-block align-top snap-start min-w-[22rem]">
-<div class="p-4 flex flex-col justify-between h-full">
-<div>
-<div class="flex items-start gap-3">
-<div class="relative w-20 h-20 flex-shrink-0">
-<svg class="w-full h-full progress-circle" viewBox="0 0 120 120">
-<circle class="text-gray-200 dark:text-gray-700" cx="60" cy="60" fill="transparent" r="52" stroke="currentColor" stroke-width="10"></circle>
-<circle class="text-primary" cx="60" cy="60" fill="transparent" r="52" stroke="currentColor" stroke-dasharray="326.72" stroke-dashoffset="130.69" stroke-linecap="round" stroke-width="10"></circle>
+<div class="bg-card-light dark:bg-card-dark p-4 rounded-lg border border-border-light dark:border-border-dark flex flex-col items-center text-center" id="best-regional-office-counter-card">
+<div class="relative w-20 h-20 mb-2">
+<svg class="w-full h-full" viewBox="0 0 36 36">
+<path class="text-border-light dark:text-border-dark" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3"></path>
+<path class="text-primary" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="0, 100" stroke-linecap="round" stroke-width="3"></path>
 </svg>
-<span class="absolute inset-0 flex items-center justify-center text-xl font-bold text-text-light dark:text-text-dark">60%</span>
+<span class="absolute inset-0 flex items-center justify-center text-2xl font-bold text-text-light dark:text-text-dark" id="best-regional-office-count">0</span>
 </div>
-<div>
-<h3 class="text-base font-bold text-text-light dark:text-text-dark">Best Regional Office for Internationalization Award</h3>
-<p class="text-sm text-text-muted-light dark:text-text-muted-dark mt-1">Progress towards meeting criteria.</p>
-</div>
-</div>
-</div>
-<button class="mt-3 w-full bg-primary/10 dark:bg-primary/20 hover:bg-primary/20 dark:hover:bg-primary/30 text-primary font-semibold py-1.5 px-3 rounded-lg text-sm transition-colors">View Details</button>
-</div>
+<h3 class="font-semibold text-text-light dark:text-text-dark text-sm">Best Regional Office for Internationalization</h3>
+<a class="mt-2 text-primary text-sm font-medium" href="#">View Details</a>
 </div>
 </div>
 </div>
 <div>
 <h2 class="text-2xl font-bold text-text-light dark:text-text-dark mb-4">Award Details</h2>
-<div class="border-b border-border-light dark:border-border-dark">
-<nav aria-label="Tabs" class="-mb-px flex space-x-8 overflow-x-auto">
-<a id="tab-global" class="border-primary text-primary whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm" href="#">Global Citizenship Award</a>
-<a id="tab-oiep" class="border-transparent text-text-muted-light dark:text-text-muted-dark hover:text-text-light dark:hover:text-text-dark hover:border-border-light dark:hover:border-border-dark whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm" href="#">Outstanding Int'l Education...</a>
-<a id="tab-ela" class="border-transparent text-text-muted-light dark:text-text-muted-dark hover:text-text-light dark:hover:text-text-dark hover:border-border-light dark:hover:border-border-dark whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm" href="#">Emerging Leadership...</a>
-<a id="tab-leadership" class="border-transparent text-text-muted-light dark:text-text-muted-dark hover:text-text-light dark:hover:text-text-dark hover:border-border-light dark:hover:border-border-dark whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm" href="#">Internationalization Leadership...</a>
-<a class="border-transparent text-text-muted-light dark:text-text-muted-dark hover:text-text-light dark:hover:text-text-dark hover:border-border-light dark:hover:border-border-dark whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm" href="#">Best Regional Office...</a>
-</nav>
-</div>
 <div id="panel-global" class="mt-3 bg-card-light dark:bg-card-dark rounded-lg shadow-soft p-3">
 <div class="flex flex-col md:flex-row md:items-center justify-between">
 <div>
 <h3 class="text-xl font-bold text-text-light dark:text-text-dark">Global Citizenship Award</h3>
 <p class="mt-2 text-text-muted-light dark:text-text-muted-dark">Recognizes HEIs that have implemented programs promoting global citizenship and intercultural competence.</p>
 </div>
-<div class="mt-4 md:mt-0">
-<label class="cursor-pointer inline-flex items-center gap-2 bg-primary hover:bg-primary/90 text-white font-semibold py-2 px-4 rounded-lg transition-colors" for="file-upload">
-<span class="material-symbols-outlined">upload_file</span>
-                                    Upload Documents
-                                </label>
-<input class="sr-only" id="file-upload" name="file-upload" type="file"/>
+<div class="mt-4 md:mt-0 flex gap-2">
+<button id="btn-ai-analyze" class="inline-flex items-center gap-2 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-semibold py-2 px-4 rounded-lg transition-colors">
+<span class="material-symbols-outlined">auto_awesome</span>
+AI Analysis
+</button>
 </div>
 </div>
+
+<!-- Upload Progress -->
+<div id="uploadProgress" class="hidden mt-4">
+<div class="bg-gray-200 dark:bg-gray-700 rounded-full h-2 mb-2">
+<div id="progressBar" class="bg-primary h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+</div>
+<p id="progressText" class="text-sm text-text-muted-light dark:text-text-muted-dark text-center">Processing...</p>
+</div>
+
+<!-- Analysis Results -->
+<div id="analysisResults" class="hidden mt-6">
+<h4 class="text-lg font-bold text-text-light dark:text-text-dark mb-4">Analysis Results</h4>
+<div class="overflow-x-auto">
+<table class="w-full border-collapse border border-border-light dark:border-border-dark">
+<thead>
+<tr class="bg-gray-50 dark:bg-gray-800">
+<th class="border border-border-light dark:border-border-dark px-3 py-2 text-left text-sm font-semibold text-text-light dark:text-text-dark">Award Category</th>
+<th class="border border-border-light dark:border-border-dark px-3 py-2 text-left text-sm font-semibold text-text-light dark:text-text-dark">Score</th>
+<th class="border border-border-light dark:border-border-dark px-3 py-2 text-left text-sm font-semibold text-text-light dark:text-text-dark">Status</th>
+<th class="border border-border-light dark:border-border-dark px-3 py-2 text-left text-sm font-semibold text-text-light dark:text-text-dark">Recommendation</th>
+</tr>
+</thead>
+<tbody id="resultsTableBody">
+</tbody>
+</table>
+</div>
+</div>
+
+<!-- AI Insights -->
 <div class="mt-6">
-<div class="flex justify-between items-center mb-2">
-<p class="text-sm font-medium text-text-muted-light dark:text-text-muted-dark">Overall Progress (Jaccard Similarity)</p>
-<p class="text-sm font-bold text-primary">65%</p>
-</div>
-<div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
-<div class="bg-primary h-2.5 rounded-full" style="width: 65%"></div>
-</div>
-</div>
-<div class="mt-8">
-<h4 class="text-lg font-bold text-text-light dark:text-text-dark mb-4">Criteria Progress &amp; Analysis</h4>
-<ul class="space-y-6">
-<li class="p-4 rounded-lg bg-gray-50 dark:bg-gray-900/50">
-<div class="flex items-center justify-between">
+<div id="ai-insights" class="space-y-4">
+<div class="p-4 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-lg border border-blue-200 dark:border-blue-800">
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-blue-600 dark:text-blue-400">psychology</span>
 <div>
-<p class="font-medium text-text-light dark:text-text-dark">Curriculum Integration</p>
-<p class="text-sm text-text-muted-light dark:text-text-muted-dark">70% similarity</p>
-</div>
-<div class="w-1/3">
-<div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5">
-<div class="bg-primary h-1.5 rounded-full" style="width: 70%"></div>
+<h4 class="font-semibold text-blue-900 dark:text-blue-200">Smart Recommendations</h4>
+<p class="text-sm text-blue-700 dark:text-blue-300 mt-1">Click "AI Analysis" to get personalized suggestions based on your current awards and ICONS 2024 criteria.</p>
 </div>
 </div>
 </div>
-</li>
-<li class="p-4 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-900/50">
-<div class="flex items-center justify-between">
+<div class="p-4 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-lg border border-green-200 dark:border-green-800">
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-green-600 dark:text-green-400">trending_up</span>
 <div>
-<p class="font-medium text-text-light dark:text-text-dark">Student Mobility Programs</p>
-<p class="text-sm text-red-500 dark:text-red-400">45% similarity</p>
-</div>
-<div class="w-1/3">
-<div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5">
-<div class="bg-red-500 h-1.5 rounded-full" style="width: 45%"></div>
+<h4 class="font-semibold text-green-900 dark:text-green-200">Progress Tracking</h4>
+<p class="text-sm text-green-700 dark:text-green-300 mt-1">AI monitors your award portfolio and suggests areas for improvement.</p>
 </div>
 </div>
 </div>
-<div class="mt-4 border-t border-red-200 dark:border-red-900/50 pt-4">
-<h5 class="font-semibold text-red-800 dark:text-red-300">Shortcomings &amp; Recommendations</h5>
-<p class="mt-2 text-sm text-red-700 dark:text-red-400">
-<span class="font-semibold">Shortcoming:</span> Lack of sufficient documentation on outbound student exchange programs and their impact.
-                                        </p>
-<p class="mt-2 text-sm text-red-700 dark:text-red-400">
-<span class="font-semibold">Recommendation:</span> Systematically collect and upload reports, testimonials, and partnership agreements for all student mobility initiatives. Focus on quantifying learning outcomes.
-                                        </p>
-</div>
-</li>
-<li class="p-4 rounded-lg bg-gray-50 dark:bg-gray-900/50">
-<div class="flex items-center justify-between">
+<div class="p-4 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-lg border border-purple-200 dark:border-purple-800">
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-purple-600 dark:text-purple-400">lightbulb</span>
 <div>
-<p class="font-medium text-text-light dark:text-text-dark">International Partnerships</p>
-<p class="text-sm text-text-muted-light dark:text-text-muted-dark">80% similarity</p>
+<h4 class="font-semibold text-purple-900 dark:text-purple-200">Strategic Insights</h4>
+<p class="text-sm text-purple-700 dark:text-purple-300 mt-1">Get strategic advice on which awards to pursue next based on your strengths.</p>
 </div>
-<div class="w-1/3">
-<div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5">
-<div class="bg-primary h-1.5 rounded-full" style="width: 80%"></div>
 </div>
 </div>
 </div>
-</li>
-</ul>
 </div>
-</div>
-<div id="panel-oiep" class="mt-3 bg-card-light dark:bg-card-dark rounded-lg shadow-soft p-3 hidden">
-<div class="flex flex-col md:flex-row md:items-center justify-between">
-<div>
-<h3 class="text-xl font-bold text-text-light dark:text-text-dark">Outstanding International Education Program Awards</h3>
-<p class="mt-2 text-text-muted-light dark:text-text-muted-dark">Rewards HEIs for exceptional programs that foster international learning and collaboration.</p>
-</div>
-<div class="mt-4 md:mt-0">
-<label class="cursor-pointer inline-flex items-center gap-2 bg-primary hover:bg-primary/90 text-white font-semibold py-2 px-4 rounded-lg transition-colors" for="file-upload-oiep">
-<span class="material-symbols-outlined">upload_file</span>
-                                    Upload Documents
-                                </label>
-<input class="sr-only" id="file-upload-oiep" name="file-upload-oiep" type="file"/>
-</div>
-</div>
-<div class="mt-6">
-<div class="flex justify-between items-center mb-2">
-<p class="text-sm font-medium text-text-muted-light dark:text-text-muted-dark">Overall Progress (Jaccard Similarity)</p>
-<p class="text-sm font-bold text-primary">75%</p>
-</div>
-<div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
-<div class="bg-primary h-2.5 rounded-full" style="width: 75%"></div>
-</div>
-</div>
-<div class="mt-8">
-<h4 class="text-lg font-bold text-text-light dark:text-text-dark mb-4">Criteria Progress &amp; Analysis</h4>
-<ul class="space-y-6">
-<li class="p-4 rounded-lg bg-gray-50 dark:bg-gray-900/50">
-<div class="flex items-center justify-between">
-<div>
-<p class="font-medium text-text-light dark:text-text-dark">Program Design &amp; Innovation</p>
-<p class="text-sm text-text-muted-light dark:text-text-muted-dark">85% similarity</p>
-</div>
-<div class="w-1/3">
-<div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5">
-<div class="bg-primary h-1.5 rounded-full" style="width: 85%"></div>
-</div>
-</div>
-</div>
-</li>
-<li class="p-4 rounded-lg bg-gray-50 dark:bg-gray-900/50">
-<div class="flex items-center justify-between">
-<div>
-<p class="font-medium text-text-light dark:text-text-dark">Student Outcomes &amp; Impact</p>
-<p class="text-sm text-text-muted-light dark:text-text-muted-dark">80% similarity</p>
-</div>
-<div class="w-1/3">
-<div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5">
-<div class="bg-primary h-1.5 rounded-full" style="width: 80%"></div>
-</div>
-</div>
-</div>
-</li>
-<li class="p-4 rounded-lg bg-gray-50 dark:bg-gray-900/50">
-<div class="flex items-center justify-between">
-<div>
-<p class="font-medium text-text-light dark:text-text-dark">Faculty Involvement</p>
-<p class="text-sm text-text-muted-light dark:text-text-muted-dark">60% similarity</p>
-</div>
-<div class="w-1/3">
-<div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5">
-<div class="bg-yellow-500 h-1.5 rounded-full" style="width: 60%"></div>
-</div>
-</div>
-</div>
-</li>
-</ul>
-</div>
-<div class="mt-8 bg-primary-50 dark:bg-primary-900/20 rounded-lg p-4 border border-primary-200 dark:border-primary-900/50">
-<div class="flex items-start gap-4">
-<div class="flex-shrink-0">
-<span class="material-symbols-outlined text-primary-600 dark:text-primary-300 text-3xl">lightbulb</span>
-</div>
-<div class="flex-1">
-<h4 class="text-lg font-bold text-primary-900 dark:text-primary-200">Suggestions &amp; Recommendations</h4>
-<div class="mt-4 space-y-6">
-<div>
-<h5 class="font-semibold text-text-light dark:text-text-dark">Areas for Improvement (Faculty Involvement)</h5>
-<p class="mt-2 text-sm text-text-muted-light dark:text-text-muted-dark">The current documentation shows limited evidence of faculty-led initiatives within the international program. While participation is noted, leadership and curriculum development roles are not clearly defined.</p>
-</div>
-<div>
-<h5 class="font-semibold text-text-light dark:text-text-dark">Actionable Steps</h5>
-<ul class="mt-2 list-disc list-inside space-y-2 text-sm text-text-muted-light dark:text-text-muted-dark">
-<li>Initiate a formal call for proposals for faculty-led international projects.</li>
-<li>Establish a mentorship program pairing experienced faculty with those new to international education.</li>
-<li>Document and highlight faculty contributions in program reports and promotional materials.</li>
-</ul>
-</div>
-<div>
-<h5 class="font-semibold text-text-light dark:text-text-dark">Recommendations for Future Activities</h5>
-<ul class="mt-2 list-disc list-inside space-y-2 text-sm text-text-muted-light dark:text-text-muted-dark">
-<li>Organize a workshop on "Integrating Global Perspectives into the Curriculum."</li>
-<li>Create a travel grant program specifically for faculty to develop international partnerships.</li>
-<li>Feature faculty stories and their international experiences on the university website and social media.</li>
-</ul>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div id="panel-ela" class="mt-3 bg-card-light dark:bg-card-dark rounded-lg shadow-soft p-3 hidden">
-<div class="flex flex-col md:flex-row md:items-center justify-between">
-<div>
-<h3 class="text-xl font-bold text-text-light dark:text-text-dark">Emerging Leadership Award</h3>
-<p class="mt-2 text-text-muted-light dark:text-text-muted-dark">Recognizes HEIs showing significant progress and potential in internationalization.</p>
-</div>
-<div class="mt-4 md:mt-0">
-<label class="cursor-pointer inline-flex items-center gap-2 bg-primary hover:bg-primary/90 text-white font-semibold py-2 px-4 rounded-lg transition-colors" for="file-upload">
-<span class="material-symbols-outlined">upload_file</span>
-                                    Upload Documents
-                                </label>
-<input class="sr-only" id="file-upload" name="file-upload" type="file"/>
-</div>
-</div>
-<div class="mt-6">
-<div class="flex justify-between items-center mb-2">
-<p class="text-sm font-medium text-text-muted-light dark:text-text-muted-dark">Overall Progress (Jaccard Similarity)</p>
-<p class="text-sm font-bold text-primary">50%</p>
-</div>
-<div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
-<div class="bg-primary h-2.5 rounded-full" style="width: 50%"></div>
-</div>
-</div>
-<div class="mt-8">
-<h4 class="text-lg font-bold text-text-light dark:text-text-dark mb-4">Criteria Progress &amp; Analysis</h4>
-<ul class="space-y-6">
-<li class="p-4 rounded-lg bg-gray-50 dark:bg-gray-900/50">
-<div class="flex items-center justify-between">
-<div>
-<p class="font-medium text-text-light dark:text-text-dark">Strategic Internationalization Plan</p>
-<p class="text-sm text-text-muted-light dark:text-text-muted-dark">75% similarity</p>
-</div>
-<div class="w-1/3">
-<div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5">
-<div class="bg-primary h-1.5 rounded-full" style="width: 75%"></div>
-</div>
-</div>
-</div>
-</li>
-<li class="p-4 rounded-lg bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-900/50">
-<div class="flex items-center justify-between">
-<div>
-<p class="font-medium text-text-light dark:text-text-dark">Faculty &amp; Staff Development</p>
-<p class="text-sm text-yellow-600 dark:text-yellow-400">35% similarity</p>
-</div>
-<div class="w-1/3">
-<div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5">
-<div class="bg-yellow-500 h-1.5 rounded-full" style="width: 35%"></div>
-</div>
-</div>
-</div>
-</li>
-<li class="p-4 rounded-lg bg-gray-50 dark:bg-gray-900/50">
-<div class="flex items-center justify-between">
-<div>
-<p class="font-medium text-text-light dark:text-text-dark">Collaborative Research Initiatives</p>
-<p class="text-sm text-text-muted-light dark:text-text-muted-dark">40% similarity</p>
-</div>
-<div class="w-1/3">
-<div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5">
-<div class="bg-primary h-1.5 rounded-full" style="width: 40%"></div>
-</div>
-</div>
-</div>
-</li>
-</ul>
-</div>
-<div class="mt-8 pt-6 border-t border-border-light dark:border-border-dark">
-<h4 class="text-lg font-bold text-text-light dark:text-text-dark mb-4">Suggestions &amp; Recommendations</h4>
-<div class="space-y-6">
-<div class="bg-yellow-50 dark:bg-yellow-900/20 p-5 rounded-lg border-l-4 border-yellow-400 dark:border-yellow-500">
-<div class="flex">
-<div class="flex-shrink-0">
-<span class="material-symbols-outlined text-yellow-500 dark:text-yellow-400">lightbulb</span>
-</div>
-<div class="ml-3">
-<h5 class="text-md font-semibold text-yellow-800 dark:text-yellow-200">Faculty &amp; Staff Development (Needs Improvement)</h5>
-<div class="mt-2 text-sm text-yellow-700 dark:text-yellow-300 space-y-3">
-<p><strong class="font-semibold">Area for Improvement:</strong> Limited evidence of comprehensive training programs for faculty and staff on internationalization topics.</p>
-<div>
-<p class="font-semibold mb-1">Actionable Steps:</p>
-<ul class="list-disc list-inside space-y-1 pl-2">
-<li>Develop and document a structured professional development series focused on intercultural communication and global classroom pedagogy.</li>
-<li>Establish a grant program to support faculty participation in international conferences.</li>
-<li>Upload attendance records, workshop materials, and post-training feedback surveys.</li>
-</ul>
-</div>
-</div>
-</div>
-</div>
-<div class="bg-blue-50 dark:bg-blue-900/20 p-5 rounded-lg border-l-4 border-blue-400 dark:border-blue-500">
-<div class="flex">
-<div class="flex-shrink-0">
-<span class="material-symbols-outlined text-blue-500 dark:text-blue-400">rocket_launch</span>
-</div>
-<div class="ml-3">
-<h5 class="text-md font-semibold text-blue-800 dark:text-blue-200">Collaborative Research Initiatives (Future Activities)</h5>
-<div class="mt-2 text-sm text-blue-700 dark:text-blue-300 space-y-3">
-<p><strong class="font-semibold">Recommendation:</strong> While some collaborations exist, proactive steps can significantly boost the score in this criterion.</p>
-<div>
-<p class="font-semibold mb-1">Recommended Future Activities:</p>
-<ol class="list-decimal list-inside space-y-1 pl-2">
-<li>Host an international research symposium to foster networking between CPU faculty and international partners.</li>
-<li>Create a seed fund for joint research projects with partner HEIs, requiring co-authored publications as a deliverable.</li>
-<li>Document all joint research proposals, signed MOAs for research, and resulting publications or patents.</li>
-</ol>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div id="panel-leadership" class="mt-3 bg-card-light dark:bg-card-dark rounded-lg shadow-soft p-3 hidden">
-<div class="flex flex-col md:flex-row md:items-center justify-between">
-<div>
-<h3 class="text-xl font-bold text-text-light dark:text-text-dark">Internationalization Leadership Award</h3>
-<p class="mt-2 text-text-muted-light dark:text-text-muted-dark">Honors HEIs that have demonstrated exceptional leadership and commitment to internationalization.</p>
-</div>
-<div class="mt-4 md:mt-0">
-<label class="cursor-pointer inline-flex items-center gap-2 bg-primary hover:bg-primary/90 text-white font-semibold py-2 px-4 rounded-lg transition-colors" for="file-upload-leadership">
-<span class="material-symbols-outlined">upload_file</span>
-                                        Upload Documents
-                                    </label>
-<input class="sr-only" id="file-upload-leadership" name="file-upload-leadership" type="file"/>
-</div>
-</div>
-<div class="mt-6">
-<div class="flex justify-between items-center mb-2">
-<p class="text-sm font-medium text-text-muted-light dark:text-text-muted-dark">Overall Progress (Jaccard Similarity)</p>
-<p class="text-sm font-bold text-primary">60%</p>
-</div>
-<div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
-<div class="bg-primary h-2.5 rounded-full" style="width: 60%"></div>
-</div>
-</div>
-<div class="mt-8">
-<h4 class="text-lg font-bold text-text-light dark:text-text-dark mb-4">Criteria Progress &amp; Analysis</h4>
-<ul class="space-y-6">
-<li class="p-4 rounded-lg bg-gray-50 dark:bg-gray-900/50">
-<div class="flex items-center justify-between">
-<div>
-<p class="font-medium text-text-light dark:text-text-dark">Strategic Internationalization Plan</p>
-<p class="text-sm text-text-muted-light dark:text-text-muted-dark">85% similarity</p>
-</div>
-<div class="w-1/3">
-<div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5">
-<div class="bg-primary h-1.5 rounded-full" style="width: 85%"></div>
-</div>
-</div>
-</div>
-</li>
-<li class="p-4 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-900/50">
-<div class="flex items-center justify-between">
-<div>
-<p class="font-medium text-text-light dark:text-text-dark">Faculty &amp; Staff Engagement</p>
-<p class="text-sm text-red-500 dark:text-red-400">40% similarity</p>
-</div>
-<div class="w-1/3">
-<div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5">
-<div class="bg-red-500 h-1.5 rounded-full" style="width: 40%"></div>
-</div>
-</div>
-</div>
-<div class="mt-4 border-t border-red-200 dark:border-red-900/50 pt-4">
-<h5 class="font-semibold text-red-800 dark:text-red-300">Shortcomings &amp; Recommendations</h5>
-<p class="mt-2 text-sm text-red-700 dark:text-red-400">
-<span class="font-semibold">Shortcoming:</span> Limited evidence of faculty-led international research collaborations and professional development opportunities.
-                                            </p>
-<p class="mt-2 text-sm text-red-700 dark:text-red-400">
-<span class="font-semibold">Recommendation:</span> Document and upload proofs of international conference presentations, joint publications, and faculty exchange programs. Incentivize international engagement.
-                                            </p>
-</div>
-</li>
-<li class="p-4 rounded-lg bg-gray-50 dark:bg-gray-900/50">
-<div class="flex items-center justify-between">
-<div>
-<p class="font-medium text-text-light dark:text-text-dark">Institutional Support</p>
-<p class="text-sm text-text-muted-light dark:text-text-muted-dark">55% similarity</p>
-</div>
-<div class="w-1/3">
-<div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5">
-<div class="bg-yellow-500 h-1.5 rounded-full" style="width: 55%"></div>
-</div>
-</div>
-</div>
-<div class="mt-4 border-t border-yellow-200 dark:border-yellow-900/50 pt-4">
-<h5 class="font-semibold text-yellow-800 dark:text-yellow-300">Suggestions for Improvement</h5>
-<p class="mt-2 text-sm text-yellow-700 dark:text-yellow-400">
-<span class="font-semibold">Suggestion:</span> Clearly articulate the budget allocation for internationalization activities in the university's annual report. Upload financial statements reflecting this support.
-                                            </p>
-</div>
-</li>
-</ul>
+
+<!-- Success Toast -->
+<div id="successToast" class="hidden fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined">check_circle</span>
+<span id="toastMessage">Analysis completed successfully!</span>
 </div>
 </div>
 </div>
@@ -804,142 +431,17 @@
                 const isCurrentlyDark = document.documentElement.classList.contains('dark');
                 toggleDarkMode(!isCurrentlyDark);
             });
-            // Awards carousel controls
-            const awardsCarousel = document.getElementById('awardsCarousel');
-            const awardsPrev = document.getElementById('awardsPrev');
-            const awardsNext = document.getElementById('awardsNext');
-            // Add transient animation on arrow clicks (non-intrusive)
-            const triggerAwardsAnimation = (cls) => {
-                if (!awardsCarousel) return;
-                const cards = Array.from(awardsCarousel.children);
-                cards.forEach(card => {
-                    card.classList.remove('animate-slide-left', 'animate-slide-right');
-                    void card.offsetWidth; // reflow to restart animation
-                    card.classList.add(cls);
-                    setTimeout(() => card.classList.remove(cls), 320);
-                });
-            };
-            if (awardsCarousel && awardsPrev && awardsNext) {
-                // Helper: find the index of the card closest to the left edge
-                const getCards = () => Array.from(awardsCarousel.children);
-                const getCurrentIndex = () => {
-                    const cards = getCards();
-                    const containerLeft = awardsCarousel.getBoundingClientRect().left;
-                    let bestIdx = 0;
-                    let bestDist = Infinity;
-                    cards.forEach((card, idx) => {
-                        const dist = Math.abs(card.getBoundingClientRect().left - containerLeft);
-                        if (dist < bestDist) { bestDist = dist; bestIdx = idx; }
-                    });
-                    return bestIdx;
-                };
-                // Smooth programmatic scroll with easing
-                const easeOutCubic = t => 1 - Math.pow(1 - t, 3);
-                const smoothScrollTo = (toLeft, duration = 380) => {
-                    const start = awardsCarousel.scrollLeft;
-                    const change = toLeft - start;
-                    const startTime = performance.now();
-                    function step(now) {
-                        const elapsed = now - startTime;
-                        const t = Math.min(1, elapsed / duration);
-                        awardsCarousel.scrollLeft = start + change * easeOutCubic(t);
-                        if (t < 1) requestAnimationFrame(step);
-                    }
-                    requestAnimationFrame(step);
-                };
-                awardsPrev.addEventListener('click', () => {
-                    triggerAwardsAnimation('animate-slide-right');
-                    const idx = Math.max(0, getCurrentIndex() - 1);
-                    const target = awardsCarousel.children[idx];
-                    if (target) {
-                        awardsCarousel.classList.remove('animate-track-left','animate-track-right');
-                        void awardsCarousel.offsetWidth;
-                        awardsCarousel.classList.add('animate-track-right');
-                        smoothScrollTo(target.offsetLeft);
-                        setTimeout(()=>awardsCarousel.classList.remove('animate-track-right'), 400);
-                    }
-                });
-                awardsNext.addEventListener('click', () => {
-                    triggerAwardsAnimation('animate-slide-left');
-                    const cards = getCards();
-                    const idx = Math.min(cards.length - 1, getCurrentIndex() + 1);
-                    const target = awardsCarousel.children[idx];
-                    if (target) {
-                        awardsCarousel.classList.remove('animate-track-left','animate-track-right');
-                        void awardsCarousel.offsetWidth;
-                        awardsCarousel.classList.add('animate-track-left');
-                        smoothScrollTo(target.offsetLeft);
-                        setTimeout(()=>awardsCarousel.classList.remove('animate-track-left'), 400);
-                    }
-                });
-            }
-            // Tabs and details switching
-            const tabGlobal = document.getElementById('tab-global');
-            const tabOiep = document.getElementById('tab-oiep');
-            const tabEla = document.getElementById('tab-ela');
-            const tabLeadership = document.getElementById('tab-leadership');
-            const panelGlobal = document.getElementById('panel-global');
-            const panelOiep = document.getElementById('panel-oiep');
-            const panelEla = document.getElementById('panel-ela');
-            const panelLeadership = document.getElementById('panel-leadership');
-            const btnOiep = document.getElementById('btn-oiep-details');
-            const btnGlobal = document.getElementById('btn-global-details');
-            const btnLeadership = document.getElementById('btn-leadership-details');
-            const activate = (key) => {
-                const activeClasses = ['border-b-2','border-primary','text-primary'];
-                const inactiveClasses = ['border-transparent'];
-                const muteClasses = ['text-text-muted-light','dark:text-text-muted-dark'];
-                // reset
-                [tabGlobal, tabOiep, tabEla, tabLeadership].forEach(tab => {
-                    if (!tab) return;
-                    tab.classList.remove(...activeClasses);
-                    tab.classList.add(...inactiveClasses);
-                    if (!tab.classList.contains('text-text-light') && !tab.classList.contains('dark:text-text-dark')) {
-                        tab.classList.add(...muteClasses);
-                    }
-                });
-                // hide all panels (class + style fallback)
-                panelGlobal.classList.add('hidden'); panelGlobal.style.display = 'none';
-                panelOiep.classList.add('hidden'); panelOiep.style.display = 'none';
-                if (panelEla) { panelEla.classList.add('hidden'); panelEla.style.display = 'none'; }
-                if (panelLeadership) { panelLeadership.classList.add('hidden'); panelLeadership.style.display = 'none'; }
-                let selectedPanel = panelGlobal;
-                if (key === 'oiep') {
-                    tabOiep.classList.remove(...inactiveClasses, ...muteClasses);
-                    tabOiep.classList.add(...activeClasses);
-                    panelOiep.classList.remove('hidden'); panelOiep.style.display = '';
-                    selectedPanel = panelOiep;
-                } else if (key === 'ela') {
-                    tabEla.classList.remove(...inactiveClasses, ...muteClasses);
-                    tabEla.classList.add(...activeClasses);
-                    panelEla.classList.remove('hidden'); if (panelEla) panelEla.style.display = '';
-                    selectedPanel = panelEla;
-                } else if (key === 'leadership') {
-                    tabLeadership.classList.remove(...inactiveClasses, ...muteClasses);
-                    tabLeadership.classList.add(...activeClasses);
-                    panelLeadership.classList.remove('hidden'); if (panelLeadership) panelLeadership.style.display = '';
-                    selectedPanel = panelLeadership;
-                } else {
-                    tabGlobal.classList.remove(...inactiveClasses, ...muteClasses);
-                    tabGlobal.classList.add(...activeClasses);
-                    panelGlobal.classList.remove('hidden'); panelGlobal.style.display = '';
-                    selectedPanel = panelGlobal;
-                }
-                if (selectedPanel) {
-                    requestAnimationFrame(() => {
-                        try { selectedPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); } catch (_) {}
-                    });
-                }
-            };
-            if (tabOiep) tabOiep.addEventListener('click', (e) => { e.preventDefault(); activate('oiep'); });
-            if (tabEla) tabEla.addEventListener('click', (e) => { e.preventDefault(); activate('ela'); });
-            if (tabLeadership) tabLeadership.addEventListener('click', (e) => { e.preventDefault(); activate('leadership'); });
-            if (tabGlobal) tabGlobal.addEventListener('click', (e) => { e.preventDefault(); activate('global'); });
-            if (btnOiep) btnOiep.addEventListener('click', (e) => { e.preventDefault(); activate('oiep'); });
-            if (btnGlobal) btnGlobal.addEventListener('click', (e) => { e.preventDefault(); activate('global'); });
-            if (btnLeadership) btnLeadership.addEventListener('click', (e) => { e.preventDefault(); activate('leadership'); });
+            // Awards cards are now responsive grid - no carousel controls needed
+            
+            // Awards functionality is handled by awards.js
         });
     </script>
+
+<!-- OCR and PDF libs -->
+<!-- Tesseract.js removed - using server-side OCR instead -->
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+<script src="js/awards.js"></script>
 
 <script>
     (function() {
