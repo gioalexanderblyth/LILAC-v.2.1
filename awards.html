@@ -137,6 +137,50 @@
             display: none; /* Chrome, Safari */
         }
         /* New counter cards styling is handled by Tailwind classes */
+        .tab-underline {
+            position: relative;
+        }
+        .tab-underline::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background-color: #137fec;
+            transform: scaleX(0);
+            transition: transform 0.3s ease-in-out;
+            transform-origin: left;
+        }
+        .active.tab-underline::after {
+            transform: scaleX(1);
+        }
+        .tab-content {
+            display: block;
+        }
+        .tab-content.hidden {
+            display: none;
+        }
+        .chart-tooltip {
+            position: absolute;
+            background-color: #137fec;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity 0.2s;
+            z-index: 10;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap;
+        }
+        .group:hover .chart-tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
     </style>
 </head>
 <body class="bg-background-light dark:bg-background-dark font-display text-text-light dark:text-text-dark">
@@ -206,16 +250,104 @@
 </header>
 <div class="p-2 lg:p-6 main-content">
 <div class="max-w-7xl mx-auto">
+<div class="flex flex-col gap-8">
+<div>
+<div class="border-b border-border-light dark:border-border-dark">
+<nav aria-label="Tabs" class="-mb-px flex space-x-8">
+<a class="active tab-underline text-primary whitespace-nowrap py-4 px-1 font-bold text-sm relative" href="#" id="process-tab">Process Award</a>
+<a class="tab-underline border-transparent text-text-muted-light dark:text-text-muted-dark hover:text-text-light dark:hover:text-text-dark hover:border-border-light dark:hover:border-border-dark whitespace-nowrap py-4 px-1 font-medium text-sm transition-colors duration-300" href="#" id="analytics-tab">Analytics Dashboard</a>
+<a class="tab-underline border-transparent text-text-muted-light dark:text-text-muted-dark hover:text-text-light dark:hover:text-text-dark hover:border-border-light dark:hover:border-border-dark whitespace-nowrap py-4 px-1 font-medium text-sm transition-colors duration-300" href="#" id="award-list-tab">Award List</a>
+</nav>
+</div>
+</div>
 
-<div class="mb-8">
-<div class="flex items-center justify-between mb-3">
-<h2 class="text-2xl font-bold text-text-light dark:text-text-dark mb-0">CHED Awards Overview</h2>
-<button id="uploadBtn" class="inline-flex items-center gap-2 bg-primary hover:bg-primary/90 text-white font-semibold py-2 px-4 rounded-lg transition-colors">
-<span class="material-symbols-outlined">upload_file</span>
-Choose File
+<!-- Process Award Tab Content -->
+<div id="process-content" class="tab-content">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+<div class="space-y-6">
+<h3 class="text-xl font-bold text-text-light dark:text-text-dark">Input &amp; Upload</h3>
+<form class="space-y-4">
+<label class="block">
+<span class="text-sm font-medium text-text-light dark:text-text-dark">Award Name</span>
+<input class="mt-1 block w-full rounded-lg border-border-light dark:border-border-dark bg-card-light dark:bg-card-dark text-text-light dark:text-text-dark focus:ring-primary focus:border-primary" placeholder="e.g. Presidential Scholarship" type="text"/>
+</label>
+<label class="block">
+<span class="text-sm font-medium text-text-light dark:text-text-dark">Description</span>
+<textarea class="mt-1 block w-full rounded-lg border-border-light dark:border-border-dark bg-card-light dark:bg-card-dark text-text-light dark:text-text-dark focus:ring-primary focus:border-primary" placeholder="A short summary of the award..."></textarea>
+</label>
+<div>
+<span class="text-sm font-medium text-text-light dark:text-text-dark">Award Documentation</span>
+<div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-border-light dark:border-border-dark border-dashed rounded-lg bg-card-light dark:bg-card-dark/50 group hover:border-primary dark:hover:border-primary transition-colors duration-300">
+<div class="space-y-1 text-center">
+<svg aria-hidden="true" class="mx-auto h-12 w-12 text-text-muted-light dark:text-text-muted-dark group-hover:text-primary dark:group-hover:text-primary transition-colors" fill="none" stroke="currentColor" viewBox="0 0 48 48">
+<path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<div class="flex text-sm text-text-muted-light dark:text-text-muted-dark">
+<label class="relative cursor-pointer bg-transparent rounded-md font-medium text-primary hover:text-primary/80 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-primary" for="file-upload">
+<span>Upload a file</span>
+<input class="sr-only" id="file-upload" name="file-upload" type="file"/>
+</label>
+<p class="pl-1">or drag and drop</p>
+</div>
+<p class="text-xs text-text-muted-light dark:text-text-muted-dark">PDF, DOCX, TXT up to 10MB</p>
+</div>
+</div>
+<div class="mt-2 text-sm text-red-600 dark:text-red-400 flex items-center hidden">
+<span class="material-symbols-outlined text-base align-middle mr-1">error</span>
+<span>File type not supported. Please upload a PDF, DOCX, or TXT file.</span>
+</div>
+</div>
+<div class="pt-2 space-y-4">
+<div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
+<div class="bg-primary h-2.5 rounded-full transition-all duration-500" style="width: 45%"></div>
+</div>
+<div class="flex items-center text-sm text-text-muted-light dark:text-text-muted-dark">
+<svg class="animate-spin h-5 w-5 mr-3 text-primary" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+<path class="opacity-75" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" fill="currentColor"></path>
+</svg>
+<span>Processing... Analyzing document with OCR.</span>
+</div>
+</div>
+<div class="flex justify-end pt-4">
+<button class="w-40 inline-flex justify-center items-center py-2 px-4 border border-transparent shadow-sm text-sm font-bold rounded-lg text-white bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-all duration-300" type="submit">
+<span class="btn-text">Analyze Award</span>
+<span class="material-symbols-outlined ml-2 animate-pulse hidden">hourglass_empty</span>
+<span class="material-symbols-outlined ml-2 hidden">check_circle</span>
 </button>
 </div>
-<input class="sr-only" id="file-upload" name="file-upload" type="file" accept=".pdf,.docx,.jpg,.jpeg,.png"/>
+</form>
+</div>
+<div class="space-y-6 overflow-hidden">
+<h3 class="text-xl font-bold text-text-light dark:text-text-dark">Dynamic Analysis &amp; Recommendations</h3>
+<div class="bg-card-light dark:bg-card-dark/50 rounded-xl p-6 border border-border-light dark:border-border-dark space-y-4">
+<h4 class="font-bold text-primary">Analysis Complete</h4>
+<p class="text-sm text-text-muted-light dark:text-text-muted-dark">Based on the uploaded documentation, the award criteria are well-defined. We have identified key eligibility requirements and compliance checks.</p>
+<div class="pt-2">
+<h5 class="text-sm font-bold text-text-light dark:text-text-dark pb-2">Recommendation: Add GPA Requirement</h5>
+<p class="text-sm text-text-muted-light dark:text-text-muted-dark pb-2">To attract high-achieving candidates, consider adding a minimum GPA requirement of 3.5.</p>
+<div class="flex items-center gap-4 pt-2">
+<button class="text-sm font-medium text-green-600 hover:text-green-500 transition-opacity duration-300">Accept</button>
+<button class="text-sm font-medium text-text-muted-light dark:text-text-muted-dark hover:text-text-light dark:hover:text-text-dark transition-opacity duration-300">Dismiss</button>
+</div>
+</div>
+</div>
+<div class="bg-card-light dark:bg-card-dark/50 rounded-xl p-6 border border-border-light dark:border-border-dark space-y-4">
+<h5 class="text-sm font-bold text-text-light dark:text-text-dark pb-2">Recommendation: Specify Major Field</h5>
+<p class="text-sm text-text-muted-light dark:text-text-muted-dark pb-2">The document mentions "STEM fields". For clarity, specify the exact eligible majors (e.g., Computer Science, Engineering, Mathematics).</p>
+<div class="flex items-center gap-4 pt-2">
+<button class="text-sm font-medium text-green-600 hover:text-green-500 transition-opacity duration-300">Accept</button>
+<button class="text-sm font-medium text-text-muted-light dark:text-text-muted-dark hover:text-text-light dark:hover:text-text-dark transition-opacity duration-300">Dismiss</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Analytics Dashboard Tab Content -->
+<div id="analytics-content" class="tab-content hidden">
+<div class="mt-6 mb-8">
 <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6 mb-8">
 <div class="bg-card-light dark:bg-card-dark p-4 rounded-lg border border-border-light dark:border-border-dark flex flex-col items-center text-center" id="global-citizenship-counter-card">
 <div class="relative w-20 h-20 mb-2">
@@ -225,8 +357,7 @@ Choose File
 </svg>
 <span class="absolute inset-0 flex items-center justify-center text-2xl font-bold text-text-light dark:text-text-dark" id="global-citizenship-count">0</span>
 </div>
-<h3 class="font-semibold text-text-light dark:text-text-dark text-sm">Global Citizenship Award</h3>
-<a class="mt-2 text-primary text-sm font-medium" href="#">View Details</a>
+<h3 class="font-semibold text-text-light dark:text-text-dark text-sm">Global Citizenship<br>Awards</h3>
 </div>
 <div class="bg-card-light dark:bg-card-dark p-4 rounded-lg border border-border-light dark:border-border-dark flex flex-col items-center text-center" id="outstanding-international-counter-card">
 <div class="relative w-20 h-20 mb-2">
@@ -237,7 +368,6 @@ Choose File
 <span class="absolute inset-0 flex items-center justify-center text-2xl font-bold text-text-light dark:text-text-dark" id="outstanding-international-count">0</span>
 </div>
 <h3 class="font-semibold text-text-light dark:text-text-dark text-sm">Outstanding International Education Program</h3>
-<a class="mt-2 text-primary text-sm font-medium" href="#">View Details</a>
 </div>
 <div class="bg-card-light dark:bg-card-dark p-4 rounded-lg border border-border-light dark:border-border-dark flex flex-col items-center text-center" id="emerging-leadership-counter-card">
 <div class="relative w-20 h-20 mb-2">
@@ -248,7 +378,6 @@ Choose File
 <span class="absolute inset-0 flex items-center justify-center text-2xl font-bold text-text-light dark:text-text-dark" id="emerging-leadership-count">0</span>
 </div>
 <h3 class="font-semibold text-text-light dark:text-text-dark text-sm">Emerging Leadership Award</h3>
-<a class="mt-2 text-primary text-sm font-medium" href="#">View Details</a>
 </div>
 <div class="bg-card-light dark:bg-card-dark p-4 rounded-lg border border-border-light dark:border-border-dark flex flex-col items-center text-center" id="internationalization-leadership-counter-card">
 <div class="relative w-20 h-20 mb-2">
@@ -259,7 +388,6 @@ Choose File
 <span class="absolute inset-0 flex items-center justify-center text-2xl font-bold text-text-light dark:text-text-dark" id="internationalization-leadership-count">0</span>
 </div>
 <h3 class="font-semibold text-text-light dark:text-text-dark text-sm">Internationalization Leadership Award</h3>
-<a class="mt-2 text-primary text-sm font-medium" href="#">View Details</a>
 </div>
 <div class="bg-card-light dark:bg-card-dark p-4 rounded-lg border border-border-light dark:border-border-dark flex flex-col items-center text-center" id="best-regional-office-counter-card">
 <div class="relative w-20 h-20 mb-2">
@@ -270,92 +398,269 @@ Choose File
 <span class="absolute inset-0 flex items-center justify-center text-2xl font-bold text-text-light dark:text-text-dark" id="best-regional-office-count">0</span>
 </div>
 <h3 class="font-semibold text-text-light dark:text-text-dark text-sm">Best Regional Office for Internationalization</h3>
-<a class="mt-2 text-primary text-sm font-medium" href="#">View Details</a>
 </div>
 </div>
 </div>
-<div>
-<h2 class="text-2xl font-bold text-text-light dark:text-text-dark mb-4">Award Details</h2>
-<div id="panel-global" class="mt-3 bg-card-light dark:bg-card-dark rounded-lg shadow-soft p-3">
-<div class="flex flex-col md:flex-row md:items-center justify-between">
-<div>
-<h3 class="text-xl font-bold text-text-light dark:text-text-dark">Global Citizenship Award</h3>
-<p class="mt-2 text-text-muted-light dark:text-text-muted-dark">Recognizes HEIs that have implemented programs promoting global citizenship and intercultural competence.</p>
+
+<!-- Charts INSIDE Analytics Dashboard Tab -->
+<div class="grid grid-cols-1 lg:grid-cols-5 gap-6 mt-8">
+<div class="lg:col-span-3 bg-card-light dark:bg-card-dark p-6 rounded-lg shadow-soft">
+<h3 class="text-text-light dark:text-text-dark font-medium mb-4">Match Confidence by Award</h3>
+<div class="space-y-4">
+<div class="group relative">
+<div class="flex justify-between items-center text-sm text-text-light dark:text-text-dark mb-1">
+<span class="font-medium">President's Lister</span>
+<span>98%</span>
 </div>
-<div class="mt-4 md:mt-0 flex gap-2">
-<button id="btn-ai-analyze" class="inline-flex items-center gap-2 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-semibold py-2 px-4 rounded-lg transition-colors">
-<span class="material-symbols-outlined">auto_awesome</span>
-AI Analysis
+<div class="bg-gray-200 dark:bg-gray-700 rounded-full h-3">
+<div class="bg-primary h-3 rounded-full" style="width: 98%;"></div>
+</div>
+<div class="chart-tooltip">Similarity Score: 98%</div>
+</div>
+<div class="group relative">
+<div class="flex justify-between items-center text-sm text-text-light dark:text-text-dark mb-1">
+<span class="font-medium">Dean's Lister</span>
+<span>92%</span>
+</div>
+<div class="bg-gray-200 dark:bg-gray-700 rounded-full h-3">
+<div class="bg-primary h-3 rounded-full" style="width: 92%;"></div>
+</div>
+<div class="chart-tooltip">Similarity Score: 92%</div>
+</div>
+<div class="group relative">
+<div class="flex justify-between items-center text-sm text-text-light dark:text-text-dark mb-1">
+<span class="font-medium">Academic Excellence Award</span>
+<span>85%</span>
+</div>
+<div class="bg-gray-200 dark:bg-gray-700 rounded-full h-3">
+<div class="bg-primary h-3 rounded-full" style="width: 85%;"></div>
+</div>
+<div class="chart-tooltip">Similarity Score: 85%</div>
+</div>
+<div class="group relative">
+<div class="flex justify-between items-center text-sm text-text-light dark:text-text-dark mb-1">
+<span class="font-medium">Leadership Award</span>
+<span>78%</span>
+</div>
+<div class="bg-gray-200 dark:bg-gray-700 rounded-full h-3">
+<div class="bg-primary h-3 rounded-full" style="width: 78%;"></div>
+</div>
+<div class="chart-tooltip">Similarity Score: 78%</div>
+</div>
+</div>
+</div>
+<div class="lg:col-span-2 bg-card-light dark:bg-card-dark p-6 rounded-lg shadow-soft flex flex-col items-center">
+<h3 class="text-text-light dark:text-text-dark font-medium mb-4">Award Classification by Category</h3>
+<div class="relative w-48 h-48 group">
+<svg class="w-full h-full" viewBox="0 0 36 36">
+<path class="stroke-current text-gray-200 dark:text-gray-700" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke-width="3.8"></path>
+<path class="stroke-current text-primary" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke-dasharray="60, 100" stroke-linecap="round" stroke-width="3.8"></path>
+<path class="stroke-current text-yellow-500" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke-dasharray="25, 100" stroke-dashoffset="-60" stroke-linecap="round" stroke-width="3.8"></path>
+<path class="stroke-current text-primary/50" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke-dasharray="15, 100" stroke-dashoffset="-85" stroke-linecap="round" stroke-width="3.8"></path>
+</svg>
+<div class="absolute inset-0 flex items-center justify-center">
+<span class="text-2xl font-bold text-text-light dark:text-text-dark">1.2K</span>
+</div>
+<div class="chart-tooltip">Total Awards</div>
+</div>
+<div class="flex justify-center mt-4 space-x-4 text-sm">
+<div class="flex items-center"><span class="w-3 h-3 rounded-full bg-primary mr-2"></span>Academic</div>
+<div class="flex items-center"><span class="w-3 h-3 rounded-full bg-yellow-500 mr-2"></span>Leadership</div>
+<div class="flex items-center"><span class="w-3 h-3 rounded-full bg-primary/50 mr-2"></span>Service</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<!-- Award List Tab Content -->
+<div id="award-list-content" class="tab-content hidden">
+<div class="mt-8 bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark rounded-lg p-4 mb-6">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4 items-center">
+<div class="relative lg:col-span-2">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-text-muted-light dark:text-text-muted-dark text-lg">search</span>
+<input class="w-full pl-10 pr-4 py-2 text-sm rounded-lg border border-border-light dark:border-border-dark bg-card-light dark:bg-card-dark text-text-light dark:text-text-dark focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all" placeholder="Search document title..." type="text"/>
+</div>
+<select class="w-full py-2 px-3 text-sm rounded-lg border border-border-light dark:border-border-dark bg-card-light dark:bg-card-dark text-text-muted-light dark:text-text-muted-dark focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all">
+<option selected="">Award Category</option>
+<option>Academic Excellence</option>
+<option>Research Innovation</option>
+<option>Community Service</option>
+</select>
+<select class="w-full py-2 px-3 text-sm rounded-lg border border-border-light dark:border-border-dark bg-card-light dark:bg-card-dark text-text-muted-light dark:text-text-muted-dark focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all">
+<option selected="">Department/Office</option>
+<option>Engineering</option>
+<option>Arts & Sciences</option>
+<option>Medical School</option>
+</select>
+<input class="w-full py-2 px-3 text-sm rounded-lg border border-border-light dark:border-border-dark bg-card-light dark:bg-card-dark text-text-muted-light dark:text-text-muted-dark focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all" onblur="(this.type='text')" onfocus="(this.type='date')" placeholder="Date Range" type="text"/>
+<select class="w-full py-2 px-3 text-sm rounded-lg border border-border-light dark:border-border-dark bg-card-light dark:bg-card-dark text-text-muted-light dark:text-text-muted-dark focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all">
+<option selected="">Match Confidence</option>
+<option>&gt;90%</option>
+<option>75%-90%</option>
+<option>&lt;75%</option>
+</select>
+</div>
+<div class="flex justify-end mt-4">
+<button class="text-sm font-medium text-primary hover:underline">Clear Filters</button>
+</div>
+</div>
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center gap-3">
+<span class="inline-flex items-center gap-2 py-1.5 px-3 rounded-full text-xs font-medium bg-blue-100 text-primary">Total Processed: <span class="font-bold">1,234</span></span>
+<span class="inline-flex items-center gap-2 py-1.5 px-3 rounded-full text-xs font-medium bg-green-100 text-green-700">Recognized: <span class="font-bold">987</span></span>
+<span class="inline-flex items-center gap-2 py-1.5 px-3 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">Pending Review: <span class="font-bold">247</span></span>
+</div>
+<div class="flex gap-2">
+<button class="bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark text-text-light dark:text-text-dark px-4 py-2 rounded-md font-semibold flex items-center gap-2 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors text-sm">
+<span class="material-symbols-outlined text-base">file_download</span>
+Export CSV
+</button>
+<button class="bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark text-text-light dark:text-text-dark px-4 py-2 rounded-md font-semibold flex items-center gap-2 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors text-sm">
+<span class="material-symbols-outlined text-base">picture_as_pdf</span>
+Export PDF
 </button>
 </div>
 </div>
-
-<!-- Upload Progress -->
-<div id="uploadProgress" class="hidden mt-4">
-<div class="bg-gray-200 dark:bg-gray-700 rounded-full h-2 mb-2">
-<div id="progressBar" class="bg-primary h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
-</div>
-<p id="progressText" class="text-sm text-text-muted-light dark:text-text-muted-dark text-center">Processing...</p>
-</div>
-
-<!-- Analysis Results -->
-<div id="analysisResults" class="hidden mt-6">
-<h4 class="text-lg font-bold text-text-light dark:text-text-dark mb-4">Analysis Results</h4>
+<div class="bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark rounded-lg overflow-hidden">
 <div class="overflow-x-auto">
-<table class="w-full border-collapse border border-border-light dark:border-border-dark">
-<thead>
-<tr class="bg-gray-50 dark:bg-gray-800">
-<th class="border border-border-light dark:border-border-dark px-3 py-2 text-left text-sm font-semibold text-text-light dark:text-text-dark">Award Category</th>
-<th class="border border-border-light dark:border-border-dark px-3 py-2 text-left text-sm font-semibold text-text-light dark:text-text-dark">Score</th>
-<th class="border border-border-light dark:border-border-dark px-3 py-2 text-left text-sm font-semibold text-text-light dark:text-text-dark">Status</th>
-<th class="border border-border-light dark:border-border-dark px-3 py-2 text-left text-sm font-semibold text-text-light dark:text-text-dark">Recommendation</th>
+<table class="w-full text-sm text-left">
+<thead class="bg-gray-50 dark:bg-gray-800 text-xs text-text-muted-light dark:text-text-muted-dark uppercase tracking-wider">
+<tr>
+<th class="px-6 py-3 font-medium">Document Title</th>
+<th class="px-6 py-3 font-medium">Matched Award</th>
+<th class="px-6 py-3 font-medium">Similarity Score</th>
+<th class="px-6 py-3 font-medium">Matched Criteria</th>
+<th class="px-6 py-3 font-medium">Submitting Unit/Dept</th>
+<th class="px-6 py-3 font-medium">Date Analyzed</th>
+<th class="px-6 py-3 font-medium">Status</th>
+<th class="px-6 py-3 font-medium text-center">Actions</th>
 </tr>
 </thead>
-<tbody id="resultsTableBody">
+<tbody class="divide-y divide-border-light dark:divide-border-dark">
+<tr class="hover:bg-primary/5 transition-colors bg-green-50/50 dark:bg-green-900/20">
+<td class="px-6 py-4 whitespace-nowrap font-semibold text-primary">Project Alpha Submission</td>
+<td class="px-6 py-4 whitespace-nowrap text-text-muted-light dark:text-text-muted-dark">Innovation in AI Research</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center gap-2">
+<div class="w-20 bg-gray-200 dark:bg-gray-700 rounded-full h-1.5">
+<div class="bg-green-500 h-1.5 rounded-full" style="width: 95%"></div>
+</div>
+<span class="text-sm font-medium text-green-600">95%</span>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-text-muted-light dark:text-text-muted-dark">5 of 6</td>
+<td class="px-6 py-4 whitespace-nowrap text-text-muted-light dark:text-text-muted-dark">Dept. of Computer Science</td>
+<td class="px-6 py-4 whitespace-nowrap text-text-muted-light dark:text-text-muted-dark">2024-07-21</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<span class="inline-flex items-center gap-1.5 py-1 px-2.5 rounded-full text-xs font-medium bg-green-100 text-green-800">Recognized</span>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-center">
+<div class="flex items-center justify-center gap-1">
+<button class="p-2 rounded-md hover:bg-primary/10 text-text-muted-light dark:text-text-muted-dark"><span class="material-symbols-outlined text-lg">visibility</span></button>
+<button class="p-2 rounded-md hover:bg-primary/10 text-text-muted-light dark:text-text-muted-dark"><span class="material-symbols-outlined text-lg">refresh</span></button>
+<button class="p-2 rounded-md hover:bg-red-500/10 text-red-500"><span class="material-symbols-outlined text-lg">delete</span></button>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-primary/5 transition-colors">
+<td class="px-6 py-4 whitespace-nowrap font-semibold text-primary">Community Outreach Report</td>
+<td class="px-6 py-4 whitespace-nowrap text-text-muted-light dark:text-text-muted-dark">Social Impact Award</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center gap-2">
+<div class="w-20 bg-gray-200 dark:bg-gray-700 rounded-full h-1.5">
+<div class="bg-yellow-500 h-1.5 rounded-full" style="width: 82%"></div>
+</div>
+<span class="text-sm font-medium text-yellow-700">82%</span>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-text-muted-light dark:text-text-muted-dark">4 of 5</td>
+<td class="px-6 py-4 whitespace-nowrap text-text-muted-light dark:text-text-muted-dark">Office of Student Affairs</td>
+<td class="px-6 py-4 whitespace-nowrap text-text-muted-light dark:text-text-muted-dark">2024-07-20</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<span class="inline-flex items-center gap-1.5 py-1 px-2.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">Pending Review</span>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-center">
+<div class="flex items-center justify-center gap-1">
+<button class="p-2 rounded-md hover:bg-primary/10 text-text-muted-light dark:text-text-muted-dark"><span class="material-symbols-outlined text-lg">visibility</span></button>
+<button class="p-2 rounded-md hover:bg-primary/10 text-text-muted-light dark:text-text-muted-dark"><span class="material-symbols-outlined text-lg">refresh</span></button>
+<button class="p-2 rounded-md hover:bg-red-500/10 text-red-500"><span class="material-symbols-outlined text-lg">delete</span></button>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-primary/5 transition-colors bg-green-50/50 dark:bg-green-900/20">
+<td class="px-6 py-4 whitespace-nowrap font-semibold text-primary">Thesis on Quantum Computing</td>
+<td class="px-6 py-4 whitespace-nowrap text-text-muted-light dark:text-text-muted-dark">Doctoral Dissertation Award</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center gap-2">
+<div class="w-20 bg-gray-200 dark:bg-gray-700 rounded-full h-1.5">
+<div class="bg-green-500 h-1.5 rounded-full" style="width: 98%"></div>
+</div>
+<span class="text-sm font-medium text-green-600">98%</span>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-text-muted-light dark:text-text-muted-dark">7 of 7</td>
+<td class="px-6 py-4 whitespace-nowrap text-text-muted-light dark:text-text-muted-dark">Physics Department</td>
+<td class="px-6 py-4 whitespace-nowrap text-text-muted-light dark:text-text-muted-dark">2024-07-19</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<span class="inline-flex items-center gap-1.5 py-1 px-2.5 rounded-full text-xs font-medium bg-green-100 text-green-800">Recognized</span>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-center">
+<div class="flex items-center justify-center gap-1">
+<button class="p-2 rounded-md hover:bg-primary/10 text-text-muted-light dark:text-text-muted-dark"><span class="material-symbols-outlined text-lg">visibility</span></button>
+<button class="p-2 rounded-md hover:bg-primary/10 text-text-muted-light dark:text-text-muted-dark"><span class="material-symbols-outlined text-lg">refresh</span></button>
+<button class="p-2 rounded-md hover:bg-red-500/10 text-red-500"><span class="material-symbols-outlined text-lg">delete</span></button>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-primary/5 transition-colors">
+<td class="px-6 py-4 whitespace-nowrap font-semibold text-primary">Renewable Energy Initiative</td>
+<td class="px-6 py-4 whitespace-nowrap text-text-muted-light dark:text-text-muted-dark">Sustainability Project Prize</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center gap-2">
+<div class="w-20 bg-gray-200 dark:bg-gray-700 rounded-full h-1.5">
+<div class="bg-red-500 h-1.5 rounded-full" style="width: 65%"></div>
+</div>
+<span class="text-sm font-medium text-red-600">65%</span>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-text-muted-light dark:text-text-muted-dark">3 of 6</td>
+<td class="px-6 py-4 whitespace-nowrap text-text-muted-light dark:text-text-muted-dark">Environmental Science Dept.</td>
+<td class="px-6 py-4 whitespace-nowrap text-text-muted-light dark:text-text-muted-dark">2024-07-18</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<span class="inline-flex items-center gap-1.5 py-1 px-2.5 rounded-full text-xs font-medium bg-red-100 text-red-800">Needs Attention</span>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-center">
+<div class="flex items-center justify-center gap-1">
+<button class="p-2 rounded-md hover:bg-primary/10 text-text-muted-light dark:text-text-muted-dark"><span class="material-symbols-outlined text-lg">visibility</span></button>
+<button class="p-2 rounded-md hover:bg-primary/10 text-text-muted-light dark:text-text-muted-dark"><span class="material-symbols-outlined text-lg">refresh</span></button>
+<button class="p-2 rounded-md hover:bg-red-500/10 text-red-500"><span class="material-symbols-outlined text-lg">delete</span></button>
+</div>
+</td>
+</tr>
 </tbody>
 </table>
 </div>
 </div>
-
-<!-- AI Insights -->
-<div class="mt-6">
-<div id="ai-insights" class="space-y-4">
-<div class="p-4 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-lg border border-blue-200 dark:border-blue-800">
-<div class="flex items-start gap-3">
-<span class="material-symbols-outlined text-blue-600 dark:text-blue-400">psychology</span>
-<div>
-<h4 class="font-semibold text-blue-900 dark:text-blue-200">Smart Recommendations</h4>
-<p class="text-sm text-blue-700 dark:text-blue-300 mt-1">Click "AI Analysis" to get personalized suggestions based on your current awards and ICONS 2024 criteria.</p>
-</div>
-</div>
-</div>
-<div class="p-4 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-lg border border-green-200 dark:border-green-800">
-<div class="flex items-start gap-3">
-<span class="material-symbols-outlined text-green-600 dark:text-green-400">trending_up</span>
-<div>
-<h4 class="font-semibold text-green-900 dark:text-green-200">Progress Tracking</h4>
-<p class="text-sm text-green-700 dark:text-green-300 mt-1">AI monitors your award portfolio and suggests areas for improvement.</p>
-</div>
-</div>
-</div>
-<div class="p-4 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-lg border border-purple-200 dark:border-purple-800">
-<div class="flex items-start gap-3">
-<span class="material-symbols-outlined text-purple-600 dark:text-purple-400">lightbulb</span>
-<div>
-<h4 class="font-semibold text-purple-900 dark:text-purple-200">Strategic Insights</h4>
-<p class="text-sm text-purple-700 dark:text-purple-300 mt-1">Get strategic advice on which awards to pursue next based on your strengths.</p>
-</div>
-</div>
-</div>
+<div class="flex items-center justify-center mt-6">
+<nav class="flex items-center gap-2">
+<a class="p-2 rounded-full hover:bg-primary/10 text-text-muted-light dark:text-text-muted-dark" href="#">
+<span class="material-symbols-outlined text-base">chevron_left</span>
+</a>
+<a class="w-8 h-8 flex items-center justify-center rounded-full bg-primary text-white font-semibold text-sm" href="#">1</a>
+<a class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-primary/10 text-text-muted-light dark:text-text-muted-dark font-medium text-sm" href="#">2</a>
+<a class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-primary/10 text-text-muted-light dark:text-text-muted-dark font-medium text-sm" href="#">3</a>
+<span class="text-text-muted-light dark:text-text-muted-dark">...</span>
+<a class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-primary/10 text-text-muted-light dark:text-text-muted-dark font-medium text-sm" href="#">10</a>
+<a class="p-2 rounded-full hover:bg-primary/10 text-text-muted-light dark:text-text-muted-dark" href="#">
+<span class="material-symbols-outlined text-base">chevron_right</span>
+</a>
+</nav>
 </div>
 </div>
 
-<!-- Success Toast -->
-<div id="successToast" class="hidden fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50">
-<div class="flex items-center gap-2">
-<span class="material-symbols-outlined">check_circle</span>
-<span id="toastMessage">Analysis completed successfully!</span>
-</div>
 </div>
 </div>
 </main>
@@ -432,6 +737,77 @@ AI Analysis
                 toggleDarkMode(!isCurrentlyDark);
             });
             // Awards cards are now responsive grid - no carousel controls needed
+            
+            // Tab functionality
+            const processTab = document.getElementById('process-tab');
+            const analyticsTab = document.getElementById('analytics-tab');
+            const awardListTab = document.getElementById('award-list-tab');
+            const processContent = document.getElementById('process-content');
+            const analyticsContent = document.getElementById('analytics-content');
+            const awardListContent = document.getElementById('award-list-content');
+            
+            const switchToProcess = () => {
+                processTab.classList.add('active');
+                processTab.classList.add('font-bold');
+                processTab.classList.remove('font-medium');
+                analyticsTab.classList.remove('active');
+                analyticsTab.classList.remove('font-bold');
+                analyticsTab.classList.add('font-medium');
+                awardListTab.classList.remove('active');
+                awardListTab.classList.remove('font-bold');
+                awardListTab.classList.add('font-medium');
+                
+                processContent.classList.remove('hidden');
+                analyticsContent.classList.add('hidden');
+                awardListContent.classList.add('hidden');
+            };
+            
+            const switchToAnalytics = () => {
+                analyticsTab.classList.add('active');
+                analyticsTab.classList.add('font-bold');
+                analyticsTab.classList.remove('font-medium');
+                processTab.classList.remove('active');
+                processTab.classList.remove('font-bold');
+                processTab.classList.add('font-medium');
+                awardListTab.classList.remove('active');
+                awardListTab.classList.remove('font-bold');
+                awardListTab.classList.add('font-medium');
+                
+                analyticsContent.classList.remove('hidden');
+                processContent.classList.add('hidden');
+                awardListContent.classList.add('hidden');
+            };
+            
+            const switchToAwardList = () => {
+                awardListTab.classList.add('active');
+                awardListTab.classList.add('font-bold');
+                awardListTab.classList.remove('font-medium');
+                processTab.classList.remove('active');
+                processTab.classList.remove('font-bold');
+                processTab.classList.add('font-medium');
+                analyticsTab.classList.remove('active');
+                analyticsTab.classList.remove('font-bold');
+                analyticsTab.classList.add('font-medium');
+                
+                awardListContent.classList.remove('hidden');
+                processContent.classList.add('hidden');
+                analyticsContent.classList.add('hidden');
+            };
+            
+            processTab.addEventListener('click', (e) => {
+                e.preventDefault();
+                switchToProcess();
+            });
+            
+            analyticsTab.addEventListener('click', (e) => {
+                e.preventDefault();
+                switchToAnalytics();
+            });
+            
+            awardListTab.addEventListener('click', (e) => {
+                e.preventDefault();
+                switchToAwardList();
+            });
             
             // Awards functionality is handled by awards.js
         });

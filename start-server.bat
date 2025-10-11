@@ -9,12 +9,12 @@ echo.
 echo Note: Make sure PHP is installed and in your PATH
 echo.
 cd /d "%~dp0"
-set "PORT=8080"
+set "PORT=8000"
 set "DOCROOT=%cd%"
 
 echo Starting PHP server on localhost:%PORT%
-start "LILAC PHP Server" cmd /k php -S localhost:%PORT% -t "%DOCROOT%"
+start "LILAC PHP Server" cmd /k "D:\php\php.exe" -S 127.0.0.1:%PORT% -t "%DOCROOT%"
 timeout /t 2 /nobreak > nul
 
 echo Opening browser...
-start http://localhost:%PORT%/events-activities.html
+start http://localhost:%PORT%/dashboard.html

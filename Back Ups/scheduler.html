@@ -8,6 +8,17 @@
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <script>
+        // Apply theme immediately to prevent flash
+        (function() {
+            const savedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const shouldBeDark = savedTheme === 'dark' || (!savedTheme && prefersDark);
+            if (shouldBeDark) {
+                document.documentElement.classList.add('dark');
+            }
+        })();
+</script>
+<script>
     tailwind.config = {
       darkMode: "class",
       theme: {
@@ -158,10 +169,7 @@
 <span class="material-symbols-outlined">handshake</span>
 <span class="sidebar-text hidden">MOUs &amp; MOAs</span>
 </a>
-<a class="flex items-center justify-center gap-3 px-4 py-2.5 rounded-lg text-text-muted-light dark:text-text-muted-dark hover:bg-gray-100 dark:hover:bg-background-dark hover:text-text-light dark:hover:text-text-dark transition-colors duration-200 sidebar-nav-link" href="templates.html">
-<span class="material-symbols-outlined">description</span>
-<span class="sidebar-text hidden">Templates</span>
-</a>
+
 <a class="flex items-center justify-center gap-3 px-4 py-2.5 rounded-lg text-text-muted-light dark:text-text-muted-dark hover:bg-gray-100 dark:hover:bg-background-dark hover:text-text-light dark:hover:text-text-dark transition-colors duration-200 sidebar-nav-link" href="documents.html">
 <span class="material-symbols-outlined">school</span>
 <span class="sidebar-text hidden">Registrar Forms</span>
@@ -187,10 +195,7 @@
 <header class="sticky top-0 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm z-30 px-6 lg:px-8 py-4 border-b border-border-light dark:border-border-dark flex justify-between items-center h-20">
 <h1 class="text-2xl font-bold text-text-light dark:text-text-dark">Calendar</h1>
 <div class="flex items-center gap-2">
-<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-200 dark:hover:bg-white/10 text-text-muted-light dark:text-text-muted-dark transition-colors duration-200">
-<span class="material-symbols-outlined">search</span>
-</button>
-<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-200 dark:hover:bg-white/10 text-text-muted-light dark:text-text-muted-dark transition-colors duration-200">
+					<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-200 dark:hover:bg-white/10 text-text-muted-light dark:text-text-muted-dark transition-colors duration-200">
 <span class="material-symbols-outlined">notifications</span>
 </button>
 <button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-200 dark:hover:bg-white/10 text-text-muted-light dark:text-text-muted-dark transition-colors duration-200" id="theme-toggle">
@@ -204,13 +209,13 @@
 <!-- Preserve existing schedulerTest main content below -->
 <div class="flex-1 flex p-3 space-x-2">
 <div class="w-56 flex-shrink-0 flex flex-col space-y-4">
-<button class="w-full bg-white text-gray-700 py-2 px-4 rounded-lg border border-gray-300 flex items-center justify-center space-x-2 hover:bg-gray-50 transition-colors mt-4" onclick="openCreateModal()">
-<span class="material-symbols-outlined text-gray-600">add</span>
+<button class="w-full flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium text-white bg-primary rounded-lg hover:bg-primary/90 transition-colors mt-4" onclick="openCreateModal()">
+<span class="material-symbols-outlined text-base">add</span>
 <span>Create</span>
 </button>
 <div class="p-2">
 <div class="flex items-center justify-between mb-1">
-<h3 id="sidebarMonthDisplay" class="text-sm font-semibold text-gray-800">October 2025</h3>
+<h3 id="sidebarMonthDisplay" class="text-sm font-semibold text-text-light dark:text-text-dark">October 2025</h3>
 <div class="flex items-center space-x-1">
 <button id="sidebarPrevBtn" class="w-6 h-6 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center">
 <span class="material-symbols-outlined text-xs text-gray-600">chevron_left</span>
@@ -300,14 +305,17 @@
 <h3 id="mainMonthDisplay" class="text-xl font-semibold text-text-light dark:text-text-dark">October 2025</h3>
 </div>
 <div class="flex items-center space-x-4">
-<button id="todayBtn" class="px-4 py-1.5 rounded-full border border-gray-300 bg-white text-gray-800 text-sm font-medium hover:bg-gray-50">Today</button>
+<button id="todayBtn" class="px-4 py-1.5 rounded-full border border-border-light bg-card-light text-text-light text-sm font-medium hover:bg-gray-50 dark:bg-background-dark/50 dark:text-text-dark dark:border-border-dark dark:hover:bg-card-dark">Today</button>
 <div class="relative">
-<select id="viewSelect" class="appearance-none bg-white border border-gray-300 rounded-full py-2 pl-4 pr-8 text-sm font-medium focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary">
-<option value="Month">Month</option>
-<option value="Week">Week</option>
-<option value="Day">Day</option>
-</select>
-<span class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none">expand_more</span>
+<button id="viewBtn" class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-text-light bg-card-light border border-border-light rounded-full hover:bg-gray-50 dark:bg-background-dark/50 dark:text-text-dark dark:border-border-dark dark:hover:bg-card-dark">
+<span id="viewBtnLabel">Month</span>
+<span class="material-symbols-outlined text-base">expand_more</span>
+</button>
+<div id="viewDropdown" class="absolute right-0 mt-2 w-40 bg-card-light dark:bg-background-dark rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 z-50 hidden overflow-hidden">
+<button data-view="Month" class="w-full text-left px-4 py-2 text-sm text-text-light dark:text-text-dark hover:bg-gray-100 dark:hover:bg-gray-800">Month</button>
+<button data-view="Week" class="w-full text-left px-4 py-2 text-sm text-text-light dark:text-text-dark hover:bg-gray-100 dark:hover:bg-gray-800">Week</button>
+<button data-view="Day" class="w-full text-left px-4 py-2 text-sm text-text-light dark:text-text-dark hover:bg-gray-100 dark:hover:bg-gray-800">Day</button>
+</div>
 </div>
 
 </div>
@@ -339,13 +347,22 @@
     
 </div>
 
+<!-- Week Calendar Container (hidden by default) -->
+<div id="weekCalendarContainer" class="hidden border border-border-light dark:border-border-dark rounded-lg overflow-hidden">
+    <div class="bg-card-light dark:bg-card-dark">
+        <div id="weekHeader" class="grid" style="grid-template-columns: 80px repeat(7, 1fr);"></div>
+    </div>
+    <div class="h-px bg-gray-200 dark:bg-gray-700"></div>
+    <div id="weekGrid" class="grid" style="grid-template-columns: 80px repeat(7, 1fr);"></div>
+</div>
+
 <script>
 // Event Details Modal (inserted outside other modals so it can open independently)
 </script>
 
 <!-- Event Details Modal -->
-<div id="eventDetailModal" class="fixed inset-0 bg-black/30 hidden items-start justify-center z-[9999]">
-    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-xl mt-24 mx-4 max-h-[85vh] overflow-y-auto">
+<div id="eventDetailModal" class="fixed inset-0 bg-black/30 hidden items-center justify-center z-[9999]">
+    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-xl mx-4 max-h-[85vh] overflow-y-auto">
         <div class="p-4 border-b flex items-center justify-between">
             <div class="flex items-center gap-3">
                 <span id="detailColorDot" class="w-3.5 h-3.5 rounded-full bg-blue-500"></span>
@@ -490,6 +507,316 @@
                 const isCurrentlyDark = document.documentElement.classList.contains('dark');
                 toggleDarkMode(!isCurrentlyDark);
             });
+
+            // Location Autocomplete for Scheduler
+            let schedulerAutocompleteService = null;
+            const schedulerLocationInput = document.getElementById('locationInput');
+            const schedulerLocationSuggestions = document.getElementById('schedulerLocationSuggestions');
+            const schedulerSuggestionsList = document.getElementById('schedulerSuggestionsList');
+
+            const loadSchedulerGoogleMaps = () => {
+                if (window.google && window.google.maps && window.google.maps.places) {
+                    return Promise.resolve();
+                }
+                
+                return new Promise((resolve, reject) => {
+                    // Check if Google Maps is already loaded
+                    if (document.querySelector('script[src*="maps.googleapis.com"]')) {
+                        const checkLoaded = () => {
+                            if (window.google && window.google.maps && window.google.maps.places) {
+                                resolve();
+                            } else {
+                                setTimeout(checkLoaded, 100);
+                            }
+                        };
+                        checkLoaded();
+                        return;
+                    }
+                    
+                    // If not loaded, try to load it with proper async loading
+                    const script = document.createElement('script');
+                    script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyD1p_x_nw6wT7_zUnILTuG17fHNOf0zFC4&libraries=places&loading=async&callback=initSchedulerMapsCallback';
+                    script.async = true;
+                    script.defer = true;
+                    script.onerror = () => {
+                        console.warn('Google Maps API failed to load for scheduler. Using fallback suggestions only.');
+                        reject(new Error('Failed to load Google Maps API'));
+                    };
+                    
+                    // Create callback function
+                    window.initSchedulerMapsCallback = () => {
+                        delete window.initSchedulerMapsCallback;
+                        resolve();
+                    };
+                    
+                    document.head.appendChild(script);
+                });
+            };
+
+            const showSchedulerLocationSuggestions = async (query) => {
+                if (!query.trim() || query.length < 2) {
+                    schedulerLocationSuggestions.classList.add('hidden');
+                    return;
+                }
+
+                console.log('Searching for:', query); // Debug log
+                
+                // Always show fallback suggestions first for immediate response
+                showSchedulerFallbackSuggestions(query);
+
+                // Try to load Google Places API in the background (non-blocking)
+                try {
+                    await loadSchedulerGoogleMaps();
+                    
+                    if (!schedulerAutocompleteService && window.google && window.google.maps && window.google.maps.places) {
+                        schedulerAutocompleteService = new google.maps.places.AutocompleteService();
+                    }
+
+                    if (schedulerAutocompleteService) {
+                        // Use the legacy API which is still working - restricted to Iloilo only
+                        schedulerAutocompleteService.getPlacePredictions({
+                            input: query,
+                            types: ['geocode', 'establishment'],
+                            componentRestrictions: { country: 'ph' },
+                            location: new google.maps.LatLng(10.7202, 122.5621), // Iloilo City coordinates
+                            radius: 50000 // 50km radius around Iloilo
+                        }, (predictions, status) => {
+                            if (status === google.maps.places.PlacesServiceStatus.OK && predictions) {
+                                // Filter predictions to only show Iloilo locations (strict filtering)
+                                const iloiloPredictions = predictions.filter(prediction => {
+                                    const desc = prediction.description.toLowerCase();
+                                    return desc.includes('iloilo') && 
+                                           !desc.includes('manila') &&
+                                           !desc.includes('cebu') &&
+                                           !desc.includes('davao') &&
+                                           !desc.includes('baguio') &&
+                                           !desc.includes('bacolod') &&
+                                           !desc.includes('tacloban') &&
+                                           !desc.includes('antique') &&
+                                           !desc.includes('capiz') &&
+                                           !desc.includes('aklan') &&
+                                           !desc.includes('negros') &&
+                                           !desc.includes('guimaras');
+                                });
+                                if (iloiloPredictions.length > 0) {
+                                    displaySchedulerSuggestions(iloiloPredictions);
+                                }
+                                // If no Iloilo predictions, keep fallback suggestions
+                            } else {
+                                console.log('Places API status:', status);
+                                // Keep fallback suggestions if API fails
+                            }
+                        });
+                    }
+
+                } catch (error) {
+                    // Silently fail - fallback suggestions are already shown
+                    console.log('Scheduler Places API unavailable, using fallback suggestions');
+                }
+            };
+
+            const displaySchedulerSuggestions = (predictions) => {
+                schedulerSuggestionsList.innerHTML = '';
+                
+                predictions.slice(0, 5).forEach((prediction, index) => {
+                    const suggestionItem = document.createElement('div');
+                    suggestionItem.className = 'flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 cursor-pointer transition-colors select-none';
+                    suggestionItem.style.pointerEvents = 'auto';
+                    suggestionItem.innerHTML = `
+                        <span class="material-symbols-outlined text-gray-500 text-sm">place</span>
+                        <div class="flex-1">
+                            <p class="text-sm font-medium text-gray-900">${prediction.structured_formatting.main_text}</p>
+                            <p class="text-xs text-gray-500">${prediction.structured_formatting.secondary_text}</p>
+                        </div>
+                    `;
+                    
+                    // Add click event with proper event handling
+                    suggestionItem.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        schedulerLocationInput.value = prediction.description;
+                        schedulerLocationSuggestions.classList.add('hidden');
+                        // Trigger input event to update any other listeners
+                        schedulerLocationInput.dispatchEvent(new Event('input', { bubbles: true }));
+                    });
+                    
+                    // Add mousedown event as backup
+                    suggestionItem.addEventListener('mousedown', (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                    });
+                    
+                    schedulerSuggestionsList.appendChild(suggestionItem);
+                });
+                
+                schedulerLocationSuggestions.classList.remove('hidden');
+            };
+
+            const showSchedulerFallbackSuggestions = (query) => {
+                console.log('Showing ILOILO-ONLY fallback suggestions for:', query); // Debug log
+                
+                // STRICT ILOILO-ONLY LOCATIONS - No other provinces or cities
+                const commonLocations = [
+                    // Iloilo City and Province - Main Areas
+                    'Iloilo City, Philippines', 'Central Philippine University, Iloilo City, Philippines', 'University of the Philippines Visayas, Iloilo City, Philippines',
+                    'West Visayas State University, Iloilo City, Philippines', 'University of San Agustin, Iloilo City, Philippines',
+                    'St. Paul University Iloilo, Iloilo City, Philippines', 'Iloilo Science and Technology University, Iloilo City, Philippines',
+                    
+                    // Iloilo City Districts and Barangays
+                    'Mandurriao, Iloilo City, Philippines', 'Molo, Iloilo City, Philippines', 'Jaro, Iloilo City, Philippines',
+                    'La Paz, Iloilo City, Philippines', 'Lapuz, Iloilo City, Philippines', 'Arevalo, Iloilo City, Philippines',
+                    'City Proper, Iloilo City, Philippines', 'Villa Arevalo, Iloilo City, Philippines',
+                    
+                    // Iloilo Province Municipalities
+                    'Miagao, Iloilo, Philippines', 'San Joaquin, Iloilo, Philippines', 'Guimbal, Iloilo, Philippines',
+                    'Tigbauan, Iloilo, Philippines', 'Oton, Iloilo, Philippines', 'Pavia, Iloilo, Philippines',
+                    'Santa Barbara, Iloilo, Philippines', 'New Lucena, Iloilo, Philippines', 'Zarraga, Iloilo, Philippines',
+                    'Leganes, Iloilo, Philippines', 'Dumangas, Iloilo, Philippines', 'Barotac Nuevo, Iloilo, Philippines',
+                    'Barotac Viejo, Iloilo, Philippines', 'Anilao, Iloilo, Philippines', 'Banate, Iloilo, Philippines',
+                    'Bingawan, Iloilo, Philippines', 'Cabatuan, Iloilo, Philippines', 'Calinog, Iloilo, Philippines',
+                    'Carles, Iloilo, Philippines', 'Concepcion, Iloilo, Philippines', 'Dingle, Iloilo, Philippines',
+                    'Dueñas, Iloilo, Philippines', 'Estancia, Iloilo, Philippines',
+                    'Igbaras, Iloilo, Philippines', 'Janiuay, Iloilo, Philippines', 'Lambunao, Iloilo, Philippines',
+                    'Maasin, Iloilo, Philippines', 'Passi City, Iloilo, Philippines', 'Pototan, Iloilo, Philippines',
+                    'San Dionisio, Iloilo, Philippines', 'San Enrique, Iloilo, Philippines', 'San Miguel, Iloilo, Philippines',
+                    'San Rafael, Iloilo, Philippines', 'Sara, Iloilo, Philippines', 'Tubungan, Iloilo, Philippines',
+                    
+                    // Popular Iloilo Landmarks and Places
+                    'Iloilo Business Park, Mandurriao, Iloilo City, Philippines', 'SM City Iloilo, Mandurriao, Iloilo City, Philippines',
+                    'Robinsons Place Iloilo, La Paz, Iloilo City, Philippines', 'Festive Walk Iloilo, Mandurriao, Iloilo City, Philippines',
+                    'Iloilo Convention Center, Mandurriao, Iloilo City, Philippines', 'Iloilo International Airport, Cabatuan, Iloilo, Philippines',
+                    'Miagao Church, Miagao, Iloilo, Philippines', 'Jaro Cathedral, Jaro, Iloilo City, Philippines',
+                    'Molo Church, Molo, Iloilo City, Philippines', 'Casa Mariquit, Jaro, Iloilo City, Philippines',
+                    'Iloilo Museum of Contemporary Art, Mandurriao, Iloilo City, Philippines', 'Plaza Libertad, City Proper, Iloilo City, Philippines',
+                    'Esplanade, Iloilo City, Philippines', 'Iloilo River, Iloilo City, Philippines',
+                    
+                    // Iloilo Universities and Schools
+                    'Central Philippine University, Jaro, Iloilo City, Philippines', 'University of the Philippines Visayas, Miagao, Iloilo, Philippines',
+                    'West Visayas State University, La Paz, Iloilo City, Philippines', 'University of San Agustin, Jaro, Iloilo City, Philippines',
+                    'St. Paul University Iloilo, Jaro, Iloilo City, Philippines', 'Iloilo Science and Technology University, La Paz, Iloilo City, Philippines',
+                    'John B. Lacson Foundation Maritime University, Molo, Iloilo City, Philippines', 'Iloilo Doctors College, Mandurriao, Iloilo City, Philippines',
+                    'Assumption Iloilo, Jaro, Iloilo City, Philippines', 'Ateneo de Iloilo, Mandurriao, Iloilo City, Philippines',
+                    'Colegio de San Jose, Jaro, Iloilo City, Philippines', 'St. Therese MTC Colleges, La Paz, Iloilo City, Philippines',
+                    
+                    // Iloilo Hospitals and Medical Centers
+                    'Iloilo Doctors Hospital, Mandurriao, Iloilo City, Philippines', 'West Visayas State University Medical Center, La Paz, Iloilo City, Philippines',
+                    'St. Paul Hospital Iloilo, Jaro, Iloilo City, Philippines', 'Iloilo Mission Hospital, Jaro, Iloilo City, Philippines',
+                    'The Medical City Iloilo, Mandurriao, Iloilo City, Philippines', 'QualiMed Hospital Iloilo, Mandurriao, Iloilo City, Philippines',
+                    
+                    // Iloilo Government Offices
+                    'Iloilo Provincial Capitol, Iloilo City, Philippines', 'Iloilo City Hall, City Proper, Iloilo City, Philippines',
+                    'Iloilo City Government Center, Mandurriao, Iloilo City, Philippines', 'Department of Trade and Industry Iloilo, Iloilo City, Philippines',
+                    'Bureau of Internal Revenue Iloilo, Iloilo City, Philippines', 'Social Security System Iloilo, Iloilo City, Philippines',
+                    
+                    // Iloilo Shopping and Commercial Areas
+                    'Gaisano City Iloilo, La Paz, Iloilo City, Philippines', 'Atrium Mall, Mandurriao, Iloilo City, Philippines',
+                    'Plaza Libertad Commercial Complex, City Proper, Iloilo City, Philippines', 'Iloilo Central Market, City Proper, Iloilo City, Philippines',
+                    'Iloilo Terminal Market, City Proper, Iloilo City, Philippines',                     'Megaworld Iloilo Business Park, Mandurriao, Iloilo City, Philippines'
+                ];
+
+                const filtered = commonLocations.filter(location => 
+                    location.toLowerCase().includes(query.toLowerCase())
+                );
+
+                console.log('Filtered results:', filtered.length, 'for query:', query); // Debug log
+
+                if (filtered.length > 0) {
+                    schedulerSuggestionsList.innerHTML = '';
+                    filtered.slice(0, 8).forEach(location => {
+                        const suggestionItem = document.createElement('div');
+                        suggestionItem.className = 'flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 cursor-pointer transition-colors select-none';
+                        suggestionItem.style.pointerEvents = 'auto';
+                        suggestionItem.innerHTML = `
+                            <span class="material-symbols-outlined text-gray-500 text-sm">place</span>
+                            <div class="flex-1">
+                                <p class="text-sm font-medium text-gray-900">${location}</p>
+                                <p class="text-xs text-gray-500">Suggested location</p>
+                            </div>
+                        `;
+                        
+                        // Add click event with proper event handling
+                        suggestionItem.addEventListener('click', (e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            schedulerLocationInput.value = location;
+                            schedulerLocationSuggestions.classList.add('hidden');
+                            // Trigger input event to update any other listeners
+                            schedulerLocationInput.dispatchEvent(new Event('input', { bubbles: true }));
+                        });
+                        
+                        // Add mousedown event as backup
+                        suggestionItem.addEventListener('mousedown', (e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                        });
+                        
+                        schedulerSuggestionsList.appendChild(suggestionItem);
+                    });
+                    schedulerLocationSuggestions.classList.remove('hidden');
+                } else {
+                    schedulerLocationSuggestions.classList.add('hidden');
+                }
+            };
+
+            // Add event listener to scheduler location input
+            if (schedulerLocationInput) {
+                let schedulerTimeoutId;
+                schedulerLocationInput.addEventListener('input', (e) => {
+                    clearTimeout(schedulerTimeoutId);
+                    const query = e.target.value.trim();
+                    
+                    schedulerTimeoutId = setTimeout(() => {
+                        showSchedulerLocationSuggestions(query);
+                    }, 300);
+                });
+
+                // Hide suggestions when clicking outside
+                document.addEventListener('click', (e) => {
+                    if (!schedulerLocationInput.contains(e.target) && !schedulerLocationSuggestions.contains(e.target)) {
+                        schedulerLocationSuggestions.classList.add('hidden');
+                    }
+                });
+
+                // Handle keyboard navigation
+                schedulerLocationInput.addEventListener('keydown', (e) => {
+                    const suggestions = schedulerSuggestionsList.querySelectorAll('div');
+                    const activeSuggestion = schedulerSuggestionsList.querySelector('[data-active="true"]');
+                    
+                    if (e.key === 'ArrowDown') {
+                        e.preventDefault();
+                        if (activeSuggestion) {
+                            activeSuggestion.classList.remove('bg-blue-100');
+                            activeSuggestion.removeAttribute('data-active');
+                            const next = activeSuggestion.nextElementSibling;
+                            if (next) {
+                                next.classList.add('bg-blue-100');
+                                next.setAttribute('data-active', 'true');
+                            }
+                        } else if (suggestions[0]) {
+                            suggestions[0].classList.add('bg-blue-100');
+                            suggestions[0].setAttribute('data-active', 'true');
+                        }
+                    } else if (e.key === 'ArrowUp') {
+                        e.preventDefault();
+                        if (activeSuggestion) {
+                            activeSuggestion.classList.remove('bg-blue-100');
+                            activeSuggestion.removeAttribute('data-active');
+                            const prev = activeSuggestion.previousElementSibling;
+                            if (prev) {
+                                prev.classList.add('bg-blue-100');
+                                prev.setAttribute('data-active', 'true');
+                            }
+                        }
+                    } else if (e.key === 'Enter') {
+                        e.preventDefault();
+                        if (activeSuggestion) {
+                            activeSuggestion.click();
+                        }
+                    } else if (e.key === 'Escape') {
+                        schedulerLocationSuggestions.classList.add('hidden');
+                    }
+                });
+            }
         });
  </script>
  
@@ -587,19 +914,28 @@
 </div>
                  
                  
-                 <!-- Add Video Conferencing -->
-                 <div class="flex items-center space-x-3 text-gray-600 hover:text-gray-800 cursor-pointer">
-                     <div class="w-6 h-6 bg-gradient-to-r from-blue-400 to-green-400 rounded flex items-center justify-center">
-                         <span class="material-symbols-outlined text-white text-sm">videocam</span>
-</div>
-                     <span>Add Google Meet video conferencing</span>
-</div>
+                <!-- Event Type Selector (replaces Google Meet row) -->
+                <div class="flex items-center space-x-3 text-gray-700">
+                    <span class="material-symbols-outlined">category</span>
+                    <label for="eventTypeSelect" class="sr-only">Type</label>
+                    <select id="eventTypeSelect" class="bg-transparent border-0 text-sm font-medium focus:outline-none">
+                        <option value="Event">Event</option>
+                        <option value="Activity">Activity</option>
+                    </select>
+                </div>
                  
                  <!-- Add Location -->
                  <div class="flex items-center space-x-3 text-gray-600 hover:text-gray-800 cursor-pointer" onclick="editLocation()">
                      <span class="material-symbols-outlined">place</span>
-                    <input type="text" id="locationInput" name="locationInput" placeholder="Add location" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" class="hidden bg-transparent border-0 border-b border-gray-300 focus:border-blue-500 outline-none flex-1" style="box-shadow: none !important;">
-                     <span id="locationText">Add location</span>
+                     <div class="flex-1 relative">
+                        <input type="text" id="locationInput" name="locationInput" placeholder="Add location" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" class="hidden bg-transparent border-0 border-b border-gray-300 focus:border-blue-500 outline-none w-full" style="box-shadow: none !important;">
+                        <div id="schedulerLocationSuggestions" class="hidden absolute top-full left-0 right-0 mt-1 rounded-lg border border-gray-200 bg-white shadow-lg max-h-48 overflow-y-auto z-50">
+                            <div id="schedulerSuggestionsList" class="p-2 space-y-1">
+                                <!-- Location suggestions will appear here -->
+                            </div>
+                        </div>
+                        <span id="locationText" class="block">Add location</span>
+                     </div>
 </div>
                  
                  <!-- Add Description -->
@@ -667,7 +1003,6 @@
 </div>
                                              <div class="w-6 h-6 rounded-full bg-transparent border-2 border-gray-300 cursor-pointer hover:ring-2 hover:ring-gray-300 relative group" onclick="selectColor('transparent', this)" title="No Color">
                                                  <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-gray-800 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">No Color</div>
-</div>
 </div>
 </div>
 </div>
@@ -1023,16 +1358,17 @@ window.saveEvent = function() {
      console.log('Save button clicked!'); // Debug log
      
      try {
-         const title = document.getElementById('eventTitle').value;
+        const title = document.getElementById('eventTitle').value;
          console.log('Title:', title); // Debug log
          
          const startTime = document.getElementById('startTimeBtn').textContent;
          const endTime = document.getElementById('endTimeBtn').textContent;
          const date = document.querySelector('button[onclick="toggleTimePicker()"]').textContent;
-         const location = document.getElementById('locationText').textContent;
+        const location = document.getElementById('locationText').textContent;
          const description = document.getElementById('descriptionText').textContent;
+        const eventType = (document.getElementById('eventTypeSelect') && document.getElementById('eventTypeSelect').value) || 'Event';
          
-         console.log('Form data:', { title, startTime, endTime, date, location, description }); // Debug log
+        console.log('Form data:', { title, startTime, endTime, date, location, description, eventType }); // Debug log
          
          if (!title.trim()) {
              alert('Please enter a title for the event');
@@ -1069,7 +1405,8 @@ window.saveEvent = function() {
                     endTime: endTime,
                     location: location !== 'Add location' ? location : '',
                     description: description !== 'Add description or a Google Drive attachment' ? description : '',
-                    color: selectedColor
+                    color: selectedColor,
+                    type: eventType
                 };
                 eventData = events[idx];
             }
@@ -1084,7 +1421,8 @@ window.saveEvent = function() {
                 endTime: endTime,
                 location: location !== 'Add location' ? location : '',
                 description: description !== 'Add description or a Google Drive attachment' ? description : '',
-                color: selectedColor
+                color: selectedColor,
+                type: eventType
             };
             // Add event to storage
             events.push(eventData);
@@ -1160,7 +1498,7 @@ function renderEventsOnCalendar() {
                let eventContainer = cell.querySelector('.events-container');
                if (!eventContainer) {
                    eventContainer = document.createElement('div');
-                   eventContainer.className = 'events-container w-full mt-2 space-y-1 pr-1 mx-auto';
+                   eventContainer.className = 'events-container w-full mt-1 space-y-1 pr-1 mx-auto flex-grow flex flex-col justify-start';
                    // Allow clicks on event elements
                    eventContainer.style.pointerEvents = 'auto';
                    cell.appendChild(eventContainer);
@@ -1209,20 +1547,55 @@ function renderMyEvents() {
         const d = dayMatch ? parseInt(dayMatch[0]) : ev.dayNumber || 1;
         return new Date(y, m, d);
     };
-    const sorted = [...events].sort((a,b) => toDate(a) - toDate(b));
-    sorted.forEach(ev => {
-        const item = document.createElement('div');
-        item.className = 'flex items-center gap-2 p-2 rounded hover:bg-gray-100 cursor-pointer';
-        const dot = document.createElement('span');
-        dot.className = `w-2.5 h-2.5 rounded-full ${ev.color || 'bg-blue-500'}`;
-        const text = document.createElement('div');
-        text.className = 'flex-1 text-xs';
-        text.textContent = `${ev.title}`;
-        item.appendChild(dot);
-        item.appendChild(text);
-        item.addEventListener('click', () => openEventDetail(ev));
-        list.appendChild(item);
-    });
+    	const sorted = [...events].sort((a,b) => toDate(a) - toDate(b));
+		// Helper to format date like "Oct 1, 2025"
+					sorted.forEach(ev => {
+				const row = document.createElement('div');
+				row.className = 'group flex items-center justify-between rounded-lg px-2 py-1 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800/60';
+
+				const title = document.createElement('div');
+				title.className = 'text-[13px] font-semibold text-text-light dark:text-text-dark truncate';
+				title.textContent = ev.title || 'Untitled Event';
+
+				const menu = document.createElement('button');
+				menu.type = 'button';
+				menu.className = 'ml-3 shrink-0 text-text-muted-light dark:text-text-muted-dark opacity-0 group-hover:opacity-100 transition-opacity';
+				menu.innerHTML = '<span class="material-symbols-outlined text-[18px]">more_horiz</span>';
+
+				row.appendChild(title);
+				row.appendChild(menu);
+
+				// Open details when clicking anywhere except the menu icon
+				row.addEventListener('click', (e) => {
+					if (!(e.target.closest && e.target.closest('button'))) {
+						openEventDetail(ev);
+					}
+				});
+				list.appendChild(row);
+			});
+}
+
+function setView(viewName) {
+    const btn = document.getElementById('viewBtnLabel');
+    const dropdown = document.getElementById('viewDropdown');
+    if (btn) btn.textContent = viewName;
+    if (dropdown) dropdown.classList.add('hidden');
+    const dayContainer = document.getElementById('dayCalendarContainer');
+    const weekContainer = document.getElementById('weekCalendarContainer');
+    const mainGrid = document.getElementById('mainCalendarGrid');
+    if (dayContainer) dayContainer.classList.add('hidden');
+    if (weekContainer) weekContainer.classList.add('hidden');
+    if (mainGrid) mainGrid.innerHTML = '';
+    if (viewName === 'Month') {
+        renderCalendar();
+        renderEventsOnCalendar();
+    } else if (viewName === 'Day') {
+        if (dayContainer) dayContainer.classList.remove('hidden');
+        renderDayView(new Date(currentCalendarDate.getFullYear(), currentCalendarDate.getMonth(), 1));
+    } else if (viewName === 'Week') {
+        if (weekContainer) weekContainer.classList.remove('hidden');
+        renderWeekView(new Date(currentCalendarDate.getFullYear(), currentCalendarDate.getMonth(), 1));
+    }
 }
 
 // Render Day view for a specific date
@@ -1294,6 +1667,101 @@ function renderDayView(dateObj) {
     });
 }
  
+// Render Week view for a given date (week of the 1st day's week)
+function renderWeekView(dateObj) {
+    const weekHeader = document.getElementById('weekHeader');
+    const weekGrid = document.getElementById('weekGrid');
+    if (!weekHeader || !weekGrid) return;
+    weekHeader.innerHTML = '';
+    weekGrid.innerHTML = '';
+
+    // Determine start of week (Sunday)
+    const ref = new Date(dateObj.getFullYear(), dateObj.getMonth(), dateObj.getDate());
+    const start = new Date(ref);
+    start.setDate(ref.getDate() - ref.getDay());
+
+    const dayNames = ['SUN','MON','TUE','WED','THU','FRI','SAT'];
+
+    // Header row: empty corner + 7 days
+    const corner = document.createElement('div');
+    corner.className = 'p-3 text-[11px] text-gray-500';
+    corner.textContent = 'GMT+08';
+    weekHeader.appendChild(corner);
+    for (let i = 0; i < 7; i++) {
+        const d = new Date(start);
+        d.setDate(start.getDate() + i);
+        const head = document.createElement('div');
+        head.className = 'p-3 border-l border-border-light dark:border-border-dark';
+        head.innerHTML = `<div class="text-[11px] text-gray-500 text-center">${dayNames[d.getDay()]}</div><div class="text-2xl font-semibold text-gray-800 dark:text-gray-100 text-center">${d.getDate()}</div>`;
+        weekHeader.appendChild(head);
+    }
+
+    // Left time labels column + 7 columns each with 24 slots
+    for (let h = 0; h < 24; h++) {
+        const label = document.createElement('div');
+        label.className = 'text-[11px] text-gray-500 px-2 py-3 border-b border-border-light dark:border-border-dark';
+        const displayHour = ((h + 11) % 12) + 1;
+        const ampm = h < 12 ? 'AM' : 'PM';
+        label.textContent = `${displayHour} ${ampm}`;
+        weekGrid.appendChild(label);
+        for (let i = 0; i < 7; i++) {
+            const cell = document.createElement('div');
+            cell.className = 'relative h-12 border-l border-b border-border-light dark:border-border-dark';
+            weekGrid.appendChild(cell);
+        }
+    }
+
+    // Place events in appropriate day column and hour
+    const monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    const toYMD = (ev) => {
+        const text = ev.date || '';
+        const yMatch = text.match(/\b(19|20)\d{2}\b/);
+        const mIndex = monthNames.findIndex(n => text.includes(n));
+        const dMatch = text.match(/\b\d{1,2}\b/);
+        const y = yMatch ? parseInt(yMatch[0]) : currentCalendarDate.getFullYear();
+        const m = mIndex !== -1 ? mIndex : currentCalendarDate.getMonth();
+        const d = dMatch ? parseInt(dMatch[0]) : ev.dayNumber || 1;
+        return { y, m, d };
+    };
+
+    events.forEach(ev => {
+        const { y, m, d } = toYMD(ev);
+        const evDate = new Date(y, m, d);
+        // Only show events within this week range
+        const end = new Date(start);
+        end.setDate(start.getDate() + 6);
+        if (evDate < start || evDate > end) return;
+
+        // Compute target column offset: +1 for time labels column, +h*8 stride
+        const dayOffset = Math.floor((evDate - start) / 86400000); // 0..6
+        const time = (ev.startTime || '9:00am').toLowerCase();
+        const match = time.match(/(\d{1,2}):(\d{2})(am|pm)/);
+        let hourIndex = 9;
+        if (match) {
+            let hour = parseInt(match[1]);
+            const minute = parseInt(match[2]);
+            const meridiem = match[3];
+            if (meridiem === 'pm' && hour !== 12) hour += 12;
+            if (meridiem === 'am' && hour === 12) hour = 0;
+            hourIndex = hour;
+        }
+        // In the weekGrid, each row adds 8 columns (1 label + 7 days). Target cell index:
+        const rowStartIndex = hourIndex * 8; // 8 columns per hour row
+        const cellIndex = rowStartIndex + 1 + dayOffset; // +1 to skip label column
+        const cell = weekGrid.children[cellIndex];
+        if (!cell) return;
+        const block = document.createElement('div');
+        block.className = `${ev.color || 'bg-blue-500'} text-white text-xs px-2 py-1 rounded absolute left-2 right-2 top-1 cursor-pointer`;
+        block.textContent = ev.title;
+        block.dataset.eventId = String(ev.id);
+        block.addEventListener('click', (e) => {
+            e.stopPropagation();
+            openEventDetail(ev);
+        });
+        cell.appendChild(block);
+    });
+}
+
 function openEventDetail(event) {
     const modal = document.getElementById('eventDetailModal');
     if (!modal) { console.error('eventDetailModal not found'); return; }
@@ -1304,18 +1772,7 @@ function openEventDetail(event) {
     document.getElementById('detailReminder').textContent = 'The day before at 5pm';
     const colorDot = document.getElementById('detailColorDot');
     colorDot.className = `w-3.5 h-3.5 rounded-full ${event.color || 'bg-blue-500'}`;
-    // Position modal near the clicked event if possible
-    try {
-        const activeEl = document.querySelector(`.event-bar[data-event-id="${event.id}"]`);
-        if (activeEl) {
-            const rect = activeEl.getBoundingClientRect();
-            const card = document.querySelector('#eventDetailModal > div');
-            if (card) {
-                card.style.marginTop = `${Math.max(20, rect.top + window.scrollY - 80)}px`;
-            }
-        }
-    } catch (_) {}
-
+    
     // Compose readable date from stored date string if available
     const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     let dateText = event.date;
@@ -1326,8 +1783,11 @@ function openEventDetail(event) {
     }
     document.getElementById('detailDate').textContent = dateText || '';
 
-    modal.classList.remove('hidden');
-    modal.classList.add('flex');
+    	// Ensure container centers content and resets any prior inline offsets
+	const card = document.querySelector('#eventDetailModal > div');
+	if (card) { card.style.marginTop = '0px'; }
+	modal.classList.remove('hidden');
+	modal.classList.add('flex');
     modal.style.display = 'flex';
 }
 
@@ -1418,12 +1878,21 @@ function openEventDetail(event) {
         const cellDiv = document.createElement('div');
          const isToday = today.getDate() === day && today.getMonth() === currentMonth && today.getFullYear() === currentYear;
          
+        // Use consistent structure for all dates to ensure proper event alignment
+        cellDiv.className = 'h-28 border-r border-b border-border-light dark:border-border-dark flex flex-col items-start pt-2 px-1 overflow-hidden';
+        
         if (isToday) {
-           cellDiv.className = 'h-28 border-r border-b border-border-light dark:border-border-dark flex flex-col items-start pt-2 px-1 overflow-hidden';
-           cellDiv.innerHTML = `<span class="bg-blue-600 text-white rounded-full w-6 h-6 inline-flex items-center justify-center mx-auto text-xs leading-none">${day}</span>`;
+           cellDiv.innerHTML = `
+             <div class="relative w-full flex justify-center mb-1">
+               <span class="bg-blue-600 text-white rounded-full w-6 h-6 inline-flex items-center justify-center text-xs leading-none relative z-10">${day}</span>
+             </div>
+           `;
          } else {
-           cellDiv.className = 'h-28 border-r border-b border-border-light dark:border-border-dark flex flex-col items-start pt-2 px-1 overflow-hidden';
-           cellDiv.innerHTML = `<span class="text-xs mx-auto">${day}</span>`;
+           cellDiv.innerHTML = `
+             <div class="relative w-full flex justify-center mb-1">
+               <span class="text-xs mx-auto w-6 h-6 inline-flex items-center justify-center">${day}</span>
+             </div>
+           `;
          }
         cellDiv.dataset.monthType = 'current';
          mainCalendarGrid.appendChild(cellDiv);
@@ -1527,18 +1996,24 @@ function renderSidebarCalendar() {
     // Close the modal
     closeDatePickerModal();
 
-    // Switch to Day view for the selected date
+       // Show selected date in the currently chosen view (Day or Week)
     const mainGrid = document.getElementById('mainCalendarGrid');
     const dayContainer = document.getElementById('dayCalendarContainer');
-    const viewSelect = document.getElementById('viewSelect');
-    if (mainGrid && dayContainer) {
-        mainGrid.innerHTML = '';
-        dayContainer.classList.remove('hidden');
+    const weekContainer = document.getElementById('weekCalendarContainer');
+    const viewLabel = document.getElementById('viewBtnLabel');
+    const isWeek = viewLabel && viewLabel.textContent.trim() === 'Week';
+    if (mainGrid) mainGrid.innerHTML = '';
+    if (isWeek) {
+        if (dayContainer) dayContainer.classList.add('hidden');
+        if (weekContainer) weekContainer.classList.remove('hidden');
+        renderWeekView(new Date(currentCalendarDate.getFullYear(), currentCalendarDate.getMonth(), selectedDate));
+    } else {
+        if (weekContainer) weekContainer.classList.add('hidden');
+        if (dayContainer) dayContainer.classList.remove('hidden');
         renderDayView(new Date(currentCalendarDate.getFullYear(), currentCalendarDate.getMonth(), selectedDate));
-        // Update view selector to Day to reflect current context
-        if (viewSelect) viewSelect.value = 'Day';
+        if (viewLabel) viewLabel.textContent = 'Day';
     }
- }
+}
  
  // Close modal when clicking outside
  document.getElementById('createModal').addEventListener('click', function(e) {
@@ -1636,22 +2111,25 @@ function renderSidebarCalendar() {
         sidebarCalendarDate = new Date(currentCalendarDate.getTime());
         renderSidebarCalendar();
     });
-    if (viewSelect) viewSelect.addEventListener('change', function() {
-        if (this.value === 'Month') {
-            // Return to month grid
-            const dayContainer = document.getElementById('dayCalendarContainer');
-            if (dayContainer) dayContainer.classList.add('hidden');
-            renderCalendar();
-            renderEventsOnCalendar();
-        } else if (this.value === 'Day') {
-            // Show current day of currentCalendarDate (default to 1st)
-            const dayContainer = document.getElementById('dayCalendarContainer');
-            const mainGrid = document.getElementById('mainCalendarGrid');
-            if (mainGrid) mainGrid.innerHTML = '';
-            if (dayContainer) dayContainer.classList.remove('hidden');
-            renderDayView(new Date(currentCalendarDate.getFullYear(), currentCalendarDate.getMonth(), 1));
-        }
-    });
+    // Replace native select with custom dropdown handlers
+    const viewBtn = document.getElementById('viewBtn');
+    const viewDropdown = document.getElementById('viewDropdown');
+    const viewLabel = document.getElementById('viewBtnLabel');
+    if (viewBtn && viewDropdown) {
+        viewBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            viewDropdown.classList.toggle('hidden');
+        });
+        viewDropdown.querySelectorAll('button[data-view]').forEach(btn => {
+            btn.addEventListener('click', () => setView(btn.getAttribute('data-view')));
+        });
+        document.addEventListener('click', (e) => {
+            if (!viewDropdown.contains(e.target) && !viewBtn.contains(e.target)) {
+                viewDropdown.classList.add('hidden');
+            }
+        });
+    }
+
 
     // Render the calendars
     renderCalendar();
@@ -1947,5 +2425,37 @@ function renderSidebarCalendar() {
  }
  </script>
  
- </body></html>
+<script>
+    (function() {
+        try {
+            var isDevHost = location.hostname === '127.0.0.1' || location.hostname === 'localhost';
+            if (isDevHost && location.port === '5500') {
+                var target = location.protocol + '//' + 'localhost' + ':8000' + location.pathname + location.search + location.hash;
+                location.replace(target);
+            }
+        } catch (e) { }
+    })();
+
+    // Load profile picture from localStorage if available
+    document.addEventListener('DOMContentLoaded', function() {
+        try {
+            const profile = JSON.parse(localStorage.getItem('lilac_profile'));
+            if (profile && profile.avatar) {
+                const sidebarProfilePicture = document.querySelector('.sidebar-profile-picture');
+                if (sidebarProfilePicture) {
+                    sidebarProfilePicture.style.backgroundImage = `url('${profile.avatar}')`;
+                }
+                
+                // Also update the profile name if available
+                const profileName = document.querySelector('.sidebar-profile-info p');
+                if (profileName && profile.name) {
+                    profileName.textContent = profile.name;
+                }
+            }
+        } catch (error) {
+            console.log('No profile data found in localStorage');
+        }
+    });
+</script>
+</body></html>
 
