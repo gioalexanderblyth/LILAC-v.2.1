@@ -409,7 +409,7 @@
             insights.push({
                 type: 'strength',
                 title: 'Current Strengths',
-                content: `You have strong foundations in: ${strengths.map(s => s.category).join(', ')}. These areas show good progress toward ICONS 2024 recognition.`,
+                content: `You have strong foundations in: ${strengths.map(s => s.category).join(', ')}. These areas show good progress toward ICONS 2025 recognition.`,
                 icon: 'trending_up',
                 color: 'green'
             });
@@ -422,7 +422,7 @@
             insights.push({
                 type: 'opportunity',
                 title: 'Growth Opportunities',
-                content: `Consider focusing on: ${missingCategories.join(', ')}. These areas represent untapped potential for ICONS 2024 awards.`,
+                content: `Consider focusing on: ${missingCategories.join(', ')}. These areas represent untapped potential for ICONS 2025 awards.`,
                 icon: 'lightbulb',
                 color: 'purple'
             });
@@ -433,7 +433,7 @@
             insights.push({
                 type: 'action',
                 title: 'Getting Started',
-                content: 'Upload your first award document to begin AI-powered analysis. The system will provide personalized recommendations based on ICONS 2024 criteria.',
+                content: 'Upload your first award document to begin AI-powered analysis. The system will provide personalized recommendations based on ICONS 2025 criteria.',
                 icon: 'rocket_launch',
                 color: 'blue'
             });

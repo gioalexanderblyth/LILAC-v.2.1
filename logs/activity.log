@@ -9,3 +9,438 @@
 [2025-10-12 15:50:39] [INFO] SQLite database connection established successfully
 [2025-10-12 15:50:55] [INFO] SQLite database connection established successfully
 >>>>>>> aaa1aa000ad02a209a4bfc84d3b4af6448cc56b4
+[2025-10-12 14:09:36] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:09:36] [INFO] Using file-based database fallback
+[2025-10-12 14:09:57] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:09:57] [INFO] Using file-based database fallback
+[2025-10-12 14:10:12] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:10:12] [INFO] Using file-based database fallback
+[2025-10-12 14:13:21] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:13:21] [INFO] Using file-based database fallback
+[2025-10-12 14:13:31] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:13:31] [INFO] Using file-based database fallback
+[2025-10-12 14:13:31] [INFO] Upload analysis stored in file-based fallback: C:\Users\Administrator\Documents\GitHub\LILAC-v.2.1\api/../data/upload_analysis_1760278411_68ebb78ba67df.json
+[2025-10-12 14:13:31] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:13:31] [INFO] Using file-based database fallback
+[2025-10-12 14:15:20] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:15:20] [INFO] Using file-based database fallback
+[2025-10-12 14:16:35] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:16:35] [INFO] Using file-based database fallback
+[2025-10-12 14:17:03] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:17:03] [INFO] Using file-based database fallback
+[2025-10-12 14:17:03] [INFO] Upload analysis stored in file-based fallback: C:\Users\Administrator\Documents\GitHub\LILAC-v.2.1\api/../data/upload_analysis_1760278623_68ebb85f5c0f6.json
+[2025-10-12 14:17:03] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:17:03] [INFO] Using file-based database fallback
+[2025-10-12 14:17:03] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:17:03] [INFO] Using file-based database fallback
+[2025-10-12 14:17:03] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:17:03] [INFO] Using file-based database fallback
+[2025-10-12 14:17:03] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:17:03] [INFO] Using file-based database fallback
+[2025-10-12 14:17:03] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:17:03] [INFO] Using file-based database fallback
+[2025-10-12 14:17:03] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:17:03] [INFO] Using file-based database fallback
+[2025-10-12 14:17:06] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:17:06] [INFO] Using file-based database fallback
+[2025-10-12 14:17:08] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:17:08] [INFO] Using file-based database fallback
+[2025-10-12 14:17:13] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:17:13] [INFO] Using file-based database fallback
+[2025-10-12 14:17:23] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:17:23] [INFO] Using file-based database fallback
+[2025-10-12 14:18:57] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:18:57] [INFO] Using file-based database fallback
+[2025-10-12 14:19:04] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:19:04] [INFO] Using file-based database fallback
+[2025-10-12 14:19:14] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:19:14] [INFO] Using file-based database fallback
+[2025-10-12 14:19:30] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:19:30] [INFO] Using file-based database fallback
+[2025-10-12 14:19:34] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:19:34] [INFO] Using file-based database fallback
+[2025-10-12 14:25:14] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:25:14] [INFO] Using file-based database fallback
+[2025-10-12 14:25:24] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:25:24] [INFO] Using file-based database fallback
+[2025-10-12 14:25:53] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:25:53] [INFO] Using file-based database fallback
+[2025-10-12 14:26:13] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:26:13] [INFO] Using file-based database fallback
+[2025-10-12 14:28:11] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:28:11] [INFO] Using file-based database fallback
+[2025-10-12 14:28:21] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:28:21] [INFO] Using file-based database fallback
+[2025-10-12 14:28:21] [INFO] Upload analysis stored in file-based fallback: C:\Users\Administrator\Documents\GitHub\LILAC-v.2.1\api/../data/upload_analysis_1760279301_68ebbb05c6230.json
+[2025-10-12 14:28:21] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:28:21] [INFO] Using file-based database fallback
+[2025-10-12 14:28:26] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:28:26] [INFO] Using file-based database fallback
+[2025-10-12 14:31:19] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:31:19] [INFO] Using file-based database fallback
+[2025-10-12 14:31:26] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:31:26] [INFO] Using file-based database fallback
+[2025-10-12 14:31:26] [INFO] Upload analysis stored in file-based fallback: C:\Users\Administrator\Documents\GitHub\LILAC-v.2.1\api/../data/upload_analysis_1760279486_68ebbbbe0f99a.json
+[2025-10-12 14:31:26] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:31:26] [INFO] Using file-based database fallback
+[2025-10-12 14:31:26] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:31:26] [INFO] Using file-based database fallback
+[2025-10-12 14:31:26] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:31:26] [INFO] Using file-based database fallback
+[2025-10-12 14:31:26] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:31:26] [INFO] Using file-based database fallback
+[2025-10-12 14:31:26] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:31:26] [INFO] Using file-based database fallback
+[2025-10-12 14:31:26] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:31:26] [INFO] Using file-based database fallback
+[2025-10-12 14:31:29] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:31:29] [INFO] Using file-based database fallback
+[2025-10-12 14:34:52] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:34:52] [INFO] Using file-based database fallback
+[2025-10-12 14:34:59] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:34:59] [INFO] Using file-based database fallback
+[2025-10-12 14:35:07] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:35:07] [INFO] Using file-based database fallback
+[2025-10-12 14:35:07] [INFO] Upload analysis stored in file-based fallback: C:\Users\Administrator\Documents\GitHub\LILAC-v.2.1\api/../data/upload_analysis_1760279707_68ebbc9bd3c13.json
+[2025-10-12 14:35:07] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:35:07] [INFO] Using file-based database fallback
+[2025-10-12 14:35:07] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:35:07] [INFO] Using file-based database fallback
+[2025-10-12 14:35:07] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:35:07] [INFO] Using file-based database fallback
+[2025-10-12 14:35:07] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:35:07] [INFO] Using file-based database fallback
+[2025-10-12 14:35:07] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:35:07] [INFO] Using file-based database fallback
+[2025-10-12 14:35:07] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:35:07] [INFO] Using file-based database fallback
+[2025-10-12 14:35:11] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:35:11] [INFO] Using file-based database fallback
+[2025-10-12 14:38:14] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:38:14] [INFO] Using file-based database fallback
+[2025-10-12 14:38:16] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:38:16] [INFO] Using file-based database fallback
+[2025-10-12 14:38:23] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:38:23] [INFO] Using file-based database fallback
+[2025-10-12 14:38:23] [INFO] Upload analysis stored in file-based fallback: C:\Users\Administrator\Documents\GitHub\LILAC-v.2.1\api/../data/upload_analysis_1760279903_68ebbd5f784ef.json
+[2025-10-12 14:38:23] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:38:23] [INFO] Using file-based database fallback
+[2025-10-12 14:38:23] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:38:23] [INFO] Using file-based database fallback
+[2025-10-12 14:38:23] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:38:23] [INFO] Using file-based database fallback
+[2025-10-12 14:38:23] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:38:23] [INFO] Using file-based database fallback
+[2025-10-12 14:38:23] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:38:23] [INFO] Using file-based database fallback
+[2025-10-12 14:38:23] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:38:23] [INFO] Using file-based database fallback
+[2025-10-12 14:45:24] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:45:24] [INFO] Using file-based database fallback
+[2025-10-12 14:45:32] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:45:32] [INFO] Using file-based database fallback
+[2025-10-12 14:45:32] [INFO] Upload analysis stored in file-based fallback: C:\Users\Administrator\Documents\GitHub\LILAC-v.2.1\api/../data/upload_analysis_1760280332_68ebbf0c1a4d0.json
+[2025-10-12 14:45:32] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:45:32] [INFO] Using file-based database fallback
+[2025-10-12 14:45:32] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:45:32] [INFO] Using file-based database fallback
+[2025-10-12 14:45:32] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:45:32] [INFO] Using file-based database fallback
+[2025-10-12 14:45:32] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:45:32] [INFO] Using file-based database fallback
+[2025-10-12 14:45:32] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:45:32] [INFO] Using file-based database fallback
+[2025-10-12 14:45:32] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:45:32] [INFO] Using file-based database fallback
+[2025-10-12 14:48:58] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:48:58] [INFO] Using file-based database fallback
+[2025-10-12 14:49:06] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:49:06] [INFO] Using file-based database fallback
+[2025-10-12 14:49:06] [INFO] Upload analysis stored in file-based fallback: C:\Users\Administrator\Documents\GitHub\LILAC-v.2.1\api/../data/upload_analysis_1760280546_68ebbfe253eff.json
+[2025-10-12 14:49:06] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:49:06] [INFO] Using file-based database fallback
+[2025-10-12 14:49:06] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:49:06] [INFO] Using file-based database fallback
+[2025-10-12 14:49:06] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:49:06] [INFO] Using file-based database fallback
+[2025-10-12 14:49:06] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:49:06] [INFO] Using file-based database fallback
+[2025-10-12 14:49:06] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:49:06] [INFO] Using file-based database fallback
+[2025-10-12 14:49:06] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:49:06] [INFO] Using file-based database fallback
+[2025-10-12 14:50:18] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:50:18] [INFO] Using file-based database fallback
+[2025-10-12 14:51:08] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:51:08] [INFO] Using file-based database fallback
+[2025-10-12 14:51:31] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:51:31] [INFO] Using file-based database fallback
+[2025-10-12 14:51:42] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:51:42] [INFO] Using file-based database fallback
+[2025-10-12 14:52:26] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:52:26] [INFO] Using file-based database fallback
+[2025-10-12 14:54:41] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:54:41] [INFO] Using file-based database fallback
+[2025-10-12 14:55:12] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:55:12] [INFO] Using file-based database fallback
+[2025-10-12 14:55:45] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:55:45] [INFO] Using file-based database fallback
+[2025-10-12 14:55:53] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:55:53] [INFO] Using file-based database fallback
+[2025-10-12 14:56:14] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:56:14] [INFO] Using file-based database fallback
+[2025-10-12 14:57:29] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:57:29] [INFO] Using file-based database fallback
+[2025-10-12 14:58:52] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:58:52] [INFO] Using file-based database fallback
+[2025-10-12 14:58:56] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:58:56] [INFO] Using file-based database fallback
+[2025-10-12 14:58:56] [INFO] Upload analysis stored in file-based fallback: C:\Users\Administrator\Documents\GitHub\LILAC-v.2.1\api/../data/upload_analysis_1760281136_68ebc23098d60.json
+[2025-10-12 14:58:56] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:58:56] [INFO] Using file-based database fallback
+[2025-10-12 14:58:56] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:58:56] [INFO] Using file-based database fallback
+[2025-10-12 14:58:56] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:58:56] [INFO] Using file-based database fallback
+[2025-10-12 14:58:56] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:58:56] [INFO] Using file-based database fallback
+[2025-10-12 14:58:56] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:58:56] [INFO] Using file-based database fallback
+[2025-10-12 14:58:56] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:58:56] [INFO] Using file-based database fallback
+[2025-10-12 14:58:59] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:58:59] [INFO] Using file-based database fallback
+[2025-10-12 14:59:46] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 14:59:46] [INFO] Using file-based database fallback
+[2025-10-12 15:04:22] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:04:22] [INFO] Using file-based database fallback
+[2025-10-12 15:04:30] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:04:30] [INFO] Using file-based database fallback
+[2025-10-12 15:04:30] [INFO] Upload analysis stored in file-based fallback: C:\Users\Administrator\Documents\GitHub\LILAC-v.2.1\api/../data/upload_analysis_1760281470_68ebc37e4b538.json
+[2025-10-12 15:04:30] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:04:30] [INFO] Using file-based database fallback
+[2025-10-12 15:04:30] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:04:30] [INFO] Using file-based database fallback
+[2025-10-12 15:04:30] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:04:30] [INFO] Using file-based database fallback
+[2025-10-12 15:04:30] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:04:30] [INFO] Using file-based database fallback
+[2025-10-12 15:04:30] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:04:30] [INFO] Using file-based database fallback
+[2025-10-12 15:04:30] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:04:30] [INFO] Using file-based database fallback
+[2025-10-12 15:04:37] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:04:37] [INFO] Using file-based database fallback
+[2025-10-12 15:06:07] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:06:07] [INFO] Using file-based database fallback
+[2025-10-12 15:11:34] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:11:34] [INFO] Using file-based database fallback
+[2025-10-12 15:12:14] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:12:14] [INFO] Using file-based database fallback
+[2025-10-12 15:12:49] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:12:49] [INFO] Using file-based database fallback
+[2025-10-12 15:12:49] [WARNING] Storage failed: Failed to save uploaded file
+[2025-10-12 15:17:43] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:17:43] [INFO] Using file-based database fallback
+[2025-10-12 15:17:44] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:17:44] [INFO] Using file-based database fallback
+[2025-10-12 15:17:50] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:17:50] [INFO] Using file-based database fallback
+[2025-10-12 15:17:50] [INFO] Upload analysis stored in file-based fallback: C:\Users\Administrator\Documents\GitHub\LILAC-v.2.1\api/../data/upload_analysis_1760282270_68ebc69e486b7.json
+[2025-10-12 15:17:50] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:17:50] [INFO] Using file-based database fallback
+[2025-10-12 15:17:50] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:17:50] [INFO] Using file-based database fallback
+[2025-10-12 15:17:50] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:17:50] [INFO] Using file-based database fallback
+[2025-10-12 15:17:50] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:17:50] [INFO] Using file-based database fallback
+[2025-10-12 15:17:50] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:17:50] [INFO] Using file-based database fallback
+[2025-10-12 15:17:50] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:17:50] [INFO] Using file-based database fallback
+[2025-10-12 15:17:53] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:17:53] [INFO] Using file-based database fallback
+[2025-10-12 15:17:53] [INFO] Analysis stored in file-based fallback: C:\Users\Administrator\Documents\GitHub\LILAC-v.2.1\api/../data/analysis_1760282273_68ebc6a15678e.json
+[2025-10-12 15:21:10] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:21:10] [INFO] Using file-based database fallback
+[2025-10-12 15:21:11] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:21:11] [INFO] Using file-based database fallback
+[2025-10-12 15:21:14] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:21:14] [INFO] Using file-based database fallback
+[2025-10-12 15:21:18] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:21:18] [INFO] Using file-based database fallback
+[2025-10-12 15:21:18] [INFO] Upload analysis stored in file-based fallback: C:\Users\Administrator\Documents\GitHub\LILAC-v.2.1\api/../data/upload_analysis_1760282478_68ebc76ec0712.json
+[2025-10-12 15:21:18] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:21:18] [INFO] Using file-based database fallback
+[2025-10-12 15:21:18] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:21:18] [INFO] Using file-based database fallback
+[2025-10-12 15:21:18] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:21:18] [INFO] Using file-based database fallback
+[2025-10-12 15:21:18] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:21:18] [INFO] Using file-based database fallback
+[2025-10-12 15:21:18] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:21:18] [INFO] Using file-based database fallback
+[2025-10-12 15:21:18] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:21:18] [INFO] Using file-based database fallback
+[2025-10-12 15:21:22] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:21:22] [INFO] Using file-based database fallback
+[2025-10-12 15:21:22] [INFO] Analysis stored in file-based fallback: C:\Users\Administrator\Documents\GitHub\LILAC-v.2.1\api/../data/analysis_1760282482_68ebc7722ed47.json
+[2025-10-12 15:23:07] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:23:07] [INFO] Using file-based database fallback
+[2025-10-12 15:24:22] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:24:22] [INFO] Using file-based database fallback
+[2025-10-12 15:24:22] [INFO] Upload analysis stored in file-based fallback: C:\Users\Administrator\Documents\GitHub\LILAC-v.2.1\api/../data/upload_analysis_1760282662_68ebc8266a45d.json
+[2025-10-12 15:24:22] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:24:22] [INFO] Using file-based database fallback
+[2025-10-12 15:24:22] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:24:22] [INFO] Using file-based database fallback
+[2025-10-12 15:24:22] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:24:22] [INFO] Using file-based database fallback
+[2025-10-12 15:24:22] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:24:22] [INFO] Using file-based database fallback
+[2025-10-12 15:24:22] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:24:22] [INFO] Using file-based database fallback
+[2025-10-12 15:24:22] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:24:22] [INFO] Using file-based database fallback
+[2025-10-12 15:24:26] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:24:26] [INFO] Using file-based database fallback
+[2025-10-12 15:24:26] [INFO] Analysis stored in file-based fallback: C:\Users\Administrator\Documents\GitHub\LILAC-v.2.1\api/../data/analysis_1760282666_68ebc82a7e7f4.json
+[2025-10-12 15:25:32] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:25:32] [INFO] Using file-based database fallback
+[2025-10-12 15:25:43] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:25:43] [INFO] Using file-based database fallback
+[2025-10-12 15:25:43] [INFO] Upload analysis stored in file-based fallback: C:\Users\Administrator\Documents\GitHub\LILAC-v.2.1\api/../data/upload_analysis_1760282743_68ebc877dccab.json
+[2025-10-12 15:25:43] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:25:43] [INFO] Using file-based database fallback
+[2025-10-12 15:25:43] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:25:43] [INFO] Using file-based database fallback
+[2025-10-12 15:25:43] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:25:43] [INFO] Using file-based database fallback
+[2025-10-12 15:25:43] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:25:43] [INFO] Using file-based database fallback
+[2025-10-12 15:25:43] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:25:43] [INFO] Using file-based database fallback
+[2025-10-12 15:25:43] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:25:43] [INFO] Using file-based database fallback
+[2025-10-12 15:25:46] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:25:46] [INFO] Using file-based database fallback
+[2025-10-12 15:25:46] [INFO] Analysis stored in file-based fallback: C:\Users\Administrator\Documents\GitHub\LILAC-v.2.1\api/../data/analysis_1760282746_68ebc87a89ac4.json
+[2025-10-12 15:30:46] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:30:46] [INFO] Using file-based database fallback
+[2025-10-12 15:30:46] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:30:46] [INFO] Using file-based database fallback
+[2025-10-12 15:30:46] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:30:46] [INFO] Using file-based database fallback
+[2025-10-12 15:30:46] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:30:46] [INFO] Using file-based database fallback
+[2025-10-12 15:30:46] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:30:46] [INFO] Using file-based database fallback
+[2025-10-12 15:30:56] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:30:56] [INFO] Using file-based database fallback
+[2025-10-12 15:31:02] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:31:02] [INFO] Using file-based database fallback
+[2025-10-12 15:31:02] [INFO] Upload analysis stored in file-based fallback: C:\Users\Administrator\Documents\GitHub\LILAC-v.2.1\api/../data/upload_analysis_1760283062_68ebc9b6b1461.json
+[2025-10-12 15:31:02] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:31:02] [INFO] Using file-based database fallback
+[2025-10-12 15:31:02] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:31:02] [INFO] Using file-based database fallback
+[2025-10-12 15:31:02] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:31:02] [INFO] Using file-based database fallback
+[2025-10-12 15:31:02] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:31:02] [INFO] Using file-based database fallback
+[2025-10-12 15:31:02] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:31:02] [INFO] Using file-based database fallback
+[2025-10-12 15:31:02] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:31:02] [INFO] Using file-based database fallback
+[2025-10-12 15:31:05] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:31:05] [INFO] Using file-based database fallback
+[2025-10-12 15:31:05] [INFO] Analysis stored in file-based fallback: C:\Users\Administrator\Documents\GitHub\LILAC-v.2.1\api/../data/analysis_1760283065_68ebc9b9779d1.json
+[2025-10-12 15:36:34] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:36:34] [INFO] Using file-based database fallback
+[2025-10-12 15:37:19] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:37:19] [INFO] Using file-based database fallback
+[2025-10-12 15:39:35] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:39:35] [INFO] Using file-based database fallback
+[2025-10-12 15:39:44] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:39:44] [INFO] Using file-based database fallback
+[2025-10-12 15:39:44] [INFO] Upload analysis stored in file-based fallback: C:\Users\Administrator\Documents\GitHub\LILAC-v.2.1\api/../data/upload_analysis_1760283584_68ebcbc03635f.json
+[2025-10-12 15:39:44] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:39:44] [INFO] Using file-based database fallback
+[2025-10-12 15:39:44] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:39:44] [INFO] Using file-based database fallback
+[2025-10-12 15:39:44] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:39:44] [INFO] Using file-based database fallback
+[2025-10-12 15:39:44] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:39:44] [INFO] Using file-based database fallback
+[2025-10-12 15:39:44] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:39:44] [INFO] Using file-based database fallback
+[2025-10-12 15:39:44] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:39:44] [INFO] Using file-based database fallback
+[2025-10-12 15:39:47] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:39:47] [INFO] Using file-based database fallback
+[2025-10-12 15:39:47] [INFO] Analysis stored in file-based fallback: C:\Users\Administrator\Documents\GitHub\LILAC-v.2.1\api/../data/analysis_1760283587_68ebcbc3020c4.json
+[2025-10-12 15:44:53] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:44:53] [INFO] Using file-based database fallback
+[2025-10-12 15:45:34] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:45:34] [INFO] Using file-based database fallback
+[2025-10-12 15:45:54] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:45:54] [INFO] Using file-based database fallback
+[2025-10-12 15:49:28] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:49:28] [INFO] Using file-based database fallback
+[2025-10-12 15:49:39] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:49:39] [INFO] Using file-based database fallback
+[2025-10-12 15:49:39] [INFO] Upload analysis stored in file-based fallback: C:\Users\Administrator\Documents\GitHub\LILAC-v.2.1\api/../data/upload_analysis_1760284179_68ebce13610f9.json
+[2025-10-12 15:49:39] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:49:39] [INFO] Using file-based database fallback
+[2025-10-12 15:49:39] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:49:39] [INFO] Using file-based database fallback
+[2025-10-12 15:49:39] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:49:39] [INFO] Using file-based database fallback
+[2025-10-12 15:49:39] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:49:39] [INFO] Using file-based database fallback
+[2025-10-12 15:49:39] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:49:39] [INFO] Using file-based database fallback
+[2025-10-12 15:49:39] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:49:39] [INFO] Using file-based database fallback
+[2025-10-12 15:49:42] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:49:42] [INFO] Using file-based database fallback
+[2025-10-12 15:49:42] [INFO] Analysis stored in file-based fallback: C:\Users\Administrator\Documents\GitHub\LILAC-v.2.1\api/../data/analysis_1760284182_68ebce16bc920.json
+[2025-10-12 15:50:35] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:50:35] [INFO] Using file-based database fallback
+[2025-10-12 15:50:35] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:50:35] [INFO] Using file-based database fallback
+[2025-10-12 15:50:35] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:50:35] [INFO] Using file-based database fallback
+[2025-10-12 15:50:35] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:50:35] [INFO] Using file-based database fallback
+[2025-10-12 15:50:35] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:50:35] [INFO] Using file-based database fallback
+[2025-10-12 15:55:30] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:55:30] [INFO] Using file-based database fallback
+[2025-10-12 15:56:20] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:56:20] [INFO] Using file-based database fallback
+[2025-10-12 15:56:38] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:56:38] [INFO] Using file-based database fallback
+[2025-10-12 15:56:38] [INFO] Upload analysis stored in file-based fallback: C:\Users\Administrator\Documents\GitHub\LILAC-v.2.1\api/../data/upload_analysis_1760284598_68ebcfb66909c.json
+[2025-10-12 15:56:38] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:56:38] [INFO] Using file-based database fallback
+[2025-10-12 15:56:38] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:56:38] [INFO] Using file-based database fallback
+[2025-10-12 15:56:38] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:56:38] [INFO] Using file-based database fallback
+[2025-10-12 15:56:38] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:56:38] [INFO] Using file-based database fallback
+[2025-10-12 15:56:38] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:56:38] [INFO] Using file-based database fallback
+[2025-10-12 15:56:38] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:56:38] [INFO] Using file-based database fallback
+[2025-10-12 15:56:42] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 15:56:42] [INFO] Using file-based database fallback
+[2025-10-12 15:56:42] [INFO] Analysis stored in file-based fallback: C:\Users\Administrator\Documents\GitHub\LILAC-v.2.1\api/../data/analysis_1760284602_68ebcfba035b2.json
+[2025-10-12 16:00:10] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 16:00:10] [INFO] Using file-based database fallback
+[2025-10-12 16:00:15] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 16:00:15] [INFO] Using file-based database fallback
+[2025-10-12 16:00:17] [WARNING] SQLite connection failed: could not find driver
+[2025-10-12 16:00:17] [INFO] Using file-based database fallback

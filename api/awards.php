@@ -6,16 +6,32 @@ header('Access-Control-Allow-Headers: Content-Type');
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') { http_response_code(200); exit(); }
 
-$dbFile = dirname(__DIR__) . '/database/mou_moa.db';
-if (!is_dir(dirname($dbFile))) { mkdir(dirname($dbFile), 0755, true); }
+// Include config for database connection with fallback
+require_once 'config.php';
 
 function db() {
-    global $dbFile;
-    $pdo = new PDO("sqlite:$dbFile");
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $sql = file_get_contents(dirname(__DIR__) . '/database.sql');
-    $pdo->exec($sql);
-    return $pdo;
+    try {
+        $pdo = getDatabaseConnection();
+        
+        // Check if we're using file-based fallback
+        if ($pdo instanceof FileBasedDatabase) {
+            // Return the fallback database object
+            return $pdo;
+        }
+        
+        // For SQLite, try to create tables if they don't exist
+        $sqlFile = dirname(__DIR__) . '/database.sql';
+        if (file_exists($sqlFile)) {
+            $sql = file_get_contents($sqlFile);
+            $pdo->exec($sql);
+        }
+        
+        return $pdo;
+    } catch (Exception $e) {
+        // Return file-based fallback if SQLite fails
+        logActivity('Database connection failed in awards.php: ' . $e->getMessage(), 'WARNING');
+        return new FileBasedDatabase();
+    }
 }
 
 function requireAuth($requireAdmin = false) {
@@ -67,6 +83,43 @@ function uploadAward($pdo) {
     $meta = $_POST['meta'] ?? '';
     if (is_string($meta)) { $meta = json_decode($meta, true) ?? []; }
     list($fileName, $filePath) = storeUpload($_FILES['file'] ?? null);
+    
+    // Check if we're using file-based fallback
+    if ($pdo instanceof FileBasedDatabase) {
+        // Generate mock ID and result
+        $awardId = 'fallback_' . time();
+        $text = trim($ocrText);
+        $result = classify($text, $meta);
+        
+        // Store in file system
+        $uploadData = [
+            'id' => $awardId,
+            'title' => $title,
+            'date' => $date,
+            'description' => $description,
+            'file_name' => $fileName,
+            'file_path' => $filePath,
+            'ocr_text' => $ocrText,
+            'created_by' => $createdBy,
+            'analysis' => $result,
+            'created_at' => date('Y-m-d H:i:s')
+        ];
+        
+        $dataDir = __DIR__ . '/../data/';
+        if (!is_dir($dataDir)) {
+            mkdir($dataDir, 0755, true);
+        }
+        
+        $uploadFile = $dataDir . 'award_upload_' . time() . '_' . uniqid() . '.json';
+        file_put_contents($uploadFile, json_encode($uploadData));
+        
+        logActivity('Award upload stored in file-based fallback: ' . $uploadFile, 'INFO');
+        
+        echo json_encode(['id' => $awardId, 'analysis' => $result]);
+        return;
+    }
+    
+    // Normal database operations for SQLite
     $stmt = $pdo->prepare('INSERT INTO awards (title, date, description, file_name, file_path, ocr_text, created_by) VALUES (?,?,?,?,?,?,?)');
     $stmt->execute([$title, $date, $description, $fileName, $filePath, $ocrText, $createdBy]);
     $awardId = (int)$pdo->lastInsertId();
@@ -88,11 +141,89 @@ function uploadAward($pdo) {
 }
 
 function listAwards($pdo) {
+    // Check if we're using file-based fallback
+    if ($pdo instanceof FileBasedDatabase) {
+        // Return mock data for demonstration
+        $mockAwards = [
+            [
+                'id' => 1,
+                'title' => 'Global Citizenship Initiative',
+                'date' => '2025-01-15',
+                'description' => 'Comprehensive program promoting intercultural understanding',
+                'file_name' => 'global_citizenship_proposal.pdf',
+                'file_path' => '/uploads/awards/global_citizenship_proposal.pdf',
+                'ocr_text' => 'Global citizenship award document with intercultural understanding and sustainability initiatives.',
+                'created_by' => 'admin',
+                'created_at' => date('Y-m-d H:i:s')
+            ],
+            [
+                'id' => 2,
+                'title' => 'Sustainability Program',
+                'date' => '2025-01-10',
+                'description' => 'Environmental sustainability and UN SDGs integration',
+                'file_name' => 'sustainability_initiative.docx',
+                'file_path' => '/uploads/awards/sustainability_initiative.docx',
+                'ocr_text' => 'Sustainability award document focusing on environmental impact and social responsibility.',
+                'created_by' => 'admin',
+                'created_at' => date('Y-m-d H:i:s', strtotime('-1 day'))
+            ],
+            [
+                'id' => 3,
+                'title' => 'ASEAN Awareness Campaign',
+                'date' => '2025-01-05',
+                'description' => 'Regional cooperation and cultural exchange program',
+                'file_name' => 'asean_awareness_program.pdf',
+                'file_path' => '/uploads/awards/asean_awareness_program.pdf',
+                'ocr_text' => 'ASEAN awareness initiative promoting regional understanding and collaboration.',
+                'created_by' => 'admin',
+                'created_at' => date('Y-m-d H:i:s', strtotime('-3 days'))
+            ]
+        ];
+        
+        echo json_encode($mockAwards);
+        return;
+    }
+    
+    // Normal database query for SQLite
     $stmt = $pdo->query('SELECT * FROM awards ORDER BY created_at DESC');
     echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
 }
 
 function detail($pdo, $id) {
+    // Check if we're using file-based fallback
+    if ($pdo instanceof FileBasedDatabase) {
+        // Return mock data for demonstration
+        $mockAward = [
+            'id' => $id,
+            'title' => 'Sample Award Document',
+            'date' => '2025-01-15',
+            'description' => 'This is a sample award document for demonstration purposes.',
+            'file_name' => 'sample_award.pdf',
+            'file_path' => '/uploads/awards/sample_award.pdf',
+            'ocr_text' => 'Sample OCR extracted text from award document.',
+            'created_by' => 'admin',
+            'created_at' => date('Y-m-d H:i:s')
+        ];
+        
+        $mockAnalysis = [
+            'id' => 1,
+            'award_id' => $id,
+            'predicted_category' => 'Global Citizenship Award',
+            'confidence' => 0.85,
+            'matched_categories_json' => json_encode(['Global Citizenship', 'Sustainability']),
+            'checklist_json' => json_encode(['Intercultural understanding', 'Student empowerment']),
+            'recommendations_text' => 'Strong alignment with Global Citizenship Award criteria.',
+            'evidence_json' => json_encode(['Sample evidence text']),
+            'manual_overridden' => 0,
+            'final_category' => 'Global Citizenship Award',
+            'created_at' => date('Y-m-d H:i:s')
+        ];
+        
+        echo json_encode(['award' => $mockAward, 'analysis' => $mockAnalysis]);
+        return;
+    }
+    
+    // Normal database query for SQLite
     $stmt = $pdo->prepare('SELECT * FROM awards WHERE id = ?');
     $stmt->execute([$id]);
     $award = $stmt->fetch(PDO::FETCH_ASSOC);

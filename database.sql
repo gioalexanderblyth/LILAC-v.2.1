@@ -99,7 +99,7 @@ CREATE TABLE IF NOT EXISTS award_counters (
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
--- Initialize award counters with ICONS 2024 categories
+-- Initialize award counters with ICONS 2025 categories
 INSERT OR IGNORE INTO award_counters (award_name, count) VALUES
 ('Global Citizenship Award', 0),
 ('Outstanding International Education Program Award', 0),

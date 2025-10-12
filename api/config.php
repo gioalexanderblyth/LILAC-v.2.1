@@ -163,8 +163,23 @@ function validateFileUpload($file) {
     }
     
     // Check file type
-    $fileType = mime_content_type($file['tmp_name']);
-    if (!in_array($fileType, ALLOWED_FILE_TYPES)) {
+    $fileType = null;
+    if (function_exists('mime_content_type')) {
+        $fileType = mime_content_type($file['tmp_name']);
+    } else {
+        // Fallback: use file extension
+        $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+        $extensionMap = [
+            'jpg' => 'image/jpeg',
+            'jpeg' => 'image/jpeg',
+            'png' => 'image/png',
+            'pdf' => 'application/pdf',
+            'docx' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+        ];
+        $fileType = $extensionMap[$extension] ?? null;
+    }
+    
+    if (!$fileType || !in_array($fileType, ALLOWED_FILE_TYPES)) {
         throw new Exception('Invalid file type. Allowed types: JPG, PNG, PDF, DOCX');
     }
     

@@ -2,12 +2,18 @@
 // Suppress PHP errors to prevent JSON corruption
 error_reporting(0);
 ini_set('display_errors', 0);
+ini_set('log_errors', 1);
 
 // Clean any existing output
 if (ob_get_level()) {
     ob_end_clean();
 }
 ob_start();
+
+// Set error handler to catch any PHP errors
+set_error_handler(function($severity, $message, $file, $line) {
+    throw new ErrorException($message, 0, $severity, $file, $line);
+});
 
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
@@ -32,17 +38,17 @@ $user = $_SERVER['HTTP_X_USER'] ?? 'anonymous';
 $role = $_SERVER['HTTP_X_ROLE'] ?? 'user';
 
 try {
-    // Database connection
-    $dbPath = '../database/mou_moa.db';
-    if (!file_exists($dbPath)) {
-        throw new Exception('Database file not found');
-    }
+    // Include config for database connection with fallback
+    require_once 'config.php';
     
-    $pdo = new PDO('sqlite:' . $dbPath);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    // Get database connection from config (includes fallback)
+    $pdo = getDatabaseConnection();
     
-    // Test database connection
-    $pdo->query('SELECT 1');
+    // Check if we're using file-based fallback
+    $isFileBased = ($pdo instanceof FileBasedDatabase);
+    
+    // Log the upload attempt
+    error_log("Upload attempt - File count: " . count($_FILES) . ", POST count: " . count($_POST));
     
     // Check if file was uploaded
     if (!isset($_FILES['file']) || $_FILES['file']['error'] !== UPLOAD_ERR_OK) {
@@ -90,19 +96,47 @@ try {
     // Perform Jaccard similarity analysis
     $analysisResults = performJaccardAnalysis($extractedText, $criteria);
     
-    // Save analysis results directly to award_analysis table
-    $stmt = $pdo->prepare("
-        INSERT INTO award_analysis (title, description, file_name, file_path, detected_text, analysis_results, created_at) 
-        VALUES (?, ?, ?, ?, ?, ?, ?)
-    ");
-    
     $title = $_POST['title'] ?? pathinfo($file['name'], PATHINFO_FILENAME);
     $date = $_POST['date'] ?? date('Y-m-d');
     $description = $_POST['description'] ?? '';
     
     $analysisResultsJson = json_encode($analysisResults);
-    $stmt->execute([$title, $description, $file['name'], $filePath, $extractedText, $analysisResultsJson, date('Y-m-d H:i:s')]);
-    $awardId = $pdo->lastInsertId();
+    
+    // Handle database storage with fallback
+    if ($isFileBased) {
+        // Store analysis in file system as fallback
+        $analysisData = [
+            'title' => $title,
+            'description' => $description,
+            'file_name' => $file['name'],
+            'file_path' => $filePath,
+            'detected_text' => $extractedText,
+            'analysis_results' => $analysisResultsJson,
+            'created_at' => date('Y-m-d H:i:s')
+        ];
+        
+        $dataDir = __DIR__ . '/../data/';
+        if (!is_dir($dataDir)) {
+            mkdir($dataDir, 0755, true);
+        }
+        
+        $analysisFile = $dataDir . 'upload_analysis_' . time() . '_' . uniqid() . '.json';
+        file_put_contents($analysisFile, json_encode($analysisData));
+        
+        logActivity('Upload analysis stored in file-based fallback: ' . $analysisFile, 'INFO');
+        
+        // Return a mock ID
+        $awardId = 'upload_file_' . time();
+    } else {
+        // Save analysis results directly to award_analysis table
+        $stmt = $pdo->prepare("
+            INSERT INTO award_analysis (title, description, file_name, file_path, detected_text, analysis_results, created_at) 
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+        ");
+        
+        $stmt->execute([$title, $description, $file['name'], $filePath, $extractedText, $analysisResultsJson, date('Y-m-d H:i:s')]);
+        $awardId = $pdo->lastInsertId();
+    }
     
     // Get matched categories for response
     $matchedCategories = array_filter($analysisResults, function($result) {
@@ -124,8 +158,22 @@ try {
     exit();
     
 } catch (Exception $e) {
+    // Log the error
+    error_log("Awards upload error: " . $e->getMessage() . " in " . $e->getFile() . " line " . $e->getLine());
+    
     http_response_code(400);
     $response = ['error' => $e->getMessage()];
+    
+    // Ensure clean JSON output
+    ob_clean();
+    echo json_encode($response);
+    exit();
+} catch (Error $e) {
+    // Catch PHP 7+ errors
+    error_log("Awards upload PHP error: " . $e->getMessage() . " in " . $e->getFile() . " line " . $e->getLine());
+    
+    http_response_code(500);
+    $response = ['error' => 'Internal server error occurred'];
     
     // Ensure clean JSON output
     ob_clean();

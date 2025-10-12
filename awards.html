@@ -336,30 +336,6 @@
 
 <!-- Analysis Results Container -->
 <div id="analysis-results" class="hidden space-y-4">
-<!-- Extracted Text Preview -->
-<div class="bg-card-light dark:bg-card-dark/50 rounded-xl p-6 border border-border-light dark:border-border-dark">
-<div class="flex items-center justify-between mb-4">
-<h4 class="font-bold text-primary flex items-center">
-<span class="material-symbols-outlined mr-2">description</span>
-Extracted Text Preview
-</h4>
-<div class="flex gap-2">
-<button class="text-sm text-primary hover:text-primary/80 transition-colors" onclick="toggleExtractedText()">
-<span class="material-symbols-outlined text-base">visibility</span>
-View Full Text
-</button>
-<button class="text-sm text-primary hover:text-primary/80 transition-colors" onclick="exportAnalysis('pdf')">
-<span class="material-symbols-outlined text-base">picture_as_pdf</span>
-Export PDF
-</button>
-<button class="text-sm text-primary hover:text-primary/80 transition-colors" onclick="exportAnalysis('docx')">
-<span class="material-symbols-outlined text-base">description</span>
-Export DOCX
-</button>
-</div>
-</div>
-<div id="extracted-text-preview" class="text-sm text-text-muted-light dark:text-text-muted-dark bg-gray-50 dark:bg-gray-800 rounded-lg p-3 max-h-32 overflow-hidden"></div>
-</div>
 
 <!-- Award Analysis Results -->
 <div id="award-analysis-list" class="space-y-4">
@@ -1235,7 +1211,6 @@ Export PDF
         function displayAnalysisResults(data) {
             const placeholder = document.getElementById('analysis-placeholder');
             const results = document.getElementById('analysis-results');
-            const extractedTextPreview = document.getElementById('extracted-text-preview');
             const fullExtractedText = document.getElementById('full-extracted-text');
             const awardAnalysisList = document.getElementById('award-analysis-list');
             const recommendationsList = document.getElementById('recommendations-list');
@@ -1247,24 +1222,24 @@ Export PDF
             placeholder.classList.add('hidden');
             results.classList.remove('hidden');
             
-            // Set extracted text
-            const truncatedText = data.detected_text.length > 200 ? 
-                data.detected_text.substring(0, 200) + '...' : 
-                data.detected_text;
-            
-            extractedTextPreview.textContent = truncatedText;
+            // Set extracted text for modal
             fullExtractedText.textContent = data.detected_text;
             
             // Display award analysis
             awardAnalysisList.innerHTML = '';
-            data.analysis.forEach(award => {
-                const card = createAwardAnalysisCard(award);
-                awardAnalysisList.appendChild(card);
-            });
+            if (data.analysis && Array.isArray(data.analysis)) {
+                data.analysis.forEach(award => {
+                    const card = createAwardAnalysisCard(award);
+                    awardAnalysisList.appendChild(card);
+                });
+            } else {
+                awardAnalysisList.innerHTML = '<p class="text-text-muted-light dark:text-text-muted-dark">No analysis results available.</p>';
+            }
             
             // Display recommendations with structured format
             recommendationsList.innerHTML = '';
-            data.recommendations.forEach((recommendation, index) => {
+            if (data.recommendations && Array.isArray(data.recommendations)) {
+                data.recommendations.forEach((recommendation, index) => {
                 const recElement = document.createElement('div');
                 
                 // Determine icon and styling based on recommendation type
@@ -1294,7 +1269,10 @@ Export PDF
                     </div>
                 `;
                 recommendationsList.appendChild(recElement);
-            });
+                });
+            } else {
+                recommendationsList.innerHTML = '<p class="text-text-muted-light dark:text-text-muted-dark">No recommendations available.</p>';
+            }
             
             // Scroll to results
             results.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -1321,14 +1299,14 @@ Export PDF
             }
             
             // Create criteria badges
-            const criteriaBadges = award.criteria_met.map(criteria => 
+            const criteriaBadges = (award.matched_criteria || []).map(criteria => 
                 `<span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-${statusColor}-100 text-${statusColor}-800">${criteria}</span>`
             ).join(' ');
             
             card.innerHTML = `
                 <div class="flex items-start justify-between mb-4">
                     <div class="flex-1">
-                        <h4 class="text-lg font-bold text-text-light dark:text-text-dark mb-1">${award.award}</h4>
+                        <h4 class="text-lg font-bold text-text-light dark:text-text-dark mb-1">${award.category}</h4>
                         <div class="flex items-center gap-2">
                             <span class="text-sm text-text-muted-light dark:text-text-muted-dark">${award.type}</span>
                             <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-primary/10 text-primary">${award.score}%</span>
