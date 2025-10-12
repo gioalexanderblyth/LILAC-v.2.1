@@ -267,9 +267,9 @@
         // Attach to existing upload control in header
         const input = document.getElementById('file-upload');
         const uploadBtn = document.getElementById('uploadBtn');
-        const uploadProgress = document.getElementById('uploadProgress');
-        const progressBar = document.getElementById('progressBar');
-        const progressText = document.getElementById('progressText');
+        const uploadProgress = document.getElementById('upload-progress-section');
+        const progressBar = document.getElementById('progress-bar');
+        const progressText = document.getElementById('progress-text');
         
         if (!input) return;
         
@@ -296,7 +296,7 @@
                 return;
             }
             
-            // Show progress
+            // Show progress section only when processing starts
             if (uploadProgress) {
                 uploadProgress.classList.remove('hidden');
                 if (progressBar) progressBar.style.width = '0%';
@@ -328,9 +328,16 @@
                     renderAnalysis(res);
                     refreshStats();
                     
+                    // Refresh award list data if the function exists
+                    if (typeof loadAwardListData === 'function') {
+                        loadAwardListData();
+                    }
+                    
                     // Hide progress after delay
                     setTimeout(() => {
                         if (uploadProgress) uploadProgress.classList.add('hidden');
+                        if (progressBar) progressBar.style.width = '0%';
+                        if (progressText) progressText.textContent = 'Processing... Analyzing document with OCR.';
                     }, 2000);
                 } else {
                     throw new Error(res.error || 'Upload failed');
@@ -339,6 +346,8 @@
                 console.error('Upload error:', error);
                 showToast('Upload failed: ' + error.message, 'error');
                 if (uploadProgress) uploadProgress.classList.add('hidden');
+                if (progressBar) progressBar.style.width = '0%';
+                if (progressText) progressText.textContent = 'Processing... Analyzing document with OCR.';
             }
         }
     }
