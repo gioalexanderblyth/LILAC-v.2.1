@@ -90,9 +90,9 @@ try {
     // Perform Jaccard similarity analysis
     $analysisResults = performJaccardAnalysis($extractedText, $criteria);
     
-    // Save award to database
+    // Save analysis results directly to award_analysis table
     $stmt = $pdo->prepare("
-        INSERT INTO awards (title, date, description, file_name, file_path, ocr_text, created_by) 
+        INSERT INTO award_analysis (title, description, file_name, file_path, detected_text, analysis_results, created_at) 
         VALUES (?, ?, ?, ?, ?, ?, ?)
     ");
     
@@ -100,30 +100,14 @@ try {
     $date = $_POST['date'] ?? date('Y-m-d');
     $description = $_POST['description'] ?? '';
     
-    $stmt->execute([$title, $date, $description, $file['name'], $filePath, $extractedText, $user]);
+    $analysisResultsJson = json_encode($analysisResults);
+    $stmt->execute([$title, $description, $file['name'], $filePath, $extractedText, $analysisResultsJson, date('Y-m-d H:i:s')]);
     $awardId = $pdo->lastInsertId();
     
-    // Save analysis results
+    // Get matched categories for response
     $matchedCategories = array_filter($analysisResults, function($result) {
         return $result['score'] >= 0.25; // Threshold for counting
     });
-    
-    $stmt = $pdo->prepare("
-        INSERT INTO award_analysis (award_id, predicted_category, confidence, matched_categories_json, checklist_json, recommendations_text, evidence_json) 
-        VALUES (?, ?, ?, ?, ?, ?, ?)
-    ");
-    
-    $predictedCategory = $analysisResults[0]['category'] ?? 'Unknown';
-    $confidence = $analysisResults[0]['score'] ?? 0;
-    $matchedCategoriesJson = json_encode(array_column($matchedCategories, 'category'));
-    $checklistJson = json_encode($analysisResults);
-    $recommendationsText = generateRecommendations($analysisResults);
-    $evidenceJson = json_encode(['extracted_text_length' => strlen($extractedText)]);
-    
-    $stmt->execute([$awardId, $predictedCategory, $confidence, $matchedCategoriesJson, $checklistJson, $recommendationsText, $evidenceJson]);
-    
-    // Update award counters
-    updateAwardCounters($pdo, $matchedCategories);
     
     // Return success response
     $response = [
@@ -131,8 +115,7 @@ try {
         'message' => 'File uploaded and analyzed successfully',
         'award_id' => $awardId,
         'analysis' => $analysisResults,
-        'matched_categories' => array_column($matchedCategories, 'category'),
-        'counters' => getAwardCounters($pdo)
+        'matched_categories' => array_column($matchedCategories, 'category')
     ];
     
     // Ensure clean JSON output
@@ -351,25 +334,6 @@ function generateRecommendations($analysisResults) {
     return implode(' ', $recommendations);
 }
 
-function updateAwardCounters($pdo, $matchedCategories) {
-    foreach ($matchedCategories as $category) {
-        $stmt = $pdo->prepare("
-            UPDATE award_counters 
-            SET count = count + 1, updated_at = CURRENT_TIMESTAMP 
-            WHERE award_name = ?
-        ");
-        $stmt->execute([$category['category']]);
-    }
-}
-
-function getAwardCounters($pdo) {
-    $stmt = $pdo->query("SELECT award_name, count FROM award_counters ORDER BY award_name");
-    $counters = [];
-    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        $counters[$row['award_name']] = $row['count'];
-    }
-    return $counters;
-}
 
 function simulateOCRExtraction($filename) {
     $filename = strtolower($filename);

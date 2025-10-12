@@ -1,4 +1,14 @@
 <?php
+// Suppress PHP errors to prevent JSON corruption
+error_reporting(0);
+ini_set('display_errors', 0);
+
+// Clean any existing output
+if (ob_get_level()) {
+    ob_end_clean();
+}
+ob_start();
+
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET, OPTIONS');
@@ -6,14 +16,15 @@ header('Access-Control-Allow-Headers: Content-Type');
 
 // Handle preflight OPTIONS request
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    exit(0);
+    http_response_code(200);
+    exit();
 }
 
 // Only allow GET requests
 if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
     http_response_code(405);
     echo json_encode(['error' => 'Method not allowed']);
-    exit;
+    exit();
 }
 
 require_once 'config.php';
@@ -156,13 +167,21 @@ try {
         'recent_analysis' => $recentAnalysis
     ];
     
+    // Ensure clean JSON output
+    ob_clean();
     echo json_encode($response);
+    exit();
     
 } catch (Exception $e) {
     http_response_code(500);
-    echo json_encode([
+    $response = [
         'error' => 'Database connection failed: ' . $e->getMessage(),
         'success' => false
-    ]);
+    ];
+    
+    // Ensure clean JSON output
+    ob_clean();
+    echo json_encode($response);
+    exit();
 }
 ?>
