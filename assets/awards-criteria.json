@@ -1,0 +1,90 @@
+[
+  {
+    "category": "Global Citizenship Award",
+    "type": "Institutional",
+    "criteria": [
+      "Intercultural understanding",
+      "Student empowerment and changemaker development",
+      "Active global participation",
+      "Integration of global citizenship into academics",
+      "Measurable positive impact"
+    ]
+  },
+  {
+    "category": "Outstanding International Education Program Award",
+    "type": "Institutional",
+    "criteria": [
+      "Accessibility and inclusivity in international programs",
+      "Collaborative innovation with partners",
+      "Expansion of global opportunities",
+      "Diversity and equity in implementation",
+      "Long-term institutional commitment"
+    ]
+  },
+  {
+    "category": "Sustainability Award",
+    "type": "Institutional",
+    "criteria": [
+      "Integration of sustainability in academics and operations",
+      "Innovative and impactful projects",
+      "Long-term sustainability planning",
+      "Contribution to UN SDGs",
+      "Measurable environmental or social impact"
+    ]
+  },
+  {
+    "category": "Best ASEAN Awareness Initiative Award",
+    "type": "Institutional",
+    "criteria": [
+      "Promotion of ASEAN identity and understanding",
+      "Regional cooperation and partnership initiatives",
+      "Community outreach or education programs",
+      "Sustained ASEAN engagement",
+      "Cross-border collaboration"
+    ]
+  },
+  {
+    "category": "Emerging Leadership Award",
+    "type": "Individual",
+    "criteria": [
+      "Innovation in internationalization",
+      "Inclusive and empowering leadership",
+      "Strategic contribution to global engagement",
+      "Integrity and ethical governance",
+      "Evidence of measurable results"
+    ]
+  },
+  {
+    "category": "Internationalization Leadership Award",
+    "type": "Individual",
+    "criteria": [
+      "Excellence in strategic vision and implementation",
+      "Ethical governance and leadership",
+      "Sustained institutional and national impact",
+      "Commitment to inclusivity and collaboration",
+      "Transformational leadership"
+    ]
+  },
+  {
+    "category": "Best CHED Regional Office for Internationalization Award",
+    "type": "Special",
+    "criteria": [
+      "Leadership and innovation in IZN promotion",
+      "Operational excellence and governance",
+      "Sustainable and inclusive initiatives",
+      "Regional impact and collaboration",
+      "Compliance with CHED IZN objectives"
+    ]
+  },
+  {
+    "category": "Most Promising Regional IRO Community Award",
+    "type": "Special",
+    "criteria": [
+      "Visionary leadership and early achievements",
+      "Collaboration and shared best practices",
+      "Resource sharing and capacity building",
+      "Future potential for impact",
+      "Regional inclusivity and connection"
+    ]
+  }
+]
