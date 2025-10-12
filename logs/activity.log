@@ -2,3 +2,5 @@
 [2025-10-12 13:27:05] [INFO] Using file-based database fallback
 [2025-10-12 13:28:36] [WARNING] SQLite connection failed: could not find driver
 [2025-10-12 13:28:36] [INFO] Using file-based database fallback
+[2025-10-12 15:50:39] [INFO] SQLite database connection established successfully
+[2025-10-12 15:50:55] [INFO] SQLite database connection established successfully
