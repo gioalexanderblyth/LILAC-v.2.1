@@ -1285,3 +1285,16 @@
 [2025-10-13 06:34:27] [INFO] Award deleted successfully: 68ec989a99c55_1760336026_testaward.docx, analysis_1760336026_68ec989a99f2f.json
 [2025-10-13 06:34:27] [WARNING] SQLite connection failed: could not find driver
 [2025-10-13 06:34:27] [INFO] Using file-based database fallback
+[2025-10-13 14:20:19] [WARNING] SQLite connection failed: could not find driver
+[2025-10-13 14:20:19] [INFO] Using file-based database fallback
+[2025-10-13 14:20:31] [WARNING] SQLite connection failed: could not find driver
+[2025-10-13 14:20:31] [INFO] Using file-based database fallback
+[2025-10-13 14:20:31] [INFO] Analysis stored in file-based fallback: C:\Users\Administrator\Documents\GitHub\LILAC-v.2.1\api/../data/analysis_1760365231_68ed0aaf82317.json
+[2025-10-13 14:20:33] [WARNING] SQLite connection failed: could not find driver
+[2025-10-13 14:20:33] [INFO] Using file-based database fallback
+[2025-10-13 14:20:33] [WARNING] SQLite connection failed: could not find driver
+[2025-10-13 14:20:33] [INFO] Using file-based database fallback
+[2025-10-13 14:20:47] [WARNING] SQLite connection failed: could not find driver
+[2025-10-13 14:20:47] [INFO] Using file-based database fallback
+[2025-10-13 14:20:47] [WARNING] SQLite connection failed: could not find driver
+[2025-10-13 14:20:47] [INFO] Using file-based database fallback
