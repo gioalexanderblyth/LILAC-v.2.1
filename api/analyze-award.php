@@ -47,6 +47,12 @@ try {
     if ($isReanalyze && !empty($originalFilePath)) {
         // Re-analysis: use existing file
         error_log("Re-analysis request for file: " . $originalFilePath);
+        
+        // Check if the original file exists
+        if (!file_exists($originalFilePath)) {
+            throw new Exception('Original file not found: ' . $originalFilePath);
+        }
+        
         $uploadedFile = [
             'name' => basename($originalFilePath),
             'tmp_name' => $originalFilePath,
@@ -61,8 +67,16 @@ try {
     error_log("Form data - Award name: '$awardName', Description: '$description', File: " . ($uploadedFile ? $uploadedFile['name'] : 'none') . ", Reanalyze: " . ($isReanalyze ? 'yes' : 'no'));
 
     // Validate required fields
-    if (empty($awardName) || empty($description) || !$uploadedFile) {
-        throw new Exception('Missing required fields: award name, description, and file upload are required');
+    if ($isReanalyze) {
+        // For re-analysis, only need the file
+        if (!$uploadedFile) {
+            throw new Exception('Missing required fields: file upload is required for re-analysis');
+        }
+    } else {
+        // For new uploads, need all fields
+        if (empty($awardName) || empty($description) || !$uploadedFile) {
+            throw new Exception('Missing required fields: award name, description, and file upload are required');
+        }
     }
 
     // Load functions and config

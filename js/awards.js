@@ -264,6 +264,15 @@
     }
 
     async function initUpload() {
+        // Check if award analysis form exists - if so, skip external upload handling
+        const awardAnalysisForm = document.getElementById('award-analysis-form');
+        const fileInput = document.getElementById('file-upload');
+        
+        if (awardAnalysisForm && fileInput) {
+            console.log('Award analysis form detected - skipping external upload handler completely');
+            return;
+        }
+        
         // Attach to existing upload control in header
         const input = document.getElementById('file-upload');
         const uploadBtn = document.getElementById('uploadBtn');

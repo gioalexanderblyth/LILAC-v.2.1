@@ -269,11 +269,11 @@
 <form class="space-y-4" id="award-analysis-form" enctype="multipart/form-data">
 <label class="block">
 <span class="text-sm font-medium text-text-light dark:text-text-dark">Award Name</span>
-<input class="mt-1 block w-full rounded-lg border-border-light dark:border-border-dark bg-card-light dark:bg-card-dark text-text-light dark:text-text-dark focus:ring-primary focus:border-primary" placeholder="e.g. Presidential Scholarship" type="text" name="award_name" id="award_name" required/>
+<input class="mt-1 block w-full rounded-lg border-border-light dark:border-border-dark bg-card-light dark:bg-card-dark text-text-light dark:text-text-dark focus:ring-primary focus:border-primary" placeholder="e.g. Presidential Scholarship" type="text" name="award_name" id="award_name" autocomplete="off" required/>
 </label>
 <label class="block">
 <span class="text-sm font-medium text-text-light dark:text-text-dark">Description</span>
-<textarea class="mt-1 block w-full rounded-lg border-border-light dark:border-border-dark bg-card-light dark:bg-card-dark text-text-light dark:text-text-dark focus:ring-primary focus:border-primary" placeholder="A short summary of the award..." name="description" id="description" required></textarea>
+<textarea class="mt-1 block w-full rounded-lg border-border-light dark:border-border-dark bg-card-light dark:bg-card-dark text-text-light dark:text-text-dark focus:ring-primary focus:border-primary" placeholder="A short summary of the award..." name="description" id="description" autocomplete="off" required></textarea>
 </label>
 <div>
 <span class="text-sm font-medium text-text-light dark:text-text-dark">Award Documentation</span>
@@ -285,7 +285,7 @@
 <div class="flex text-sm text-text-muted-light dark:text-text-muted-dark">
 <label class="relative cursor-pointer bg-transparent rounded-md font-medium text-primary hover:text-primary/80 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-primary" for="file-upload">
 <span>Upload a file</span>
-<input class="sr-only" id="file-upload" name="file" type="file" accept=".pdf,.docx,.jpg,.jpeg,.png" required/>
+<input class="sr-only" id="file-upload" name="award_file" type="file" accept=".pdf,.docx,.jpg,.jpeg,.png" required/>
 </label>
 <p class="pl-1">or drag and drop</p>
 </div>
@@ -528,14 +528,6 @@ Dynamic Analysis & Recommendations
 <option value="Best CHED Regional Office for Internationalization Award">Best CHED Regional Office for Internationalization Award</option>
 <option value="Most Promising Regional IRO Community Award">Most Promising Regional IRO Community Award</option>
 </select>
-<select id="departmentFilter" class="w-full py-2 px-3 text-sm rounded-lg border border-border-light dark:border-border-dark bg-card-light dark:bg-card-dark text-text-muted-light dark:text-text-muted-dark focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all" onchange="filterAwardsList()">
-<option value="">Department/Office</option>
-<option value="admin">Admin</option>
-<option value="international">International Office</option>
-<option value="academic">Academic Affairs</option>
-<option value="research">Research Office</option>
-<option value="student">Student Affairs</option>
-</select>
 <input id="dateFilter" class="w-full py-2 px-3 text-sm rounded-lg border border-border-light dark:border-border-dark bg-card-light dark:bg-card-dark text-text-muted-light dark:text-text-muted-dark focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all" onblur="(this.type='text'); filterAwardsList()" onfocus="(this.type='date')" placeholder="Date Range" type="text" onchange="filterAwardsList()"/>
 <select id="confidenceFilter" class="w-full py-2 px-3 text-sm rounded-lg border border-border-light dark:border-border-dark bg-card-light dark:bg-card-dark text-text-muted-light dark:text-text-muted-dark focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all" onchange="filterAwardsList()">
 <option value="">Match Confidence</option>
@@ -544,9 +536,7 @@ Dynamic Analysis & Recommendations
 <option value="60-75">60%-75%</option>
 <option value="0-60">&lt;60%</option>
 </select>
-</div>
-<div class="flex justify-end mt-4">
-<button id="clearFiltersBtn" class="text-sm font-medium text-primary hover:underline" onclick="clearFilters()">Clear Filters</button>
+<button id="clearFiltersBtn" class="px-2 py-2 text-sm font-medium text-primary hover:bg-primary/10 rounded-lg border border-primary/20 hover:border-primary transition-all whitespace-nowrap" onclick="clearFilters()">Clear Filters</button>
 </div>
 </div>
 <div class="flex items-center justify-between mb-4">
@@ -575,7 +565,7 @@ Export PDF
 <th class="px-6 py-3 font-medium">Matched Award</th>
 <th class="px-6 py-3 font-medium">Similarity Score</th>
 <th class="px-6 py-3 font-medium">Matched Criteria</th>
-<th class="px-6 py-3 font-medium">Submitting Unit/Dept</th>
+<th class="px-6 py-3 font-medium">Description</th>
 <th class="px-6 py-3 font-medium">Date Analyzed</th>
 <th class="px-6 py-3 font-medium">Status</th>
 <th class="px-6 py-3 font-medium text-center">Actions</th>
@@ -705,9 +695,653 @@ Export PDF
 
 </div>
 </div>
-</main>
+    </main>
 </div>
+
+<!-- Delete Confirmation Modal -->
+<div id="deleteModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
+    <div class="flex items-center justify-center min-h-screen p-4">
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full mx-4 transform transition-all duration-300 scale-95 opacity-0" id="deleteModalContent">
+            <div class="p-6">
+                <!-- Modal Header -->
+                <div class="flex items-center justify-center w-12 h-12 mx-auto mb-4 bg-red-100 dark:bg-red-900/20 rounded-full">
+                    <svg class="w-6 h-6 text-red-600 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.5 0L4.268 19.5c-.77.833.192 2.5 1.732 2.5z"></path>
+                    </svg>
+                </div>
+                
+                <!-- Modal Title -->
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-white text-center mb-2">
+                    Delete Award
+                </h3>
+                
+                <!-- Modal Message -->
+                <p class="text-sm text-gray-600 dark:text-gray-300 text-center mb-6">
+                    Are you sure you want to delete this award? This action cannot be undone and will permanently remove the award and its associated files.
+                </p>
+                
+                <!-- Modal Actions -->
+                <div class="flex gap-3 justify-center">
+                    <button id="deleteCancelBtn" class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg transition-colors duration-200">
+                        Cancel
+                    </button>
+                    <button id="deleteConfirmBtn" class="px-4 py-2 text-sm font-medium text-white bg-red-600 hover:bg-red-700 rounded-lg transition-colors duration-200">
+                        Delete Award
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Re-analyze Confirmation Modal -->
+<div id="reanalyzeModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
+    <div class="flex items-center justify-center min-h-screen p-4">
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full mx-4 transform transition-all duration-300 scale-95 opacity-0" id="reanalyzeModalContent">
+            <div class="p-6">
+                <!-- Modal Header -->
+                <div class="flex items-center justify-center w-12 h-12 mx-auto mb-4 bg-blue-100 dark:bg-blue-900/20 rounded-full">
+                    <svg class="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                    </svg>
+                </div>
+                
+                <!-- Modal Title -->
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-white text-center mb-2">
+                    Re-analyze Award
+                </h3>
+                
+                <!-- Modal Message -->
+                <p class="text-sm text-gray-600 dark:text-gray-300 text-center mb-6">
+                    Are you sure you want to re-analyze this award? This will update the analysis results using the latest criteria and may change the award category or confidence score.
+                </p>
+                
+                <!-- Modal Actions -->
+                <div class="flex gap-3 justify-center">
+                    <button id="reanalyzeCancelBtn" class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg transition-colors duration-200">
+                        Cancel
+                    </button>
+                    <button id="reanalyzeConfirmBtn" class="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors duration-200">
+                        Re-analyze Award
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+        <!-- View Award Details Modal -->
+        <div id="viewModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
+            <div class="flex items-center justify-center min-h-screen p-4">
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto transform transition-all duration-300 scale-95 opacity-0" id="viewModalContent">
+                    <div class="p-6">
+                        <!-- Modal Header -->
+                        <div class="flex items-center justify-between mb-6">
+                            <div class="flex items-center gap-3">
+                                <div class="flex items-center justify-center w-10 h-10 bg-blue-100 dark:bg-blue-900/20 rounded-full">
+                                    <svg class="w-5 h-5 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                    </svg>
+                                </div>
+                                <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                                    Award Analysis Details
+                                </h3>
+                            </div>
+                            <button id="viewCloseBtn" class="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
+                                <svg class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                </svg>
+                            </button>
+                        </div>
+                        
+                        <!-- Modal Content -->
+                        <div id="viewModalBody" class="space-y-6">
+                            <!-- Loading state -->
+                            <div id="viewLoading" class="flex items-center justify-center py-8">
+                                <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+                                <span class="ml-3 text-gray-600 dark:text-gray-400">Loading award details...</span>
+                            </div>
+                            
+                            <!-- Error state -->
+                            <div id="viewError" class="hidden text-center py-8">
+                                <div class="flex items-center justify-center w-12 h-12 mx-auto mb-4 bg-red-100 dark:bg-red-900/20 rounded-full">
+                                    <svg class="w-6 h-6 text-red-600 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                </div>
+                                <h4 class="text-lg font-medium text-gray-900 dark:text-white mb-2">Error Loading Details</h4>
+                                <p class="text-gray-600 dark:text-gray-400">Failed to load award analysis details.</p>
+                            </div>
+                            
+                            <!-- Content will be populated here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Eligible Awards Modal -->
+        <div id="eligibleAwardsModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
+            <div class="flex items-center justify-center min-h-screen p-4">
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-2xl w-full mx-4 max-h-[80vh] overflow-y-auto transform transition-all duration-300 scale-95 opacity-0" id="eligibleAwardsModalContent">
+                    <div class="p-6">
+                        <!-- Modal Header -->
+                        <div class="flex items-center justify-between mb-6">
+                            <div class="flex items-center gap-3">
+                                <div class="flex items-center justify-center w-10 h-10 bg-green-100 dark:bg-green-900/20 rounded-full">
+                                    <svg class="w-5 h-5 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                </div>
+                                <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                                    Eligible Awards
+                                </h3>
+                            </div>
+                            <button id="eligibleAwardsCloseBtn" class="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
+                                <svg class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                </svg>
+                            </button>
+                        </div>
+                        
+                        <!-- Modal Content -->
+                        <div id="eligibleAwardsModalBody" class="space-y-4">
+                            <!-- Content will be populated here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Description Modal -->
+        <div id="descriptionModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
+            <div class="flex items-center justify-center min-h-screen p-4">
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-2xl w-full mx-4 max-h-[80vh] overflow-y-auto transform transition-all duration-300 scale-95 opacity-0" id="descriptionModalContent">
+                    <div class="p-6">
+                        <!-- Modal Header -->
+                        <div class="flex items-center justify-between mb-6">
+                            <div class="flex items-center gap-3">
+                                <div class="flex items-center justify-center w-10 h-10 bg-blue-100 dark:bg-blue-900/20 rounded-full">
+                                    <svg class="w-5 h-5 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                    </svg>
+                                </div>
+                                <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                                    Award Description
+                                </h3>
+                            </div>
+                            <button id="descriptionCloseBtn" class="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
+                                <svg class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                </svg>
+                            </button>
+                        </div>
+                        
+                        <!-- Modal Content -->
+                        <div id="descriptionModalBody" class="space-y-4">
+                            <!-- Content will be populated here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 <script>
+        // Notification function - defined early so it's available everywhere
+        function showNotification(message, type = 'info') {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = `fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg max-w-sm transform transition-all duration-300 translate-x-full`;
+            
+            // Set colors based on type
+            const colors = {
+                success: 'bg-green-500 text-white',
+                error: 'bg-red-500 text-white',
+                warning: 'bg-yellow-500 text-white',
+                info: 'bg-blue-500 text-white'
+            };
+            
+            notification.className += ` ${colors[type] || colors.info}`;
+            notification.innerHTML = `
+                <div class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-sm">${type === 'success' ? 'check_circle' : type === 'error' ? 'error' : 'info'}</span>
+                    <span class="text-sm font-medium">${message}</span>
+                    <button onclick="this.parentElement.parentElement.remove()" class="ml-2 text-white hover:text-gray-200">
+                        <span class="material-symbols-outlined text-sm">close</span>
+                    </button>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Animate in
+            setTimeout(() => {
+                notification.classList.remove('translate-x-full');
+            }, 100);
+            
+            // Auto remove after 5 seconds
+            setTimeout(() => {
+                notification.classList.add('translate-x-full');
+                setTimeout(() => {
+                    if (notification.parentElement) {
+                        notification.remove();
+                    }
+                }, 300);
+            }, 5000);
+        }
+
+        // Modal functions
+        let pendingDeleteId = null;
+        let pendingReanalyzeId = null;
+
+        function showDeleteModal(awardId) {
+            console.log('showDeleteModal called with awardId:', awardId);
+            pendingDeleteId = awardId;
+            const modal = document.getElementById('deleteModal');
+            const modalContent = document.getElementById('deleteModalContent');
+            
+            modal.classList.remove('hidden');
+            
+            // Trigger animation
+            setTimeout(() => {
+                modalContent.classList.remove('scale-95', 'opacity-0');
+                modalContent.classList.add('scale-100', 'opacity-100');
+            }, 10);
+        }
+
+        function hideDeleteModal() {
+            const modal = document.getElementById('deleteModal');
+            const modalContent = document.getElementById('deleteModalContent');
+            
+            modalContent.classList.remove('scale-100', 'opacity-100');
+            modalContent.classList.add('scale-95', 'opacity-0');
+            
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                pendingDeleteId = null;
+            }, 300);
+        }
+
+        async function performDelete(awardId) {
+            console.log('performDelete called with awardId:', awardId);
+            try {
+                // Extract the actual file ID from the award ID
+                // awardId format: "file_analysis_1760327658_68ec77ead5ee9"
+                // We need: "68ec77ead5ee9" (the unique part at the end)
+                let fileId;
+                if (awardId.startsWith('file_')) {
+                    // Remove 'file_' prefix and get the last part after the last underscore
+                    const withoutPrefix = awardId.replace('file_', '');
+                    const parts = withoutPrefix.split('_');
+                    fileId = parts[parts.length - 1]; // Get the last part (unique ID)
+                } else {
+                    fileId = awardId; // Use as-is if not in expected format
+                }
+                console.log('Extracted fileId:', fileId, 'from awardId:', awardId);
+                
+                if (!fileId) {
+                    throw new Error('Could not extract file ID from award ID');
+                }
+                
+                // Find and delete the analysis file
+                const deleteUrl = `api/delete-award.php?id=${encodeURIComponent(fileId)}`;
+                console.log('Making DELETE request to:', deleteUrl);
+                
+                const response = await fetch(deleteUrl, {
+                    method: 'DELETE'
+                });
+                
+                console.log('Delete response status:', response.status);
+                
+                if (response.ok) {
+                    const result = await response.json();
+                    console.log('Delete successful:', result);
+                    showNotification('Award deleted successfully!', 'success');
+                    // Refresh the awards list
+                    await window.loadAwardListData();
+                } else {
+                    const errorData = await response.json();
+                    console.error('Delete failed:', errorData);
+                    throw new Error(errorData.error || 'Failed to delete award');
+                }
+                
+            } catch (error) {
+                console.error('Delete error:', error);
+                showNotification('Failed to delete award: ' + error.message, 'error');
+            }
+        }
+
+        function showReanalyzeModal(awardId) {
+            console.log('showReanalyzeModal called with awardId:', awardId);
+            pendingReanalyzeId = awardId;
+            const modal = document.getElementById('reanalyzeModal');
+            const modalContent = document.getElementById('reanalyzeModalContent');
+            
+            modal.classList.remove('hidden');
+            
+            // Trigger animation
+            setTimeout(() => {
+                modalContent.classList.remove('scale-95', 'opacity-0');
+                modalContent.classList.add('scale-100', 'opacity-100');
+            }, 10);
+        }
+
+        function hideReanalyzeModal() {
+            const modal = document.getElementById('reanalyzeModal');
+            const modalContent = document.getElementById('reanalyzeModalContent');
+            
+            modalContent.classList.remove('scale-100', 'opacity-100');
+            modalContent.classList.add('scale-95', 'opacity-0');
+            
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                pendingReanalyzeId = null;
+            }, 300);
+        }
+
+        async function performReanalyze(awardId) {
+            console.log('performReanalyze called with awardId:', awardId);
+            try {
+                showNotification('Re-analyzing award...', 'info');
+                
+                // Get the current award details first (with cache busting)
+                const response = await fetch(`api/awards.php?action=detail&id=${awardId}&t=${Date.now()}`);
+                if (!response.ok) {
+                    throw new Error('Failed to load award details for re-analysis');
+                }
+                
+                const data = await response.json();
+                const award = data.award || {};
+                
+                if (!award.file_path) {
+                    throw new Error('Original file not found for re-analysis');
+                }
+                
+                // Create a new FormData for re-analysis
+                const formData = new FormData();
+                formData.append('award_name', award.title || 'Re-analyzed Award');
+                formData.append('description', award.description || '');
+                
+                // For re-analysis, we'll simulate file upload with the existing file
+                // In a real implementation, you might want to re-extract text from the original file
+                formData.append('reanalyze', 'true');
+                formData.append('original_file_path', award.file_path);
+                
+                console.log('Making re-analysis request with form data:', {
+                    award_name: award.title,
+                    description: award.description,
+                    reanalyze: 'true',
+                    original_file_path: award.file_path
+                });
+                
+                // Check if the file path exists
+                if (!award.file_path) {
+                    throw new Error('No file path found in award data');
+                }
+                
+                console.log('Original file path:', award.file_path);
+                
+                const reanalyzeResponse = await fetch('api/analyze-award.php', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                console.log('Re-analysis response status:', reanalyzeResponse.status);
+                
+                if (!reanalyzeResponse.ok) {
+                    // Get the error details from the response
+                    const errorText = await reanalyzeResponse.text();
+                    console.error('Re-analysis error response:', errorText);
+                    throw new Error(`Re-analysis failed (${reanalyzeResponse.status}): ${errorText}`);
+                }
+                
+                const reanalyzeData = await reanalyzeResponse.json();
+                console.log('Re-analysis result:', reanalyzeData);
+                
+                if (reanalyzeData.success) {
+                    showNotification('Award re-analyzed successfully!', 'success');
+                    // Refresh the awards list to show updated results
+                    await window.loadAwardListData();
+                } else {
+                    throw new Error(reanalyzeData.error || 'Re-analysis failed');
+                }
+                
+            } catch (error) {
+                console.error('Re-analysis error:', error);
+                showNotification('Failed to re-analyze award: ' + error.message, 'error');
+            }
+        }
+
+        function confirmReanalyze() {
+            console.log('Confirm reanalyze called, pendingReanalyzeId:', pendingReanalyzeId);
+            if (pendingReanalyzeId) {
+                hideReanalyzeModal();
+                // Add a small delay to allow modal to close before re-analysis
+                setTimeout(() => {
+                    performReanalyze(pendingReanalyzeId);
+                }, 100);
+            }
+        }
+
+        function confirmDelete() {
+            console.log('Confirm delete called, pendingDeleteId:', pendingDeleteId);
+            if (pendingDeleteId) {
+                hideDeleteModal();
+                // Add a small delay to allow modal to close before deletion
+                setTimeout(() => {
+                    performDelete(pendingDeleteId);
+                }, 100);
+            }
+        }
+
+        function showViewModal(awardId) {
+            console.log('showViewModal called with awardId:', awardId);
+            const modal = document.getElementById('viewModal');
+            const modalContent = document.getElementById('viewModalContent');
+            
+            // Show loading state
+            document.getElementById('viewLoading').classList.remove('hidden');
+            document.getElementById('viewError').classList.add('hidden');
+            
+            modal.classList.remove('hidden');
+            
+            // Trigger animation
+            setTimeout(() => {
+                modalContent.classList.remove('scale-95', 'opacity-0');
+                modalContent.classList.add('scale-100', 'opacity-100');
+            }, 10);
+            
+            // Load award details
+            loadAwardDetails(awardId);
+        }
+
+        function hideViewModal() {
+            const modal = document.getElementById('viewModal');
+            const modalContent = document.getElementById('viewModalContent');
+            
+            modalContent.classList.remove('scale-100', 'opacity-100');
+            modalContent.classList.add('scale-95', 'opacity-0');
+            
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
+
+        async function loadAwardDetails(awardId) {
+            try {
+                console.log('Loading award details for ID:', awardId);
+                
+                // Get award details
+                const response = await fetch(`api/awards.php?action=detail&id=${awardId}`);
+                if (!response.ok) {
+                    throw new Error('Failed to load award details');
+                }
+                
+                const data = await response.json();
+                console.log('Award details loaded:', data);
+                
+                // Hide loading and show content
+                document.getElementById('viewLoading').classList.add('hidden');
+                document.getElementById('viewError').classList.add('hidden');
+                
+                // Populate modal content
+                populateViewModal(data);
+                
+            } catch (error) {
+                console.error('Error loading award details:', error);
+                document.getElementById('viewLoading').classList.add('hidden');
+                document.getElementById('viewError').classList.remove('hidden');
+            }
+        }
+
+        function populateViewModal(data) {
+            const modalBody = document.getElementById('viewModalBody');
+            const award = data.award || {};
+            const analysis = data.analysis || {};
+            
+            // Parse analysis results if available
+            let analysisResults = [];
+            if (analysis.analysis_results) {
+                try {
+                    analysisResults = JSON.parse(analysis.analysis_results);
+                } catch (e) {
+                    console.warn('Failed to parse analysis results:', e);
+                }
+            }
+            
+            modalBody.innerHTML = `
+                <!-- Basic Information -->
+                <div class="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4">
+                    <h4 class="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+                        <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                        Document Information
+                    </h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Document Title</label>
+                            <p class="mt-1 text-sm text-gray-900 dark:text-white">${award.title || 'Untitled'}</p>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">File Name</label>
+                            <p class="mt-1 text-sm text-gray-900 dark:text-white">${award.file_name || 'Unknown'}</p>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Description</label>
+                            <p class="mt-1 text-sm text-gray-900 dark:text-white">${award.description || 'No description provided'}</p>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Submitted By</label>
+                            <p class="mt-1 text-sm text-gray-900 dark:text-white">${award.created_by || 'Unknown'}</p>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Date Analyzed</label>
+                            <p class="mt-1 text-sm text-gray-900 dark:text-white">${formatDate(award.created_at)}</p>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Status</label>
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusBadgeClass(analysis.status || 'Not Analyzed')}">
+                                ${analysis.status || 'Not Analyzed'}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Analysis Results -->
+                <div class="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4">
+                    <h4 class="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+                        <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                        </svg>
+                        Analysis Results
+                    </h4>
+                    ${analysisResults.length > 0 ? `
+                        <div class="space-y-4">
+                            ${analysisResults.map(result => `
+                                <div class="border border-gray-200 dark:border-gray-600 rounded-lg p-4">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <h5 class="font-medium text-gray-900 dark:text-white">${result.category}</h5>
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getScoreBadgeClass(result.score)}">
+                                            ${result.score}%
+                                        </span>
+                                    </div>
+                                    <div class="mb-2">
+                                        <div class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-400 mb-1">
+                                            <span>Confidence Score</span>
+                                            <span>${result.score}%</span>
+                                        </div>
+                                        <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                                            <div class="bg-blue-600 h-2 rounded-full" style="width: ${Math.min(result.score, 100)}%"></div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-2">
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusBadgeClass(result.status)}">
+                                            ${result.status}
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Matched Criteria</label>
+                                        <div class="flex flex-wrap gap-1">
+                                            ${(result.matched_criteria || []).map(criteria => `
+                                                <span class="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400">
+                                                    ${criteria}
+                                                </span>
+                                            `).join('')}
+                                        </div>
+                                    </div>
+                                    ${result.recommendation ? `
+                                        <div class="mt-3 p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+                                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Recommendation</label>
+                                            <p class="text-sm text-gray-600 dark:text-gray-400">${result.recommendation}</p>
+                                        </div>
+                                    ` : ''}
+                                </div>
+                            `).join('')}
+                        </div>
+                    ` : `
+                        <p class="text-gray-500 dark:text-gray-400 text-center py-4">No analysis results available</p>
+                    `}
+                </div>
+
+            `;
+        }
+
+        function getStatusBadgeClass(status) {
+            switch (status.toLowerCase()) {
+                case 'eligible': return 'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400';
+                case 'partially eligible': return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400';
+                case 'not eligible': return 'bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400';
+                case 'recognized': return 'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400';
+                case 'pending review': return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400';
+                default: return 'bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400';
+            }
+        }
+
+        function getScoreBadgeClass(score) {
+            if (score >= 90) return 'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400';
+            if (score >= 70) return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400';
+            return 'bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400';
+        }
+
+        function formatDate(dateString) {
+            if (!dateString) return 'N/A';
+            try {
+                const date = new Date(dateString);
+                return date.toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+            } catch (error) {
+                console.warn('Failed to format date:', dateString, error);
+                return dateString;
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             const themeToggle = document.getElementById('theme-toggle');
             const sidebarToggle = document.getElementById('sidebar-toggle');
@@ -781,47 +1415,6 @@ Export PDF
             // Awards cards are now responsive grid - no carousel controls needed
             
             // Show notification function
-            function showNotification(message, type = 'info') {
-                // Create notification element
-                const notification = document.createElement('div');
-                notification.className = `fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg max-w-sm transform transition-all duration-300 translate-x-full`;
-                
-                // Set colors based on type
-                const colors = {
-                    success: 'bg-green-500 text-white',
-                    error: 'bg-red-500 text-white',
-                    warning: 'bg-yellow-500 text-white',
-                    info: 'bg-blue-500 text-white'
-                };
-                
-                notification.className += ` ${colors[type] || colors.info}`;
-                notification.innerHTML = `
-                    <div class="flex items-center gap-2">
-                        <span class="material-symbols-outlined text-sm">${type === 'success' ? 'check_circle' : type === 'error' ? 'error' : 'info'}</span>
-                        <span class="text-sm font-medium">${message}</span>
-                        <button onclick="this.parentElement.parentElement.remove()" class="ml-2 text-white hover:text-gray-200">
-                            <span class="material-symbols-outlined text-sm">close</span>
-                        </button>
-                    </div>
-                `;
-                
-                document.body.appendChild(notification);
-                
-                // Animate in
-                setTimeout(() => {
-                    notification.classList.remove('translate-x-full');
-                }, 100);
-                
-                // Auto remove after 5 seconds
-                setTimeout(() => {
-                    notification.classList.add('translate-x-full');
-                    setTimeout(() => {
-                        if (notification.parentElement) {
-                            notification.remove();
-                        }
-                    }, 300);
-                }, 5000);
-            }
 
             // Award action functions
             async function viewAward(awardId) {
@@ -912,89 +1505,15 @@ Export PDF
                 }
             }
             
-            async function reanalyzeAward(awardId) {
-                if (!confirm('Are you sure you want to re-analyze this award? This will update the analysis results.')) {
-                    return;
-                }
-                
-                try {
-                    showNotification('Re-analyzing award...', 'info');
-                    
-                    // Get the current award details first
-                    const response = await fetch(`api/awards.php?action=detail&id=${awardId}`);
-                    if (!response.ok) {
-                        throw new Error('Failed to load award details for re-analysis');
-                    }
-                    
-                    const data = await response.json();
-                    const award = data.award || {};
-                    
-                    if (!award.file_path) {
-                        throw new Error('Original file not found for re-analysis');
-                    }
-                    
-                    // Create a new FormData for re-analysis
-                    const formData = new FormData();
-                    formData.append('award_name', award.title || 'Re-analyzed Award');
-                    formData.append('description', award.description || '');
-                    
-                    // For re-analysis, we'll simulate file upload with the existing file
-                    // In a real implementation, you might want to re-extract text from the original file
-                    formData.append('reanalyze', 'true');
-                    formData.append('original_file_path', award.file_path);
-                    
-                    const reanalyzeResponse = await fetch('api/analyze-award.php', {
-                        method: 'POST',
-                        body: formData
-                    });
-                    
-                    if (!reanalyzeResponse.ok) {
-                        throw new Error('Re-analysis failed');
-                    }
-                    
-                    const reanalyzeData = await reanalyzeResponse.json();
-                    
-                    if (reanalyzeData.success) {
-                        showNotification('Award re-analyzed successfully!', 'success');
-                        // Refresh the awards list to show updated results
-                        await window.loadAwardListData();
-                    } else {
-                        throw new Error(reanalyzeData.error || 'Re-analysis failed');
-                    }
-                    
-                } catch (error) {
-                    showNotification('Failed to re-analyze award: ' + error.message, 'error');
-                }
+            function reanalyzeAward(awardId) {
+                showReanalyzeModal(awardId);
             }
+
             
-            async function deleteAward(awardId) {
-                if (!confirm('Are you sure you want to delete this award? This action cannot be undone.')) {
-                    return;
-                }
-                
-                try {
-                    // Extract the actual file ID from the award ID
-                    const fileId = awardId.replace('file_', '');
-                    const dataDir = 'data/';
-                    
-                    // Find and delete the analysis file
-                    const response = await fetch(`api/delete-award.php?id=${encodeURIComponent(fileId)}`, {
-                        method: 'DELETE'
-                    });
-                    
-                    if (response.ok) {
-                        showNotification('Award deleted successfully!', 'success');
-                        // Refresh the awards list
-                        await window.loadAwardListData();
-                    } else {
-                        const errorData = await response.json();
-                        throw new Error(errorData.error || 'Failed to delete award');
-                    }
-                    
-                } catch (error) {
-                    showNotification('Failed to delete award: ' + error.message, 'error');
-                }
+            function deleteAward(awardId) {
+                showDeleteModal(awardId);
             }
+
             
             // Helper function to escape HTML
             function escapeHtml(text) {
@@ -1011,14 +1530,21 @@ Export PDF
             function filterAwardsList() {
                 const searchTerm = document.getElementById('searchInput').value.toLowerCase();
                 const categoryFilter = document.getElementById('categoryFilter').value;
-                const departmentFilter = document.getElementById('departmentFilter').value;
                 const dateFilter = document.getElementById('dateFilter').value;
                 const confidenceFilter = document.getElementById('confidenceFilter').value;
                 
                 filteredAwardsData = allAwardsData.filter(award => {
-                    // Search filter
-                    if (searchTerm && !award.title.toLowerCase().includes(searchTerm)) {
-                        return false;
+                    // Enhanced search filter - search across multiple fields
+                    if (searchTerm) {
+                        const searchLower = searchTerm.toLowerCase();
+                        const titleMatch = award.title?.toLowerCase().includes(searchLower) || false;
+                        const descriptionMatch = award.description?.toLowerCase().includes(searchLower) || false;
+                        const fileNameMatch = award.file_name?.toLowerCase().includes(searchLower) || false;
+                        const categoryMatch = award.analysis?.predicted_category?.toLowerCase().includes(searchLower) || false;
+                        // If no field matches the search term, exclude this award
+                        if (!titleMatch && !descriptionMatch && !fileNameMatch && !categoryMatch) {
+                            return false;
+                        }
                     }
                     
                     // Category filter
@@ -1026,10 +1552,6 @@ Export PDF
                         return false;
                     }
                     
-                    // Department filter
-                    if (departmentFilter && award.created_by !== departmentFilter) {
-                        return false;
-                    }
                     
                     // Date filter
                     if (dateFilter) {
@@ -1071,12 +1593,27 @@ Export PDF
                     recognized: filteredAwardsData.filter(a => (a.analysis?.confidence || 0) >= 0.8).length,
                     pending: filteredAwardsData.filter(a => (a.analysis?.confidence || 0) < 0.8).length
                 });
+                
+                // Show search results feedback
+                if (searchTerm) {
+                    const searchResultsCount = filteredAwardsData.length;
+                    const totalCount = allAwardsData.length;
+                    
+                    if (searchResultsCount === 0) {
+                        showSearchFeedback(`No awards found for "${searchTerm}"`, 'warning');
+                    } else if (searchResultsCount === 1) {
+                        showSearchFeedback(`Found 1 award matching "${searchTerm}"`, 'success');
+                    } else {
+                        showSearchFeedback(`Found ${searchResultsCount} awards matching "${searchTerm}"`, 'info');
+                    }
+                } else {
+                    hideSearchFeedback();
+                }
             }
             
             function clearFilters() {
                 document.getElementById('searchInput').value = '';
                 document.getElementById('categoryFilter').value = '';
-                document.getElementById('departmentFilter').value = '';
                 document.getElementById('dateFilter').value = '';
                 document.getElementById('confidenceFilter').value = '';
                 
@@ -1092,6 +1629,194 @@ Export PDF
                 });
                 
                 showNotification('Filters cleared', 'info');
+                
+                // Hide search feedback
+                hideSearchFeedback();
+            }
+            
+            // Search feedback functions
+            function showSearchFeedback(message, type = 'info') {
+                // Remove existing feedback if any
+                hideSearchFeedback();
+                
+                // Create feedback element
+                const feedback = document.createElement('div');
+                feedback.id = 'searchFeedback';
+                feedback.className = `mt-2 p-3 rounded-lg text-sm font-medium ${
+                    type === 'success' ? 'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400' :
+                    type === 'warning' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400' :
+                    'bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400'
+                }`;
+                feedback.textContent = message;
+                
+                // Insert after the filter section
+                const filterSection = document.querySelector('#award-list-content .grid');
+                if (filterSection) {
+                    filterSection.parentNode.insertBefore(feedback, filterSection.nextSibling);
+                }
+            }
+            
+            function hideSearchFeedback() {
+                const existingFeedback = document.getElementById('searchFeedback');
+                if (existingFeedback) {
+                    existingFeedback.remove();
+                }
+            }
+            
+            // Eligible Awards Modal Functions
+            function showEligibleAwards(awardId) {
+                console.log('showEligibleAwards called with awardId:', awardId);
+                
+                // Find the award data
+                const award = allAwardsData.find(a => a.id === awardId);
+                if (!award) {
+                    showNotification('Award not found', 'error');
+                    return;
+                }
+                
+                // Get the analysis data
+                const analysis = award.analysis;
+                if (!analysis) {
+                    showNotification('Analysis data not found', 'error');
+                    return;
+                }
+                
+                // Parse analysis results
+                let analysisResults = [];
+                try {
+                    analysisResults = analysis.analysis_results ? JSON.parse(analysis.analysis_results) : [];
+                } catch (e) {
+                    console.warn('Failed to parse analysis results:', e);
+                    showNotification('Failed to parse analysis results', 'error');
+                    return;
+                }
+                
+                // Filter eligible awards
+                const eligibleAwards = analysisResults.filter(result => 
+                    result.status === 'Eligible' || result.status === 'Partially Eligible'
+                );
+                
+                if (eligibleAwards.length === 0) {
+                    showNotification('No eligible awards found', 'warning');
+                    return;
+                }
+                
+                // Show the modal
+                const modal = document.getElementById('eligibleAwardsModal');
+                const modalContent = document.getElementById('eligibleAwardsModalContent');
+                const modalBody = document.getElementById('eligibleAwardsModalBody');
+                
+                // Populate modal content
+                modalBody.innerHTML = eligibleAwards.map(award => `
+                    <div class="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4 border border-gray-200 dark:border-gray-600">
+                        <div class="flex items-start justify-between mb-3">
+                            <div>
+                                <h4 class="text-lg font-semibold text-gray-900 dark:text-white mb-1">${escapeHtml(award.category)}</h4>
+                                <div class="flex items-center gap-2">
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusBadgeClass(award.status)}">
+                                        ${award.status}
+                                    </span>
+                                    <span class="text-sm text-gray-600 dark:text-gray-400">${award.type || 'Institutional'}</span>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-2xl font-bold text-gray-900 dark:text-white">${Math.round(award.score || 0)}%</div>
+                                <div class="text-sm text-gray-600 dark:text-gray-400">Confidence</div>
+                            </div>
+                        </div>
+                        
+                        ${award.matched_criteria && award.matched_criteria.length > 0 ? `
+                            <div class="mb-3">
+                                <h5 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Matched Criteria:</h5>
+                                <div class="flex flex-wrap gap-1">
+                                    ${award.matched_criteria.map(criteria => `
+                                        <span class="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400">
+                                            ${escapeHtml(criteria)}
+                                        </span>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        ` : ''}
+                        
+                        ${award.recommendation ? `
+                            <div class="text-sm text-gray-600 dark:text-gray-400">
+                                <strong>Recommendation:</strong> ${escapeHtml(award.recommendation)}
+                            </div>
+                        ` : ''}
+                    </div>
+                `).join('');
+                
+                // Show modal with animation
+                modal.classList.remove('hidden');
+                setTimeout(() => {
+                    modalContent.classList.remove('scale-95', 'opacity-0');
+                    modalContent.classList.add('scale-100', 'opacity-100');
+                }, 10);
+            }
+            
+            function hideEligibleAwardsModal() {
+                const modal = document.getElementById('eligibleAwardsModal');
+                const modalContent = document.getElementById('eligibleAwardsModalContent');
+                
+                modalContent.classList.remove('scale-100', 'opacity-100');
+                modalContent.classList.add('scale-95', 'opacity-0');
+                
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                }, 300);
+            }
+
+            // Description Modal Functions
+            function showDescriptionModal(awardId) {
+                console.log('showDescriptionModal called with awardId:', awardId);
+                
+                // Find the award data
+                const award = allAwardsData.find(a => a.id === awardId);
+                if (!award) {
+                    showNotification('Award not found', 'error');
+                    return;
+                }
+                
+                // Get the description
+                const description = award.description || 'No description provided';
+                
+                // Show the modal
+                const modal = document.getElementById('descriptionModal');
+                const modalContent = document.getElementById('descriptionModalContent');
+                const modalBody = document.getElementById('descriptionModalBody');
+                
+                // Populate modal content
+                modalBody.innerHTML = `
+                    <div class="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4 border border-gray-200 dark:border-gray-600">
+                        <div class="mb-3">
+                            <h4 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Document Title:</h4>
+                            <p class="text-gray-900 dark:text-white font-medium">${escapeHtml(award.title || 'Untitled')}</p>
+                        </div>
+                        <div>
+                            <h4 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Description:</h4>
+                            <p class="text-gray-900 dark:text-white leading-relaxed">${escapeHtml(description)}</p>
+                        </div>
+                    </div>
+                `;
+                
+                // Show modal with animation
+                modal.classList.remove('hidden');
+                setTimeout(() => {
+                    modalContent.classList.remove('scale-95', 'opacity-0');
+                    modalContent.classList.add('scale-100', 'opacity-100');
+                }, 10);
+            }
+            
+            function hideDescriptionModal() {
+                const modal = document.getElementById('descriptionModal');
+                const modalContent = document.getElementById('descriptionModalContent');
+                
+                modalContent.classList.remove('scale-100', 'opacity-100');
+                modalContent.classList.add('scale-95', 'opacity-0');
+                
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                }, 300);
             }
             
             // Export functions
@@ -1103,7 +1828,7 @@ Export PDF
                 
                 try {
                     // Create CSV header
-                    const headers = ['Title', 'Award Category', 'Confidence Score', 'Status', 'Department', 'Date Analyzed', 'File Name'];
+                    const headers = ['Title', 'Award Category', 'Confidence Score', 'Status', 'Description', 'Date Analyzed', 'File Name'];
                     const csvContent = [
                         headers.join(','),
                         ...filteredAwardsData.map(award => [
@@ -1111,7 +1836,7 @@ Export PDF
                             `"${(award.analysis?.predicted_category || 'Not Analyzed').replace(/"/g, '""')}"`,
                             `"${((award.analysis?.confidence || 0) * 100).toFixed(0)}%"`,
                             `"${getAwardStatus((award.analysis?.confidence || 0) * 100)}"`,
-                            `"${(award.created_by || 'Unknown').replace(/"/g, '""')}"`,
+                            `"${(award.description || 'No description provided').replace(/"/g, '""')}"`,
                             `"${award.created_at ? new Date(award.created_at).toLocaleDateString() : 'N/A'}"`,
                             `"${(award.file_name || '').replace(/"/g, '""')}"`
                         ].join(','))
@@ -1280,22 +2005,47 @@ Export PDF
                                 </div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-text-muted-light dark:text-text-muted-dark">
-                                ${analysis.matched_categories_json ? JSON.parse(analysis.matched_categories_json).length : 0} criteria met
+                                ${(() => {
+                                    try {
+                                        const analysisResults = analysis.analysis_results ? JSON.parse(analysis.analysis_results) : [];
+                                        const eligibleAwards = analysisResults.filter(result => result.status === 'Eligible' || result.status === 'Partially Eligible');
+                                        const count = eligibleAwards.length;
+                                        if (count > 0) {
+                                            return `<button class="text-gray-600 dark:text-gray-400 hover:text-primary cursor-pointer font-medium transition-colors duration-200" onclick="showEligibleAwards('${award.id}')" title="Click to view eligible awards">${count} eligible award${count === 1 ? '' : 's'}</button>`;
+                                        }
+                                        return '0 eligible awards';
+                                    } catch (e) {
+                                        const criteriaCount = analysis.matched_categories_json ? JSON.parse(analysis.matched_categories_json).length : 0;
+                                        if (criteriaCount > 0) {
+                                            return `<button class="text-gray-600 dark:text-gray-400 hover:text-primary cursor-pointer font-medium transition-colors duration-200" onclick="showEligibleAwards('${award.id}')" title="Click to view criteria">${criteriaCount} criteria met</button>`;
+                                        }
+                                        return '0 criteria met';
+                                    }
+                                })()}
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-text-muted-light dark:text-text-muted-dark">${award.created_by || 'Unknown'}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-text-muted-light dark:text-text-muted-dark">
+                                ${(() => {
+                                    const description = award.description || 'No description provided';
+                                    const truncated = description.length > 10 ? description.substring(0, 10) + '...' : description;
+                                    if (description.length > 10) {
+                                        return `<button class="text-gray-600 dark:text-gray-400 hover:text-primary cursor-pointer font-medium transition-colors duration-200" onclick="showDescriptionModal('${award.id}')" title="Click to view full description">${escapeHtml(truncated)}</button>`;
+                                    }
+                                    return `<span title="${escapeHtml(description)}">${escapeHtml(truncated)}</span>`;
+                                })()}
+                            </td>
                             <td class="px-6 py-4 whitespace-nowrap text-text-muted-light dark:text-text-muted-dark">${formatDate(award.created_at)}</td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <span class="inline-flex items-center gap-1.5 py-1 px-2.5 rounded-full text-xs font-medium bg-${statusColor}100 text-${statusColor}800">${status}</span>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-center">
                                 <div class="flex items-center justify-center gap-1">
-                                    <button class="p-2 rounded-md hover:bg-primary/10 text-text-muted-light dark:text-text-muted-dark" onclick="viewAward(${award.id})" title="View Details">
+                                    <button class="p-2 rounded-md hover:bg-primary/10 text-text-muted-light dark:text-text-muted-dark" onclick="viewAward('${award.id}')" title="View Details">
                                         <span class="material-symbols-outlined text-lg">visibility</span>
                                     </button>
-                                    <button class="p-2 rounded-md hover:bg-primary/10 text-text-muted-light dark:text-text-muted-dark" onclick="reanalyzeAward(${award.id})" title="Re-analyze">
+                                    <button class="p-2 rounded-md hover:bg-primary/10 text-text-muted-light dark:text-text-muted-dark" onclick="reanalyzeAward('${award.id}')" title="Re-analyze">
                                         <span class="material-symbols-outlined text-lg">refresh</span>
                                     </button>
-                                    <button class="p-2 rounded-md hover:bg-red-500/10 text-red-500" onclick="deleteAward(${award.id})" title="Delete">
+                                    <button class="p-2 rounded-md hover:bg-red-500/10 text-red-500" onclick="deleteAward('${award.id}')" title="Delete">
                                         <span class="material-symbols-outlined text-lg">delete</span>
                                     </button>
                                 </div>
@@ -1334,10 +2084,20 @@ Export PDF
             }
             
             function updateAwardListCounters(stats) {
-                // Calculate totals from stats array
-                const totalProcessed = stats.reduce((sum, stat) => sum + (stat.count || 0), 0);
-                const recognized = Math.floor(totalProcessed * 0.8); // Estimate based on typical success rate
-                const pending = Math.floor(totalProcessed * 0.2); // Estimate remaining as pending
+                // Handle both object and array formats
+                let totalProcessed, recognized, pending;
+                
+                if (Array.isArray(stats)) {
+                    // Legacy array format
+                    totalProcessed = stats.reduce((sum, stat) => sum + (stat.count || 0), 0);
+                    recognized = Math.floor(totalProcessed * 0.8);
+                    pending = Math.floor(totalProcessed * 0.2);
+                } else {
+                    // Object format with direct counts
+                    totalProcessed = stats.total || 0;
+                    recognized = stats.recognized || 0;
+                    pending = stats.pending || 0;
+                }
                 
                 // Update counter badges
                 const totalElement = document.querySelector('#award-list-content .bg-blue-100 .font-bold');
@@ -1351,21 +2111,86 @@ Export PDF
             
             // Award action functions (make them global)
             window.viewAward = function(id) {
-                // TODO: Implement view award details modal
-                console.log('View award:', id);
+                showViewModal(id);
             };
             
-            window.reanalyzeAward = function(id) {
-                // TODO: Implement re-analysis functionality
-                console.log('Re-analyze award:', id);
-            };
+            // Make the reanalyzeAward function globally available
+            window.reanalyzeAward = reanalyzeAward;
             
-            window.deleteAward = function(id) {
-                if (confirm('Are you sure you want to delete this award? This action cannot be undone.')) {
-                    // TODO: Implement delete functionality
-                    console.log('Delete award:', id);
+            // Make the deleteAward function globally available
+            window.deleteAward = deleteAward;
+            
+            // Make the showEligibleAwards function globally available
+            window.showEligibleAwards = showEligibleAwards;
+            
+            // Make the showDescriptionModal function globally available
+            window.showDescriptionModal = showDescriptionModal;
+            
+            // Make the clearFilters function globally available
+            window.clearFilters = clearFilters;
+            
+            // Make the filterAwardsList function globally available
+            window.filterAwardsList = filterAwardsList;
+            
+            // Modal event listeners
+            document.getElementById('deleteCancelBtn').addEventListener('click', hideDeleteModal);
+            document.getElementById('deleteConfirmBtn').addEventListener('click', confirmDelete);
+            document.getElementById('reanalyzeCancelBtn').addEventListener('click', hideReanalyzeModal);
+            document.getElementById('reanalyzeConfirmBtn').addEventListener('click', confirmReanalyze);
+            document.getElementById('viewCloseBtn').addEventListener('click', hideViewModal);
+            document.getElementById('eligibleAwardsCloseBtn').addEventListener('click', hideEligibleAwardsModal);
+            
+            // Close modals when clicking outside
+            document.getElementById('deleteModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    hideDeleteModal();
                 }
-            };
+            });
+            
+            document.getElementById('reanalyzeModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    hideReanalyzeModal();
+                }
+            });
+            
+            document.getElementById('viewModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    hideViewModal();
+                }
+            });
+            
+            document.getElementById('eligibleAwardsModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    hideEligibleAwardsModal();
+                }
+            });
+            
+            // Description Modal Event Listeners
+            document.getElementById('descriptionCloseBtn').addEventListener('click', hideDescriptionModal);
+            
+            // Close description modal when clicking outside
+            document.getElementById('descriptionModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    hideDescriptionModal();
+                }
+            });
+            
+            // Close modals with Escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    if (!document.getElementById('deleteModal').classList.contains('hidden')) {
+                        hideDeleteModal();
+                    } else if (!document.getElementById('reanalyzeModal').classList.contains('hidden')) {
+                        hideReanalyzeModal();
+                    } else if (!document.getElementById('viewModal').classList.contains('hidden')) {
+                        hideViewModal();
+                    } else if (!document.getElementById('eligibleAwardsModal').classList.contains('hidden')) {
+                        hideEligibleAwardsModal();
+                    } else if (!document.getElementById('descriptionModal').classList.contains('hidden')) {
+                        hideDescriptionModal();
+                    }
+                }
+            });
             
             // Tab functionality
             const processTab = document.getElementById('process-tab');
@@ -1502,12 +2327,38 @@ Export PDF
             dropZone.addEventListener('dragleave', handleDragLeave);
             dropZone.addEventListener('drop', handleDrop);
             
-            // Click to upload
-            dropZone.addEventListener('click', () => fileInput.click());
+            // Note: Click to upload is handled by the label element with for="file-upload"
+            // No need for additional click handler on drop zone
         }
         
         function handleFormSubmission(e) {
             e.preventDefault();
+            
+            // Debug: Check form fields before creating FormData
+            const awardName = document.getElementById('award_name').value;
+            const description = document.getElementById('description').value;
+            const fileInput = document.getElementById('file-upload');
+            const file = fileInput.files[0];
+            
+            console.log('Form field values:');
+            console.log('Award name:', awardName);
+            console.log('Description:', description);
+            console.log('File:', file);
+            console.log('File name:', file ? file.name : 'No file');
+            
+            // Validate fields before proceeding
+            if (!awardName.trim()) {
+                showNotification('Please enter an award name', 'error');
+                return;
+            }
+            if (!description.trim()) {
+                showNotification('Please enter a description', 'error');
+                return;
+            }
+            if (!file) {
+                showNotification('Please select a file to upload', 'error');
+                return;
+            }
             
             const formData = new FormData(e.target);
             const analyzeBtn = document.getElementById('analyze-btn');
@@ -1539,12 +2390,33 @@ Export PDF
                 }
             }, 200);
             
+            // Debug: Log form data
+            console.log('Form data being sent:');
+            for (let [key, value] of formData.entries()) {
+                console.log(key + ':', value);
+            }
+            
             // Submit to API
             fetch('api/analyze-award.php', {
                 method: 'POST',
                 body: formData
             })
-            .then(response => response.json())
+            .then(response => {
+                console.log('Response status:', response.status);
+                console.log('Response headers:', response.headers);
+                return response.text();
+            })
+            .then(text => {
+                console.log('Raw response text:', text);
+                try {
+                    const data = JSON.parse(text);
+                    console.log('Parsed JSON data:', data);
+                    return data;
+                } catch (e) {
+                    console.error('Failed to parse JSON:', e);
+                    throw new Error('Invalid JSON response: ' + text.substring(0, 200));
+                }
+            })
             .then(data => {
                 clearInterval(progressInterval);
                 progressBar.style.width = '100%';
@@ -1560,8 +2432,7 @@ Export PDF
                         btnText.textContent = 'Analyze Award';
                         loadingIcon.classList.add('hidden');
                         
-                        // Show success message and refresh the awards list
-                        showNotification('✅ Award uploaded and analyzed successfully! Check the Awards List below.', 'success');
+                        // Refresh the awards list
                         
                         setTimeout(() => {
                             window.loadAwardListData();
@@ -1587,8 +2458,10 @@ Export PDF
         }
         
         function handleFileSelection(e) {
+            console.log('handleFileSelection called - award analysis form is active');
             const file = e.target.files[0];
             if (file) {
+                console.log('File selected:', file.name, 'Size:', file.size);
                 validateAndShowFile(file);
             }
         }
@@ -1858,7 +2731,7 @@ Export PDF
 <!-- Tesseract.js removed - using server-side OCR instead -->
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
-<script src="js/awards.js"></script>
+<!-- External awards.js script removed to prevent conflicts with inline form handling -->
 
 <script>
     (function() {

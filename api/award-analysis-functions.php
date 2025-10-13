@@ -425,7 +425,52 @@ function storeAnalysisResults($awardName, $description, $extractedText, $analysi
         
         // Check if we're using file-based fallback
         if ($pdo instanceof FileBasedDatabase) {
-            // Store analysis in file system as fallback
+            $dataDir = __DIR__ . '/../data/';
+            if (!is_dir($dataDir)) {
+                mkdir($dataDir, 0755, true);
+            }
+            
+            if ($isReanalyze) {
+                // For re-analysis, find and update the existing analysis file
+                $existingFile = null;
+                $files = glob($dataDir . 'analysis_*.json');
+                
+                // Find the analysis file that matches this file path
+                foreach ($files as $file) {
+                    $content = file_get_contents($file);
+                    if ($content) {
+                        $data = json_decode($content, true);
+                        if ($data && isset($data['file_path']) && $data['file_path'] === $filePath) {
+                            $existingFile = $file;
+                            break;
+                        }
+                    }
+                }
+                
+                if ($existingFile) {
+                    // Update the existing analysis file
+                    $analysisData = [
+                        'title' => $awardName,
+                        'description' => $description,
+                        'file_name' => $fileName,
+                        'file_path' => $filePath,
+                        'detected_text' => $extractedText,
+                        'analysis_results' => json_encode($analysis),
+                        'created_at' => date('Y-m-d H:i:s'),
+                        'updated_at' => date('Y-m-d H:i:s')
+                    ];
+                    
+                    file_put_contents($existingFile, json_encode($analysisData));
+                    logActivity('Analysis updated in file-based fallback: ' . $existingFile, 'INFO');
+                    
+                    return 'file_updated';
+                } else {
+                    // If no existing file found, create a new one
+                    logActivity('No existing analysis file found for re-analysis, creating new one', 'WARNING');
+                }
+            }
+            
+            // Create new analysis file (for new uploads or when existing file not found)
             $analysisData = [
                 'title' => $awardName,
                 'description' => $description,
@@ -435,11 +480,6 @@ function storeAnalysisResults($awardName, $description, $extractedText, $analysi
                 'analysis_results' => json_encode($analysis),
                 'created_at' => date('Y-m-d H:i:s')
             ];
-            
-            $dataDir = __DIR__ . '/../data/';
-            if (!is_dir($dataDir)) {
-                mkdir($dataDir, 0755, true);
-            }
             
             $analysisFile = $dataDir . 'analysis_' . time() . '_' . uniqid() . '.json';
             file_put_contents($analysisFile, json_encode($analysisData));

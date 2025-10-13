@@ -199,27 +199,49 @@ function listAwards($pdo) {
             return strtotime($b['created_at']) - strtotime($a['created_at']);
         });
         
-        // If no real data, return mock data for demonstration
+        // If no real data, return mock data for demonstration (unless deleted)
         if (empty($awards)) {
-            $awards = [
-                [
-                    'id' => 1,
-                    'title' => 'Sample Global Citizenship Initiative',
-                    'date' => '2025-01-15',
-                    'description' => 'Comprehensive program promoting intercultural understanding',
-                    'file_name' => 'global_citizenship_proposal.pdf',
-                    'file_path' => '/uploads/awards/global_citizenship_proposal.pdf',
-                    'ocr_text' => 'Global citizenship award document with intercultural understanding and sustainability initiatives.',
-                    'created_by' => 'admin',
-                    'created_at' => date('Y-m-d H:i:s'),
-                    'analysis' => [
-                        'confidence' => 0.85,
-                        'predicted_category' => 'Global Citizenship Award',
-                        'matched_criteria' => ['Intercultural understanding', 'Global participation'],
-                        'status' => 'Pending Review'
+            // Check if mock award has been deleted
+            $deletedMockFile = __DIR__ . '/../data/deleted_mock_awards.json';
+            $showMockAward = true;
+            
+            if (file_exists($deletedMockFile)) {
+                $content = file_get_contents($deletedMockFile);
+                if ($content) {
+                    $deletedMocks = json_decode($content, true) ?: [];
+                    // Check if mock award with ID 1 has been deleted
+                    foreach ($deletedMocks as $deleted) {
+                        if ($deleted['id'] == 1 || $deleted['id'] === '1') {
+                            $showMockAward = false;
+                            break;
+                        }
+                    }
+                }
+            }
+            
+            if ($showMockAward) {
+                $awards = [
+                    [
+                        'id' => 1,
+                        'title' => 'Sample Global Citizenship Initiative',
+                        'date' => '2025-01-15',
+                        'description' => 'Comprehensive program promoting intercultural understanding',
+                        'file_name' => 'global_citizenship_proposal.pdf',
+                        'file_path' => '/uploads/awards/global_citizenship_proposal.pdf',
+                        'ocr_text' => 'Global citizenship award document with intercultural understanding and sustainability initiatives.',
+                        'created_by' => 'admin',
+                        'created_at' => date('Y-m-d H:i:s'),
+                        'analysis' => [
+                            'confidence' => 0.85,
+                            'predicted_category' => 'Global Citizenship Award',
+                            'matched_criteria' => ['Intercultural understanding', 'Global participation'],
+                            'status' => 'Pending Review'
+                        ]
                     ]
-                ]
-            ];
+                ];
+            } else {
+                $awards = []; // No awards to show
+            }
         }
         
         echo json_encode($awards);
@@ -282,10 +304,24 @@ function detail($pdo, $id) {
                     'evidence_json' => json_encode($bestMatch['matched_criteria'] ?? []),
                     'manual_overridden' => 0,
                     'final_category' => $bestMatch['category'] ?? 'Not Analyzed',
-                    'created_at' => $data['created_at'] ?? date('Y-m-d H:i:s')
+                    'created_at' => $data['created_at'] ?? date('Y-m-d H:i:s'),
+                    // Include the full analysis results for the view modal
+                    'analysis_results' => $data['analysis_results'] ?? '[]',
+                    'extracted_text' => $data['detected_text'] ?? ''
                 ];
                 
-                echo json_encode(['analysis' => $analysis]);
+                echo json_encode([
+                    'award' => [
+                        'id' => $id,
+                        'title' => $data['title'] ?? 'Untitled',
+                        'description' => $data['description'] ?? '',
+                        'file_name' => $data['file_name'] ?? '',
+                        'file_path' => $data['file_path'] ?? '',
+                        'created_by' => 'admin',
+                        'created_at' => $data['created_at'] ?? date('Y-m-d H:i:s')
+                    ],
+                    'analysis' => $analysis
+                ]);
                 return;
             }
         }
@@ -296,8 +332,8 @@ function detail($pdo, $id) {
             'title' => 'Sample Award Document',
             'date' => '2025-01-15',
             'description' => 'This is a sample award document for demonstration purposes.',
-            'file_name' => 'sample_award.pdf',
-            'file_path' => '/uploads/awards/sample_award.pdf',
+            'file_name' => '68ec798b2e9b4_1760328075.docx',
+            'file_path' => __DIR__ . '/../uploads/awards/68ec798b2e9b4_1760328075.docx',
             'ocr_text' => 'Sample OCR extracted text from award document.',
             'created_by' => 'admin',
             'created_at' => date('Y-m-d H:i:s')
@@ -314,7 +350,24 @@ function detail($pdo, $id) {
             'evidence_json' => json_encode(['Sample evidence text']),
             'manual_overridden' => 0,
             'final_category' => 'Global Citizenship Award',
-            'created_at' => date('Y-m-d H:i:s')
+            'created_at' => date('Y-m-d H:i:s'),
+            'analysis_results' => json_encode([
+                [
+                    'category' => 'Global Citizenship Award',
+                    'score' => 85,
+                    'status' => 'Eligible',
+                    'matched_criteria' => ['Intercultural understanding', 'Global participation'],
+                    'recommendation' => 'Strong alignment with Global Citizenship Award criteria. Consider highlighting specific community engagement metrics.'
+                ],
+                [
+                    'category' => 'Outstanding International Education Program Award',
+                    'score' => 72,
+                    'status' => 'Partially Eligible',
+                    'matched_criteria' => ['International collaboration', 'Educational excellence'],
+                    'recommendation' => 'Good potential for International Education Program Award. Focus on academic program details and student outcomes.'
+                ]
+            ]),
+            'extracted_text' => 'Sample OCR extracted text from award document demonstrating global citizenship initiatives and international education programs.'
         ];
         
         echo json_encode(['award' => $mockAward, 'analysis' => $mockAnalysis]);
