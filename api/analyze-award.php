@@ -40,9 +40,25 @@ try {
     // Get form data
     $awardName = $_POST['award_name'] ?? '';
     $description = $_POST['description'] ?? '';
-    $uploadedFile = $_FILES['file'] ?? null;
+    $isReanalyze = isset($_POST['reanalyze']) && $_POST['reanalyze'] === 'true';
+    $originalFilePath = $_POST['original_file_path'] ?? '';
     
-    error_log("Form data - Award name: '$awardName', Description: '$description', File: " . ($uploadedFile ? $uploadedFile['name'] : 'none'));
+    // Handle re-analysis vs new upload
+    if ($isReanalyze && !empty($originalFilePath)) {
+        // Re-analysis: use existing file
+        error_log("Re-analysis request for file: " . $originalFilePath);
+        $uploadedFile = [
+            'name' => basename($originalFilePath),
+            'tmp_name' => $originalFilePath,
+            'size' => filesize($originalFilePath),
+            'error' => UPLOAD_ERR_OK
+        ];
+    } else {
+        // Normal upload: get uploaded file
+        $uploadedFile = $_FILES['award_file'] ?? null;
+    }
+    
+    error_log("Form data - Award name: '$awardName', Description: '$description', File: " . ($uploadedFile ? $uploadedFile['name'] : 'none') . ", Reanalyze: " . ($isReanalyze ? 'yes' : 'no'));
 
     // Validate required fields
     if (empty($awardName) || empty($description) || !$uploadedFile) {
@@ -103,7 +119,7 @@ try {
 
     // Store the analysis in database (with fallback)
     error_log("Starting to store analysis results");
-    $analysisId = storeAnalysisResults($awardName, $description, $extractedText, $analysis, $uploadedFile);
+    $analysisId = storeAnalysisResults($awardName, $description, $extractedText, $analysis, $uploadedFile, $isReanalyze);
     error_log("Analysis results stored with ID: " . $analysisId);
 
     // Generate recommendations

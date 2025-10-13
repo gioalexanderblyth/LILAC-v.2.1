@@ -143,44 +143,86 @@ function uploadAward($pdo) {
 function listAwards($pdo) {
     // Check if we're using file-based fallback
     if ($pdo instanceof FileBasedDatabase) {
-        // Return mock data for demonstration
-        $mockAwards = [
-            [
-                'id' => 1,
-                'title' => 'Global Citizenship Initiative',
-                'date' => '2025-01-15',
-                'description' => 'Comprehensive program promoting intercultural understanding',
-                'file_name' => 'global_citizenship_proposal.pdf',
-                'file_path' => '/uploads/awards/global_citizenship_proposal.pdf',
-                'ocr_text' => 'Global citizenship award document with intercultural understanding and sustainability initiatives.',
-                'created_by' => 'admin',
-                'created_at' => date('Y-m-d H:i:s')
-            ],
-            [
-                'id' => 2,
-                'title' => 'Sustainability Program',
-                'date' => '2025-01-10',
-                'description' => 'Environmental sustainability and UN SDGs integration',
-                'file_name' => 'sustainability_initiative.docx',
-                'file_path' => '/uploads/awards/sustainability_initiative.docx',
-                'ocr_text' => 'Sustainability award document focusing on environmental impact and social responsibility.',
-                'created_by' => 'admin',
-                'created_at' => date('Y-m-d H:i:s', strtotime('-1 day'))
-            ],
-            [
-                'id' => 3,
-                'title' => 'ASEAN Awareness Campaign',
-                'date' => '2025-01-05',
-                'description' => 'Regional cooperation and cultural exchange program',
-                'file_name' => 'asean_awareness_program.pdf',
-                'file_path' => '/uploads/awards/asean_awareness_program.pdf',
-                'ocr_text' => 'ASEAN awareness initiative promoting regional understanding and collaboration.',
-                'created_by' => 'admin',
-                'created_at' => date('Y-m-d H:i:s', strtotime('-3 days'))
-            ]
-        ];
+        // Read from actual stored analysis files
+        $dataDir = __DIR__ . '/../data/';
+        $awards = [];
         
-        echo json_encode($mockAwards);
+        if (is_dir($dataDir)) {
+            $files = glob($dataDir . 'analysis_*.json');
+            
+            foreach ($files as $file) {
+                $content = file_get_contents($file);
+                if ($content) {
+                    $data = json_decode($content, true);
+                    if ($data) {
+                        // Parse analysis results to get the best match
+                        $analysisResults = json_decode($data['analysis_results'] ?? '[]', true);
+                        $bestMatch = null;
+                        $highestScore = 0;
+                        
+                        if (is_array($analysisResults)) {
+                            foreach ($analysisResults as $result) {
+                                if (isset($result['score']) && $result['score'] > $highestScore) {
+                                    $highestScore = $result['score'];
+                                    $bestMatch = $result;
+                                }
+                            }
+                        }
+                        
+                        // Create award entry
+                        $award = [
+                            'id' => 'file_' . basename($file, '.json'),
+                            'title' => $data['title'] ?? 'Untitled Award',
+                            'date' => date('Y-m-d', strtotime($data['created_at'] ?? 'now')),
+                            'description' => $data['description'] ?? '',
+                            'file_name' => $data['file_name'] ?? '',
+                            'file_path' => $data['file_path'] ?? '',
+                            'ocr_text' => $data['detected_text'] ?? '',
+                            'created_by' => 'admin',
+                            'created_at' => $data['created_at'] ?? date('Y-m-d H:i:s'),
+                            'analysis' => [
+                                'confidence' => ($bestMatch['score'] ?? 0) / 100,
+                                'predicted_category' => $bestMatch['category'] ?? 'Not Analyzed',
+                                'matched_criteria' => $bestMatch['matched_criteria'] ?? [],
+                                'status' => $bestMatch['status'] ?? 'Not Analyzed'
+                            ]
+                        ];
+                        
+                        $awards[] = $award;
+                    }
+                }
+            }
+        }
+        
+        // Sort by creation date (newest first)
+        usort($awards, function($a, $b) {
+            return strtotime($b['created_at']) - strtotime($a['created_at']);
+        });
+        
+        // If no real data, return mock data for demonstration
+        if (empty($awards)) {
+            $awards = [
+                [
+                    'id' => 1,
+                    'title' => 'Sample Global Citizenship Initiative',
+                    'date' => '2025-01-15',
+                    'description' => 'Comprehensive program promoting intercultural understanding',
+                    'file_name' => 'global_citizenship_proposal.pdf',
+                    'file_path' => '/uploads/awards/global_citizenship_proposal.pdf',
+                    'ocr_text' => 'Global citizenship award document with intercultural understanding and sustainability initiatives.',
+                    'created_by' => 'admin',
+                    'created_at' => date('Y-m-d H:i:s'),
+                    'analysis' => [
+                        'confidence' => 0.85,
+                        'predicted_category' => 'Global Citizenship Award',
+                        'matched_criteria' => ['Intercultural understanding', 'Global participation'],
+                        'status' => 'Pending Review'
+                    ]
+                ]
+            ];
+        }
+        
+        echo json_encode($awards);
         return;
     }
     
@@ -192,7 +234,63 @@ function listAwards($pdo) {
 function detail($pdo, $id) {
     // Check if we're using file-based fallback
     if ($pdo instanceof FileBasedDatabase) {
-        // Return mock data for demonstration
+        // Read from actual stored analysis files
+        $dataDir = __DIR__ . '/../data/';
+        $analysisFile = null;
+        
+        // Extract the file ID from the request ID
+        $fileId = str_replace('file_', '', $id);
+        
+        if (is_dir($dataDir)) {
+            $files = glob($dataDir . 'analysis_*.json');
+            foreach ($files as $file) {
+                if (strpos(basename($file, '.json'), $fileId) !== false) {
+                    $analysisFile = $file;
+                    break;
+                }
+            }
+        }
+        
+        if ($analysisFile && file_exists($analysisFile)) {
+            $content = file_get_contents($analysisFile);
+            $data = json_decode($content, true);
+            
+            if ($data) {
+                $analysisResults = json_decode($data['analysis_results'] ?? '[]', true);
+                
+                // Find the best match
+                $bestMatch = null;
+                $highestScore = 0;
+                
+                if (is_array($analysisResults)) {
+                    foreach ($analysisResults as $result) {
+                        if (isset($result['score']) && $result['score'] > $highestScore) {
+                            $highestScore = $result['score'];
+                            $bestMatch = $result;
+                        }
+                    }
+                }
+                
+                $analysis = [
+                    'id' => 1,
+                    'award_id' => $id,
+                    'predicted_category' => $bestMatch['category'] ?? 'Not Analyzed',
+                    'confidence' => ($bestMatch['score'] ?? 0) / 100,
+                    'matched_categories_json' => json_encode($bestMatch['matched_criteria'] ?? []),
+                    'checklist_json' => json_encode($bestMatch['matched_criteria'] ?? []),
+                    'recommendations_text' => $bestMatch['recommendation'] ?? 'No recommendations available.',
+                    'evidence_json' => json_encode($bestMatch['matched_criteria'] ?? []),
+                    'manual_overridden' => 0,
+                    'final_category' => $bestMatch['category'] ?? 'Not Analyzed',
+                    'created_at' => $data['created_at'] ?? date('Y-m-d H:i:s')
+                ];
+                
+                echo json_encode(['analysis' => $analysis]);
+                return;
+            }
+        }
+        
+        // Fallback to mock data if file not found
         $mockAward = [
             'id' => $id,
             'title' => 'Sample Award Document',

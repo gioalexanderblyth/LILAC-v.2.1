@@ -399,21 +399,28 @@ function generateRecommendations($analysis) {
 /**
  * Store analysis results with fallback
  */
-function storeAnalysisResults($awardName, $description, $extractedText, $analysis, $uploadedFile) {
+function storeAnalysisResults($awardName, $description, $extractedText, $analysis, $uploadedFile, $isReanalyze = false) {
     try {
         $pdo = getDatabaseConnection();
         
-        // Upload file to uploads directory
-        $uploadDir = __DIR__ . '/../uploads/awards/';
-        if (!is_dir($uploadDir)) {
-            mkdir($uploadDir, 0755, true);
-        }
-        
-        $fileName = uniqid() . '_' . time() . '_' . basename($uploadedFile['name']);
-        $filePath = $uploadDir . $fileName;
-        
-        if (!move_uploaded_file($uploadedFile['tmp_name'], $filePath)) {
-            throw new Exception('Failed to save uploaded file');
+        // Handle file storage
+        if ($isReanalyze) {
+            // For re-analysis, use the existing file path
+            $fileName = basename($uploadedFile['name']);
+            $filePath = $uploadedFile['tmp_name']; // This is the original file path
+        } else {
+            // For new uploads, move file to uploads directory
+            $uploadDir = __DIR__ . '/../uploads/awards/';
+            if (!is_dir($uploadDir)) {
+                mkdir($uploadDir, 0755, true);
+            }
+            
+            $fileName = uniqid() . '_' . time() . '_' . basename($uploadedFile['name']);
+            $filePath = $uploadDir . $fileName;
+            
+            if (!move_uploaded_file($uploadedFile['tmp_name'], $filePath)) {
+                throw new Exception('Failed to save uploaded file');
+            }
         }
         
         // Check if we're using file-based fallback
