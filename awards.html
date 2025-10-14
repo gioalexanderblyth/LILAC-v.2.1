@@ -313,13 +313,23 @@
 <span id="progress-text">Processing... Analyzing document with OCR.</span>
 </div>
 </div>
-<div class="flex justify-end pt-4">
+                <div class="flex justify-end pt-4">
 <button class="w-40 inline-flex justify-center items-center py-2 px-4 border border-transparent shadow-sm text-sm font-bold rounded-lg text-white bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-all duration-300" type="submit" id="analyze-btn">
 <span class="btn-text">Analyze Award</span>
 <span class="material-symbols-outlined ml-2 animate-pulse hidden" id="loading-icon">hourglass_empty</span>
 <span class="material-symbols-outlined ml-2 hidden" id="success-icon">check_circle</span>
 </button>
 </div>
+                
+                <!-- Requirements Section -->
+                <div class="mt-6 bg-card-light dark:bg-card-dark/50 rounded-xl p-4 border border-border-light dark:border-border-dark">
+                    <h4 class="text-md font-bold text-text-light dark:text-text-dark mb-2 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-primary">checklist</span>
+                        Requirements to Apply for This Award
+                    </h4>
+                    <p id="requirements-note" class="text-sm text-text-muted-light dark:text-text-muted-dark mb-3">Upload a document to see eligibility and requirements.</p>
+                    <ul id="requirements-list" class="space-y-2"></ul>
+                </div>
 </form>
 </div>
 <div class="space-y-6 overflow-hidden">
@@ -1264,16 +1274,16 @@ Export PDF
                                     <div class="flex items-center justify-between mb-2">
                                         <h5 class="font-medium text-gray-900 dark:text-white">${result.category}</h5>
                                         <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getScoreBadgeClass(result.score)}">
-                                            ${result.score}%
+                                            ${typeof result.score === 'number' && result.score <= 1 ? (result.score * 100).toFixed(1) : Number(result.score).toFixed(1)}%
                                         </span>
                                     </div>
                                     <div class="mb-2">
                                         <div class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-400 mb-1">
                                             <span>Confidence Score</span>
-                                            <span>${result.score}%</span>
+                                            <span>${typeof result.score === 'number' && result.score <= 1 ? (result.score * 100).toFixed(1) : Number(result.score).toFixed(1)}%</span>
                                         </div>
                                         <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                                            <div class="bg-blue-600 h-2 rounded-full" style="width: ${Math.min(result.score, 100)}%"></div>
+                                            <div class="bg-blue-600 h-2 rounded-full" style="width: ${Math.min((typeof result.score === 'number' && result.score <= 1 ? (result.score * 100) : Number(result.score)), 100)}%"></div>
                                         </div>
                                     </div>
                                     <div class="mb-2">
@@ -1281,20 +1291,26 @@ Export PDF
                                             ${result.status}
                                         </span>
                                     </div>
-                                    <div>
-                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Matched Criteria</label>
-                                        <div class="flex flex-wrap gap-1">
-                                            ${(result.matched_criteria || []).map(criteria => `
-                                                <span class="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400">
-                                                    ${criteria}
-                                                </span>
-                                            `).join('')}
-                                        </div>
-                                    </div>
                                     ${result.recommendation ? `
                                         <div class="mt-3 p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
                                             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Recommendation</label>
                                             <p class="text-sm text-gray-600 dark:text-gray-400">${result.recommendation}</p>
+                                        </div>
+                                    ` : ''}
+                                    ${result.checklist ? `
+                                        <div class="mt-3">
+                                            <details class="group">
+                                                <summary class="text-sm cursor-pointer select-none text-primary">Checklist (${result.checklist.criteria_met} of ${result.checklist.total_criteria} met)</summary>
+                                                <div class="mt-2 space-y-1">
+                                                    ${result.checklist.criteria.map(c => `
+                                                        <div class=\"flex items-start gap-2 text-sm\">
+                                                            <span class=\"mt-0.5\">${c.met ? '✅' : '⚪'}</span>
+                                                            <span class=\"text-gray-800 dark:text-gray-200\">${c.text}</span>
+                                                        </div>
+                                                    `).join('')}
+                                                    <div class="text-xs text-gray-500 dark:text-gray-400">${Number(result.checklist.percentage_met).toFixed(2)}% met</div>
+                                                </div>
+                                            </details>
                                         </div>
                                     ` : ''}
                                 </div>
@@ -2614,13 +2630,52 @@ Export PDF
                 `<span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-${statusColor}-100 text-${statusColor}-800">${criteria}</span>`
             ).join(' ');
             
+            // Score normalization (supports 0..1 or 0..100)
+            const displayScore = (typeof award.score === 'number' && award.score <= 1) ? (award.score * 100).toFixed(1) : Number(award.score).toFixed(1);
+            const widthScore = Math.min((typeof award.score === 'number' && award.score <= 1) ? (award.score * 100) : Number(award.score), 100);
+            
+            // Checklist block
+            const checklistBlock = award.checklist ? `
+                <div class="mt-3">
+                    <details class="group">
+                        <summary class="text-sm cursor-pointer select-none text-primary">Checklist (${award.checklist.criteria_met} of ${award.checklist.total_criteria} met)</summary>
+                        <div class="mt-2 space-y-1">
+                            ${award.checklist.criteria.map(c => `
+                                <div class=\"flex items-start gap-2 text-sm\">
+                                    <span class=\"mt-0.5\">${c.met ? '✅' : '⚪'}</span>
+                                    <span class=\"text-gray-800 dark:text-gray-200\">${c.text}</span>
+                                </div>
+                            `).join('')}
+                            <div class="text-xs text-gray-500 dark:text-gray-400">${Number(award.checklist.percentage_met).toFixed(2)}% met</div>
+                        </div>
+                    </details>
+                </div>
+            ` : '';
+
+            // Fallback checklist from matched_criteria if checklist missing
+            const fallbackChecklistBlock = (!award.checklist && Array.isArray(award.matched_criteria) && award.matched_criteria.length) ? `
+                <div class="mt-3">
+                    <details class="group" open>
+                        <summary class="text-sm cursor-pointer select-none text-primary">Checklist (${award.matched_criteria.length} criteria matched)</summary>
+                        <div class="mt-2 space-y-1">
+                            ${award.matched_criteria.map(t => `
+                                <div class=\"flex items-start gap-2 text-sm\">
+                                    <span class=\"mt-0.5\">✅</span>
+                                    <span class=\"text-gray-800 dark:text-gray-200\">${t}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </details>
+                </div>
+            ` : '';
+            
             card.innerHTML = `
                 <div class="flex items-start justify-between mb-4">
                     <div class="flex-1">
                         <h4 class="text-lg font-bold text-text-light dark:text-text-dark mb-1">${award.category}</h4>
                         <div class="flex items-center gap-2">
                             <span class="text-sm text-text-muted-light dark:text-text-muted-dark">${award.type}</span>
-                            <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-primary/10 text-primary">${award.score}%</span>
+                            <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-primary/10 text-primary">${displayScore}%</span>
                         </div>
                     </div>
                     <div class="flex items-center gap-2">
@@ -2632,10 +2687,10 @@ Export PDF
                 <div class="mb-4">
                     <div class="flex justify-between items-center text-sm mb-1">
                         <span class="text-text-light dark:text-text-dark">Match Confidence</span>
-                        <span class="font-medium text-${statusColor}-600">${award.score}%</span>
+                        <span class="font-medium text-${statusColor}-600">${displayScore}%</span>
                     </div>
                     <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                        <div class="bg-${statusColor}-500 h-2 rounded-full transition-all duration-500" style="width: ${Math.min(award.score, 100)}%"></div>
+                        <div class="bg-${statusColor}-500 h-2 rounded-full transition-all duration-500" style="width: ${widthScore}%"></div>
                     </div>
                 </div>
                 
@@ -2649,6 +2704,7 @@ Export PDF
                 <div class="p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
                     <p class="text-sm text-text-light dark:text-text-dark">${award.recommendation}</p>
                 </div>
+                ${checklistBlock || fallbackChecklistBlock}
             `;
             
             return card;

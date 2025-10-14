@@ -85,16 +85,18 @@ try {
         throw new Exception('Could not extract text from the uploaded file');
     }
     
-    // Load award criteria
-    $criteriaPath = '../data/criteria/awards.json';
+    // Load ICONS 2025 award criteria (official dataset)
+    $criteriaPath = __DIR__ . '/../assets/icons2025_awards.json';
     if (!file_exists($criteriaPath)) {
-        throw new Exception('Award criteria file not found');
+        throw new Exception('ICONS 2025 awards dataset not found');
+    }
+    $iconsDataset = json_decode(file_get_contents($criteriaPath), true);
+    if (!$iconsDataset || !isset($iconsDataset['awards']) || !is_array($iconsDataset['awards'])) {
+        throw new Exception('Invalid ICONS 2025 dataset format');
     }
     
-    $criteria = json_decode(file_get_contents($criteriaPath), true);
-    
-    // Perform Jaccard similarity analysis
-    $analysisResults = performJaccardAnalysis($extractedText, $criteria);
+    // Perform upgraded semantic + Jaccard analysis with checklist
+    $analysisResults = performIconsAnalysis($extractedText, $iconsDataset['awards']);
     
     $title = $_POST['title'] ?? pathinfo($file['name'], PATHINFO_FILENAME);
     $date = $_POST['date'] ?? date('Y-m-d');
@@ -140,7 +142,7 @@ try {
     
     // Get matched categories for response
     $matchedCategories = array_filter($analysisResults, function($result) {
-        return $result['score'] >= 0.25; // Threshold for counting
+        return ($result['score'] ?? 0) >= 0.25; // Threshold for counting
     });
     
     // Return success response
@@ -182,32 +184,76 @@ try {
 }
 
 
-function performJaccardAnalysis($text, $criteria) {
-    $results = [];
+function performIconsAnalysis($rawText, $awards) {
+    $text = strtolower($rawText);
     $textTokens = preprocessText($text);
+    $results = [];
     
-    foreach ($criteria as $category => $data) {
-        $criteriaTokens = $data['keywords'];
-        $score = jaccardSimilarity($textTokens, $criteriaTokens);
+    foreach ($awards as $award) {
+        $awardName = $award['name'] ?? 'Unknown Award';
+        $awardType = $award['type'] ?? 'Institutional';
+        $criteriaList = $award['criteria'] ?? [];
         
-        $status = 'Not Eligible';
-        if ($score >= 0.50) {
-            $status = 'Eligible';
-        } elseif ($score >= 0.25) {
-            $status = 'Partial Match';
+        // Build checklist for criteria
+        $criteriaChecklist = [];
+        $criteriaMetCount = 0;
+        $allCriterionTokens = [];
+        
+        foreach ($criteriaList as $criterion) {
+            $criterionLower = strtolower($criterion);
+            $criterionTokens = preprocessText($criterionLower);
+            $allCriterionTokens = array_merge($allCriterionTokens, $criterionTokens);
+            $met = phraseMatches($text, $textTokens, $criterionLower, $criterionTokens);
+            if ($met) { $criteriaMetCount++; }
+            $criteriaChecklist[] = [
+                'text' => $criterion,
+                'met' => $met
+            ];
         }
         
+        $totalCriteria = max(1, count($criteriaList));
+        $percentCriteria = ($criteriaMetCount / $totalCriteria) * 100.0;
+        
+        // Jaccard similarity over aggregated criterion tokens
+        $jaccard = jaccardSimilarity($textTokens, $allCriterionTokens);
+        
+        // Type weighting
+        $typeWeight = 1.0;
+        $type = strtolower($awardType);
+        if ($type === 'individual') { $typeWeight = 1.1; }
+        elseif ($type === 'special') { $typeWeight = 0.9; }
+        
+        // Combined score: 70% checklist + 30% jaccard, then weight, clamp 0..100
+        $combinedPercent = (($percentCriteria * 0.70) + ($jaccard * 100.0 * 0.30)) * $typeWeight;
+        $combinedPercent = max(0, min(100, $combinedPercent));
+        
+        // Eligibility
+        $eligibility = 'Not Eligible';
+        if ($combinedPercent >= 80) { $eligibility = 'Eligible'; }
+        elseif ($combinedPercent >= 60) { $eligibility = 'Partially Eligible'; }
+        
+        // Map to existing frontend fields, include checklist
         $results[] = [
-            'category' => $category,
-            'score' => round($score, 3),
-            'status' => $status,
-            'recommendation' => generateRecommendation($category, $score, $textTokens, $criteriaTokens)
+            'category' => $awardName,
+            'score' => round($combinedPercent / 100, 3),
+            'status' => $eligibility,
+            'recommendation' => generateIconsRecommendation($awardName, $eligibility, $criteriaChecklist, $percentCriteria),
+            'type' => $awardType,
+            'checklist' => [
+                'award_name' => $awardName,
+                'type' => $awardType,
+                'criteria' => $criteriaChecklist,
+                'criteria_met' => $criteriaMetCount,
+                'total_criteria' => $totalCriteria,
+                'percentage_met' => round($percentCriteria, 2),
+                'eligibility' => $eligibility
+            ]
         ];
     }
     
     // Sort by score descending
     usort($results, function($a, $b) {
-        return $b['score'] <=> $a['score'];
+        return ($b['score'] <=> $a['score']);
     });
     
     return $results;
@@ -277,7 +323,7 @@ function jaccardSimilarity($textTokens, $criteriaKeywords) {
     }
     $stemmedCriteria = array_unique($stemmedCriteria);
     
-    // Handle compound keywords (e.g., "global citizenship" -> ["global", "citizenship"])
+    // Handle compound keywords (e.g., "global citizenship" -> ["global", "citizenship"]) 
     $expandedCriteria = [];
     foreach ($stemmedCriteria as $keyword) {
         $expandedCriteria[] = $keyword;
@@ -360,18 +406,42 @@ function calculateSubstringMatches($textTokens, $criteriaKeywords) {
     return array_unique($partialMatches);
 }
 
-function generateRecommendation($category, $score, $textTokens, $criteriaKeywords) {
-    $missingKeywords = array_diff($criteriaKeywords, $textTokens);
+function generateIconsRecommendation($awardName, $eligibility, $criteriaChecklist, $percentCriteria) {
+    $met = array_values(array_filter($criteriaChecklist, function($c) { return !empty($c['met']); }));
+    $unmet = array_values(array_filter($criteriaChecklist, function($c) { return empty($c['met']); }));
+    $metTexts = array_map(function($c){ return $c['text']; }, $met);
+    $unmetTexts = array_map(function($c){ return $c['text']; }, $unmet);
     
-    if ($score >= 0.50) {
-        return "Excellent! Strong alignment with {$category} goals.";
-    } elseif ($score >= 0.25) {
-        $missing = array_slice($missingKeywords, 0, 3);
-        return "Partial match. Try improving focus on: " . implode(', ', $missing) . ".";
-    } else {
-        $missing = array_slice($criteriaKeywords, 0, 3);
-        return "Not eligible. Include initiatives related to: " . implode(', ', $missing) . ".";
+    if ($eligibility === 'Eligible') {
+        return 'Strong alignment with ' . $awardName . '. Evidence for: ' . implode(', ', array_slice($metTexts, 0, 3)) . '.';
     }
+    if ($eligibility === 'Partially Eligible') {
+        return 'Partial alignment. Strengthen: ' . implode(', ', array_slice($unmetTexts, 0, 3)) . '.';
+    }
+    return 'Not eligible yet. Include initiatives related to: ' . implode(', ', array_slice($unmetTexts, 0, 3)) . '.';
+}
+
+function phraseMatches($text, $textTokens, $phrase, $phraseTokens) {
+    // Exact phrase presence quick check
+    if (strpos($text, $phrase) !== false) { return true; }
+    
+    // Token overlap ratio
+    if (empty($phraseTokens)) { return false; }
+    $intersection = array_intersect($phraseTokens, $textTokens);
+    $overlapRatio = count($intersection) / count($phraseTokens);
+    if ($overlapRatio >= 0.7) { return true; }
+    
+    // Fuzzy substring: if any token of phrase appears as substring of any text token
+    foreach ($phraseTokens as $pt) {
+        foreach ($textTokens as $tt) {
+            if (strlen($pt) >= 4 && strlen($tt) >= 4) {
+                if (strpos($tt, $pt) !== false || strpos($pt, $tt) !== false) {
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
 }
 
 function generateRecommendations($analysisResults) {

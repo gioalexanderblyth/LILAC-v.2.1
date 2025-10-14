@@ -190,13 +190,34 @@ function analyzeTextAgainstCriteria($text, $awardsCriteria) {
                 $status = 'Partially Eligible';
             }
             
+            // Build full checklist of criteria (met/unmet)
+            $criteriaChecklist = [];
+            $criteriaMetCount = 0;
+            foreach ($award['criteria'] as $criterionText) {
+                $isMet = in_array($criterionText, $matchedCriteria, true);
+                if ($isMet) { $criteriaMetCount++; }
+                $criteriaChecklist[] = [
+                    'text' => $criterionText,
+                    'met' => $isMet
+                ];
+            }
+            
             $results[] = [
                 'category' => $award['category'],
                 'type' => $award['type'],
                 'score' => round($finalScore),
                 'status' => $status,
                 'matched_criteria' => $matchedCriteria,
-                'recommendation' => generateAwardRecommendation($award, $matchedCriteria, $finalScore)
+                'recommendation' => generateAwardRecommendation($award, $matchedCriteria, $finalScore),
+                'checklist' => [
+                    'award_name' => $award['category'],
+                    'type' => $award['type'],
+                    'criteria' => $criteriaChecklist,
+                    'criteria_met' => $criteriaMetCount,
+                    'total_criteria' => $totalCriteria,
+                    'percentage_met' => $totalCriteria > 0 ? round(($criteriaMetCount / $totalCriteria) * 100, 2) : 0,
+                    'eligibility' => $status
+                ]
             ];
         }
     }

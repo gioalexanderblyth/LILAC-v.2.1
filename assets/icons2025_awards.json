@@ -1,0 +1,96 @@
+{
+  "awards": [
+    {
+      "name": "Global Citizenship Award",
+      "type": "Institutional",
+      "criteria": [
+        "fosters intercultural understanding",
+        "empowers changemakers",
+        "cultivates active engagement",
+        "prepares future generations to be engaged global citizens",
+        "promotes responsible global leadership",
+        "drives social impact through education"
+      ]
+    },
+    {
+      "name": "Outstanding International Education Program Award",
+      "type": "Institutional",
+      "criteria": [
+        "expands access to global opportunities",
+        "fosters collaborative innovation",
+        "embraces inclusivity",
+        "advances international partnerships",
+        "creates sustainable international programs",
+        "supports student and faculty mobility"
+      ]
+    },
+    {
+      "name": "Sustainability Award",
+      "type": "Institutional",
+      "criteria": [
+        "demonstrates outstanding commitment to sustainability",
+        "implements impactful sustainability projects",
+        "integrates environmental practices institution-wide",
+        "promotes long-term sustainability initiatives",
+        "develops programs that exemplify environmental stewardship"
+      ]
+    },
+    {
+      "name": "Best ASEAN Awareness Initiative Award",
+      "type": "Institutional",
+      "criteria": [
+        "boosts understanding and awareness of ASEAN",
+        "promotes regional identity and solidarity",
+        "implements cross-cultural programs",
+        "demonstrates measurable outreach and engagement",
+        "shows sustained commitment to ASEAN integration"
+      ]
+    },
+    {
+      "name": "Emerging Leadership Award",
+      "type": "Individual",
+      "criteria": [
+        "drives strategic and inclusive growth",
+        "empowers teams and peers",
+        "demonstrates leadership innovation",
+        "builds inclusive international programs",
+        "shows early impact in internationalization"
+      ]
+    },
+    {
+      "name": "Internationalization Leadership Award",
+      "type": "Individual",
+      "criteria": [
+        "demonstrates excellence in strategic vision and integration",
+        "shows ethical leadership and governance",
+        "leads with integrity and long-term vision",
+        "achieves sustained impact and development",
+        "embodies resilience and humility"
+      ]
+    },
+    {
+      "name": "Best CHED Regional Office for Internationalization Award",
+      "type": "Special",
+      "criteria": [
+        "promotes sustainable and inclusive internationalization",
+        "demonstrates leadership and innovation in operations",
+        "creates compliant and well-governed internationalization ecosystems",
+        "fosters regional collaboration",
+        "shows measurable improvement in regional internationalization outcomes"
+      ]
+    },
+    {
+      "name": "Most Promising Regional IRO Community Award",
+      "type": "Special",
+      "criteria": [
+        "shows significant vision and early progress",
+        "strengthens internationalization capacity among HEIs",
+        "fosters collaboration and resource sharing",
+        "demonstrates future impact and sustainability",
+        "paves the way for a connected regional internationalization ecosystem"
+      ]
+    }
+  ]
+}
+
+

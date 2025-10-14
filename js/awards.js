@@ -8,6 +8,48 @@
     
     const $ = (sel) => document.querySelector(sel);
 
+    // ICONS 2025 – client-side criteria map for checklist generation
+    // Used when server doesn't return a structured checklist
+    const ICONS2025_CRITERIA = {
+        'Internationalization Leadership Award': [
+            'internationalization leadership',
+            'izn leadership',
+            'strategic leadership',
+            'institutional leadership',
+            'executive leadership',
+            'transformational leader',
+            'visionary leadership',
+            'leadership excellence',
+            'senior leadership',
+            'leadership impact'
+        ],
+        'Global Citizenship Award': [
+            'global leadership',
+            'intercultural understanding',
+            'community engagement',
+            'inclusive programs',
+            'ethical governance',
+            'sustainable impact'
+        ],
+        'Outstanding International Education Program Award': [
+            'international education program',
+            'inclusive internationalization',
+            'collaborative innovation',
+            'student mobility',
+            'research partnership',
+            'access to global opportunities'
+        ],
+        'Emerging Leadership Award': [
+            'leadership development',
+            'leadership excellence',
+            'innovation',
+            'strategic growth',
+            'empowering others',
+            'internationalization leadership'
+        ]
+        // Add more award mappings here as needed
+    };
+
     async function ocrFile(file) {
         if (!file) return '';
         
@@ -87,6 +129,14 @@
                 const statusIcon = getStatusIcon(analysis.status);
                 const scoreColor = getScoreColor(analysis.score);
                 
+                let checklist = analysis.checklist;
+                // If server didn't return a checklist, build it from local criteria map and matched_criteria
+                if (!checklist) {
+                    checklist = buildChecklistFromLocalMap(analysis.category, analysis.matched_criteria || []);
+                }
+                const checklistHtml = checklist ? renderChecklistHtml(checklist) : '';
+                const checklistToggleId = 'chk-' + Math.random().toString(36).slice(2);
+                
                 row.innerHTML = `
                     <td class="border border-border-light dark:border-border-dark px-3 py-2 text-sm text-text-light dark:text-text-dark">${analysis.category}</td>
                     <td class="border border-border-light dark:border-border-dark px-3 py-2 text-sm">
@@ -100,10 +150,39 @@
                             <span class="text-text-light dark:text-text-dark">${analysis.status}</span>
                         </span>
                     </td>
-                    <td class="border border-border-light dark:border-border-dark px-3 py-2 text-sm text-text-muted-light dark:text-text-muted-dark">${analysis.recommendation}</td>
+                    <td class="border border-border-light dark:border-border-dark px-3 py-2 text-sm text-text-muted-light dark:text-text-muted-dark">
+                        <div class="flex flex-col gap-2">
+                            <div>${analysis.recommendation}</div>
+                            ${checklistHtml ? `
+                            <div>
+                                <button data-target="${checklistToggleId}" class="text-xs underline text-primary hover:opacity-80">
+                                    View Checklist (${checklist.criteria_met} of ${checklist.total_criteria} criteria met)
+                                </button>
+                                <div id="${checklistToggleId}" class="mt-2 transition-opacity duration-300 opacity-0">${checklistHtml}</div>
+                            </div>` : ''}
+                        </div>
+                    </td>
                 `;
                 
                 resultsTableBody.appendChild(row);
+                
+                // Checklist toggle handler
+                const btn = row.querySelector('button[data-target]');
+                if (btn) {
+                    btn.addEventListener('click', () => {
+                        const target = row.querySelector('#' + btn.getAttribute('data-target'));
+                        if (target) {
+                            // Simple fade-in/out
+                            if (target.classList.contains('hidden')) {
+                                target.classList.remove('hidden');
+                                requestAnimationFrame(() => target.classList.remove('opacity-0'));
+                            } else {
+                                target.classList.add('opacity-0');
+                                setTimeout(() => target.classList.add('hidden'), 300);
+                            }
+                        }
+                    });
+                }
             });
             
             analysisResults.classList.remove('hidden');
@@ -117,11 +196,80 @@
         // Show success message
         showToast(`Analysis completed! Found ${result.matched_categories ? result.matched_categories.length : 0} matching awards.`, 'success');
     }
+
+    function renderChecklistHtml(checklist) {
+        const all = checklist.criteria || [];
+        const left = all.slice(0, 5);
+        const right = all.slice(5, 10);
+        const renderItem = (c) => {
+            const met = !!c.met;
+            return `
+                <div class="flex items-start gap-2 text-sm">
+                    <span class="mt-0.5">${met ? '✅' : '☐'}</span>
+                    <span class="${met ? 'text-text-light dark:text-text-dark' : 'text-text-muted-light dark:text-text-muted-dark'}">${c.text}</span>
+                </div>
+            `;
+        };
+        const leftCol = left.map(renderItem).join('');
+        const rightCol = right.map(renderItem).join('');
+        const footer = `
+            <div class="text-xs text-text-muted-light dark:text-text-muted-dark mt-2">
+                ${checklist.criteria_met} of ${checklist.total_criteria} criteria met (${Number(checklist.percentage_met).toFixed(2)}%)
+            </div>
+        `;
+        return `
+            <div class="border border-border-light dark:border-border-dark rounded-md p-3">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2">
+                    <div class="space-y-2">${leftCol}</div>
+                    <div class="space-y-2">${rightCol}</div>
+                </div>
+                ${footer}
+            </div>
+        `;
+    }
+
+    function buildChecklistFromLocalMap(awardName, matchedCriteria) {
+        const list = ICONS2025_CRITERIA[awardName];
+        if (!Array.isArray(list) || list.length === 0) return null;
+        const normalizedMatched = (matchedCriteria || []).map(s => String(s).toLowerCase());
+        let criteriaMet = 0;
+        const criteria = list.map(text => {
+            const isMet = normalizedMatched.includes(String(text).toLowerCase());
+            if (isMet) criteriaMet += 1;
+            return { text, met: isMet };
+        });
+        const total = criteria.length;
+        return {
+            award_name: awardName,
+            type: '',
+            criteria,
+            criteria_met: criteriaMet,
+            total_criteria: total,
+            percentage_met: total > 0 ? (criteriaMet / total) * 100 : 0,
+            eligibility: ''
+        };
+    }
+
+    function renderChecklistFallbackFromMatched(analysis) {
+        const matched = analysis.matched_criteria || [];
+        const unique = Array.from(new Set(matched));
+        if (unique.length === 0) return '';
+        const items = unique.map(text => `
+            <div class="flex items-start gap-2 text-sm">
+                <span class="mt-0.5">✅</span>
+                <span class="text-text-light dark:text-text-dark">${text}</span>
+            </div>
+        `).join('');
+        const footer = `<div class="text-xs text-text-muted-light dark:text-text-muted-dark mt-2">${unique.length} criteria matched</div>`;
+        return `<div class="border border-border-light dark:border-border-dark rounded-md p-2">${items}${footer}</div>`;
+    }
     
     function getStatusIcon(status) {
         switch (status) {
             case 'Eligible':
                 return '<span class="text-green-500">✅</span>';
+            case 'Partially Eligible':
+                return '<span class="text-yellow-500">⚠️</span>';
             case 'Partial Match':
                 return '<span class="text-yellow-500">⚠️</span>';
             case 'Not Eligible':
@@ -335,6 +483,7 @@
                     if (progressText) progressText.textContent = 'Analysis complete!';
                     
                     renderAnalysis(res);
+                    try { updateRequirementsFromAnalysis(res); } catch {}
                     refreshStats();
                     
                     // Refresh award list data if the function exists
@@ -483,10 +632,53 @@
         }
     }
 
+    function updateRequirementsFromAnalysis(apiResult) {
+        const note = document.getElementById('requirements-note');
+        const list = document.getElementById('requirements-list');
+        if (!note || !list) return;
+        const analysis = Array.isArray(apiResult.analysis) ? apiResult.analysis : [];
+        if (analysis.length === 0) {
+            note.textContent = 'No analysis yet.';
+            list.innerHTML = '';
+            return;
+        }
+        // Choose top award by score
+        const top = [...analysis].sort((a,b) => (b.score||0) - (a.score||0))[0];
+        const awardName = top.category || top.award || '';
+        const eligible = (top.status === 'Eligible' || top.status === 'Partially Eligible');
+        const reqMap = window.AWARD_REQUIREMENTS || {};
+        const reqs = reqMap[awardName] || [];
+        if (eligible && reqs.length) {
+            note.textContent = `This event qualifies for the ${awardName}. You may now complete the requirements below to apply.`;
+            list.innerHTML = reqs.map((r,i) => `
+                <li class="flex items-start gap-2">
+                    <input type="checkbox" id="req-${i}" class="mt-1 h-4 w-4 rounded border-border-light text-primary focus:ring-primary">
+                    <label for="req-${i}" class="text-sm text-text-light dark:text-text-dark">${r}</label>
+                </li>
+            `).join('');
+        } else if (reqs.length) {
+            note.textContent = `This event is not eligible for this award yet.`;
+            list.innerHTML = reqs.map(r => `
+                <li class="flex items-start gap-2 opacity-60">
+                    <span class="mt-1 material-symbols-outlined text-text-muted-light">check_box_outline_blank</span>
+                    <span class="text-sm text-text-muted-light dark:text-text-muted-dark">${r}</span>
+                </li>
+            `).join('');
+        } else {
+            note.textContent = 'No requirements configured for this award yet.';
+            list.innerHTML = '';
+        }
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
         initUpload();
         initAI();
         refreshStats();
+        // Preload requirements map
+        fetch('assets/award_requirements.json')
+            .then(r => r.ok ? r.json() : {})
+            .then(json => { window.AWARD_REQUIREMENTS = json || {}; })
+            .catch(() => { window.AWARD_REQUIREMENTS = {}; });
     });
 })();
 
