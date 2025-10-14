@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>LILAC Internationalization Leadership Award</title>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.filled {
+            font-variation-settings: 'FILL' 1;
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: { extend: { colors: { "primary": { DEFAULT: "#137fec", 50: "#e8f2fe", 900: "#04192e" }, "background-light": "#f1f5f9", "background-dark": "#0f172a", "card-light": "#ffffff", "card-dark": "#1e293b", "text-light": "#0f172a", "text-dark": "#e2e8f0", "text-muted-light": "#64748b", "text-muted-dark": "#94a3b8", "border-light": "#e2e8f0", "border-dark": "#334155" }, fontFamily: { "display": ["Inter","sans-serif"] } } }
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-text-light dark:text-text-dark">
+<div class="min-h-screen">
+    <header class="sticky top-0 bg-gradient-to-r from-background-light/95 to-background-light/80 dark:from-background-dark/95 dark:to-background-dark/80 backdrop-blur-sm z-30 px-6 py-4 border-b border-border-light dark:border-border-dark flex justify-between items-center h-20">
+        <div>
+            <h1 class="text-2xl font-bold text-text-light dark:text-text-dark">Internationalization Leadership Award</h1>
+            <p class="text-sm text-text-muted-light dark:text-text-muted-dark mt-1">Manage and analyze award submissions</p>
+        </div>
+        <div class="flex items-center gap-2">
+            <button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-200 dark:hover:bg-white/10 text-text-muted-light dark:text-text-muted-dark transition-colors duration-200" id="theme-toggle">
+                <span class="material-symbols-outlined dark:hidden">light_mode</span>
+                <span class="material-symbols-outlined hidden dark:inline">dark_mode</span>
+            </button>
+            <a href="./awards.html#analytics-content" class="px-3 py-2 rounded-lg border border-border-light dark:border-border-dark hover:bg-gray-100 dark:hover:bg-white/10 transition-colors duration-200">Back</a>
+        </div>
+    </header>
+    <main class="p-6 max-w-6xl mx-auto">
+
+                <!-- Enhanced Table -->
+                <div class="bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark rounded-xl overflow-hidden shadow-sm">
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-border-light dark:divide-border-dark">
+                            <thead class="bg-gradient-to-r from-gray-50 to-gray-100 dark:from-white/5 dark:to-white/10">
+                                <tr>
+                                    <th class="px-6 py-4 text-left text-xs font-semibold text-text-muted-light dark:text-text-muted-dark uppercase tracking-wider cursor-pointer hover:text-primary transition-colors">
+                                        <div class="flex items-center gap-2">
+                                            <span class="material-symbols-outlined text-sm">description</span>
+                                            File Name
+                                        </div>
+                                    </th>
+                                    <th class="px-6 py-4 text-left text-xs font-semibold text-text-muted-light dark:text-text-muted-dark uppercase tracking-wider cursor-pointer hover:text-primary transition-colors">
+                                        <div class="flex items-center gap-2">
+                                            <span class="material-symbols-outlined text-sm">title</span>
+                                            Title
+                                        </div>
+                                    </th>
+                                    <th class="px-6 py-4 text-left text-xs font-semibold text-text-muted-light dark:text-text-muted-dark uppercase tracking-wider cursor-pointer hover:text-primary transition-colors">
+                                        <div class="flex items-center gap-2">
+                                            <span class="material-symbols-outlined text-sm">flag</span>
+                                            Status
+                                        </div>
+                                    </th>
+                                    <th class="px-6 py-4 text-left text-xs font-semibold text-text-muted-light dark:text-text-muted-dark uppercase tracking-wider cursor-pointer hover:text-primary transition-colors">
+                                        <div class="flex items-center gap-2">
+                                            <span class="material-symbols-outlined text-sm">trending_up</span>
+                                            Confidence
+                                        </div>
+                                    </th>
+                                    <th class="px-6 py-4 text-left text-xs font-semibold text-text-muted-light dark:text-text-muted-dark uppercase tracking-wider cursor-pointer hover:text-primary transition-colors">
+                                        <div class="flex items-center gap-2">
+                                            <span class="material-symbols-outlined text-sm">calendar_today</span>
+                                            Date
+                                        </div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-border-light dark:divide-border-dark bg-card-light dark:bg-card-dark" id="internationalization-leadership-table-body">
+                                <tr>
+                                    <td colspan="5" class="px-6 py-8 text-center text-text-muted-light dark:text-text-muted-dark">No files</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+    </main>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const themeToggle = document.getElementById('theme-toggle');
+        
+        // Function to toggle dark mode
+        const toggleDarkMode = (enable) => {
+            if (enable) {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+            }
+        };
+
+        // Check for saved theme in localStorage
+        if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            toggleDarkMode(true);
+        } else {
+            toggleDarkMode(false);
+        }
+
+        // Event listener for theme toggle button
+        themeToggle.addEventListener('click', () => {
+            const isCurrentlyDark = document.documentElement.classList.contains('dark');
+            toggleDarkMode(!isCurrentlyDark);
+        });
+    });
+</script>
+</body></html>
+
+

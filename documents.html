@@ -43,8 +43,19 @@
                 extend: {
 
                     colors: {
-
-                        "primary": "#4F46E5",
+                        "primary": {
+                            DEFAULT: "#137fec",
+                            "50": "#e8f2fe",
+                            "100": "#d1e6fd",
+                            "200": "#a2cbfb",
+                            "300": "#74b1f9",
+                            "400": "#4596f7",
+                            "500": "#137fec",
+                            "600": "#0f66bc",
+                            "700": "#0c4c8d",
+                            "800": "#08335d",
+                            "900": "#04192e"
+                        },
                         "background-light": "#F8FAFC",
                         "background-dark": "#0F172A",
                         "card-light": "#FFFFFF",
@@ -270,13 +281,15 @@
             background-color: rgba(255, 255, 255, 0.05);
         }
         
-        /* Ensure active state styling is preserved */
+        /* Active state styling for Documents menu item */
         .sidebar-nav-link.bg-primary-50 {
-            background-color: rgb(239 246 255) !important; /* primary-50 */
+            background-color: rgb(232 242 254) !important; /* blue-50 */
+            color: rgb(15, 102, 188) !important; /* blue-600 */
         }
         
-        .dark .sidebar-nav-link.bg-primary-900\/40 {
-            background-color: rgba(59, 130, 246, 0.4) !important; /* primary-900/40 */
+        .dark .sidebar-nav-link.bg-primary-50 {
+            background-color: rgba(15, 102, 188, 0.4) !important; /* blue-900/40 */
+            color: rgb(69, 151, 247) !important; /* blue-400 */
         }
 
     </style>
@@ -336,9 +349,9 @@
 
 
 
-<a class="flex items-center justify-center gap-3 px-4 py-2.5 rounded-lg bg-primary-50 dark:bg-primary-900/40 text-primary-600 dark:text-primary-300 font-semibold sidebar-nav-link" href="documents.html">
-<span class="material-symbols-outlined filled">school</span>
-<span class="sidebar-text hidden">Registrar Forms</span>
+<a class="flex items-center justify-center gap-3 px-4 py-2.5 rounded-lg bg-primary-50 dark:bg-primary-900/40 text-primary-600 dark:text-primary-400 font-semibold sidebar-nav-link" href="documents.html">
+<span class="material-symbols-outlined filled">description</span>
+<span class="sidebar-text hidden">Documents</span>
 </a>
 
 </nav>
@@ -354,7 +367,7 @@
 <div class="sidebar-profile-info hidden">
 
 <p class="font-semibold text-text-light dark:text-text-dark">Admin User</p>
-<a class="text-sm text-primary-600 dark:text-primary-400 hover:underline" href="profile.html">View Profile</a>
+<a class="text-sm text-blue-600 dark:text-blue-400 hover:underline" href="profile.html">View Profile</a>
 
 </div>
 
@@ -730,8 +743,28 @@ Add Document
 
                     // Update Documents Report section
                     updateDocumentsReport(documents, counts);
+                    
+                    // Update pagination based on actual document count
+                    updatePagination(counts.total);
                 } catch (error) {
                     console.error('Error updating counters:', error);
+                }
+            }
+
+            function updatePagination(totalDocuments) {
+                try {
+                    // Calculate total pages based on document count and items per page
+                    totalPages = Math.max(1, Math.ceil(totalDocuments / itemsPerPage));
+                    
+                    // Reset to page 1 if current page is beyond total pages
+                    if (currentPage > totalPages) {
+                        currentPage = 1;
+                    }
+                    
+                    // Render pagination with updated values
+                    renderPagination();
+                } catch (error) {
+                    console.error('Error updating pagination:', error);
                 }
             }
 
@@ -932,8 +965,9 @@ Add Document
             const pagesEl = document.getElementById('pagination-pages');
 
             // Configure these with your actual totals
-            let currentPage = 4; // default active shown in UI
-            let totalPages = 20;
+            let currentPage = 1; // default active shown in UI
+            let totalPages = 1;
+            const itemsPerPage = 10; // Items per page limit
 
             function renderPagination() {
                 if (!pagesEl) return;
@@ -1110,47 +1144,28 @@ Add Document
             sidebarToggle.addEventListener('click', toggleSidebar);
 
             // Function to toggle dark mode
-
             const toggleDarkMode = (enable) => {
-
                 if (enable) {
-
                     document.documentElement.classList.add('dark');
-
                     localStorage.setItem('theme', 'dark');
-
                 } else {
-
                     document.documentElement.classList.remove('dark');
-
                     localStorage.setItem('theme', 'light');
-
                 }
-
                 // Force a re-render to ensure all elements update
-
                 document.body.offsetHeight;
-
             };
 
             // Check for saved theme in localStorage
-
             if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-
                 toggleDarkMode(true);
-
             } else {
-
                 toggleDarkMode(false);
-
             }
 
             // Event listener for theme toggle button
-
             themeToggle.addEventListener('click', () => {
-
                 const isCurrentlyDark = document.documentElement.classList.contains('dark');
-
                 toggleDarkMode(!isCurrentlyDark);
 
                 // Re-render chart on theme change

@@ -161,7 +161,7 @@
 <span class="material-symbols-outlined">event</span>
 <span class="sidebar-text hidden">Events &amp; Activities</span>
 </a>
-<a class="flex items-center justify-center gap-3 px-4 py-2.5 rounded-lg bg-primary-50 dark:bg-primary-900/40 text-primary-600 dark:text-primary-300 font-semibold sidebar-nav-link" href="scheduler.html">
+<a class="flex items-center justify-center gap-3 px-4 py-2.5 rounded-lg bg-primary-50 dark:bg-primary-900/40 text-primary-600 dark:text-primary-400 font-semibold sidebar-nav-link" href="scheduler.html">
 <span class="material-symbols-outlined filled">calendar_today</span>
 <span class="sidebar-text hidden">Scheduler</span>
 </a>
@@ -171,8 +171,8 @@
 </a>
 
 <a class="flex items-center justify-center gap-3 px-4 py-2.5 rounded-lg text-text-muted-light dark:text-text-muted-dark hover:bg-gray-100 dark:hover:bg-background-dark hover:text-text-light dark:hover:text-text-dark transition-colors duration-200 sidebar-nav-link" href="documents.html">
-<span class="material-symbols-outlined">school</span>
-<span class="sidebar-text hidden">Registrar Forms</span>
+<span class="material-symbols-outlined">description</span>
+<span class="sidebar-text hidden">Documents</span>
 </a>
 </nav>
 <div class="px-4 py-4 border-t border-border-light dark:border-border-dark">
@@ -217,15 +217,15 @@
 <div class="flex items-center justify-between mb-1">
 <h3 id="sidebarMonthDisplay" class="text-sm font-semibold text-text-light dark:text-text-dark">October 2025</h3>
 <div class="flex items-center space-x-1">
-<button id="sidebarPrevBtn" class="w-6 h-6 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center">
-<span class="material-symbols-outlined text-xs text-gray-600">chevron_left</span>
+<button id="sidebarPrevBtn" class="w-6 h-6 rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-800 dark:hover:bg-gray-200 flex items-center justify-center">
+<span class="material-symbols-outlined text-xs text-gray-600 dark:text-gray-400 hover:text-white dark:hover:text-gray-800">chevron_left</span>
 </button>
-<button id="sidebarNextBtn" class="w-6 h-6 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center">
-<span class="material-symbols-outlined text-xs text-gray-600">chevron_right</span>
+<button id="sidebarNextBtn" class="w-6 h-6 rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-800 dark:hover:bg-gray-200 flex items-center justify-center">
+<span class="material-symbols-outlined text-xs text-gray-600 dark:text-gray-400 hover:text-white dark:hover:text-gray-800">chevron_right</span>
 </button>
 </div>
 </div>
-<div class="grid grid-cols-7 gap-1 text-center text-xs text-gray-600 mb-1">
+<div class="grid grid-cols-7 gap-1 text-center text-xs text-gray-600 dark:text-gray-400 mb-1">
 <span>S</span>
 <span>M</span>
 <span>T</span>
@@ -235,52 +235,52 @@
 <span>S</span>
 </div>
 <div id="sidebarCalendarGrid" class="grid grid-cols-7">
-<div class="h-8 p-1 flex items-center justify-center text-xs text-gray-500">28</div>
-<div class="h-8 p-1 flex items-center justify-center text-xs text-gray-500">29</div>
-<div class="h-8 p-1 flex items-center justify-center text-xs text-blue-600 font-semibold">30</div>
-<div class="h-8 p-1 flex items-center justify-center text-xs">
+<div class="h-8 p-1 flex items-center justify-center text-xs text-gray-500 dark:text-gray-400 hover:bg-gray-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-gray-800 rounded-lg cursor-pointer">28</div>
+<div class="h-8 p-1 flex items-center justify-center text-xs text-gray-500 dark:text-gray-400 hover:bg-gray-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-gray-800 rounded-lg cursor-pointer">29</div>
+<div class="h-8 p-1 flex items-center justify-center text-xs text-blue-600 dark:text-blue-400 font-semibold hover:bg-gray-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-gray-800 rounded-lg cursor-pointer">30</div>
+<div class="h-8 p-1 flex items-center justify-center text-xs hover:bg-gray-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-gray-800 rounded-lg cursor-pointer">
 <span class="bg-blue-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-semibold">1</span>
 </div>
-<div class="h-8 p-1 flex items-center justify-center text-xs">2</div>
-<div class="h-8 p-1 flex items-center justify-center text-xs">3</div>
-<div class="h-8 p-1 flex items-center justify-center text-xs">4</div>
-<div class="h-8 p-1 flex items-center justify-center text-xs">5</div>
-<div class="h-8 p-1 flex items-center justify-center text-xs">6</div>
-<div class="h-8 p-1 flex items-center justify-center text-xs">7</div>
-<div class="h-8 p-1 flex items-center justify-center text-xs">
+<div class="h-8 p-1 flex items-center justify-center text-xs hover:bg-gray-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-gray-800 rounded-lg cursor-pointer">2</div>
+<div class="h-8 p-1 flex items-center justify-center text-xs hover:bg-gray-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-gray-800 rounded-lg cursor-pointer">3</div>
+<div class="h-8 p-1 flex items-center justify-center text-xs hover:bg-gray-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-gray-800 rounded-lg cursor-pointer">4</div>
+<div class="h-8 p-1 flex items-center justify-center text-xs hover:bg-gray-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-gray-800 rounded-lg cursor-pointer">5</div>
+<div class="h-8 p-1 flex items-center justify-center text-xs hover:bg-gray-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-gray-800 rounded-lg cursor-pointer">6</div>
+<div class="h-8 p-1 flex items-center justify-center text-xs hover:bg-gray-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-gray-800 rounded-lg cursor-pointer">7</div>
+<div class="h-8 p-1 flex items-center justify-center text-xs hover:bg-gray-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-gray-800 rounded-lg cursor-pointer">
 <span class="bg-blue-100 text-blue-600 rounded-full w-5 h-5 flex items-center justify-center text-xs">8</span>
 </div>
-<div class="h-8 p-1 flex items-center justify-center text-xs">9</div>
-<div class="h-8 p-1 flex items-center justify-center text-xs">10</div>
-<div class="h-8 p-1 flex items-center justify-center text-xs">11</div>
-<div class="h-8 p-1 flex items-center justify-center text-xs">12</div>
-<div class="h-8 p-1 flex items-center justify-center text-xs">13</div>
-<div class="h-8 p-1 flex items-center justify-center text-xs">14</div>
-<div class="h-8 p-1 flex items-center justify-center text-xs">15</div>
-<div class="h-8 p-1 flex items-center justify-center text-xs">16</div>
-<div class="h-8 p-1 flex items-center justify-center text-xs">17</div>
-<div class="h-8 p-1 flex items-center justify-center text-xs">18</div>
-<div class="h-8 p-1 flex items-center justify-center text-xs">19</div>
-<div class="h-8 p-1 flex items-center justify-center text-xs">20</div>
-<div class="h-8 p-1 flex items-center justify-center text-xs">21</div>
-<div class="h-8 p-1 flex items-center justify-center text-xs">22</div>
-<div class="h-8 p-1 flex items-center justify-center text-xs">23</div>
-<div class="h-8 p-1 flex items-center justify-center text-xs">24</div>
-<div class="h-8 p-1 flex items-center justify-center text-xs">25</div>
-<div class="h-8 p-1 flex items-center justify-center text-xs">26</div>
-<div class="h-8 p-1 flex items-center justify-center text-xs">27</div>
-<div class="h-8 p-1 flex items-center justify-center text-xs">28</div>
-<div class="h-8 p-1 flex items-center justify-center text-xs">29</div>
-<div class="h-8 p-1 flex items-center justify-center text-xs">30</div>
-<div class="h-8 p-1 flex items-center justify-center text-xs">31</div>
-<div class="h-8 p-1 flex items-center justify-center text-xs text-gray-500">1</div>
-<div class="h-8 p-1 flex items-center justify-center text-xs text-gray-500">2</div>
-<div class="h-8 p-1 flex items-center justify-center text-xs text-gray-500">3</div>
-<div class="h-8 p-1 flex items-center justify-center text-xs text-gray-500">4</div>
-<div class="h-8 p-1 flex items-center justify-center text-xs text-gray-500">5</div>
-<div class="h-8 p-1 flex items-center justify-center text-xs text-gray-500">6</div>
-<div class="h-8 p-1 flex items-center justify-center text-xs text-gray-500">7</div>
-<div class="h-8 p-1 flex items-center justify-center text-xs text-gray-500">8</div>
+<div class="h-8 p-1 flex items-center justify-center text-xs hover:bg-gray-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-gray-800 rounded-lg cursor-pointer">9</div>
+<div class="h-8 p-1 flex items-center justify-center text-xs hover:bg-gray-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-gray-800 rounded-lg cursor-pointer">10</div>
+<div class="h-8 p-1 flex items-center justify-center text-xs hover:bg-gray-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-gray-800 rounded-lg cursor-pointer">11</div>
+<div class="h-8 p-1 flex items-center justify-center text-xs hover:bg-gray-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-gray-800 rounded-lg cursor-pointer">12</div>
+<div class="h-8 p-1 flex items-center justify-center text-xs hover:bg-gray-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-gray-800 rounded-lg cursor-pointer">13</div>
+<div class="h-8 p-1 flex items-center justify-center text-xs hover:bg-gray-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-gray-800 rounded-lg cursor-pointer">14</div>
+<div class="h-8 p-1 flex items-center justify-center text-xs hover:bg-gray-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-gray-800 rounded-lg cursor-pointer">15</div>
+<div class="h-8 p-1 flex items-center justify-center text-xs hover:bg-gray-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-gray-800 rounded-lg cursor-pointer">16</div>
+<div class="h-8 p-1 flex items-center justify-center text-xs hover:bg-gray-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-gray-800 rounded-lg cursor-pointer">17</div>
+<div class="h-8 p-1 flex items-center justify-center text-xs hover:bg-gray-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-gray-800 rounded-lg cursor-pointer">18</div>
+<div class="h-8 p-1 flex items-center justify-center text-xs hover:bg-gray-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-gray-800 rounded-lg cursor-pointer">19</div>
+<div class="h-8 p-1 flex items-center justify-center text-xs hover:bg-gray-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-gray-800 rounded-lg cursor-pointer">20</div>
+<div class="h-8 p-1 flex items-center justify-center text-xs hover:bg-gray-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-gray-800 rounded-lg cursor-pointer">21</div>
+<div class="h-8 p-1 flex items-center justify-center text-xs hover:bg-gray-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-gray-800 rounded-lg cursor-pointer">22</div>
+<div class="h-8 p-1 flex items-center justify-center text-xs hover:bg-gray-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-gray-800 rounded-lg cursor-pointer">23</div>
+<div class="h-8 p-1 flex items-center justify-center text-xs hover:bg-gray-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-gray-800 rounded-lg cursor-pointer">24</div>
+<div class="h-8 p-1 flex items-center justify-center text-xs hover:bg-gray-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-gray-800 rounded-lg cursor-pointer">25</div>
+<div class="h-8 p-1 flex items-center justify-center text-xs hover:bg-gray-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-gray-800 rounded-lg cursor-pointer">26</div>
+<div class="h-8 p-1 flex items-center justify-center text-xs hover:bg-gray-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-gray-800 rounded-lg cursor-pointer">27</div>
+<div class="h-8 p-1 flex items-center justify-center text-xs hover:bg-gray-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-gray-800 rounded-lg cursor-pointer">28</div>
+<div class="h-8 p-1 flex items-center justify-center text-xs hover:bg-gray-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-gray-800 rounded-lg cursor-pointer">29</div>
+<div class="h-8 p-1 flex items-center justify-center text-xs hover:bg-gray-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-gray-800 rounded-lg cursor-pointer">30</div>
+<div class="h-8 p-1 flex items-center justify-center text-xs hover:bg-gray-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-gray-800 rounded-lg cursor-pointer">31</div>
+<div class="h-8 p-1 flex items-center justify-center text-xs text-gray-500 dark:text-gray-400 hover:bg-gray-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-gray-800 rounded-lg cursor-pointer">1</div>
+<div class="h-8 p-1 flex items-center justify-center text-xs text-gray-500 dark:text-gray-400 hover:bg-gray-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-gray-800 rounded-lg cursor-pointer">2</div>
+<div class="h-8 p-1 flex items-center justify-center text-xs text-gray-500 dark:text-gray-400 hover:bg-gray-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-gray-800 rounded-lg cursor-pointer">3</div>
+<div class="h-8 p-1 flex items-center justify-center text-xs text-gray-500 dark:text-gray-400 hover:bg-gray-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-gray-800 rounded-lg cursor-pointer">4</div>
+<div class="h-8 p-1 flex items-center justify-center text-xs text-gray-500 dark:text-gray-400 hover:bg-gray-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-gray-800 rounded-lg cursor-pointer">5</div>
+<div class="h-8 p-1 flex items-center justify-center text-xs text-gray-500 dark:text-gray-400 hover:bg-gray-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-gray-800 rounded-lg cursor-pointer">6</div>
+<div class="h-8 p-1 flex items-center justify-center text-xs text-gray-500 dark:text-gray-400 hover:bg-gray-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-gray-800 rounded-lg cursor-pointer">7</div>
+<div class="h-8 p-1 flex items-center justify-center text-xs text-gray-500 dark:text-gray-400 hover:bg-gray-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-gray-800 rounded-lg cursor-pointer">8</div>
 </div>
 <div class="mt-4 pt-4 border-t border-border-light dark:border-border-dark">
 <div class="flex items-center justify-between">
@@ -362,7 +362,7 @@
 
 <!-- Event Details Modal -->
 <div id="eventDetailModal" class="fixed inset-0 bg-black/30 hidden items-center justify-center z-[9999]">
-    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-xl mx-4 max-h-[85vh] overflow-y-auto">
+    <div class="bg-white dark:bg-card-dark rounded-2xl shadow-2xl w-full max-w-xl mx-4 max-h-[85vh] overflow-y-auto">
         <div class="p-4 border-b flex items-center justify-between">
             <div class="flex items-center gap-3">
                 <span id="detailColorDot" class="w-3.5 h-3.5 rounded-full bg-blue-500"></span>
@@ -403,7 +403,7 @@
 </script>
 
 <!-- Event Context Menu -->
-<div id="eventContextMenu" class="fixed z-[10000] hidden bg-white rounded-xl shadow-xl border border-gray-200 w-56 select-none overflow-hidden">
+<div id="eventContextMenu" class="fixed z-[10000] hidden bg-white dark:bg-card-dark rounded-xl shadow-xl border border-gray-200 dark:border-border-dark w-56 select-none overflow-hidden">
     <button id="ctxDelete" class="w-full text-left px-2 py-1.5 flex items-center gap-2 hover:bg-gray-100 bg-gray-50 rounded-t-xl">
         <span class="material-symbols-outlined text-gray-600">delete</span>
         <span class="text-gray-800">Delete</span>
@@ -822,7 +822,7 @@
  
  <!-- Create Event Modal -->
 <div id="createModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
-    <div id="createModalCard" class="bg-white rounded-lg shadow-xl w-full max-w-md mx-4 max-h-[85vh] overflow-y-auto">
+    <div id="createModalCard" class="bg-white dark:bg-card-dark rounded-lg shadow-xl w-full max-w-md mx-4 max-h-[85vh] overflow-y-auto">
          <!-- Modal Header -->
         <div id="createModalHeader" class="flex items-center justify-between p-4 border-b">
              <div class="flex items-center space-x-2">
@@ -849,19 +849,19 @@
                          <div class="flex items-start space-x-3">
                              <div class="flex-1">
                                  <div class="flex items-center space-x-2">
-                                     <button onclick="toggleTimePicker()" class="px-3 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg text-sm font-medium text-gray-700">
+                                     <button onclick="toggleTimePicker()" class="px-3 py-2 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300">
                                          Wednesday, 1 October
                                      </button>
-                                     <button id="startTimeBtn" class="px-3 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg text-sm font-medium text-gray-700" onclick="toggleTimePicker('start')">
+                                     <button id="startTimeBtn" class="px-3 py-2 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300" onclick="toggleTimePicker('start')">
                                          4:30pm
                                      </button>
-                                     <span class="text-gray-400">-</span>
-                                     <button id="endTimeBtn" class="px-3 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg text-sm font-medium text-gray-700" onclick="toggleTimePicker('end')">
+                                     <span class="text-gray-400 dark:text-gray-500">-</span>
+                                     <button id="endTimeBtn" class="px-3 py-2 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300" onclick="toggleTimePicker('end')">
                                          5:30pm
                                      </button>
                                  </div>
                                  <div class="text-xs text-gray-500 mt-2 relative">
-                                     <button class="hover:text-gray-700" onclick="toggleRepeatDropdown()" id="repeatButton">Doesn't repeat</button>
+                                     <button class="hover:text-gray-700 dark:hover:text-gray-300 text-gray-600 dark:text-gray-400" onclick="toggleRepeatDropdown()" id="repeatButton">Doesn't repeat</button>
                                      <!-- Repeat Options Dropdown -->
                                      <div id="repeatDropdown" class="hidden absolute top-6 left-0 bg-white border border-gray-200 rounded-lg shadow-lg z-10 min-w-48">
                                          <div class="py-1">
@@ -928,7 +928,7 @@
                  <div class="flex items-center space-x-3 text-gray-600 hover:text-gray-800 cursor-pointer" onclick="editLocation()">
                      <span class="material-symbols-outlined">place</span>
                      <div class="flex-1 relative">
-                        <input type="text" id="locationInput" name="locationInput" placeholder="Add location" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" class="hidden bg-transparent border-0 border-b border-gray-300 focus:border-blue-500 outline-none w-full" style="box-shadow: none !important;">
+                        <input type="text" id="locationInput" name="locationInput" placeholder="Add location" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" class="hidden bg-transparent border-0 border-b border-gray-300 dark:border-gray-600 focus:border-blue-500 outline-none w-full text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400" style="box-shadow: none !important;">
                         <div id="schedulerLocationSuggestions" class="hidden absolute top-full left-0 right-0 mt-1 rounded-lg border border-gray-200 bg-white shadow-lg max-h-48 overflow-y-auto z-50">
                             <div id="schedulerSuggestionsList" class="p-2 space-y-1">
                                 <!-- Location suggestions will appear here -->
@@ -966,7 +966,7 @@
                                  <div class="relative">
                                      <button onclick="toggleColorPicker()" class="w-4 h-4 rounded-full bg-blue-500 border border-gray-300 hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"></button>
                                      <!-- Color Picker Dropdown -->
-                                     <div id="colorPicker" class="hidden absolute top-0 left-8 bg-white border border-gray-200 rounded-lg shadow-lg z-20 p-3" style="min-width: 80px;">
+                                     <div id="colorPicker" class="hidden absolute top-0 left-8 bg-white dark:bg-card-dark border border-gray-200 dark:border-border-dark rounded-lg shadow-lg z-20 p-3" style="min-width: 80px;">
                                          <div class="grid grid-cols-2 gap-2" style="width: 60px;">
                                              <div class="w-6 h-6 rounded-full bg-red-500 cursor-pointer hover:ring-2 hover:ring-gray-300 relative group" onclick="selectColor('red', this)" title="Tomato">
                                                  <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-gray-800 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">Tomato</div>
@@ -1069,12 +1069,12 @@
          <div class="p-4">
              <!-- Month Navigation -->
              <div class="flex items-center justify-between mb-4">
-                 <button class="p-2 hover:bg-gray-100 rounded-lg" onclick="prevMonth()">
-                     <span class="material-symbols-outlined text-gray-600">chevron_left</span>
+                 <button class="p-2 hover:bg-gray-800 dark:hover:bg-gray-200 rounded-lg" onclick="prevMonth()">
+                     <span class="material-symbols-outlined text-gray-600 dark:text-gray-400 hover:text-white dark:hover:text-gray-800">chevron_left</span>
                  </button>
                  <h4 id="currentMonthDisplay" class="text-lg font-medium">October 2025</h4>
-                 <button class="p-2 hover:bg-gray-100 rounded-lg" onclick="nextMonth()">
-                     <span class="material-symbols-outlined text-gray-600">chevron_right</span>
+                 <button class="p-2 hover:bg-gray-800 dark:hover:bg-gray-200 rounded-lg" onclick="nextMonth()">
+                     <span class="material-symbols-outlined text-gray-600 dark:text-gray-400 hover:text-white dark:hover:text-gray-800">chevron_right</span>
                  </button>
              </div>
              
@@ -1092,45 +1092,45 @@
              <!-- Calendar Grid -->
              <div id="calendarGrid" class="grid grid-cols-7 gap-1">
                  <!-- Previous month dates -->
-                 <button class="h-10 text-center text-sm text-gray-400 hover:bg-gray-100 rounded-lg" onclick="selectDate(this)">28</button>
-                 <button class="h-10 text-center text-sm text-gray-400 hover:bg-gray-100 rounded-lg" onclick="selectDate(this)">29</button>
-                 <button class="h-10 text-center text-sm text-gray-400 hover:bg-gray-100 rounded-lg" onclick="selectDate(this)">30</button>
+                 <button class="h-10 text-center text-sm text-gray-400 dark:text-gray-500 hover:bg-gray-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-gray-800 rounded-lg" onclick="selectDate(this)">28</button>
+                 <button class="h-10 text-center text-sm text-gray-400 dark:text-gray-500 hover:bg-gray-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-gray-800 rounded-lg" onclick="selectDate(this)">29</button>
+                 <button class="h-10 text-center text-sm text-gray-400 dark:text-gray-500 hover:bg-gray-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-gray-800 rounded-lg" onclick="selectDate(this)">30</button>
                  <!-- Current month dates -->
                  <button class="h-10 text-center text-sm hover:bg-gray-100 rounded-lg bg-blue-600 text-white font-medium" onclick="selectDate(this)">1</button>
-                 <button class="h-10 text-center text-sm hover:bg-gray-100 rounded-lg" onclick="selectDate(this)">2</button>
-                 <button class="h-10 text-center text-sm hover:bg-gray-100 rounded-lg" onclick="selectDate(this)">3</button>
-                 <button class="h-10 text-center text-sm hover:bg-gray-100 rounded-lg" onclick="selectDate(this)">4</button>
-                 <button class="h-10 text-center text-sm hover:bg-gray-100 rounded-lg" onclick="selectDate(this)">5</button>
-                 <button class="h-10 text-center text-sm hover:bg-gray-100 rounded-lg" onclick="selectDate(this)">6</button>
-                 <button class="h-10 text-center text-sm hover:bg-gray-100 rounded-lg" onclick="selectDate(this)">7</button>
-                 <button class="h-10 text-center text-sm hover:bg-gray-100 rounded-lg" onclick="selectDate(this)">8</button>
-                 <button class="h-10 text-center text-sm hover:bg-gray-100 rounded-lg" onclick="selectDate(this)">9</button>
-                 <button class="h-10 text-center text-sm hover:bg-gray-100 rounded-lg" onclick="selectDate(this)">10</button>
-                 <button class="h-10 text-center text-sm hover:bg-gray-100 rounded-lg" onclick="selectDate(this)">11</button>
-                 <button class="h-10 text-center text-sm hover:bg-gray-100 rounded-lg" onclick="selectDate(this)">12</button>
-                 <button class="h-10 text-center text-sm hover:bg-gray-100 rounded-lg" onclick="selectDate(this)">13</button>
-                 <button class="h-10 text-center text-sm hover:bg-gray-100 rounded-lg" onclick="selectDate(this)">14</button>
-                 <button class="h-10 text-center text-sm hover:bg-gray-100 rounded-lg" onclick="selectDate(this)">15</button>
-                 <button class="h-10 text-center text-sm hover:bg-gray-100 rounded-lg" onclick="selectDate(this)">16</button>
-                 <button class="h-10 text-center text-sm hover:bg-gray-100 rounded-lg" onclick="selectDate(this)">17</button>
-                 <button class="h-10 text-center text-sm hover:bg-gray-100 rounded-lg" onclick="selectDate(this)">18</button>
-                 <button class="h-10 text-center text-sm hover:bg-gray-100 rounded-lg" onclick="selectDate(this)">19</button>
-                 <button class="h-10 text-center text-sm hover:bg-gray-100 rounded-lg" onclick="selectDate(this)">20</button>
-                 <button class="h-10 text-center text-sm hover:bg-gray-100 rounded-lg" onclick="selectDate(this)">21</button>
-                 <button class="h-10 text-center text-sm hover:bg-gray-100 rounded-lg" onclick="selectDate(this)">22</button>
-                 <button class="h-10 text-center text-sm hover:bg-gray-100 rounded-lg" onclick="selectDate(this)">23</button>
-                 <button class="h-10 text-center text-sm hover:bg-gray-100 rounded-lg" onclick="selectDate(this)">24</button>
-                 <button class="h-10 text-center text-sm hover:bg-gray-100 rounded-lg" onclick="selectDate(this)">25</button>
-                 <button class="h-10 text-center text-sm hover:bg-gray-100 rounded-lg" onclick="selectDate(this)">26</button>
-                 <button class="h-10 text-center text-sm hover:bg-gray-100 rounded-lg" onclick="selectDate(this)">27</button>
-                 <button class="h-10 text-center text-sm hover:bg-gray-100 rounded-lg" onclick="selectDate(this)">28</button>
-                 <button class="h-10 text-center text-sm hover:bg-gray-100 rounded-lg" onclick="selectDate(this)">29</button>
-                 <button class="h-10 text-center text-sm hover:bg-gray-100 rounded-lg" onclick="selectDate(this)">30</button>
-                 <button class="h-10 text-center text-sm hover:bg-gray-100 rounded-lg" onclick="selectDate(this)">31</button>
+                 <button class="h-10 text-center text-sm hover:bg-gray-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-gray-800 rounded-lg" onclick="selectDate(this)">2</button>
+                 <button class="h-10 text-center text-sm hover:bg-gray-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-gray-800 rounded-lg" onclick="selectDate(this)">3</button>
+                 <button class="h-10 text-center text-sm hover:bg-gray-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-gray-800 rounded-lg" onclick="selectDate(this)">4</button>
+                 <button class="h-10 text-center text-sm hover:bg-gray-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-gray-800 rounded-lg" onclick="selectDate(this)">5</button>
+                 <button class="h-10 text-center text-sm hover:bg-gray-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-gray-800 rounded-lg" onclick="selectDate(this)">6</button>
+                 <button class="h-10 text-center text-sm hover:bg-gray-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-gray-800 rounded-lg" onclick="selectDate(this)">7</button>
+                 <button class="h-10 text-center text-sm hover:bg-gray-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-gray-800 rounded-lg" onclick="selectDate(this)">8</button>
+                 <button class="h-10 text-center text-sm hover:bg-gray-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-gray-800 rounded-lg" onclick="selectDate(this)">9</button>
+                 <button class="h-10 text-center text-sm hover:bg-gray-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-gray-800 rounded-lg" onclick="selectDate(this)">10</button>
+                 <button class="h-10 text-center text-sm hover:bg-gray-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-gray-800 rounded-lg" onclick="selectDate(this)">11</button>
+                 <button class="h-10 text-center text-sm hover:bg-gray-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-gray-800 rounded-lg" onclick="selectDate(this)">12</button>
+                 <button class="h-10 text-center text-sm hover:bg-gray-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-gray-800 rounded-lg" onclick="selectDate(this)">13</button>
+                 <button class="h-10 text-center text-sm hover:bg-gray-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-gray-800 rounded-lg" onclick="selectDate(this)">14</button>
+                 <button class="h-10 text-center text-sm hover:bg-gray-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-gray-800 rounded-lg" onclick="selectDate(this)">15</button>
+                 <button class="h-10 text-center text-sm hover:bg-gray-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-gray-800 rounded-lg" onclick="selectDate(this)">16</button>
+                 <button class="h-10 text-center text-sm hover:bg-gray-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-gray-800 rounded-lg" onclick="selectDate(this)">17</button>
+                 <button class="h-10 text-center text-sm hover:bg-gray-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-gray-800 rounded-lg" onclick="selectDate(this)">18</button>
+                 <button class="h-10 text-center text-sm hover:bg-gray-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-gray-800 rounded-lg" onclick="selectDate(this)">19</button>
+                 <button class="h-10 text-center text-sm hover:bg-gray-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-gray-800 rounded-lg" onclick="selectDate(this)">20</button>
+                 <button class="h-10 text-center text-sm hover:bg-gray-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-gray-800 rounded-lg" onclick="selectDate(this)">21</button>
+                 <button class="h-10 text-center text-sm hover:bg-gray-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-gray-800 rounded-lg" onclick="selectDate(this)">22</button>
+                 <button class="h-10 text-center text-sm hover:bg-gray-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-gray-800 rounded-lg" onclick="selectDate(this)">23</button>
+                 <button class="h-10 text-center text-sm hover:bg-gray-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-gray-800 rounded-lg" onclick="selectDate(this)">24</button>
+                 <button class="h-10 text-center text-sm hover:bg-gray-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-gray-800 rounded-lg" onclick="selectDate(this)">25</button>
+                 <button class="h-10 text-center text-sm hover:bg-gray-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-gray-800 rounded-lg" onclick="selectDate(this)">26</button>
+                 <button class="h-10 text-center text-sm hover:bg-gray-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-gray-800 rounded-lg" onclick="selectDate(this)">27</button>
+                 <button class="h-10 text-center text-sm hover:bg-gray-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-gray-800 rounded-lg" onclick="selectDate(this)">28</button>
+                 <button class="h-10 text-center text-sm hover:bg-gray-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-gray-800 rounded-lg" onclick="selectDate(this)">29</button>
+                 <button class="h-10 text-center text-sm hover:bg-gray-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-gray-800 rounded-lg" onclick="selectDate(this)">30</button>
+                 <button class="h-10 text-center text-sm hover:bg-gray-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-gray-800 rounded-lg" onclick="selectDate(this)">31</button>
                  <!-- Next month dates -->
-                 <button class="h-10 text-center text-sm text-gray-400 hover:bg-gray-100 rounded-lg" onclick="selectDate(this)">1</button>
-                 <button class="h-10 text-center text-sm text-gray-400 hover:bg-gray-100 rounded-lg" onclick="selectDate(this)">2</button>
-                 <button class="h-10 text-center text-sm text-gray-400 hover:bg-gray-100 rounded-lg" onclick="selectDate(this)">3</button>
+                 <button class="h-10 text-center text-sm text-gray-400 dark:text-gray-500 hover:bg-gray-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-gray-800 rounded-lg" onclick="selectDate(this)">1</button>
+                 <button class="h-10 text-center text-sm text-gray-400 dark:text-gray-500 hover:bg-gray-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-gray-800 rounded-lg" onclick="selectDate(this)">2</button>
+                 <button class="h-10 text-center text-sm text-gray-400 dark:text-gray-500 hover:bg-gray-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-gray-800 rounded-lg" onclick="selectDate(this)">3</button>
              </div>
          </div>
      </div>
@@ -1849,7 +1849,7 @@ function openEventDetail(event) {
          
          // Small calendar button
          const button = document.createElement('button');
-         button.className = 'h-10 text-center text-sm text-gray-400 hover:bg-gray-100 rounded-lg';
+         button.className = 'h-10 text-center text-sm text-gray-400 dark:text-gray-500 hover:bg-gray-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-gray-800 rounded-lg';
          button.textContent = day;
         button.dataset.monthType = 'prev';
          button.onclick = () => selectDate(button);
@@ -1868,7 +1868,7 @@ function openEventDetail(event) {
      for (let day = 1; day <= daysInMonth; day++) {
         // Small calendar button
          const button = document.createElement('button');
-         button.className = 'h-10 text-center text-sm hover:bg-gray-100 rounded-lg';
+         button.className = 'h-10 text-center text-sm hover:bg-gray-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-gray-800 rounded-lg';
          button.textContent = day;
         button.dataset.monthType = 'current';
          button.onclick = () => selectDate(button);
@@ -1903,7 +1903,7 @@ function openEventDetail(event) {
      for (let day = 1; day <= remainingCells; day++) {
         // Small calendar button
          const button = document.createElement('button');
-         button.className = 'h-10 text-center text-sm text-gray-400 hover:bg-gray-100 rounded-lg';
+         button.className = 'h-10 text-center text-sm text-gray-400 dark:text-gray-500 hover:bg-gray-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-gray-800 rounded-lg';
          button.textContent = day;
         button.dataset.monthType = 'next';
          button.onclick = () => selectDate(button);
@@ -1942,7 +1942,7 @@ function renderSidebarCalendar() {
     for (let i = startingDayOfWeek - 1; i >= 0; i--) {
         const day = daysInPrevMonth - i;
         const button = document.createElement('button');
-        button.className = 'h-8 text-center text-[12px] text-gray-400 hover:bg-gray-100 rounded-lg';
+        button.className = 'h-8 text-center text-[12px] text-gray-400 dark:text-gray-500 hover:bg-gray-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-gray-800 rounded-lg';
         button.textContent = day;
         button.dataset.monthType = 'prev';
         button.onclick = () => selectDate(button);
@@ -1952,7 +1952,7 @@ function renderSidebarCalendar() {
     // Current month
     for (let day = 1; day <= daysInMonth; day++) {
         const button = document.createElement('button');
-        button.className = 'h-8 text-center text-[12px] hover:bg-gray-100 rounded-lg';
+        button.className = 'h-8 text-center text-[12px] hover:bg-gray-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-gray-800 rounded-lg';
         button.textContent = day;
         button.dataset.monthType = 'current';
         button.onclick = () => selectDate(button);
@@ -1963,7 +1963,7 @@ function renderSidebarCalendar() {
     const remainingCells = 42 - (startingDayOfWeek + daysInMonth);
     for (let day = 1; day <= remainingCells; day++) {
         const button = document.createElement('button');
-        button.className = 'h-8 text-center text-[12px] text-gray-400 hover:bg-gray-100 rounded-lg';
+        button.className = 'h-8 text-center text-[12px] text-gray-400 dark:text-gray-500 hover:bg-gray-800 dark:hover:bg-gray-200 hover:text-white dark:hover:text-gray-800 rounded-lg';
         button.textContent = day;
         button.dataset.monthType = 'next';
         button.onclick = () => selectDate(button);

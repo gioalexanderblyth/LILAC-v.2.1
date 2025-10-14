@@ -147,10 +147,18 @@
             left: 0;
             right: 0;
             height: 2px;
-            background-color: #137fec;
+            background-color: rgb(19, 127, 236);
             transform: scaleX(0);
             transition: transform 0.3s ease-in-out;
             transform-origin: left;
+        }
+        @media (prefers-color-scheme: dark) {
+            .tab-underline::after {
+                background-color: rgb(69, 151, 247);
+            }
+        }
+        .dark .tab-underline::after {
+            background-color: rgb(69, 151, 247);
         }
         .active.tab-underline::after {
             transform: scaleX(1);
@@ -163,7 +171,7 @@
         }
         .chart-tooltip {
             position: absolute;
-            background-color: #137fec;
+            background-color: rgb(19, 127, 236);
             color: white;
             padding: 4px 8px;
             border-radius: 0.25rem;
@@ -176,6 +184,14 @@
             left: 50%;
             transform: translateX(-50%);
             white-space: nowrap;
+        }
+        @media (prefers-color-scheme: dark) {
+            .chart-tooltip {
+                background-color: rgb(69, 151, 247);
+            }
+        }
+        .dark .chart-tooltip {
+            background-color: rgb(69, 151, 247);
         }
         .group:hover .chart-tooltip {
             visibility: visible;
@@ -197,7 +213,7 @@
 <span class="material-symbols-outlined">dashboard</span>
 <span class="sidebar-text hidden">Dashboard</span>
 </a>
-<a class="flex items-center justify-center gap-3 px-4 py-2.5 rounded-lg bg-primary-50 dark:bg-primary-900/40 text-primary-600 dark:text-primary-300 font-semibold sidebar-nav-link" href="awards.html">
+<a class="flex items-center justify-center gap-3 px-4 py-2.5 rounded-lg bg-primary-50 dark:bg-primary-900/40 text-primary-600 dark:text-primary-400 font-semibold sidebar-nav-link" href="awards.html">
 <span class="material-symbols-outlined filled">emoji_events</span>
 <span class="sidebar-text hidden">Awards Progress</span>
 </a>
@@ -215,8 +231,8 @@
 </a>
 
 <a class="flex items-center justify-center gap-3 px-4 py-2.5 rounded-lg text-text-muted-light dark:text-text-muted-dark hover:bg-gray-100 dark:hover:bg-background-dark hover:text-text-light dark:hover:text-text-dark transition-colors duration-200 sidebar-nav-link" href="documents.html">
-<span class="material-symbols-outlined">school</span>
-<span class="sidebar-text hidden">Registrar Forms</span>
+<span class="material-symbols-outlined">description</span>
+<span class="sidebar-text hidden">Documents</span>
 </a>
 </nav>
 <div class="px-4 py-4 border-t border-border-light dark:border-border-dark">
@@ -393,7 +409,7 @@ Dynamic Analysis & Recommendations
 <div id="analytics-content" class="tab-content hidden">
 <div class="mt-6 mb-8">
 <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6 mb-8">
-<div class="bg-card-light dark:bg-card-dark p-4 rounded-lg border border-border-light dark:border-border-dark flex flex-col items-center text-center" id="global-citizenship-counter-card">
+<div class="bg-card-light dark:bg-card-dark p-4 rounded-lg border border-border-light dark:border-border-dark flex flex-col items-center text-center cursor-pointer" id="global-citizenship-counter-card" onclick="window.location.href='awards-global-citizenship.html'">
 <div class="relative w-20 h-20 mb-2">
 <svg class="w-full h-full" viewBox="0 0 36 36">
 <path class="text-border-light dark:text-border-dark" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3"></path>
@@ -403,7 +419,7 @@ Dynamic Analysis & Recommendations
 </div>
 <h3 class="font-semibold text-text-light dark:text-text-dark text-sm">Global Citizenship<br>Awards</h3>
 </div>
-<div class="bg-card-light dark:bg-card-dark p-4 rounded-lg border border-border-light dark:border-border-dark flex flex-col items-center text-center" id="outstanding-international-counter-card">
+<div class="bg-card-light dark:bg-card-dark p-4 rounded-lg border border-border-light dark:border-border-dark flex flex-col items-center text-center cursor-pointer" id="outstanding-international-counter-card" onclick="window.location.href='awards-outstanding-international-education-program.html'">
 <div class="relative w-20 h-20 mb-2">
 <svg class="w-full h-full" viewBox="0 0 36 36">
 <path class="text-border-light dark:text-border-dark" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3"></path>
@@ -413,7 +429,7 @@ Dynamic Analysis & Recommendations
 </div>
 <h3 class="font-semibold text-text-light dark:text-text-dark text-sm">Outstanding International Education Program</h3>
 </div>
-<div class="bg-card-light dark:bg-card-dark p-4 rounded-lg border border-border-light dark:border-border-dark flex flex-col items-center text-center" id="emerging-leadership-counter-card">
+<div class="bg-card-light dark:bg-card-dark p-4 rounded-lg border border-border-light dark:border-border-dark flex flex-col items-center text-center cursor-pointer" id="emerging-leadership-counter-card" onclick="window.location.href='awards-emerging-leadership.html'">
 <div class="relative w-20 h-20 mb-2">
 <svg class="w-full h-full" viewBox="0 0 36 36">
 <path class="text-border-light dark:text-border-dark" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3"></path>
@@ -423,7 +439,7 @@ Dynamic Analysis & Recommendations
 </div>
 <h3 class="font-semibold text-text-light dark:text-text-dark text-sm">Emerging Leadership Award</h3>
 </div>
-<div class="bg-card-light dark:bg-card-dark p-4 rounded-lg border border-border-light dark:border-border-dark flex flex-col items-center text-center" id="internationalization-leadership-counter-card">
+<div class="bg-card-light dark:bg-card-dark p-4 rounded-lg border border-border-light dark:border-border-dark flex flex-col items-center text-center cursor-pointer" id="internationalization-leadership-counter-card" onclick="window.location.href='awards-internationalization-leadership.html'">
 <div class="relative w-20 h-20 mb-2">
 <svg class="w-full h-full" viewBox="0 0 36 36">
 <path class="text-border-light dark:text-border-dark" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3"></path>
@@ -433,7 +449,7 @@ Dynamic Analysis & Recommendations
 </div>
 <h3 class="font-semibold text-text-light dark:text-text-dark text-sm">Internationalization Leadership Award</h3>
 </div>
-<div class="bg-card-light dark:bg-card-dark p-4 rounded-lg border border-border-light dark:border-border-dark flex flex-col items-center text-center" id="best-regional-office-counter-card">
+<div class="bg-card-light dark:bg-card-dark p-4 rounded-lg border border-border-light dark:border-border-dark flex flex-col items-center text-center cursor-pointer" id="best-regional-office-counter-card" onclick="window.location.href='awards-best-regional-office.html'">
 <div class="relative w-20 h-20 mb-2">
 <svg class="w-full h-full" viewBox="0 0 36 36">
 <path class="text-border-light dark:text-border-dark" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3"></path>
@@ -751,7 +767,7 @@ Export PDF
             <div class="p-6">
                 <!-- Modal Header -->
                 <div class="flex items-center justify-center w-12 h-12 mx-auto mb-4 bg-blue-100 dark:bg-blue-900/20 rounded-full">
-                    <svg class="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-6 h-6 text-primary-600 dark:text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
                     </svg>
                 </div>
@@ -789,7 +805,7 @@ Export PDF
                         <div class="flex items-center justify-between mb-6">
                             <div class="flex items-center gap-3">
                                 <div class="flex items-center justify-center w-10 h-10 bg-blue-100 dark:bg-blue-900/20 rounded-full">
-                                    <svg class="w-5 h-5 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-5 h-5 text-primary-600 dark:text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
                                     </svg>
@@ -873,7 +889,7 @@ Export PDF
                         <div class="flex items-center justify-between mb-6">
                             <div class="flex items-center gap-3">
                                 <div class="flex items-center justify-center w-10 h-10 bg-blue-100 dark:bg-blue-900/20 rounded-full">
-                                    <svg class="w-5 h-5 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-5 h-5 text-primary-600 dark:text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
                                     </svg>
                                 </div>
@@ -906,10 +922,10 @@ Export PDF
             
             // Set colors based on type
             const colors = {
-                success: 'bg-green-500 text-white',
-                error: 'bg-red-500 text-white',
-                warning: 'bg-yellow-500 text-white',
-                info: 'bg-blue-500 text-white'
+                success: 'bg-green-500 dark:bg-green-600 text-white',
+                error: 'bg-red-500 dark:bg-red-600 text-white',
+                warning: 'bg-yellow-500 dark:bg-yellow-600 text-white',
+                info: 'bg-blue-500 dark:bg-blue-600 text-white'
             };
             
             notification.className += ` ${colors[type] || colors.info}`;
@@ -1283,7 +1299,7 @@ Export PDF
                                             <span>${typeof result.score === 'number' && result.score <= 1 ? (result.score * 100).toFixed(1) : Number(result.score).toFixed(1)}%</span>
                                         </div>
                                         <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                                            <div class="bg-blue-600 h-2 rounded-full" style="width: ${Math.min((typeof result.score === 'number' && result.score <= 1 ? (result.score * 100) : Number(result.score)), 100)}%"></div>
+                                            <div class="bg-primary h-2 rounded-full" style="width: ${Math.min((typeof result.score === 'number' && result.score <= 1 ? (result.score * 100) : Number(result.score)), 100)}%"></div>
                                         </div>
                                     </div>
                                     <div class="mb-2">
@@ -1486,7 +1502,7 @@ Export PDF
                                             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Confidence Score</label>
                                             <div class="flex items-center gap-2">
                                                 <div class="flex-1 bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                                                    <div class="bg-blue-500 h-2 rounded-full" style="width: ${(analysis.confidence * 100) || 0}%"></div>
+                                                    <div class="bg-primary h-2 rounded-full" style="width: ${(analysis.confidence * 100) || 0}%"></div>
                                                 </div>
                                                 <span class="text-sm font-medium">${((analysis.confidence * 100) || 0).toFixed(0)}%</span>
                                             </div>
@@ -1960,6 +1976,7 @@ Export PDF
                         pending: awardsWithAnalysis.filter(a => (a.analysis?.confidence || 0) < 0.8).length
                     };
                     updateAwardListCounters(calculatedStats);
+                    
                 } catch (error) {
                     console.error('Error loading award data:', error);
                 }
@@ -1981,6 +1998,7 @@ Export PDF
                     pendingElement.textContent = stats.pending || 0;
                 }
             }
+
 
             // Render award list in the table
             function renderAwardList(awards) {
@@ -2268,6 +2286,7 @@ Export PDF
                 analyticsContent.classList.remove('hidden');
                 processContent.classList.add('hidden');
                 awardListContent.classList.add('hidden');
+                
             };
             
             const switchToAwardList = () => {
@@ -2315,8 +2334,12 @@ Export PDF
                 switchToAwardList();
             });
             
-            // Set initial state - Process Award tab should be active
-            switchToProcess();
+            // Set initial state - check for hash to determine which tab to show
+            if (window.location.hash === '#analytics-content') {
+                switchToAnalytics();
+            } else {
+                switchToProcess();
+            }
             
             // Awards functionality is handled by awards.js
             

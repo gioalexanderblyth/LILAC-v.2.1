@@ -1591,3 +1591,19 @@
 [2025-10-14 10:27:42] [INFO] Award deleted successfully: 68ee1d09eb9b1_1760435465_testaward.docx, analysis_1760435465_68ee1d09ebd05.json
 [2025-10-14 10:27:42] [WARNING] SQLite connection failed: could not find driver
 [2025-10-14 10:27:42] [INFO] Using file-based database fallback
+[2025-10-14 16:46:20] [INFO] SQLite database connection established successfully
+[2025-10-14 16:46:20] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-14 16:46:23] [INFO] SQLite database connection established successfully
+[2025-10-14 16:46:23] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-14 17:24:10] [INFO] SQLite database connection established successfully
+[2025-10-14 17:24:10] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-14 17:24:38] [INFO] SQLite database connection established successfully
+[2025-10-14 17:24:38] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-14 17:26:25] [INFO] SQLite database connection established successfully
+[2025-10-14 17:26:25] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-14 17:26:29] [INFO] SQLite database connection established successfully
+[2025-10-14 17:26:29] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-14 17:28:53] [INFO] SQLite database connection established successfully
+[2025-10-14 17:28:53] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-14 17:34:13] [INFO] SQLite database connection established successfully
+[2025-10-14 17:34:13] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category

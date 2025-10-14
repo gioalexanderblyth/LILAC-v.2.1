@@ -70,12 +70,37 @@
             },
         }
     </script>
-<style>
+    <style>
         .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
         }
         .material-symbols-outlined.filled {
             font-variation-settings: 'FILL' 1;
+        }
+        /* Ensure the table never overflows horizontally (removes need for scrollbar) */
+        .table-fixed-layout {
+            table-layout: fixed;
+            width: 100%;
+        }
+        .table-fixed-layout th,
+        .table-fixed-layout td {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        /* Don't apply ellipsis to buttons */
+        .table-fixed-layout td button {
+            white-space: normal;
+            overflow: visible;
+        }
+        
+        /* Hide table scrollbar */
+        .overflow-x-hidden {
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        .overflow-x-hidden::-webkit-scrollbar {
+            display: none;
         }
         .dark .chartjs-grid-color {
             color: theme('colors.border-dark');
@@ -199,14 +224,14 @@
 <span class="material-symbols-outlined">calendar_today</span>
 <span class="sidebar-text hidden">Scheduler</span>
 </a>
-<a class="flex items-center justify-center gap-3 px-4 py-2.5 rounded-lg bg-primary-50 dark:bg-primary-900/40 text-primary-600 dark:text-primary-300 font-semibold sidebar-nav-link" href="mou-moa.html">
+<a class="flex items-center justify-center gap-3 px-4 py-2.5 rounded-lg bg-primary-50 dark:bg-primary-900/40 text-primary-600 dark:text-primary-400 font-semibold sidebar-nav-link" href="mou-moa.html">
 <span class="material-symbols-outlined filled">handshake</span>
 <span class="sidebar-text hidden">MOUs &amp; MOAs</span>
 </a>
 
 <a class="flex items-center justify-center gap-3 px-4 py-2.5 rounded-lg text-text-muted-light dark:text-text-muted-dark hover:bg-gray-100 dark:hover:bg-background-dark hover:text-text-light dark:hover:text-text-dark transition-colors duration-200 sidebar-nav-link" href="documents.html">
-<span class="material-symbols-outlined">school</span>
-<span class="sidebar-text hidden">Registrar Forms</span>
+<span class="material-symbols-outlined">description</span>
+<span class="sidebar-text hidden">Documents</span>
 </a>
 </nav>
 <div class="px-4 py-4 border-t border-border-light dark:border-border-dark">
@@ -225,8 +250,8 @@
 </div>
 </div>
 </aside>
-<main class="flex-1 overflow-y-auto">
-<header class="sticky top-0 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm z-30 px-6 lg:px-8 py-4 border-b border-border-light dark:border-border-dark flex justify-between items-center h-20">
+<main class="flex-1 overflow-hidden">
+<header class="sticky top-0 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm z-30 px-6 lg:px-8 py-4 border-b border-border-light dark:border-border-dark flex justify-between items-center h-20 overflow-hidden">
 <h1 class="text-2xl font-bold text-text-light dark:text-text-dark">MOUs & MOAs</h1>
 <div class="flex items-center gap-2">
 						<div class="relative">
@@ -268,7 +293,7 @@
 </button>
 </div>
 </header>
-<div class="pt-1 pr-2 pb-1 lg:pt-2 lg:pr-4 lg:pb-2 main-content">
+<div class="pt-1 pr-2 pb-1 lg:pt-2 lg:pr-4 lg:pb-2 main-content overflow-hidden">
 <div class="p-3">
                 <div class="flex flex-col md:flex-row md:items-center md:justify-end gap-4 mb-4">
                     <div class="flex items-center gap-2">
@@ -459,8 +484,8 @@
                 </div>
 
                 <div class="bg-card-light dark:bg-card-dark rounded-xl shadow-soft overflow-hidden border border-border-light dark:border-border-dark">
-                    <div class="overflow-x-auto">
-                        <table class="min-w-full divide-y divide-border-light dark:divide-border-dark">
+                    <div class="overflow-x-hidden">
+                        <table class="table-fixed-layout divide-y divide-border-light dark:divide-border-dark">
                             <thead class="bg-gray-50 dark:bg-white/5">
                                 <tr>
                                     <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-text-muted-light dark:text-text-muted-dark uppercase tracking-wider">
@@ -1289,7 +1314,7 @@
             async function analyzeDocumentType(file) {
                 const autoCategoryText = document.getElementById('autoCategoryText');
                 autoCategoryText.textContent = 'Analyzing document...';
-                autoCategoryText.className = 'text-blue-600 dark:text-blue-400';
+                autoCategoryText.className = 'text-primary-600 dark:text-primary-400';
                 
                 try {
                     let detectedType = 'Unknown';
@@ -1410,7 +1435,7 @@
                         break;
                     case 'MOA':
                         autoCategoryText.textContent = 'MOA';
-                        autoCategoryText.className = 'text-blue-600 dark:text-blue-400';
+                        autoCategoryText.className = 'text-primary-600 dark:text-primary-400';
                         break;
                     default:
                         autoCategoryText.textContent = 'Unknown';
@@ -2782,7 +2807,7 @@
                         const autoCategoryText = document.getElementById('autoCategoryText');
                         if (autoCategoryText) {
                             autoCategoryText.textContent = `Auto-detected: ${entryToEdit.category}`;
-                            autoCategoryText.className = 'text-blue-600 dark:text-blue-400';
+                            autoCategoryText.className = 'text-primary-600 dark:text-primary-400';
                         }
                     } else {
                         // Reset category display
@@ -4439,7 +4464,7 @@
                                 const autoCategoryText = document.getElementById('autoCategoryText');
                                 if (autoCategoryText) {
                                     autoCategoryText.textContent = `Auto-detected: ${entryToEdit.category}`;
-                                    autoCategoryText.className = 'text-blue-600 dark:text-blue-400';
+                                    autoCategoryText.className = 'text-primary-600 dark:text-primary-400';
                                 }
                             } else {
                                 // Reset category display
