@@ -2428,8 +2428,8 @@ function renderSidebarCalendar() {
 <script>
     (function() {
         try {
-            var isDevHost = location.hostname === '127.0.0.1' || location.hostname === 'localhost';
-            if (isDevHost && location.port === '5500') {
+            var isLocal = location.hostname === '127.0.0.1' || location.hostname === 'localhost';
+            if (isLocal && location.port !== '8000') {
                 var target = location.protocol + '//' + 'localhost' + ':8000' + location.pathname + location.search + location.hash;
                 location.replace(target);
             }

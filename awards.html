@@ -1264,7 +1264,7 @@ Export PDF
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Date Analyzed</label>
-                            <p class="mt-1 text-sm text-gray-900 dark:text-white">${formatDate(award.created_at)}</p>
+                             <p class="mt-1 text-sm text-gray-900 dark:text-white">${formatDate(award.created_at)}</p>
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Status</label>
@@ -2815,8 +2815,8 @@ Export PDF
 <script>
     (function() {
         try {
-            var isDevHost = location.hostname === '127.0.0.1' || location.hostname === 'localhost';
-            if (isDevHost && location.port === '5500') {
+            var isLocal = location.hostname === '127.0.0.1' || location.hostname === 'localhost';
+            if (isLocal && location.port !== '8000') {
                 var target = location.protocol + '//' + 'localhost' + ':8000' + location.pathname + location.search + location.hash;
                 location.replace(target);
             }
