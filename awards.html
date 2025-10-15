@@ -7,6 +7,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
         // Apply theme immediately to prevent flash
         (function() {
@@ -47,6 +48,20 @@
                         "text-muted-dark": "#94a3b8",
                         "border-light": "#e2e8f0",
                         "border-dark": "#334155",
+                        // Modern Professional Color Palette
+                        'kpi-blue': '#2563eb',
+                        'kpi-green': '#059669',
+                        'kpi-purple': '#7c3aed',
+                        'kpi-yellow': '#f59e0b',
+                        'kpi-indigo': '#4f46e5',
+                        'kpi-teal': '#0d9488',
+                        'kpi-orange': '#ea580c',
+                        'kpi-pink': '#ec4899',
+                        // Status Chart Colors
+                        'status-fully': '#3b82f6',
+                        'status-partial': '#a78bfa',
+                        'status-review': '#facc15',
+                        'status-unqualified': '#ef4444',
                     },
                     fontFamily: {
                         "display": ["Inter", "sans-serif"]
@@ -106,6 +121,26 @@
         }
         .sidebar-collapsed .main-content {
             padding-left: 2rem;
+        }
+        /* Analytics Dashboard Styles */
+        .analytics-card {
+            background-color: white;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px 0 rgba(0, 0, 0, 0.02);
+            border: 1px solid #f3f4f6;
+        }
+        .dark .analytics-card {
+            background-color: #1e293b;
+            border-color: #334155;
+        }
+        .kpi-box {
+            padding: 1.5rem 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-start;
+            min-height: 5rem;
         }
         .sidebar-collapsed .sidebar-toggle-icon-open {
             display: none;
@@ -407,132 +442,181 @@ Dynamic Analysis & Recommendations
 
 <!-- Analytics Dashboard Tab Content -->
 <div id="analytics-content" class="tab-content hidden">
-<div class="mt-6 mb-8">
-<div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6 mb-8">
-<div class="bg-card-light dark:bg-card-dark p-4 rounded-lg border border-border-light dark:border-border-dark flex flex-col items-center text-center cursor-pointer" id="global-citizenship-counter-card" onclick="window.location.href='awards-global-citizenship.html'">
-<div class="relative w-20 h-20 mb-2">
-<svg class="w-full h-full" viewBox="0 0 36 36">
-<path class="text-border-light dark:text-border-dark" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3"></path>
-<path class="text-primary" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="0, 100" stroke-linecap="round" stroke-width="3"></path>
-</svg>
-<span class="absolute inset-0 flex items-center justify-center text-2xl font-bold text-text-light dark:text-text-dark" id="global-citizenship-count">0</span>
-</div>
-<h3 class="font-semibold text-text-light dark:text-text-dark text-sm">Global Citizenship<br>Awards</h3>
-</div>
-<div class="bg-card-light dark:bg-card-dark p-4 rounded-lg border border-border-light dark:border-border-dark flex flex-col items-center text-center cursor-pointer" id="outstanding-international-counter-card" onclick="window.location.href='awards-outstanding-international-education-program.html'">
-<div class="relative w-20 h-20 mb-2">
-<svg class="w-full h-full" viewBox="0 0 36 36">
-<path class="text-border-light dark:text-border-dark" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3"></path>
-<path class="text-primary" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="0, 100" stroke-linecap="round" stroke-width="3"></path>
-</svg>
-<span class="absolute inset-0 flex items-center justify-center text-2xl font-bold text-text-light dark:text-text-dark" id="outstanding-international-count">0</span>
-</div>
-<h3 class="font-semibold text-text-light dark:text-text-dark text-sm">Outstanding International Education Program</h3>
-</div>
-<div class="bg-card-light dark:bg-card-dark p-4 rounded-lg border border-border-light dark:border-border-dark flex flex-col items-center text-center cursor-pointer" id="emerging-leadership-counter-card" onclick="window.location.href='awards-emerging-leadership.html'">
-<div class="relative w-20 h-20 mb-2">
-<svg class="w-full h-full" viewBox="0 0 36 36">
-<path class="text-border-light dark:text-border-dark" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3"></path>
-<path class="text-primary" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="0, 100" stroke-linecap="round" stroke-width="3"></path>
-</svg>
-<span class="absolute inset-0 flex items-center justify-center text-2xl font-bold text-text-light dark:text-text-dark" id="emerging-leadership-count">0</span>
-</div>
-<h3 class="font-semibold text-text-light dark:text-text-dark text-sm">Emerging Leadership Award</h3>
-</div>
-<div class="bg-card-light dark:bg-card-dark p-4 rounded-lg border border-border-light dark:border-border-dark flex flex-col items-center text-center cursor-pointer" id="internationalization-leadership-counter-card" onclick="window.location.href='awards-internationalization-leadership.html'">
-<div class="relative w-20 h-20 mb-2">
-<svg class="w-full h-full" viewBox="0 0 36 36">
-<path class="text-border-light dark:text-border-dark" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3"></path>
-<path class="text-primary" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="0, 100" stroke-linecap="round" stroke-width="3"></path>
-</svg>
-<span class="absolute inset-0 flex items-center justify-center text-2xl font-bold text-text-light dark:text-text-dark" id="internationalization-leadership-count">0</span>
-</div>
-<h3 class="font-semibold text-text-light dark:text-text-dark text-sm">Internationalization Leadership Award</h3>
-</div>
-<div class="bg-card-light dark:bg-card-dark p-4 rounded-lg border border-border-light dark:border-border-dark flex flex-col items-center text-center cursor-pointer" id="best-regional-office-counter-card" onclick="window.location.href='awards-best-regional-office.html'">
-<div class="relative w-20 h-20 mb-2">
-<svg class="w-full h-full" viewBox="0 0 36 36">
-<path class="text-border-light dark:text-border-dark" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3"></path>
-<path class="text-primary" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="0, 100" stroke-linecap="round" stroke-width="3"></path>
-</svg>
-<span class="absolute inset-0 flex items-center justify-center text-2xl font-bold text-text-light dark:text-text-dark" id="best-regional-office-count">0</span>
-</div>
-<h3 class="font-semibold text-text-light dark:text-text-dark text-sm">Best Regional Office for Internationalization</h3>
-</div>
-</div>
-</div>
+    <div class="p-6 max-w-7xl mx-auto">
+        
+        <div class="grid grid-cols-12 gap-6">
 
-<!-- Charts INSIDE Analytics Dashboard Tab -->
-<div class="grid grid-cols-1 lg:grid-cols-5 gap-6 mt-8">
-<div class="lg:col-span-3 bg-card-light dark:bg-card-dark p-6 rounded-lg shadow-soft">
-<h3 class="text-text-light dark:text-text-dark font-medium mb-4">Match Confidence by Award</h3>
-<div class="space-y-4">
-<div class="group relative">
-<div class="flex justify-between items-center text-sm text-text-light dark:text-text-dark mb-1">
-<span class="font-medium">President's Lister</span>
-<span>98%</span>
-</div>
-<div class="bg-gray-200 dark:bg-gray-700 rounded-full h-3">
-<div class="bg-primary h-3 rounded-full" style="width: 98%;"></div>
-</div>
-<div class="chart-tooltip">Similarity Score: 98%</div>
-</div>
-<div class="group relative">
-<div class="flex justify-between items-center text-sm text-text-light dark:text-text-dark mb-1">
-<span class="font-medium">Dean's Lister</span>
-<span>92%</span>
-</div>
-<div class="bg-gray-200 dark:bg-gray-700 rounded-full h-3">
-<div class="bg-primary h-3 rounded-full" style="width: 92%;"></div>
-</div>
-<div class="chart-tooltip">Similarity Score: 92%</div>
-</div>
-<div class="group relative">
-<div class="flex justify-between items-center text-sm text-text-light dark:text-text-dark mb-1">
-<span class="font-medium">Academic Excellence Award</span>
-<span>85%</span>
-</div>
-<div class="bg-gray-200 dark:bg-gray-700 rounded-full h-3">
-<div class="bg-primary h-3 rounded-full" style="width: 85%;"></div>
-</div>
-<div class="chart-tooltip">Similarity Score: 85%</div>
-</div>
-<div class="group relative">
-<div class="flex justify-between items-center text-sm text-text-light dark:text-text-dark mb-1">
-<span class="font-medium">Leadership Award</span>
-<span>78%</span>
-</div>
-<div class="bg-gray-200 dark:bg-gray-700 rounded-full h-3">
-<div class="bg-primary h-3 rounded-full" style="width: 78%;"></div>
-</div>
-<div class="chart-tooltip">Similarity Score: 78%</div>
-</div>
-</div>
-</div>
-<div class="lg:col-span-2 bg-card-light dark:bg-card-dark p-6 rounded-lg shadow-soft flex flex-col items-center">
-<h3 class="text-text-light dark:text-text-dark font-medium mb-4">Award Classification by Category</h3>
-<div class="relative w-48 h-48 group">
-<svg class="w-full h-full" viewBox="0 0 36 36">
-<path class="stroke-current text-gray-200 dark:text-gray-700" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke-width="3.8"></path>
-<path class="stroke-current text-primary" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke-dasharray="60, 100" stroke-linecap="round" stroke-width="3.8"></path>
-<path class="stroke-current text-yellow-500" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke-dasharray="25, 100" stroke-dashoffset="-60" stroke-linecap="round" stroke-width="3.8"></path>
-<path class="stroke-current text-primary/50" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke-dasharray="15, 100" stroke-dashoffset="-85" stroke-linecap="round" stroke-width="3.8"></path>
-</svg>
-<div class="absolute inset-0 flex items-center justify-center">
-<span class="text-2xl font-bold text-text-light dark:text-text-dark">1.2K</span>
-</div>
-<div class="chart-tooltip">Total Awards</div>
-</div>
-<div class="flex justify-center mt-4 space-x-4 text-sm">
-<div class="flex items-center"><span class="w-3 h-3 rounded-full bg-primary mr-2"></span>Academic</div>
-<div class="flex items-center"><span class="w-3 h-3 rounded-full bg-yellow-500 mr-2"></span>Leadership</div>
-<div class="flex items-center"><span class="w-3 h-3 rounded-full bg-primary/50 mr-2"></span>Service</div>
-</div>
-</div>
-</div>
-</div>
+            <div class="col-span-12 lg:col-span-9 space-y-6">
 
-</div>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="kpi-box analytics-card cursor-pointer hover:shadow-md transition-shadow" style="border-top: 4px solid #e2e8f0;" onclick="showAwardsMet()">
+                        <p class="text-3xl font-extrabold text-gray-900 dark:text-gray-100">12</p>
+                        <p class="text-xs font-medium text-gray-600 dark:text-gray-400 mt-1">Total Awards Met</p>
+                    </div>
+                    
+                    <div class="kpi-box analytics-card cursor-pointer hover:shadow-md transition-shadow" style="border-top: 4px solid #e2e8f0;" onclick="showDocumentsProcessed()">
+                        <p class="text-3xl font-extrabold text-gray-900 dark:text-gray-100">1,204</p>
+                        <p class="text-xs font-medium text-gray-600 dark:text-gray-400 mt-1">Documents Processed</p>
+                    </div>
+                    
+                    <div class="kpi-box analytics-card cursor-pointer hover:shadow-md transition-shadow" style="border-top: 4px solid #e2e8f0;" onclick="showEligibleDepartments()">
+                        <p class="text-3xl font-extrabold text-gray-900 dark:text-gray-100">8</p>
+                        <p class="text-xs font-medium text-gray-600 dark:text-gray-400 mt-1">Eligible Departments</p>
+                    </div>
+                    
+                    <div class="kpi-box analytics-card cursor-pointer hover:shadow-md transition-shadow" style="border-top: 4px solid #e2e8f0;" onclick="showActiveCycle()">
+                        <p class="text-3xl font-extrabold text-gray-900 dark:text-gray-100">2024-25</p>
+                        <p class="text-xs font-medium text-gray-600 dark:text-gray-400 mt-1">Active Cycle</p>
+                    </div>
+                    
+                    <div class="kpi-box analytics-card cursor-pointer hover:shadow-md transition-shadow" style="border-top: 4px solid #e2e8f0;" onclick="showFacultyInvolved()">
+                        <p class="text-3xl font-extrabold text-gray-900 dark:text-gray-100">25</p>
+                        <p class="text-xs font-medium text-gray-600 dark:text-gray-400 mt-1">Faculty Involved</p>
+                    </div>
+                    
+                    <div class="kpi-box analytics-card cursor-pointer hover:shadow-md transition-shadow" style="border-top: 4px solid #e2e8f0;" onclick="showNewPartnerships()">
+                        <p class="text-3xl font-extrabold text-gray-900 dark:text-gray-100">15</p>
+                        <p class="text-xs font-medium text-gray-600 dark:text-gray-400 mt-1">New Partnerships</p>
+                    </div>
+                    
+                    <div class="kpi-box analytics-card cursor-pointer hover:shadow-md transition-shadow" style="border-top: 4px solid #e2e8f0;" onclick="showPendingReviews()">
+                        <p class="text-3xl font-extrabold text-gray-900 dark:text-gray-100">3</p>
+                        <p class="text-xs font-medium text-gray-600 dark:text-gray-400 mt-1">Pending Reviews</p>
+                    </div>
+                    
+                    <div class="kpi-box analytics-card cursor-pointer hover:shadow-md transition-shadow" style="border-top: 4px solid #e2e8f0;" onclick="showSuccessRate()">
+                        <p class="text-3xl font-extrabold text-gray-900 dark:text-gray-100">92%</p>
+                        <p class="text-xs font-medium text-gray-600 dark:text-gray-400 mt-1">Success Rate</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="analytics-card p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Status Analysis</h3>
+                        <div style="width: 100%; max-width: 300px; margin: 0 auto;">
+                            <canvas id="statusChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="analytics-card p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Award Fulfillment Trends</h3>
+                        <div class="h-48">
+                            <canvas id="trendsChart"></canvas>
+                        </div>
+                        <div class="flex justify-center gap-4 mt-4 text-xs font-medium">
+                            <div class="flex items-center gap-1">
+                                <div class="w-2 h-2 rounded-full bg-blue-500"></div>
+                                <span class="text-gray-700 dark:text-gray-300">Eligible Submissions</span>
+                            </div>
+                            <div class="flex items-center gap-1">
+                                <div class="w-2 h-2 rounded-full bg-gray-500"></div>
+                                <span class="text-gray-700 dark:text-gray-300">Total Submissions</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="analytics-card p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Eligible Requirements per Award</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm">
+                            <thead>
+                                <tr class="border-b text-gray-500 dark:text-gray-400">
+                                    <th class="text-left py-2 font-medium">Award Name</th>
+                                    <th class="text-left py-2 font-medium">Criteria Met / Total</th>
+                                    <th class="text-left py-2 font-medium w-1/5">Progress</th>
+                                    <th class="text-left py-2 font-medium">Remarks</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-b last:border-b-0">
+                                    <td class="py-3 text-gray-900 dark:text-gray-100">Outstanding International Education Program</td>
+                                    <td class="py-3 text-gray-900 dark:text-gray-100">4/5</td>
+                                    <td class="py-3">
+                                        <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                                            <div class="bg-blue-500 h-2 rounded-full" style="width: 80%"></div>
+                                        </div>
+                                    </td>
+                                    <td class="py-3 text-gray-600 dark:text-gray-400 text-xs">"Needs more proof of collaboration"</td>
+                                </tr>
+                                <tr class="border-b last:border-b-0">
+                                    <td class="py-3 text-gray-900 dark:text-gray-100">International Leadership Award</td>
+                                    <td class="py-3 text-gray-900 dark:text-gray-100">5/5</td>
+                                    <td class="py-3">
+                                        <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                                            <div class="bg-green-500 h-2 rounded-full" style="width: 100%"></div>
+                                        </div>
+                                    </td>
+                                    <td class="py-3 text-gray-600 dark:text-gray-400 text-xs">"All requirements satisfied"</td>
+                                </tr>
+                                <tr class="border-b last:border-b-0">
+                                    <td class="py-3 text-gray-900 dark:text-gray-100">Innovation in Global Learning</td>
+                                    <td class="py-3 text-gray-900 dark:text-gray-100">2/6</td>
+                                    <td class="py-3">
+                                        <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                                            <div class="bg-orange-500 h-2 rounded-full" style="width: 33.33%"></div>
+                                        </div>
+                                    </td>
+                                    <td class="py-3 text-gray-600 dark:text-gray-400 text-xs">"Submit project proposals"</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 text-gray-900 dark:text-gray-100">Community Engagement Award</td>
+                                    <td class="py-3 text-gray-900 dark:text-gray-100">1/4</td>
+                                    <td class="py-3">
+                                        <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                                            <div class="bg-red-500 h-2 rounded-full" style="width: 25%"></div>
+                                        </div>
+                                    </td>
+                                    <td class="py-3 text-gray-600 dark:text-gray-400 text-xs">"Lacking volunteer logs"</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+            
+            <div class="col-span-12 lg:col-span-3">
+                <div class="analytics-card p-6 min-h-full border-l-4 border-gray-100 dark:border-gray-600" style="background-color: #f7f9fb;">
+                    <h3 class="text-lg font-bold text-gray-900 dark:text-gray-100 mb-4">Analysis & Recommendations</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-start gap-3">
+                            <span class="material-symbols-outlined text-green-600 text-xl pt-1">check_circle</span>
+                            <p class="text-sm text-gray-700 dark:text-gray-300 font-medium">Your department achieved <span class="font-bold text-green-700">80%</span> of award qualifications this cycle.</p>
+                        </div>
+                        <div class="flex items-start gap-3 border-t pt-4">
+                            <span class="material-symbols-outlined text-yellow-600 text-xl pt-1">lightbulb</span>
+                            <p class="text-sm text-gray-700 dark:text-gray-300">Focus on completing missing supporting documents for the Innovation award.</p>
+                        </div>
+                        <div class="flex items-start gap-3 border-t pt-4">
+                            <span class="material-symbols-outlined text-blue-600 text-xl pt-1">trending_up</span>
+                            <p class="text-sm text-gray-700 dark:text-gray-300">Strong performance on <span class="font-semibold">leadership-based awards.</span></p>
+                        </div>
+                        <div class="flex items-start gap-3 border-t pt-4">
+                            <span class="material-symbols-outlined text-purple-600 text-xl pt-1">groups</span>
+                            <p class="text-sm text-gray-700 dark:text-gray-300">Consider collaborating with the Engineering department to meet international criteria.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Modal for KPI Details -->
+    <div id="kpiModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-4xl w-full max-h-[90vh] overflow-hidden">
+            <div class="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
+                <h2 id="modalTitle" class="text-xl font-bold text-gray-900 dark:text-gray-100"></h2>
+                <button onclick="closeModal()" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            <div id="modalContent" class="p-6 overflow-y-auto max-h-[calc(90vh-120px)]">
+                <!-- Dynamic content will be inserted here -->
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- Award List Tab Content -->
@@ -2345,6 +2429,9 @@ Export PDF
             
             // Initialize award analysis form
             initializeAwardAnalysisForm();
+            
+            // Initialize Analytics Dashboard Charts
+            initializeAnalyticsCharts();
         });
         
         // Award Analysis Form Functions
@@ -2822,6 +2909,504 @@ Export PDF
             }
         } catch (e) { }
     })();
+
+    // Analytics Dashboard Functions
+    function initializeAnalyticsCharts() {
+        // Status Analysis Donut Chart
+        const statusCtx = document.getElementById('statusChart');
+        if (statusCtx) {
+            new Chart(statusCtx.getContext('2d'), {
+                type: 'doughnut',
+                data: {
+                    labels: ['Fully Met', 'Partially Met', 'Under Review', 'Unqualified/Rejected'],
+                    datasets: [{
+                        data: [45, 25, 20, 10], 
+                        backgroundColor: ['#3b82f6', '#a78bfa', '#facc15', '#ef4444'],
+                        borderWidth: 0,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    aspectRatio: 1.2,
+                    animation: false,
+                    cutout: '75%',
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'bottom',
+                            labels: {
+                                usePointStyle: true,
+                                pointStyle: 'circle',
+                                padding: 20,
+                                font: {
+                                    size: 12,
+                                    family: 'Inter'
+                                }
+                            }
+                        },
+                        tooltip: {
+                             callbacks: {
+                                label: function(context) {
+                                    let label = context.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed !== null) {
+                                        label += context.parsed + '%';
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Award Fulfillment Trends Chart
+        const trendsCtx = document.getElementById('trendsChart');
+        if (trendsCtx) {
+            new Chart(trendsCtx.getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
+                    datasets: [
+                        {
+                            label: 'Eligible Submissions',
+                            data: [10, 18, 12, 5, 8, 11, 14, 15, 12, 11],
+                            backgroundColor: '#2563eb',
+                            borderColor: '#2563eb',
+                            borderWidth: 0,
+                            barPercentage: 0.9,
+                            categoryPercentage: 0.8,
+                        },
+                        {
+                            label: 'Total Submissions',
+                            data: [12, 20, 15, 6, 10, 13, 16, 17, 14, 13],
+                            backgroundColor: 'rgba(148, 163, 184, 0.6)',
+                            borderColor: 'rgb(148, 163, 184)',
+                            borderWidth: 0,
+                            barPercentage: 0.9,
+                            categoryPercentage: 0.8,
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    animation: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 25,
+                            grid: {
+                                color: 'rgba(148, 163, 184, 0.1)',
+                                drawBorder: false,
+                            },
+                            ticks: {
+                                color: '#64748b',
+                                stepSize: 5,
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false,
+                            },
+                            ticks: {
+                                color: '#64748b',
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false,
+                        },
+                        tooltip: {
+                             mode: 'index',
+                             intersect: false,
+                        }
+                    }
+                }
+            });
+        }
+    }
+
+    // Modal functions
+    function showModal(title, content) {
+        document.getElementById('modalTitle').textContent = title;
+        document.getElementById('modalContent').innerHTML = content;
+        document.getElementById('kpiModal').classList.remove('hidden');
+    }
+
+    function closeModal() {
+        document.getElementById('kpiModal').classList.add('hidden');
+    }
+
+    // KPI Click Functions
+    function showAwardsMet() {
+        const content = `
+            <div class="space-y-4">
+                <div class="bg-green-50 border border-green-200 rounded-lg p-4">
+                    <h3 class="font-semibold text-green-800 mb-3">Successfully Met Awards (12)</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm">
+                            <thead>
+                                <tr class="border-b border-green-200">
+                                    <th class="text-left py-2 font-medium text-green-800">Award Name</th>
+                                    <th class="text-left py-2 font-medium text-green-800">Department</th>
+                                    <th class="text-left py-2 font-medium text-green-800">Date Achieved</th>
+                                    <th class="text-left py-2 font-medium text-green-800">Criteria</th>
+                                    <th class="text-left py-2 font-medium text-green-800">Documents</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-b border-green-100">
+                                    <td class="py-2 text-gray-700">International Leadership Award</td>
+                                    <td class="py-2 text-gray-700">College of Business</td>
+                                    <td class="py-2 text-gray-700">2024-10-15</td>
+                                    <td class="py-2 text-gray-700">5/5</td>
+                                    <td class="py-2"><a href="#" class="text-blue-600 hover:underline">View</a></td>
+                                </tr>
+                                <tr class="border-b border-green-100">
+                                    <td class="py-2 text-gray-700">Outstanding International Program</td>
+                                    <td class="py-2 text-gray-700">College of Education</td>
+                                    <td class="py-2 text-gray-700">2024-09-28</td>
+                                    <td class="py-2 text-gray-700">5/5</td>
+                                    <td class="py-2"><a href="#" class="text-blue-600 hover:underline">View</a></td>
+                                </tr>
+                                <tr class="border-b border-green-100">
+                                    <td class="py-2 text-gray-700">Global Citizenship Award</td>
+                                    <td class="py-2 text-gray-700">College of Arts & Sciences</td>
+                                    <td class="py-2 text-gray-700">2024-11-02</td>
+                                    <td class="py-2 text-gray-700">4/4</td>
+                                    <td class="py-2"><a href="#" class="text-blue-600 hover:underline">View</a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        `;
+        showModal('🏆 Total Awards Met - Detailed View', content);
+    }
+
+    function showDocumentsProcessed() {
+        const content = `
+            <div class="space-y-4">
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                    <h3 class="font-semibold text-blue-800 mb-3">Processed Documents (1,204)</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                        <div class="bg-white p-3 rounded border">
+                            <p class="text-2xl font-bold text-blue-600">856</p>
+                            <p class="text-xs text-gray-600">Approved</p>
+                        </div>
+                        <div class="bg-white p-3 rounded border">
+                            <p class="text-2xl font-bold text-yellow-600">248</p>
+                            <p class="text-xs text-gray-600">Pending</p>
+                        </div>
+                        <div class="bg-white p-3 rounded border">
+                            <p class="text-2xl font-bold text-red-600">100</p>
+                            <p class="text-xs text-gray-600">Rejected</p>
+                        </div>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm">
+                            <thead>
+                                <tr class="border-b border-blue-200">
+                                    <th class="text-left py-2 font-medium text-blue-800">Document Title</th>
+                                    <th class="text-left py-2 font-medium text-blue-800">Type</th>
+                                    <th class="text-left py-2 font-medium text-blue-800">Department</th>
+                                    <th class="text-left py-2 font-medium text-blue-800">Status</th>
+                                    <th class="text-left py-2 font-medium text-blue-800">Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-b border-blue-100">
+                                    <td class="py-2 text-gray-700">Partnership Agreement - UTokyo</td>
+                                    <td class="py-2 text-gray-700">MOU</td>
+                                    <td class="py-2 text-gray-700">International Affairs</td>
+                                    <td class="py-2"><span class="px-2 py-1 bg-green-100 text-green-800 rounded text-xs">Approved</span></td>
+                                    <td class="py-2 text-gray-700">2024-11-15</td>
+                                </tr>
+                                <tr class="border-b border-blue-100">
+                                    <td class="py-2 text-gray-700">Faculty Exchange Program</td>
+                                    <td class="py-2 text-gray-700">Award Criteria</td>
+                                    <td class="py-2 text-gray-700">College of Engineering</td>
+                                    <td class="py-2"><span class="px-2 py-1 bg-yellow-100 text-yellow-800 rounded text-xs">Pending</span></td>
+                                    <td class="py-2 text-gray-700">2024-11-20</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        `;
+        showModal('📄 Documents Processed - Audit View', content);
+    }
+
+    function showEligibleDepartments() {
+        const content = `
+            <div class="space-y-4">
+                <div class="bg-purple-50 border border-purple-200 rounded-lg p-4">
+                    <h3 class="font-semibold text-purple-800 mb-3">Eligible Departments (8)</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="bg-white p-4 rounded border">
+                            <h4 class="font-semibold text-gray-800 mb-2">College of Business</h4>
+                            <p class="text-sm text-gray-600 mb-2">Awards Targeted: 3</p>
+                            <div class="mb-2">
+                                <div class="flex justify-between text-xs mb-1">
+                                    <span>Progress</span>
+                                    <span>4/5</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2">
+                                    <div class="bg-purple-500 h-2 rounded-full" style="width: 80%"></div>
+                                </div>
+                            </div>
+                            <p class="text-xs text-gray-500">Assigned: Dr. Smith, Dr. Johnson</p>
+                        </div>
+                        <div class="bg-white p-4 rounded border">
+                            <h4 class="font-semibold text-gray-800 mb-2">College of Education</h4>
+                            <p class="text-sm text-gray-600 mb-2">Awards Targeted: 2</p>
+                            <div class="mb-2">
+                                <div class="flex justify-between text-xs mb-1">
+                                    <span>Progress</span>
+                                    <span>5/5</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2">
+                                    <div class="bg-green-500 h-2 rounded-full" style="width: 100%"></div>
+                                </div>
+                            </div>
+                            <p class="text-xs text-gray-500">Assigned: Dr. Davis, Dr. Wilson</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+        showModal('🏫 Eligible Departments - Progress Tracking', content);
+    }
+
+    function showActiveCycle() {
+        const content = `
+            <div class="space-y-4">
+                <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                    <h3 class="font-semibold text-yellow-800 mb-3">2024-25 Active Cycle Timeline</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <h4 class="font-semibold text-gray-800 mb-3">Cycle Information</h4>
+                            <div class="space-y-2 text-sm">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Start Date:</span>
+                                    <span class="font-medium">September 1, 2024</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">End Date:</span>
+                                    <span class="font-medium">August 31, 2025</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Days Remaining:</span>
+                                    <span class="font-medium text-orange-600">247 days</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-gray-800 mb-3">Key Deadlines</h4>
+                            <div class="space-y-2 text-sm">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Mid-cycle Review:</span>
+                                    <span class="font-medium">March 15, 2025</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Final Submissions:</span>
+                                    <span class="font-medium">July 31, 2025</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-4 p-3 bg-white rounded border">
+                        <h4 class="font-semibold text-gray-800 mb-2">Cycle Summary</h4>
+                        <div class="grid grid-cols-3 gap-4 text-center">
+                            <div>
+                                <p class="text-2xl font-bold text-blue-600">12</p>
+                                <p class="text-xs text-gray-600">Awards Met</p>
+                            </div>
+                            <div>
+                                <p class="text-2xl font-bold text-green-600">45</p>
+                                <p class="text-xs text-gray-600">Submissions</p>
+                            </div>
+                            <div>
+                                <p class="text-2xl font-bold text-purple-600">8</p>
+                                <p class="text-xs text-gray-600">Departments</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+        showModal('📆 Active Cycle (2024-25) - Timeline & Progress', content);
+    }
+
+    function showFacultyInvolved() {
+        const content = `
+            <div class="space-y-4">
+                <div class="bg-indigo-50 border border-indigo-200 rounded-lg p-4">
+                    <h3 class="font-semibold text-indigo-800 mb-3">Faculty Participants (25)</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm">
+                            <thead>
+                                <tr class="border-b border-indigo-200">
+                                    <th class="text-left py-2 font-medium text-indigo-800">Faculty Name</th>
+                                    <th class="text-left py-2 font-medium text-indigo-800">Department</th>
+                                    <th class="text-left py-2 font-medium text-indigo-800">Awards Contributed</th>
+                                    <th class="text-left py-2 font-medium text-indigo-800">Documents</th>
+                                    <th class="text-left py-2 font-medium text-indigo-800">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-b border-indigo-100">
+                                    <td class="py-2 text-gray-700">Dr. Sarah Johnson</td>
+                                    <td class="py-2 text-gray-700">Business</td>
+                                    <td class="py-2 text-gray-700">3</td>
+                                    <td class="py-2 text-gray-700">12</td>
+                                    <td class="py-2"><span class="px-2 py-1 bg-green-100 text-green-800 rounded text-xs">Active</span></td>
+                                </tr>
+                                <tr class="border-b border-indigo-100">
+                                    <td class="py-2 text-gray-700">Dr. Michael Chen</td>
+                                    <td class="py-2 text-gray-700">Engineering</td>
+                                    <td class="py-2 text-gray-700">2</td>
+                                    <td class="py-2 text-gray-700">8</td>
+                                    <td class="py-2"><span class="px-2 py-1 bg-green-100 text-green-800 rounded text-xs">Active</span></td>
+                                </tr>
+                                <tr class="border-b border-indigo-100">
+                                    <td class="py-2 text-gray-700">Dr. Emily Rodriguez</td>
+                                    <td class="py-2 text-gray-700">Education</td>
+                                    <td class="py-2 text-gray-700">4</td>
+                                    <td class="py-2 text-gray-700">15</td>
+                                    <td class="py-2"><span class="px-2 py-1 bg-yellow-100 text-yellow-800 rounded text-xs">Pending</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        `;
+        showModal('👩‍🏫 Faculty Involved - Participation Details', content);
+    }
+
+    function showNewPartnerships() {
+        const content = `
+            <div class="space-y-4">
+                <div class="bg-teal-50 border border-teal-200 rounded-lg p-4">
+                    <h3 class="font-semibold text-teal-800 mb-3">New Partnerships (15)</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="bg-white p-4 rounded border">
+                            <h4 class="font-semibold text-gray-800 mb-2">University of Tokyo</h4>
+                            <p class="text-sm text-gray-600 mb-2">Type: International Academic</p>
+                            <p class="text-sm text-gray-600 mb-2">Date Signed: 2024-10-15</p>
+                            <p class="text-sm text-gray-600 mb-2">Related Awards: Global Citizenship</p>
+                            <a href="#" class="text-blue-600 hover:underline text-sm">View Agreement →</a>
+                        </div>
+                        <div class="bg-white p-4 rounded border">
+                            <h4 class="font-semibold text-gray-800 mb-2">Microsoft Philippines</h4>
+                            <p class="text-sm text-gray-600 mb-2">Type: Industry Partnership</p>
+                            <p class="text-sm text-gray-600 mb-2">Date Signed: 2024-11-02</p>
+                            <p class="text-sm text-gray-600 mb-2">Related Awards: Innovation Award</p>
+                            <a href="#" class="text-blue-600 hover:underline text-sm">View Agreement →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+        showModal('🤝 New Partnerships - Collaboration Overview', content);
+    }
+
+    function showPendingReviews() {
+        const content = `
+            <div class="space-y-4">
+                <div class="bg-orange-50 border border-orange-200 rounded-lg p-4">
+                    <h3 class="font-semibold text-orange-800 mb-3">Pending Reviews (3)</h3>
+                    <div class="space-y-3">
+                        <div class="bg-white p-4 rounded border border-orange-200">
+                            <div class="flex justify-between items-start mb-2">
+                                <h4 class="font-semibold text-gray-800">Innovation in Global Learning</h4>
+                                <span class="px-2 py-1 bg-orange-100 text-orange-800 rounded text-xs">Under Review</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-2">Department: College of Engineering</p>
+                            <p class="text-sm text-gray-600 mb-2">Submitted: 2024-11-18</p>
+                            <p class="text-sm text-gray-600 mb-2">Reviewer: Dr. Anderson</p>
+                            <p class="text-sm text-gray-600">Expected: 2024-12-02</p>
+                        </div>
+                        <div class="bg-white p-4 rounded border border-orange-200">
+                            <div class="flex justify-between items-start mb-2">
+                                <h4 class="font-semibold text-gray-800">Community Engagement Award</h4>
+                                <span class="px-2 py-1 bg-yellow-100 text-yellow-800 rounded text-xs">Initial Review</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-2">Department: College of Arts & Sciences</p>
+                            <p class="text-sm text-gray-600 mb-2">Submitted: 2024-11-20</p>
+                            <p class="text-sm text-gray-600 mb-2">Reviewer: Dr. Martinez</p>
+                            <p class="text-sm text-gray-600">Expected: 2024-12-05</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+        showModal('🚩 Pending Reviews - Action Items', content);
+    }
+
+    function showSuccessRate() {
+        const content = `
+            <div class="space-y-4">
+                <div class="bg-pink-50 border border-pink-200 rounded-lg p-4">
+                    <h3 class="font-semibold text-pink-800 mb-3">Success Rate Analytics (92%)</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <h4 class="font-semibold text-gray-800 mb-3">Performance Trends</h4>
+                            <div class="space-y-3">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm text-gray-600">Current Cycle</span>
+                                    <span class="font-bold text-pink-600">92%</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm text-gray-600">Previous Cycle</span>
+                                    <span class="font-bold text-gray-600">87%</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm text-gray-600">Improvement</span>
+                                    <span class="font-bold text-green-600">+5%</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-gray-800 mb-3">Department Breakdown</h4>
+                            <div class="space-y-2 text-sm">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">College of Education</span>
+                                    <span class="font-medium">100%</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">College of Business</span>
+                                    <span class="font-medium">95%</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">College of Engineering</span>
+                                    <span class="font-medium">88%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-4 p-3 bg-white rounded border">
+                        <h4 class="font-semibold text-gray-800 mb-2">Key Insights</h4>
+                        <ul class="text-sm text-gray-600 space-y-1">
+                            <li>• Strong performance in leadership-based awards</li>
+                            <li>• Innovation awards need more supporting documentation</li>
+                            <li>• Community engagement shows room for improvement</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        `;
+        showModal('📈 Success Rate - Performance Analytics', content);
+    }
 
     // Load profile picture from localStorage if available
     document.addEventListener('DOMContentLoaded', function() {
