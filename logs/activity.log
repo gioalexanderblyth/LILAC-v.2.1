@@ -1908,3 +1908,5 @@
 [2025-10-16 07:43:34] [INFO] Using file-based database fallback
 [2025-10-16 07:45:16] [WARNING] SQLite connection failed: could not find driver
 [2025-10-16 07:45:16] [INFO] Using file-based database fallback
+[2025-10-16 08:11:33] [WARNING] SQLite connection failed: could not find driver
+[2025-10-16 08:11:33] [INFO] Using file-based database fallback
