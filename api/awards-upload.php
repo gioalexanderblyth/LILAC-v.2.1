@@ -80,23 +80,27 @@ try {
     
     // Extract text based on file type (simulated OCR)
     $extractedText = simulateOCRExtraction($file['name']);
+    error_log("[$timestamp] Extracted text for file '" . $file['name'] . "': " . substr($extractedText, 0, 100) . "...");
     
     if (empty($extractedText)) {
         throw new Exception('Could not extract text from the uploaded file');
     }
     
-    // Load ICONS 2025 award criteria (official dataset)
+    // Load ICONS 2025 awards dataset (updated schema)
     $criteriaPath = __DIR__ . '/../assets/icons2025_awards.json';
     if (!file_exists($criteriaPath)) {
         throw new Exception('ICONS 2025 awards dataset not found');
     }
     $iconsDataset = json_decode(file_get_contents($criteriaPath), true);
-    if (!$iconsDataset || !isset($iconsDataset['awards']) || !is_array($iconsDataset['awards'])) {
+    if (!$iconsDataset || !is_array($iconsDataset)) {
         throw new Exception('Invalid ICONS 2025 dataset format');
     }
     
-    // Perform upgraded semantic + Jaccard analysis with checklist
-    $analysisResults = performIconsAnalysis($extractedText, $iconsDataset['awards']);
+    // Perform analysis with Jaccard + semantic boost + category weights
+    $timestamp = date('Y-m-d H:i:s');
+    error_log("[$timestamp] FRESH UPLOAD ANALYSIS STARTED for file: " . $file['name']);
+    $analysisResults = performIconsAnalysis($extractedText, $iconsDataset);
+    error_log("[$timestamp] FRESH UPLOAD ANALYSIS COMPLETED - Results count: " . count($analysisResults));
     
     $title = $_POST['title'] ?? pathinfo($file['name'], PATHINFO_FILENAME);
     $date = $_POST['date'] ?? date('Y-m-d');
@@ -140,10 +144,14 @@ try {
         $awardId = $pdo->lastInsertId();
     }
     
-    // Get matched categories for response
-    $matchedCategories = array_filter($analysisResults, function($result) {
-        return ($result['score'] ?? 0) >= 0.25; // Threshold for counting
-    });
+    // Build counts for eligibility
+    $eligibleCount = 0; $partialCount = 0; $notEligibleCount = 0;
+    foreach ($analysisResults as $r) {
+        $status = strtolower($r['status'] ?? '');
+        if ($status === 'eligible') { $eligibleCount++; }
+        elseif ($status === 'partially eligible') { $partialCount++; }
+        else { $notEligibleCount++; }
+    }
     
     // Return success response
     $response = [
@@ -151,7 +159,10 @@ try {
         'message' => 'File uploaded and analyzed successfully',
         'award_id' => $awardId,
         'analysis' => $analysisResults,
-        'matched_categories' => array_column($matchedCategories, 'category')
+        'eligible_count' => $eligibleCount,
+        'partial_count' => $partialCount,
+        'not_eligible_count' => $notEligibleCount,
+        'total_count' => count($analysisResults)
     ];
     
     // Ensure clean JSON output
@@ -184,78 +195,88 @@ try {
 }
 
 
-function performIconsAnalysis($rawText, $awards) {
+function performIconsAnalysis($rawText, $dataset) {
+    // Preprocess input
     $text = strtolower($rawText);
     $textTokens = preprocessText($text);
+    $textTokenSet = array_unique($textTokens);
+    
+    // Lightweight semantic map for boost
+    $semanticMap = [
+        'sustainability' => ['sustainable', 'environment', 'climate', 'green'],
+        'international' => ['global', 'cross-border', 'overseas'],
+        'collaboration' => ['partnership', 'partnerships', 'cooperation'],
+        'leadership' => ['leader', 'leaders', 'mentorship'],
+        'asean' => ['southeast asia', 'regional'],
+        'mobility' => ['exchange', 'study abroad']
+    ];
+    
     $results = [];
     
-    foreach ($awards as $award) {
-        $awardName = $award['name'] ?? 'Unknown Award';
-        $awardType = $award['type'] ?? 'Institutional';
-        $criteriaList = $award['criteria'] ?? [];
-        
-        // Build checklist for criteria
-        $criteriaChecklist = [];
-        $criteriaMetCount = 0;
-        $allCriterionTokens = [];
-        
-        foreach ($criteriaList as $criterion) {
-            $criterionLower = strtolower($criterion);
-            $criterionTokens = preprocessText($criterionLower);
-            $allCriterionTokens = array_merge($allCriterionTokens, $criterionTokens);
-            $met = phraseMatches($text, $textTokens, $criterionLower, $criterionTokens);
-            if ($met) { $criteriaMetCount++; }
-            $criteriaChecklist[] = [
-                'text' => $criterion,
-                'met' => $met
+    foreach ($dataset as $group) {
+        $categoryLabel = $group['category'] ?? 'Institutional Awards';
+        $awards = $group['awards'] ?? [];
+        foreach ($awards as $award) {
+            $title = $award['title'] ?? 'Unknown Award';
+            $keywords = $award['keywords'] ?? [];
+            
+            // Tokenize award keywords
+            $awardTokens = [];
+            foreach ($keywords as $kw) {
+                $awardTokens = array_merge($awardTokens, preprocessText(strtolower($kw)));
+            }
+            $awardTokens = array_unique($awardTokens);
+            if (count($awardTokens) === 0) { continue; }
+            
+            // Jaccard similarity
+            $intersection = array_intersect($textTokenSet, $awardTokens);
+            $union = array_unique(array_merge($textTokenSet, $awardTokens));
+            $similarity = count($union) > 0 ? (count($intersection) / count($union)) : 0.0;
+            
+            // Semantic boost
+            $boost = 0.0;
+            foreach ($semanticMap as $root => $rels) {
+                if (strpos($text, $root) !== false) { $boost = max($boost, 0.1); }
+                else {
+                    foreach ($rels as $rel) {
+                        if (strpos($text, $rel) !== false) { $boost = max($boost, 0.1); break; }
+                    }
+                }
+            }
+            
+            // Category weights
+            $weight = 1.0;
+            $catLower = strtolower($categoryLabel);
+            if (strpos($catLower, 'individual') !== false) { $weight = 1.1; }
+            elseif (strpos($catLower, 'special') !== false) { $weight = 1.0; }
+            else { $weight = 1.0; }
+            
+            $baseScore = min(1.0, $similarity + $boost);
+            $weightedScore = min(1.0, $baseScore * $weight);
+            
+            // Thresholds
+        $eligibility = 'Not Eligible';
+        if ($weightedScore >= 0.90) { $eligibility = 'Eligible'; }
+        elseif ($weightedScore >= 0.80) { $eligibility = 'Needs Attention'; }
+            
+            // Matched keywords (phrase presence)
+            $matchedKeywords = [];
+            foreach ($keywords as $kw) {
+                if (stripos($text, $kw) !== false) { $matchedKeywords[] = $kw; }
+            }
+            
+            $results[] = [
+                'title' => $title,
+                'category' => $categoryLabel,
+                'score' => round($weightedScore * 100, 1),
+                'status' => $eligibility,
+                'matched_keywords' => $matchedKeywords
             ];
         }
-        
-        $totalCriteria = max(1, count($criteriaList));
-        $percentCriteria = ($criteriaMetCount / $totalCriteria) * 100.0;
-        
-        // Jaccard similarity over aggregated criterion tokens
-        $jaccard = jaccardSimilarity($textTokens, $allCriterionTokens);
-        
-        // Type weighting
-        $typeWeight = 1.0;
-        $type = strtolower($awardType);
-        if ($type === 'individual') { $typeWeight = 1.1; }
-        elseif ($type === 'special') { $typeWeight = 0.9; }
-        
-        // Combined score: 70% checklist + 30% jaccard, then weight, clamp 0..100
-        $combinedPercent = (($percentCriteria * 0.70) + ($jaccard * 100.0 * 0.30)) * $typeWeight;
-        $combinedPercent = max(0, min(100, $combinedPercent));
-        
-        // Eligibility
-        $eligibility = 'Not Eligible';
-        if ($combinedPercent >= 80) { $eligibility = 'Eligible'; }
-        elseif ($combinedPercent >= 60) { $eligibility = 'Partially Eligible'; }
-        
-        // Map to existing frontend fields, include checklist
-        $results[] = [
-            'category' => $awardName,
-            'score' => round($combinedPercent / 100, 3),
-            'status' => $eligibility,
-            'recommendation' => generateIconsRecommendation($awardName, $eligibility, $criteriaChecklist, $percentCriteria),
-            'type' => $awardType,
-            'checklist' => [
-                'award_name' => $awardName,
-                'type' => $awardType,
-                'criteria' => $criteriaChecklist,
-                'criteria_met' => $criteriaMetCount,
-                'total_criteria' => $totalCriteria,
-                'percentage_met' => round($percentCriteria, 2),
-                'eligibility' => $eligibility
-            ]
-        ];
     }
     
-    // Sort by score descending
-    usort($results, function($a, $b) {
-        return ($b['score'] <=> $a['score']);
-    });
-    
+    // Sort by score desc
+    usort($results, function($a, $b) { return ($b['score'] ?? 0) <=> ($a['score'] ?? 0); });
     return $results;
 }
 
@@ -467,9 +488,27 @@ function simulateOCRExtraction($filename) {
         return "Internationalization Leadership Award - This prestigious award recognizes executive leadership in internationalization, bold innovation, and lifelong learning. The recipient has demonstrated purposeful leadership, ethical decision-making, and inclusive education practices.";
     } elseif (strpos($filename, 'regional') !== false || strpos($filename, 'office') !== false) {
         return "Best Regional Office for Internationalization Award - This award recognizes regional offices that have achieved measurable impact through collaboration, sustainability, and impactful initiatives. The office demonstrates excellence in faculty exchange, student enrollment, and regional partnerships.";
+    } elseif (strpos($filename, 'sustainability') !== false || strpos($filename, 'green') !== false) {
+        return "Sustainability Award Certificate - This document recognizes exceptional commitment to environmental sustainability and green campus initiatives. The institution has implemented comprehensive sustainability programs, renewable energy projects, waste reduction strategies, and climate action plans that demonstrate leadership in environmental stewardship.";
+    } elseif (strpos($filename, 'asean') !== false || strpos($filename, 'regional') !== false) {
+        return "ASEAN Awareness Initiative Award - This award celebrates outstanding contributions to ASEAN regional cooperation and cultural understanding. The recipient has developed innovative programs that strengthen ASEAN identity, promote regional solidarity, and enhance cross-border collaboration among Southeast Asian nations.";
+    } elseif (strpos($filename, 'iro') !== false || strpos($filename, 'community') !== false) {
+        return "IRO Community Excellence Award - This recognition honors International Relations Offices that have demonstrated exceptional collaboration and innovation. The community has fostered strong partnerships, shared resources, and implemented joint initiatives that advance internationalization across multiple institutions.";
+    } elseif (strpos($filename, 'ched') !== false || strpos($filename, 'policy') !== false) {
+        return "CHED Regional Office Excellence Award - This award recognizes outstanding administrative leadership in promoting internationalization policies and coordination. The regional office has successfully implemented innovative programs, supported institutional partnerships, and facilitated regional cooperation in higher education.";
     } else {
-        // Generic award document simulation
-        return "Award Certificate - This document recognizes outstanding achievements in international education and global engagement. The recipient has demonstrated excellence in leadership, innovation, collaboration, and inclusive practices. This award celebrates contributions to internationalization, diversity, equity, and sustainable development goals.";
+        // Generate unique content based on filename hash to ensure different results
+        $hash = crc32($filename);
+        $variants = [
+            "Award Certificate - This document recognizes outstanding achievements in international education and global engagement. The recipient has demonstrated excellence in leadership, innovation, collaboration, and inclusive practices. This award celebrates contributions to internationalization, diversity, equity, and sustainable development goals.",
+            "Institutional Excellence Award - This recognition celebrates exceptional achievements in higher education internationalization. The institution has demonstrated remarkable progress in student mobility programs, faculty exchange initiatives, and cross-cultural learning opportunities that enhance global competence.",
+            "Academic Partnership Award - This award honors outstanding collaboration between institutions that have created innovative international programs. The partnership has resulted in significant student exchanges, joint research projects, and cultural exchange programs that benefit both institutions.",
+            "Global Innovation Award - This certificate recognizes groundbreaking initiatives in international education that have transformed learning experiences. The recipient has developed cutting-edge programs that integrate global perspectives, sustainable practices, and inclusive methodologies.",
+            "Leadership Excellence Award - This document celebrates exceptional leadership in advancing international education goals. The recipient has demonstrated visionary leadership, strategic planning, and successful implementation of comprehensive internationalization strategies."
+        ];
+        
+        $variantIndex = $hash % count($variants);
+        return $variants[$variantIndex];
     }
 }
 ?>

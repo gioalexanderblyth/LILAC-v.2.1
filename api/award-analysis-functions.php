@@ -182,12 +182,14 @@ function analyzeTextAgainstCriteria($text, $awardsCriteria) {
         
         // Only include awards with meaningful scores (> 40%) and relevance validation
         if ($finalScore > 40 && $isRelevant) {
-            // Stricter eligibility: ≥80% score AND at least 2 direct hits
+            // Updated eligibility: ≥90% score AND at least 2 direct hits for Eligible/Recognized
             $status = 'Not Eligible';
-            if ($finalScore >= 80 && $directHits >= 2) {
+            if ($finalScore >= 90 && $directHits >= 2) {
                 $status = 'Eligible';
+            } elseif ($finalScore >= 80 && $directHits >= 1) {
+                $status = 'Needs Attention';
             } elseif ($finalScore >= 60 && $directHits >= 1) {
-                $status = 'Partially Eligible';
+                $status = 'Not Eligible';
             }
             
             // Build full checklist of criteria (met/unmet)
@@ -517,5 +519,141 @@ function storeAnalysisResults($awardName, $description, $extractedText, $analysi
         logActivity('Storage failed: ' . $e->getMessage(), 'WARNING');
         return 'fallback_' . time();
     }
+}
+
+function performIconsAnalysis($rawText, $dataset) {
+    // Preprocess input
+    $text = strtolower($rawText);
+    $textTokens = preprocessText($text);
+    $textTokenSet = array_unique($textTokens);
+    
+    // Lightweight semantic map for boost
+    $semanticMap = [
+        'sustainability' => ['sustainable', 'environment', 'climate', 'green'],
+        'international' => ['global', 'cross-border', 'overseas'],
+        'collaboration' => ['partnership', 'partnerships', 'cooperation'],
+        'leadership' => ['leader', 'leaders', 'mentorship'],
+        'asean' => ['southeast asia', 'regional'],
+        'mobility' => ['exchange', 'study abroad']
+    ];
+    
+    $results = [];
+    
+    foreach ($dataset as $group) {
+        $categoryLabel = $group['category'] ?? 'Institutional Awards';
+        $awards = $group['awards'] ?? [];
+        foreach ($awards as $award) {
+            $title = $award['title'] ?? 'Unknown Award';
+            $keywords = $award['keywords'] ?? [];
+            
+            // Tokenize award keywords
+            $awardTokens = [];
+            foreach ($keywords as $kw) {
+                $awardTokens = array_merge($awardTokens, preprocessText(strtolower($kw)));
+            }
+            $awardTokens = array_unique($awardTokens);
+            if (count($awardTokens) === 0) { continue; }
+            
+            // Jaccard similarity
+            $intersection = array_intersect($textTokenSet, $awardTokens);
+            $union = array_unique(array_merge($textTokenSet, $awardTokens));
+            $similarity = count($union) > 0 ? (count($intersection) / count($union)) : 0.0;
+            
+            // Semantic boost
+            $boost = 0.0;
+            foreach ($semanticMap as $root => $rels) {
+                if (strpos($text, $root) !== false) { $boost = max($boost, 0.1); }
+                else {
+                    foreach ($rels as $rel) {
+                        if (strpos($text, $rel) !== false) { $boost = max($boost, 0.1); break; }
+                    }
+                }
+            }
+            
+            // Category weights
+            $weight = 1.0;
+            $catLower = strtolower($categoryLabel);
+            if (strpos($catLower, 'individual') !== false) { $weight = 1.1; }
+            elseif (strpos($catLower, 'special') !== false) { $weight = 1.0; }
+            else { $weight = 1.0; }
+            
+            $baseScore = min(1.0, $similarity + $boost);
+            $weightedScore = min(1.0, $baseScore * $weight);
+            
+            // Thresholds
+            $eligibility = 'Not Eligible';
+            if ($weightedScore >= 0.90) { $eligibility = 'Eligible'; }
+            elseif ($weightedScore >= 0.80) { $eligibility = 'Needs Attention'; }
+            
+            // Matched keywords (phrase presence)
+            $matchedKeywords = [];
+            foreach ($keywords as $kw) {
+                if (stripos($text, $kw) !== false) { $matchedKeywords[] = $kw; }
+            }
+            
+            $results[] = [
+                'title' => $title,
+                'category' => $categoryLabel,
+                'score' => round($weightedScore * 100, 1),
+                'status' => $eligibility,
+                'matched_keywords' => $matchedKeywords
+            ];
+        }
+    }
+    
+    // Sort by score desc
+    usort($results, function($a, $b) { return ($b['score'] ?? 0) <=> ($a['score'] ?? 0); });
+    return $results;
+}
+
+function preprocessText($text) {
+    // Convert to lowercase, remove punctuation, split into words
+    $text = strtolower($text);
+    $text = preg_replace('/[^\w\s]/', ' ', $text);
+    $words = preg_split('/\s+/', $text);
+    
+    // Remove common stopwords
+    $stopwords = ['the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for', 'of', 'with', 'by', 'is', 'are', 'was', 'were', 'be', 'been', 'have', 'has', 'had', 'do', 'does', 'did', 'will', 'would', 'could', 'should'];
+    $words = array_filter($words, function($word) use ($stopwords) {
+        return !in_array($word, $stopwords) && strlen($word) > 2;
+    });
+    
+    // Apply stemming and normalization
+    $processedWords = [];
+    foreach ($words as $word) {
+        $stemmed = stemWord($word);
+        if (strlen($stemmed) > 2) {
+            $processedWords[] = $stemmed;
+        }
+    }
+    
+    return array_values($processedWords);
+}
+
+function stemWord($word) {
+    // Remove common suffixes
+    $suffixes = [
+        'ing', 'ed', 'er', 'est', 'ly', 'tion', 'sion', 'ity', 'ness', 
+        'ment', 'able', 'ible', 'al', 'ial', 'ic', 'ical', 'ous', 'ious',
+        'ive', 'ative', 'itive', 's', 'es', 'ies', 'ism', 'ist', 'ize', 'ise'
+    ];
+    
+    // Sort suffixes by length (longest first) to handle compound suffixes
+    usort($suffixes, function($a, $b) {
+        return strlen($b) - strlen($a);
+    });
+    
+    $originalWord = $word;
+    
+    // Apply suffix removal
+    foreach ($suffixes as $suffix) {
+        if (strlen($word) > strlen($suffix) + 2 && substr($word, -strlen($suffix)) === $suffix) {
+            $word = substr($word, 0, -strlen($suffix));
+            break; // Only remove one suffix
+        }
+    }
+    
+    // Ensure the stemmed word is meaningful (at least 3 characters)
+    return strlen($word) >= 3 ? $word : $originalWord;
 }
 ?>

@@ -129,10 +129,18 @@
             border-radius: 0.5rem;
             box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px 0 rgba(0, 0, 0, 0.02);
             border: 1px solid #f3f4f6;
+            transition: all 0.2s ease-in-out;
         }
         .dark .analytics-card {
             background-color: #1e293b;
             border-color: #334155;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+        }
+        .analytics-card:hover {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        .dark .analytics-card:hover {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
         }
         .kpi-box {
             padding: 1.5rem 1rem;
@@ -449,22 +457,22 @@ Dynamic Analysis & Recommendations
             <div class="col-span-12 lg:col-span-9 space-y-6">
 
                 <div class="grid grid-cols-4 gap-4">
-                    <div class="kpi-box analytics-card cursor-pointer hover:shadow-md transition-shadow" style="border-top: 4px solid #e2e8f0;" onclick="showAwardsMet()">
+                    <div class="kpi-box analytics-card cursor-pointer hover:shadow-md transition-shadow border-t-4 border-gray-200 dark:border-gray-600" onclick="showAwardsMet()">
                         <p class="text-3xl font-extrabold text-gray-900 dark:text-gray-100">0</p>
                         <p class="text-xs font-medium text-gray-600 dark:text-gray-400 mt-1">Total Awards Met</p>
                     </div>
                     
-                    <div class="kpi-box analytics-card cursor-pointer hover:shadow-md transition-shadow" style="border-top: 4px solid #e2e8f0;" onclick="showEligibleDepartments()">
+                    <div class="kpi-box analytics-card cursor-pointer hover:shadow-md transition-shadow border-t-4 border-gray-200 dark:border-gray-600" onclick="showEligibleDepartments()">
                         <p class="text-3xl font-extrabold text-gray-900 dark:text-gray-100">0</p>
                         <p class="text-xs font-medium text-gray-600 dark:text-gray-400 mt-1">Eligible Departments</p>
                     </div>
                     
-                    <div class="kpi-box analytics-card cursor-pointer hover:shadow-md transition-shadow" style="border-top: 4px solid #e2e8f0;" onclick="showNewPartnerships()">
+                    <div class="kpi-box analytics-card cursor-pointer hover:shadow-md transition-shadow border-t-4 border-gray-200 dark:border-gray-600" onclick="showNewPartnerships()">
                         <p class="text-3xl font-extrabold text-gray-900 dark:text-gray-100">0</p>
                         <p class="text-xs font-medium text-gray-600 dark:text-gray-400 mt-1">New Partnerships</p>
                     </div>
                     
-                    <div class="kpi-box analytics-card cursor-pointer hover:shadow-md transition-shadow" style="border-top: 4px solid #e2e8f0;" onclick="showSuccessRate()">
+                    <div class="kpi-box analytics-card cursor-pointer hover:shadow-md transition-shadow border-t-4 border-gray-200 dark:border-gray-600" onclick="showSuccessRate()">
                         <p class="text-3xl font-extrabold text-gray-900 dark:text-gray-100">0%</p>
                         <p class="text-xs font-medium text-gray-600 dark:text-gray-400 mt-1">Success Rate</p>
                     </div>
@@ -501,7 +509,7 @@ Dynamic Analysis & Recommendations
                     <div class="overflow-x-auto">
                         <table class="w-full text-sm">
                             <thead>
-                                <tr class="border-b text-gray-500 dark:text-gray-400">
+                                <tr class="border-b border-gray-200 dark:border-gray-600 text-gray-500 dark:text-gray-400">
                                     <th class="text-left py-2 font-medium">Award Name</th>
                                     <th class="text-left py-2 font-medium">Criteria Met / Total</th>
                                     <th class="text-left py-2 font-medium w-1/5">Progress</th>
@@ -509,7 +517,7 @@ Dynamic Analysis & Recommendations
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr class="border-b last:border-b-0">
+                                <tr class="border-b border-gray-100 dark:border-gray-700 last:border-b-0">
                                     <td class="py-3 text-gray-900 dark:text-gray-100">Outstanding International Education Program</td>
                                     <td class="py-3 text-gray-900 dark:text-gray-100">4/5</td>
                                     <td class="py-3">
@@ -519,7 +527,7 @@ Dynamic Analysis & Recommendations
                                     </td>
                                     <td class="py-3 text-gray-600 dark:text-gray-400 text-xs">"Needs more proof of collaboration"</td>
                                 </tr>
-                                <tr class="border-b last:border-b-0">
+                                <tr class="border-b border-gray-100 dark:border-gray-700 last:border-b-0">
                                     <td class="py-3 text-gray-900 dark:text-gray-100">International Leadership Award</td>
                                     <td class="py-3 text-gray-900 dark:text-gray-100">5/5</td>
                                     <td class="py-3">
@@ -529,7 +537,7 @@ Dynamic Analysis & Recommendations
                                     </td>
                                     <td class="py-3 text-gray-600 dark:text-gray-400 text-xs">"All requirements satisfied"</td>
                                 </tr>
-                                <tr class="border-b last:border-b-0">
+                                <tr class="border-b border-gray-100 dark:border-gray-700 last:border-b-0">
                                     <td class="py-3 text-gray-900 dark:text-gray-100">Innovation in Global Learning</td>
                                     <td class="py-3 text-gray-900 dark:text-gray-100">2/6</td>
                                     <td class="py-3">
@@ -557,23 +565,23 @@ Dynamic Analysis & Recommendations
             </div>
             
             <div class="col-span-12 lg:col-span-3">
-                <div class="analytics-card p-6 min-h-full border-l-4 border-gray-100 dark:border-gray-600" style="background-color: #f7f9fb;">
+                <div class="analytics-card p-6 min-h-full border-l-4 border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-800/50">
                     <h3 class="text-lg font-bold text-gray-900 dark:text-gray-100 mb-4">Analysis & Recommendations</h3>
                     <div class="space-y-4">
                         <div class="flex items-start gap-3">
-                            <span class="material-symbols-outlined text-green-600 text-xl pt-1">check_circle</span>
-                            <p class="text-sm text-gray-700 dark:text-gray-300 font-medium">Your department achieved <span class="font-bold text-green-700">80%</span> of award qualifications this cycle.</p>
+                            <span class="material-symbols-outlined text-green-600 dark:text-green-400 text-xl pt-1">check_circle</span>
+                            <p class="text-sm text-gray-700 dark:text-gray-300 font-medium">Your department achieved <span class="font-bold text-green-700 dark:text-green-400">80%</span> of award qualifications this cycle.</p>
                         </div>
-                        <div class="flex items-start gap-3 border-t pt-4">
-                            <span class="material-symbols-outlined text-yellow-600 text-xl pt-1">lightbulb</span>
+                        <div class="flex items-start gap-3 border-t border-gray-200 dark:border-gray-600 pt-4">
+                            <span class="material-symbols-outlined text-yellow-600 dark:text-yellow-400 text-xl pt-1">lightbulb</span>
                             <p class="text-sm text-gray-700 dark:text-gray-300">Focus on completing missing supporting documents for the Innovation award.</p>
                         </div>
-                        <div class="flex items-start gap-3 border-t pt-4">
-                            <span class="material-symbols-outlined text-blue-600 text-xl pt-1">trending_up</span>
+                        <div class="flex items-start gap-3 border-t border-gray-200 dark:border-gray-600 pt-4">
+                            <span class="material-symbols-outlined text-blue-600 dark:text-blue-400 text-xl pt-1">trending_up</span>
                             <p class="text-sm text-gray-700 dark:text-gray-300">Strong performance on <span class="font-semibold">leadership-based awards.</span></p>
                         </div>
-                        <div class="flex items-start gap-3 border-t pt-4">
-                            <span class="material-symbols-outlined text-purple-600 text-xl pt-1">groups</span>
+                        <div class="flex items-start gap-3 border-t border-gray-200 dark:border-gray-600 pt-4">
+                            <span class="material-symbols-outlined text-purple-600 dark:text-purple-400 text-xl pt-1">groups</span>
                             <p class="text-sm text-gray-700 dark:text-gray-300">Consider collaborating with the Engineering department to meet international criteria.</p>
                         </div>
                     </div>
@@ -631,19 +639,9 @@ Dynamic Analysis & Recommendations
 </div>
 <div class="flex items-center justify-between mb-4">
 <div class="flex items-center gap-3">
-<span class="inline-flex items-center gap-2 py-1.5 px-3 rounded-full text-xs font-medium bg-blue-100 text-primary">Total Processed: <span class="font-bold">1,234</span></span>
-<span class="inline-flex items-center gap-2 py-1.5 px-3 rounded-full text-xs font-medium bg-green-100 text-green-700">Recognized: <span class="font-bold">987</span></span>
-<span class="inline-flex items-center gap-2 py-1.5 px-3 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">Pending Review: <span class="font-bold">247</span></span>
-</div>
-<div class="flex gap-2">
-<button id="exportCsvBtn" class="bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark text-text-light dark:text-text-dark px-4 py-2 rounded-md font-semibold flex items-center gap-2 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors text-sm" onclick="exportToCsv()">
-<span class="material-symbols-outlined text-base">file_download</span>
-Export CSV
-</button>
-<button id="exportPdfBtn" class="bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark text-text-light dark:text-text-dark px-4 py-2 rounded-md font-semibold flex items-center gap-2 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors text-sm" onclick="exportToPdf()">
-<span class="material-symbols-outlined text-base">picture_as_pdf</span>
-Export PDF
-</button>
+<span class="inline-flex items-center gap-2 py-1.5 px-3 rounded-full text-xs font-medium bg-blue-100 dark:bg-blue-900/40 text-primary dark:text-blue-400">Total Processed: <span class="font-bold">1,234</span></span>
+<span class="inline-flex items-center gap-2 py-1.5 px-3 rounded-full text-xs font-medium bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-400">Recognized: <span class="font-bold">987</span></span>
+<span class="inline-flex items-center gap-2 py-1.5 px-3 rounded-full text-xs font-medium bg-yellow-100 dark:bg-yellow-900/40 text-yellow-800 dark:text-yellow-400">Pending Review: <span class="font-bold">247</span></span>
 </div>
 </div>
 <div class="bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark rounded-lg overflow-hidden">
@@ -661,104 +659,104 @@ Export PDF
 <th class="px-6 py-3 font-medium text-center">Actions</th>
 </tr>
 </thead>
-<tbody class="divide-y divide-border-light dark:divide-border-dark">
-<tr class="hover:bg-primary/5 transition-colors bg-green-50/50 dark:bg-green-900/20">
-<td class="px-6 py-4 whitespace-nowrap font-semibold text-primary">Project Alpha Submission</td>
+<tbody class="divide-y divide-gray-100 dark:divide-gray-700">
+<tr class="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors bg-green-50/50 dark:bg-green-900/20">
+<td class="px-6 py-4 whitespace-nowrap font-semibold text-primary dark:text-blue-400">Project Alpha Submission</td>
 <td class="px-6 py-4 whitespace-nowrap text-text-muted-light dark:text-text-muted-dark">Innovation in AI Research</td>
 <td class="px-6 py-4 whitespace-nowrap">
 <div class="flex items-center gap-2">
 <div class="w-20 bg-gray-200 dark:bg-gray-700 rounded-full h-1.5">
 <div class="bg-green-500 h-1.5 rounded-full" style="width: 95%"></div>
 </div>
-<span class="text-sm font-medium text-green-600">95%</span>
+<span class="text-sm font-medium text-green-600 dark:text-green-400">95%</span>
 </div>
 </td>
 <td class="px-6 py-4 whitespace-nowrap text-text-muted-light dark:text-text-muted-dark">5 of 6</td>
 <td class="px-6 py-4 whitespace-nowrap text-text-muted-light dark:text-text-muted-dark">Dept. of Computer Science</td>
 <td class="px-6 py-4 whitespace-nowrap text-text-muted-light dark:text-text-muted-dark">2024-07-21</td>
 <td class="px-6 py-4 whitespace-nowrap">
-<span class="inline-flex items-center gap-1.5 py-1 px-2.5 rounded-full text-xs font-medium bg-green-100 text-green-800">Recognized</span>
+<span class="inline-flex items-center gap-1.5 py-1 px-2.5 rounded-full text-xs font-medium bg-green-100 dark:bg-green-900/40 text-green-800 dark:text-green-400">Recognized</span>
 </td>
 <td class="px-6 py-4 whitespace-nowrap text-center">
 <div class="flex items-center justify-center gap-1">
-<button class="p-2 rounded-md hover:bg-primary/10 text-text-muted-light dark:text-text-muted-dark"><span class="material-symbols-outlined text-lg">visibility</span></button>
-<button class="p-2 rounded-md hover:bg-primary/10 text-text-muted-light dark:text-text-muted-dark"><span class="material-symbols-outlined text-lg">refresh</span></button>
-<button class="p-2 rounded-md hover:bg-red-500/10 text-red-500"><span class="material-symbols-outlined text-lg">delete</span></button>
+<button class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 text-text-muted-light dark:text-text-muted-dark transition-colors"><span class="material-symbols-outlined text-lg">visibility</span></button>
+<button class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 text-text-muted-light dark:text-text-muted-dark transition-colors"><span class="material-symbols-outlined text-lg">refresh</span></button>
+<button class="p-2 rounded-md hover:bg-red-500/10 dark:hover:bg-red-500/20 text-red-500 transition-colors"><span class="material-symbols-outlined text-lg">delete</span></button>
 </div>
 </td>
 </tr>
-<tr class="hover:bg-primary/5 transition-colors">
-<td class="px-6 py-4 whitespace-nowrap font-semibold text-primary">Community Outreach Report</td>
+<tr class="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
+<td class="px-6 py-4 whitespace-nowrap font-semibold text-primary dark:text-blue-400">Community Outreach Report</td>
 <td class="px-6 py-4 whitespace-nowrap text-text-muted-light dark:text-text-muted-dark">Social Impact Award</td>
 <td class="px-6 py-4 whitespace-nowrap">
 <div class="flex items-center gap-2">
 <div class="w-20 bg-gray-200 dark:bg-gray-700 rounded-full h-1.5">
 <div class="bg-yellow-500 h-1.5 rounded-full" style="width: 82%"></div>
 </div>
-<span class="text-sm font-medium text-yellow-700">82%</span>
+<span class="text-sm font-medium text-yellow-700 dark:text-yellow-400">82%</span>
 </div>
 </td>
 <td class="px-6 py-4 whitespace-nowrap text-text-muted-light dark:text-text-muted-dark">4 of 5</td>
 <td class="px-6 py-4 whitespace-nowrap text-text-muted-light dark:text-text-muted-dark">Office of Student Affairs</td>
 <td class="px-6 py-4 whitespace-nowrap text-text-muted-light dark:text-text-muted-dark">2024-07-20</td>
 <td class="px-6 py-4 whitespace-nowrap">
-<span class="inline-flex items-center gap-1.5 py-1 px-2.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">Pending Review</span>
+<span class="inline-flex items-center gap-1.5 py-1 px-2.5 rounded-full text-xs font-medium bg-yellow-100 dark:bg-yellow-900/40 text-yellow-800 dark:text-yellow-400">Pending Review</span>
 </td>
 <td class="px-6 py-4 whitespace-nowrap text-center">
 <div class="flex items-center justify-center gap-1">
-<button class="p-2 rounded-md hover:bg-primary/10 text-text-muted-light dark:text-text-muted-dark"><span class="material-symbols-outlined text-lg">visibility</span></button>
-<button class="p-2 rounded-md hover:bg-primary/10 text-text-muted-light dark:text-text-muted-dark"><span class="material-symbols-outlined text-lg">refresh</span></button>
-<button class="p-2 rounded-md hover:bg-red-500/10 text-red-500"><span class="material-symbols-outlined text-lg">delete</span></button>
+<button class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 text-text-muted-light dark:text-text-muted-dark transition-colors"><span class="material-symbols-outlined text-lg">visibility</span></button>
+<button class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 text-text-muted-light dark:text-text-muted-dark transition-colors"><span class="material-symbols-outlined text-lg">refresh</span></button>
+<button class="p-2 rounded-md hover:bg-red-500/10 dark:hover:bg-red-500/20 text-red-500 transition-colors"><span class="material-symbols-outlined text-lg">delete</span></button>
 </div>
 </td>
 </tr>
-<tr class="hover:bg-primary/5 transition-colors bg-green-50/50 dark:bg-green-900/20">
-<td class="px-6 py-4 whitespace-nowrap font-semibold text-primary">Thesis on Quantum Computing</td>
+<tr class="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors bg-green-50/50 dark:bg-green-900/20">
+<td class="px-6 py-4 whitespace-nowrap font-semibold text-primary dark:text-blue-400">Thesis on Quantum Computing</td>
 <td class="px-6 py-4 whitespace-nowrap text-text-muted-light dark:text-text-muted-dark">Doctoral Dissertation Award</td>
 <td class="px-6 py-4 whitespace-nowrap">
 <div class="flex items-center gap-2">
 <div class="w-20 bg-gray-200 dark:bg-gray-700 rounded-full h-1.5">
 <div class="bg-green-500 h-1.5 rounded-full" style="width: 98%"></div>
 </div>
-<span class="text-sm font-medium text-green-600">98%</span>
+<span class="text-sm font-medium text-green-600 dark:text-green-400">98%</span>
 </div>
 </td>
 <td class="px-6 py-4 whitespace-nowrap text-text-muted-light dark:text-text-muted-dark">7 of 7</td>
 <td class="px-6 py-4 whitespace-nowrap text-text-muted-light dark:text-text-muted-dark">Physics Department</td>
 <td class="px-6 py-4 whitespace-nowrap text-text-muted-light dark:text-text-muted-dark">2024-07-19</td>
 <td class="px-6 py-4 whitespace-nowrap">
-<span class="inline-flex items-center gap-1.5 py-1 px-2.5 rounded-full text-xs font-medium bg-green-100 text-green-800">Recognized</span>
+<span class="inline-flex items-center gap-1.5 py-1 px-2.5 rounded-full text-xs font-medium bg-green-100 dark:bg-green-900/40 text-green-800 dark:text-green-400">Recognized</span>
 </td>
 <td class="px-6 py-4 whitespace-nowrap text-center">
 <div class="flex items-center justify-center gap-1">
-<button class="p-2 rounded-md hover:bg-primary/10 text-text-muted-light dark:text-text-muted-dark"><span class="material-symbols-outlined text-lg">visibility</span></button>
-<button class="p-2 rounded-md hover:bg-primary/10 text-text-muted-light dark:text-text-muted-dark"><span class="material-symbols-outlined text-lg">refresh</span></button>
-<button class="p-2 rounded-md hover:bg-red-500/10 text-red-500"><span class="material-symbols-outlined text-lg">delete</span></button>
+<button class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 text-text-muted-light dark:text-text-muted-dark transition-colors"><span class="material-symbols-outlined text-lg">visibility</span></button>
+<button class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 text-text-muted-light dark:text-text-muted-dark transition-colors"><span class="material-symbols-outlined text-lg">refresh</span></button>
+<button class="p-2 rounded-md hover:bg-red-500/10 dark:hover:bg-red-500/20 text-red-500 transition-colors"><span class="material-symbols-outlined text-lg">delete</span></button>
 </div>
 </td>
 </tr>
-<tr class="hover:bg-primary/5 transition-colors">
-<td class="px-6 py-4 whitespace-nowrap font-semibold text-primary">Renewable Energy Initiative</td>
+<tr class="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
+<td class="px-6 py-4 whitespace-nowrap font-semibold text-primary dark:text-blue-400">Renewable Energy Initiative</td>
 <td class="px-6 py-4 whitespace-nowrap text-text-muted-light dark:text-text-muted-dark">Sustainability Project Prize</td>
 <td class="px-6 py-4 whitespace-nowrap">
 <div class="flex items-center gap-2">
 <div class="w-20 bg-gray-200 dark:bg-gray-700 rounded-full h-1.5">
 <div class="bg-red-500 h-1.5 rounded-full" style="width: 65%"></div>
 </div>
-<span class="text-sm font-medium text-red-600">65%</span>
+<span class="text-sm font-medium text-red-600 dark:text-red-400">65%</span>
 </div>
 </td>
 <td class="px-6 py-4 whitespace-nowrap text-text-muted-light dark:text-text-muted-dark">3 of 6</td>
 <td class="px-6 py-4 whitespace-nowrap text-text-muted-light dark:text-text-muted-dark">Environmental Science Dept.</td>
 <td class="px-6 py-4 whitespace-nowrap text-text-muted-light dark:text-text-muted-dark">2024-07-18</td>
 <td class="px-6 py-4 whitespace-nowrap">
-<span class="inline-flex items-center gap-1.5 py-1 px-2.5 rounded-full text-xs font-medium bg-red-100 text-red-800">Needs Attention</span>
+<span class="inline-flex items-center gap-1.5 py-1 px-2.5 rounded-full text-xs font-medium bg-red-100 dark:bg-red-900/40 text-red-800 dark:text-red-400">Needs Attention</span>
 </td>
 <td class="px-6 py-4 whitespace-nowrap text-center">
 <div class="flex items-center justify-center gap-1">
-<button class="p-2 rounded-md hover:bg-primary/10 text-text-muted-light dark:text-text-muted-dark"><span class="material-symbols-outlined text-lg">visibility</span></button>
-<button class="p-2 rounded-md hover:bg-primary/10 text-text-muted-light dark:text-text-muted-dark"><span class="material-symbols-outlined text-lg">refresh</span></button>
-<button class="p-2 rounded-md hover:bg-red-500/10 text-red-500"><span class="material-symbols-outlined text-lg">delete</span></button>
+<button class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 text-text-muted-light dark:text-text-muted-dark transition-colors"><span class="material-symbols-outlined text-lg">visibility</span></button>
+<button class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 text-text-muted-light dark:text-text-muted-dark transition-colors"><span class="material-symbols-outlined text-lg">refresh</span></button>
+<button class="p-2 rounded-md hover:bg-red-500/10 dark:hover:bg-red-500/20 text-red-500 transition-colors"><span class="material-symbols-outlined text-lg">delete</span></button>
 </div>
 </td>
 </tr>
@@ -1158,6 +1156,10 @@ Export PDF
                 formData.append('reanalyze', 'true');
                 formData.append('original_file_path', award.file_path);
                 
+                // Add cache busting parameters for re-analysis
+                formData.append('timestamp', Date.now().toString());
+                formData.append('cache_bust', Math.random().toString(36).substring(7));
+                
                 console.log('Making re-analysis request with form data:', {
                     award_name: award.title,
                     description: award.description,
@@ -1174,7 +1176,11 @@ Export PDF
                 
                 const reanalyzeResponse = await fetch('api/analyze-award.php', {
                     method: 'POST',
-                    body: formData
+                    body: formData,
+                    headers: {
+                        'Cache-Control': 'no-cache',
+                        'Pragma': 'no-cache'
+                    }
                 });
                 
                 console.log('Re-analysis response status:', reanalyzeResponse.status);
@@ -2467,6 +2473,9 @@ Export PDF
             }
             
             const formData = new FormData(e.target);
+            // Add cache busting parameters
+            formData.append('timestamp', Date.now().toString());
+            formData.append('cache_bust', Math.random().toString(36).substring(7));
             const analyzeBtn = document.getElementById('analyze-btn');
             const loadingIcon = document.getElementById('loading-icon');
             const btnText = analyzeBtn.querySelector('.btn-text');
@@ -2502,10 +2511,15 @@ Export PDF
                 console.log(key + ':', value);
             }
             
-            // Submit to API
+            // Submit to API with cache busting
+            console.log('Starting fresh analysis for new upload...');
             fetch('api/analyze-award.php', {
                 method: 'POST',
-                body: formData
+                body: formData,
+                headers: {
+                    'Cache-Control': 'no-cache',
+                    'Pragma': 'no-cache'
+                }
             })
             .then(response => {
                 console.log('Response status:', response.status);
@@ -2530,7 +2544,28 @@ Export PDF
                 
                 setTimeout(() => {
                     if (data.success) {
+                        console.log('Analysis completed successfully:', data);
+                        console.log('Analysis timestamp:', data.timestamp);
+                        console.log('Is fresh analysis:', data.is_fresh_analysis);
+                        console.log('Results count:', data.analysis ? data.analysis.length : 0);
+                        // Dispatch eligibility counts for dashboards/charts
+                        window.latestEligibilityCounts = {
+                            eligible: data.eligible_count || 0,
+                            partial: data.partial_count || 0,
+                            notEligible: data.not_eligible_count || 0,
+                            total: data.total_count || (data.analysis ? data.analysis.length : 0)
+                        };
+                        try {
+                            document.dispatchEvent(new CustomEvent('analysis:updated', { detail: window.latestEligibilityCounts }));
+                        } catch (e) { console.warn('Failed to dispatch analysis:updated event', e); }
+                        
                         displayAnalysisResults(data);
+                        
+                        // Clear the input form after successful analysis (with a small delay)
+                        setTimeout(() => {
+                            clearInputForm();
+                        }, 1500);
+                        
                         progressSection.classList.add('hidden');
                         
                         // Reset button state
@@ -2539,7 +2574,6 @@ Export PDF
                         loadingIcon.classList.add('hidden');
                         
                         // Refresh the awards list
-                        
                         setTimeout(() => {
                             window.loadAwardListData();
                         }, 1000);
@@ -2568,9 +2602,103 @@ Export PDF
             const file = e.target.files[0];
             if (file) {
                 console.log('File selected:', file.name, 'Size:', file.size);
+                
+                // Clear previous analysis results when new file is selected
+                clearPreviousAnalysisResults();
+                
                 validateAndShowFile(file);
             }
         }
+        
+        function clearPreviousAnalysisResults() {
+            console.log('Clearing previous analysis results for new upload...');
+            
+            // Reset analysis state
+            window.currentAnalysisId = null;
+            window.lastAnalysisData = null;
+            
+            // Hide results and show placeholder
+            const placeholder = document.getElementById('analysis-placeholder');
+            const results = document.getElementById('analysis-results');
+            
+            if (placeholder && results) {
+                results.classList.add('hidden');
+                placeholder.classList.remove('hidden');
+            }
+            
+            // Clear analysis containers
+            const awardAnalysisList = document.getElementById('award-analysis-list');
+            const recommendationsList = document.getElementById('recommendations-list');
+            const fullExtractedText = document.getElementById('full-extracted-text');
+            
+            if (awardAnalysisList) awardAnalysisList.innerHTML = '';
+            if (recommendationsList) recommendationsList.innerHTML = '';
+            if (fullExtractedText) fullExtractedText.textContent = '';
+        }
+        
+        function clearInputForm() {
+            console.log('Clearing input form after successful analysis...');
+            
+            // Clear award name field
+            const awardNameInput = document.getElementById('award_name');
+            if (awardNameInput) {
+                console.log('Clearing award name field:', awardNameInput.value);
+                awardNameInput.value = '';
+            } else {
+                console.warn('Award name input field not found');
+            }
+            
+            // Clear description field
+            const descriptionInput = document.getElementById('description');
+            if (descriptionInput) {
+                console.log('Clearing description field:', descriptionInput.value);
+                descriptionInput.value = '';
+            } else {
+                console.warn('Description input field not found');
+            }
+            
+            // Clear file input
+            const fileInput = document.getElementById('file-upload');
+            if (fileInput) {
+                console.log('Clearing file input field:', fileInput.files.length, 'files');
+                fileInput.value = '';
+            } else {
+                console.warn('File input field not found');
+            }
+            
+            // Reset file upload area to initial state
+            const fileUploadArea = document.getElementById('file-upload-area');
+            const fileError = document.getElementById('file-error');
+            const fileSuccess = document.getElementById('file-success');
+            const fileSuccessMessage = document.getElementById('file-success-message');
+            
+            if (fileUploadArea) {
+                // Remove any drag-over styling
+                fileUploadArea.classList.remove('border-primary', 'bg-primary/5');
+            }
+            
+            if (fileError) {
+                fileError.classList.add('hidden');
+            }
+            
+            if (fileSuccess) {
+                fileSuccess.classList.add('hidden');
+            }
+            
+            if (fileSuccessMessage) {
+                fileSuccessMessage.textContent = '';
+            }
+            
+            // Reset form validation states
+            const form = document.getElementById('award-analysis-form');
+            if (form) {
+                // Remove any validation classes or states
+                form.classList.remove('was-validated');
+            }
+            
+            console.log('Input form cleared successfully');
+        }
+        
         
         function handleDragOver(e) {
             e.preventDefault();
@@ -2626,31 +2754,46 @@ Export PDF
         }
         
         function displayAnalysisResults(data) {
+            console.log('displayAnalysisResults called with data:', data);
+            
             const placeholder = document.getElementById('analysis-placeholder');
             const results = document.getElementById('analysis-results');
             const fullExtractedText = document.getElementById('full-extracted-text');
             const awardAnalysisList = document.getElementById('award-analysis-list');
             const recommendationsList = document.getElementById('recommendations-list');
             
+            // Clear any cached results first
+            console.log('Clearing previous analysis results...');
+            window.currentAnalysisId = null;
+            window.lastAnalysisData = null;
+            
             // Store analysis ID for export functionality
             window.currentAnalysisId = data.analysis_id;
+            window.lastAnalysisData = data;
             
             // Hide placeholder and show results
             placeholder.classList.add('hidden');
             results.classList.remove('hidden');
             
             // Set extracted text for modal
-            fullExtractedText.textContent = data.detected_text;
+            if (fullExtractedText) {
+                fullExtractedText.textContent = data.detected_text || '';
+            }
             
-            // Display award analysis
-            awardAnalysisList.innerHTML = '';
-            if (data.analysis && Array.isArray(data.analysis)) {
-                data.analysis.forEach(award => {
-                    const card = createAwardAnalysisCard(award);
-                    awardAnalysisList.appendChild(card);
-                });
-            } else {
-                awardAnalysisList.innerHTML = '<p class="text-text-muted-light dark:text-text-muted-dark">No analysis results available.</p>';
+            // Clear and display award analysis
+            if (awardAnalysisList) {
+                awardAnalysisList.innerHTML = '';
+                if (data.analysis && Array.isArray(data.analysis)) {
+                    console.log('Displaying', data.analysis.length, 'analysis results');
+                    data.analysis.forEach((award, index) => {
+                        console.log(`Processing award ${index + 1}:`, award.category || award.name);
+                        const card = createAwardAnalysisCard(award);
+                        awardAnalysisList.appendChild(card);
+                    });
+                } else {
+                    console.log('No analysis results found in data');
+                    awardAnalysisList.innerHTML = '<p class="text-text-muted-light dark:text-text-muted-dark">No analysis results available.</p>';
+                }
             }
             
             // Display recommendations with structured format
@@ -2715,14 +2858,14 @@ Export PDF
                     statusIcon = 'cancel';
             }
             
-            // Create criteria badges
-            const criteriaBadges = (award.matched_criteria || []).map(criteria => 
-                `<span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-${statusColor}-100 text-${statusColor}-800">${criteria}</span>`
+            // Create matched keyword badges
+            const keywordBadges = (award.matched_keywords || []).map(k => 
+                `<span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-${statusColor}-100 text-${statusColor}-800">${k}</span>`
             ).join(' ');
             
-            // Score normalization (supports 0..1 or 0..100)
-            const displayScore = (typeof award.score === 'number' && award.score <= 1) ? (award.score * 100).toFixed(1) : Number(award.score).toFixed(1);
-            const widthScore = Math.min((typeof award.score === 'number' && award.score <= 1) ? (award.score * 100) : Number(award.score), 100);
+            // Score is already in percent 0..100
+            const displayScore = Number(award.score).toFixed(1);
+            const widthScore = Math.min(Number(award.score), 100);
             
             // Checklist block
             const checklistBlock = award.checklist ? `
@@ -2762,9 +2905,9 @@ Export PDF
             card.innerHTML = `
                 <div class="flex items-start justify-between mb-4">
                     <div class="flex-1">
-                        <h4 class="text-lg font-bold text-text-light dark:text-text-dark mb-1">${award.category}</h4>
+                        <h4 class="text-lg font-bold text-text-light dark:text-text-dark mb-1">${award.title || award.category}</h4>
                         <div class="flex items-center gap-2">
-                            <span class="text-sm text-text-muted-light dark:text-text-muted-dark">${award.type}</span>
+                            <span class="text-sm text-text-muted-light dark:text-text-muted-dark">Category: ${award.category}</span>
                             <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-primary/10 text-primary">${displayScore}%</span>
                         </div>
                     </div>
@@ -2785,16 +2928,10 @@ Export PDF
                 </div>
                 
                 <div class="mb-4">
-                    <p class="text-sm text-text-muted-light dark:text-text-muted-dark mb-2">Criteria Met:</p>
-                    <div class="flex flex-wrap gap-2">
-                        ${criteriaBadges || '<span class="text-xs text-text-muted-light dark:text-text-muted-dark">No criteria matched</span>'}
-                    </div>
+                    <p class="text-sm text-text-muted-light dark:text-text-muted-dark mb-2">Matched Keywords:</p>
+                    <div class="flex flex-wrap gap-2">${keywordBadges || '<span class="text-xs text-text-muted-light dark:text-text-muted-dark">No keywords matched</span>'}</div>
                 </div>
                 
-                <div class="p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
-                    <p class="text-sm text-text-light dark:text-text-dark">${award.recommendation}</p>
-                </div>
-                ${checklistBlock || fallbackChecklistBlock}
             `;
             
             return card;
