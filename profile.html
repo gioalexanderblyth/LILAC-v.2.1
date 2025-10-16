@@ -195,6 +195,9 @@
 <span class="material-symbols-outlined dark:hidden">light_mode</span>
 <span class="material-symbols-outlined hidden dark:inline">dark_mode</span>
 </button>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-red-100 dark:hover:bg-red-900/20 text-red-600 dark:text-red-400 transition-colors duration-200" id="logout-btn" title="Logout">
+<span class="material-symbols-outlined">logout</span>
+</button>
 </div>
 </header>
 <div class="p-6 lg:p-8">
@@ -343,6 +346,7 @@
             const sidebarToggle = document.getElementById('sidebar-toggle');
             const appContainer = document.getElementById('app-container');
             const sidebarProfileInfo = document.querySelector('.sidebar-profile-info');
+            const logoutBtn = document.getElementById('logout-btn');
             const sidebarProfilePicture = document.querySelector('.sidebar-profile-picture');
             const sidebarTexts = document.querySelectorAll('.sidebar-text');
             const sidebarLogoText = document.querySelector('.sidebar-logo-text');
@@ -537,6 +541,22 @@
                 p.password = next; p.passwordChangedAt = new Date().toLocaleDateString();
                 saveProfile(p); updateUI(p); closePwdFn(); formPwd.reset();
             });
+
+            // Logout functionality
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', () => {
+                    // Show confirmation dialog
+                    if (confirm('Are you sure you want to logout?')) {
+                        // Clear any stored authentication data
+                        localStorage.removeItem('isAuthenticated');
+                        localStorage.removeItem('userData');
+                        sessionStorage.clear();
+                        
+                        // Redirect to login page
+                        window.location.href = 'login.html';
+                    }
+                });
+            }
         });
     </script>
 

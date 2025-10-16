@@ -252,7 +252,7 @@ No notifications yet
 </button>
 </div>
 </header>
-<div class="p-6">
+<div class="p-2">
   <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
     <div class="xl:col-span-2 space-y-6">
       <div id="eligibleCards" class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -2036,10 +2036,8 @@ Current mode: localStorage only (events will persist in browser)
                     return;
                 }
                 if (state === 'empty') {
-                    // Show two placeholder cards (reverted behavior)
-                    for (let i = 0; i < 2; i++) {
-                        eligibleContainer.appendChild(buildPlaceholderCard());
-                    }
+                    // Show empty state - no placeholder cards
+                    eligibleContainer.innerHTML = '<div class="text-center py-8 text-text-muted-light dark:text-text-muted-dark">No eligible events found.</div>';
                 }
             };
 
@@ -2085,37 +2083,6 @@ Current mode: localStorage only (events will persist in browser)
                 return wrap;
             };
 
-            // Re-add placeholder card (with label as before revert)
-            const buildPlaceholderCard = () => {
-                const wrap = document.createElement('div');
-                wrap.className = 'bg-card-light dark:bg-card-dark rounded-xl shadow-soft p-4 flex items-center opacity-70';
-                wrap.innerHTML = `
-                  <div class="w-24 h-24 bg-gray-200 dark:bg-white/10 rounded-lg"></div>
-                  <div class="flex-1 pl-4">
-                    <p class="text-sm font-semibold text-text-muted-light dark:text-text-muted-dark">—</p>
-                    <h3 class="font-bold text-lg text-text-muted-light dark:text-text-muted-dark mt-1">No eligible event</h3>
-                    <div class="flex justify-between text-sm mt-3">
-                      <div>
-                        <p class="text-text-muted-light dark:text-text-muted-dark">Start</p>
-                        <p class="font-semibold text-text-muted-light dark:text-text-muted-dark">—</p>
-                      </div>
-                      <div>
-                        <p class="text-text-muted-light dark:text-text-muted-dark">End</p>
-                        <p class="font-semibold text-text-muted-light dark:text-text-muted-dark">—</p>
-                      </div>
-                    </div>
-                    <div class="flex justify-between text-sm mt-2">
-                      <div>
-                        <p class="text-text-muted-light dark:text-text-muted-dark">—</p>
-                        <p class="text-xs text-text-muted-light dark:text-text-muted-dark"><span class="material-symbols-outlined text-xs align-middle">location_on</span> —</p>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="border-l border-dashed border-border-light dark:border-border-dark pl-4 ml-4 flex flex-col items-center justify-center">
-                    <p class="text-xs -rotate-90 whitespace-nowrap text-text-muted-light dark:text-text-muted-dark">Eligible for awards</p>
-                  </div>`;
-                return wrap;
-            };
 
             const loadEligible = async () => {
                 if (!eligibleContainer) return;
@@ -2135,14 +2102,9 @@ Current mode: localStorage only (events will persist in browser)
                         return;
                     }
                     items.forEach(item => eligibleContainer.appendChild(buildEligibleCard(item)));
-                    if (items.length === 1) {
-                        eligibleContainer.appendChild(buildPlaceholderCard());
-                    }
                 } catch (e) {
-                    // On error, keep layout and show placeholders
+                    // On error, show empty state
                     eligibleContainer.innerHTML = '';
-                    eligibleContainer.appendChild(buildPlaceholderCard());
-                    eligibleContainer.appendChild(buildPlaceholderCard());
                 }
             };
 
