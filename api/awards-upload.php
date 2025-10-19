@@ -56,10 +56,19 @@ try {
     }
     
     $file = $_FILES['file'];
-    $allowedTypes = ['application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'image/jpeg', 'image/jpg', 'image/png'];
     
-    if (!in_array($file['type'], $allowedTypes)) {
-        throw new Exception('Invalid file type. Only PDF, DOCX, JPG, and PNG files are allowed.');
+    // Server-side validation for file size and type
+    validateFileUpload($file);
+    
+    $allowedTypes = ALLOWED_FILE_TYPES;
+    $mimeType = $file['type'];
+    
+    // Additional MIME type validation using file content
+    if (function_exists('mime_content_type')) {
+        $detectedType = mime_content_type($file['tmp_name']);
+        if ($detectedType && !in_array($detectedType, $allowedTypes)) {
+            throw new Exception('File type mismatch. Detected: ' . $detectedType . ', expected one of: ' . implode(', ', $allowedTypes));
+        }
     }
     
     // Create uploads directory if it doesn't exist
@@ -68,19 +77,59 @@ try {
         mkdir($uploadDir, 0755, true);
     }
     
-    // Generate unique filename
+    // Generate randomized safe filename
     $fileExtension = pathinfo($file['name'], PATHINFO_EXTENSION);
-    $fileName = uniqid() . '_' . time() . '.' . $fileExtension;
-    $filePath = $uploadDir . $fileName;
+    $safeFileName = generateSafeFileName($file['name'], $fileExtension);
+    $filePath = $uploadDir . $safeFileName;
     
     // Move uploaded file
     if (!move_uploaded_file($file['tmp_name'], $filePath)) {
         throw new Exception('Failed to move uploaded file');
     }
     
-    // Extract text based on file type (simulated OCR)
-    $extractedText = simulateOCRExtraction($file['name']);
+    // Extract text based on file type using robust extraction methods
+    require_once 'award-analysis-functions.php';
+    
+    // Determine MIME type properly
+    if (function_exists('mime_content_type')) {
+        $mimeType = mime_content_type($filePath);
+    } else {
+        // Fallback based on extension
+        $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+        $extensionMap = [
+            'pdf' => 'application/pdf',
+            'docx' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            'jpg' => 'image/jpeg',
+            'jpeg' => 'image/jpeg',
+            'png' => 'image/png'
+        ];
+        $mimeType = $extensionMap[$extension] ?? 'application/octet-stream';
+    }
+    
+    // Force fresh analysis - always extract text from uploaded file
+    $extractedText = extractTextFromFile($filePath, $mimeType);
     error_log("[$timestamp] Extracted text for file '" . $file['name'] . "': " . substr($extractedText, 0, 100) . "...");
+    
+    // Check if the extraction returned a JSON error response (e.g., missing OCR)
+    $jsonError = json_decode($extractedText, true);
+    if ($jsonError && isset($jsonError['error'])) {
+        // Handle OCR-related errors gracefully
+        http_response_code(400);
+        $response = [
+            'success' => false,
+            'error' => $jsonError['user_message'] ?? $jsonError['message'],
+            'error_type' => $jsonError['error'],
+            'file_type' => $mimeType
+        ];
+        
+        if (isset($jsonError['instructions'])) {
+            $response['instructions'] = $jsonError['instructions'];
+        }
+        
+        header('Content-Type: application/json');
+        echo json_encode($response);
+        exit();
+    }
     
     if (empty($extractedText)) {
         throw new Exception('Could not extract text from the uploaded file');
@@ -114,8 +163,8 @@ try {
         $analysisData = [
             'title' => $title,
             'description' => $description,
-            'file_name' => $file['name'],
-            'file_path' => $filePath,
+            'file_name' => $file['name'], // Keep original name for display
+            'file_path' => $filePath, // Store safe path
             'detected_text' => $extractedText,
             'analysis_results' => $analysisResultsJson,
             'created_at' => date('Y-m-d H:i:s')
@@ -196,6 +245,10 @@ try {
 
 
 function performIconsAnalysis($rawText, $dataset) {
+    // Load thresholds from awards-rules.json
+    require_once 'award-analysis-functions.php';
+    $thresholds = loadAwardThresholds();
+    
     // Preprocess input
     $text = strtolower($rawText);
     $textTokens = preprocessText($text);
@@ -220,9 +273,12 @@ function performIconsAnalysis($rawText, $dataset) {
             $title = $award['title'] ?? 'Unknown Award';
             $keywords = $award['keywords'] ?? [];
             
-            // Tokenize award keywords
+            // Option 3: Apply keyword mapping/synonyms for improved matching
+            $expandedKeywords = expandKeywordsWithMapping($keywords);
+            
+            // Tokenize award keywords (including expanded synonyms)
             $awardTokens = [];
-            foreach ($keywords as $kw) {
+            foreach ($expandedKeywords as $kw) {
                 $awardTokens = array_merge($awardTokens, preprocessText(strtolower($kw)));
             }
             $awardTokens = array_unique($awardTokens);
@@ -254,24 +310,48 @@ function performIconsAnalysis($rawText, $dataset) {
             $baseScore = min(1.0, $similarity + $boost);
             $weightedScore = min(1.0, $baseScore * $weight);
             
-            // Thresholds
-        $eligibility = 'Not Eligible';
-        if ($weightedScore >= 0.90) { $eligibility = 'Eligible'; }
-        elseif ($weightedScore >= 0.80) { $eligibility = 'Needs Attention'; }
-            
-            // Matched keywords (phrase presence)
-            $matchedKeywords = [];
-            foreach ($keywords as $kw) {
-                if (stripos($text, $kw) !== false) { $matchedKeywords[] = $kw; }
+            // Use centralized thresholds
+            $scorePercent = $weightedScore * 100;
+            $eligibility = 'Not Eligible';
+            if ($scorePercent >= $thresholds['eligible']) { 
+                $eligibility = 'Eligible'; 
+            } elseif ($scorePercent >= $thresholds['partial']) { 
+                $eligibility = 'Partially Eligible'; 
             }
             
-            $results[] = [
-                'title' => $title,
-                'category' => $categoryLabel,
-                'score' => round($weightedScore * 100, 1),
-                'status' => $eligibility,
-                'matched_keywords' => $matchedKeywords
-            ];
+            // Option 3: Enhanced matched keywords (including synonyms used for matching)
+            $matchedKeywords = [];
+            $matchedSynonyms = [];
+            
+            // Check original keywords
+            foreach ($keywords as $kw) {
+                if (stripos($text, $kw) !== false) { 
+                    $matchedKeywords[] = $kw; 
+                }
+            }
+            
+            // Check expanded keywords/synonyms
+            foreach ($expandedKeywords as $kw) {
+                if (stripos($text, $kw) !== false && !in_array($kw, $matchedKeywords)) { 
+                    $matchedSynonyms[] = $kw; 
+                }
+            }
+            
+            // Filter out awards with very low scores to reduce information overload
+            // Only include results that have meaningful scores (>= 25%) OR have matched keywords
+            $hasMatchedKeywords = !empty($matchedKeywords) || !empty($matchedSynonyms);
+            $hasMeaningfulScore = $scorePercent >= 25;
+            
+            if ($hasMeaningfulScore || $hasMatchedKeywords) {
+                $results[] = [
+                    'title' => $title,
+                    'category' => $categoryLabel,
+                    'score' => round($weightedScore * 100, 1),
+                    'status' => $eligibility,
+                    'matched_keywords' => $matchedKeywords,
+                    'matched_synonyms' => $matchedSynonyms
+                ];
+            }
         }
     }
     
@@ -465,50 +545,6 @@ function phraseMatches($text, $textTokens, $phrase, $phraseTokens) {
     return false;
 }
 
-function generateRecommendations($analysisResults) {
-    $recommendations = [];
-    foreach ($analysisResults as $result) {
-        $recommendations[] = $result['recommendation'];
-    }
-    return implode(' ', $recommendations);
-}
 
 
-function simulateOCRExtraction($filename) {
-    $filename = strtolower($filename);
-    
-    // Simulate different types of award documents based on filename
-    if (strpos($filename, 'citizenship') !== false || strpos($filename, 'global') !== false) {
-        return "Global Citizenship Award Certificate - This document recognizes outstanding contributions to global citizenship education, intercultural understanding, and sustainable development goals. The recipient has demonstrated exceptional commitment to promoting diversity, inclusivity, and responsible leadership among students and faculty.";
-    } elseif (strpos($filename, 'international') !== false || strpos($filename, 'education') !== false) {
-        return "Outstanding International Education Program Award - This award celebrates innovative international education programs that promote global access, collaborative innovation, and inclusive internationalization. The program demonstrates excellence in student exchange, cultural experience, and international partnerships.";
-    } elseif (strpos($filename, 'leadership') !== false || strpos($filename, 'emerging') !== false) {
-        return "Emerging Leadership Award - This recognition honors rising leaders in internationalization who have shown exceptional innovation, mentorship, and strategic growth. The recipient demonstrates outstanding leadership development, collaboration, and capacity building in international education.";
-    } elseif (strpos($filename, 'executive') !== false || strpos($filename, 'senior') !== false) {
-        return "Internationalization Leadership Award - This prestigious award recognizes executive leadership in internationalization, bold innovation, and lifelong learning. The recipient has demonstrated purposeful leadership, ethical decision-making, and inclusive education practices.";
-    } elseif (strpos($filename, 'regional') !== false || strpos($filename, 'office') !== false) {
-        return "Best Regional Office for Internationalization Award - This award recognizes regional offices that have achieved measurable impact through collaboration, sustainability, and impactful initiatives. The office demonstrates excellence in faculty exchange, student enrollment, and regional partnerships.";
-    } elseif (strpos($filename, 'sustainability') !== false || strpos($filename, 'green') !== false) {
-        return "Sustainability Award Certificate - This document recognizes exceptional commitment to environmental sustainability and green campus initiatives. The institution has implemented comprehensive sustainability programs, renewable energy projects, waste reduction strategies, and climate action plans that demonstrate leadership in environmental stewardship.";
-    } elseif (strpos($filename, 'asean') !== false || strpos($filename, 'regional') !== false) {
-        return "ASEAN Awareness Initiative Award - This award celebrates outstanding contributions to ASEAN regional cooperation and cultural understanding. The recipient has developed innovative programs that strengthen ASEAN identity, promote regional solidarity, and enhance cross-border collaboration among Southeast Asian nations.";
-    } elseif (strpos($filename, 'iro') !== false || strpos($filename, 'community') !== false) {
-        return "IRO Community Excellence Award - This recognition honors International Relations Offices that have demonstrated exceptional collaboration and innovation. The community has fostered strong partnerships, shared resources, and implemented joint initiatives that advance internationalization across multiple institutions.";
-    } elseif (strpos($filename, 'ched') !== false || strpos($filename, 'policy') !== false) {
-        return "CHED Regional Office Excellence Award - This award recognizes outstanding administrative leadership in promoting internationalization policies and coordination. The regional office has successfully implemented innovative programs, supported institutional partnerships, and facilitated regional cooperation in higher education.";
-    } else {
-        // Generate unique content based on filename hash to ensure different results
-        $hash = crc32($filename);
-        $variants = [
-            "Award Certificate - This document recognizes outstanding achievements in international education and global engagement. The recipient has demonstrated excellence in leadership, innovation, collaboration, and inclusive practices. This award celebrates contributions to internationalization, diversity, equity, and sustainable development goals.",
-            "Institutional Excellence Award - This recognition celebrates exceptional achievements in higher education internationalization. The institution has demonstrated remarkable progress in student mobility programs, faculty exchange initiatives, and cross-cultural learning opportunities that enhance global competence.",
-            "Academic Partnership Award - This award honors outstanding collaboration between institutions that have created innovative international programs. The partnership has resulted in significant student exchanges, joint research projects, and cultural exchange programs that benefit both institutions.",
-            "Global Innovation Award - This certificate recognizes groundbreaking initiatives in international education that have transformed learning experiences. The recipient has developed cutting-edge programs that integrate global perspectives, sustainable practices, and inclusive methodologies.",
-            "Leadership Excellence Award - This document celebrates exceptional leadership in advancing international education goals. The recipient has demonstrated visionary leadership, strategic planning, and successful implementation of comprehensive internationalization strategies."
-        ];
-        
-        $variantIndex = $hash % count($variants);
-        return $variants[$variantIndex];
-    }
-}
 ?>

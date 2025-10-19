@@ -328,7 +328,7 @@
 <form class="space-y-4" id="award-analysis-form" enctype="multipart/form-data">
 <label class="block">
 <span class="text-sm font-medium text-text-light dark:text-text-dark">Award Name</span>
-<input class="mt-1 block w-full rounded-lg border-border-light dark:border-border-dark bg-card-light dark:bg-card-dark text-text-light dark:text-text-dark focus:ring-primary focus:border-primary" placeholder="e.g. Presidential Scholarship" type="text" name="award_name" id="award_name" autocomplete="off" required/>
+<input class="mt-1 block w-full rounded-lg border-border-light dark:border-border-dark bg-card-light dark:bg-card-dark text-text-light dark:text-text-dark focus:ring-primary focus:border-primary" placeholder="e.g. International Award" type="text" name="award_name" id="award_name" autocomplete="off" required/>
 </label>
 <label class="block">
 <span class="text-sm font-medium text-text-light dark:text-text-dark">Description</span>
@@ -411,16 +411,6 @@
 <!-- Dynamic award analysis cards will be inserted here -->
 </div>
 
-<!-- Overall Recommendations -->
-<div id="overall-recommendations" class="bg-card-light dark:bg-card-dark/50 rounded-xl p-6 border border-border-light dark:border-border-dark">
-<h4 class="font-bold text-primary mb-4 flex items-center">
-<span class="material-symbols-outlined mr-2">recommend</span>
-Dynamic Analysis & Recommendations
-</h4>
-<div id="recommendations-list" class="space-y-4">
-<!-- Dynamic recommendations will be inserted here -->
-</div>
-</div>
 </div>
 </div>
 </div>
@@ -644,11 +634,28 @@ Dynamic Analysis & Recommendations
 <span class="inline-flex items-center gap-2 py-1.5 px-3 rounded-full text-xs font-medium bg-yellow-100 dark:bg-yellow-900/40 text-yellow-800 dark:text-yellow-400">Pending Review: <span class="font-bold">247</span></span>
 </div>
 </div>
+
+<!-- Bulk Actions Section -->
+<div id="bulk-actions" class="hidden mb-4 p-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
+    <div class="flex items-center justify-between">
+        <div class="flex items-center gap-3">
+            <span id="selected-count" class="text-sm font-medium text-blue-700 dark:text-blue-300">0 selected</span>
+        </div>
+        <button id="bulk-delete-btn" class="px-4 py-2 bg-red-500 hover:bg-red-600 text-white text-sm font-medium rounded-lg transition-colors" onclick="bulkDeleteSelected()">
+            <span class="material-symbols-outlined text-sm mr-1">delete</span>
+            Delete Selected
+        </button>
+    </div>
+</div>
+
 <div class="bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark rounded-lg overflow-hidden">
 <div class="overflow-x-auto">
 <table class="w-full text-sm text-left">
 <thead class="bg-gray-50 dark:bg-gray-800 text-xs text-text-muted-light dark:text-text-muted-dark uppercase tracking-wider">
 <tr>
+<th class="px-6 py-3 font-medium w-12">
+    <input type="checkbox" id="select-all" class="rounded border-gray-300 text-primary focus:ring-primary" onchange="toggleSelectAll()">
+</th>
 <th class="px-6 py-3 font-medium">Document Title</th>
 <th class="px-6 py-3 font-medium">Matched Award</th>
 <th class="px-6 py-3 font-medium">Similarity Score</th>
@@ -815,6 +822,42 @@ Dynamic Analysis & Recommendations
                     </button>
                     <button id="deleteConfirmBtn" class="px-4 py-2 text-sm font-medium text-white bg-red-600 hover:bg-red-700 rounded-lg transition-colors duration-200">
                         Delete Award
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bulk Delete Confirmation Modal -->
+<div id="bulkDeleteModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
+    <div class="flex items-center justify-center min-h-screen p-4">
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full mx-4 transform transition-all duration-300 scale-95 opacity-0" id="bulkDeleteModalContent">
+            <div class="p-6">
+                <!-- Modal Header -->
+                <div class="flex items-center justify-center w-12 h-12 mx-auto mb-4 bg-red-100 dark:bg-red-900/20 rounded-full">
+                    <svg class="w-6 h-6 text-red-600 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.5 0L4.268 19.5c-.77.833.192 2.5 1.732 2.5z"></path>
+                    </svg>
+                </div>
+                
+                <!-- Modal Title -->
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-white text-center mb-2">
+                    Delete Selected Awards
+                </h3>
+                
+                <!-- Modal Message -->
+                <p class="text-sm text-gray-600 dark:text-gray-300 text-center mb-6" id="bulkDeleteMessage">
+                    Are you sure you want to delete the selected awards? This action cannot be undone and will permanently remove the awards and their associated files.
+                </p>
+                
+                <!-- Modal Actions -->
+                <div class="flex gap-3 justify-center">
+                    <button id="bulkDeleteCancelBtn" class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg transition-colors duration-200">
+                        Cancel
+                    </button>
+                    <button id="bulkDeleteConfirmBtn" class="px-4 py-2 text-sm font-medium text-white bg-red-600 hover:bg-red-700 rounded-lg transition-colors duration-200">
+                        Delete Awards
                     </button>
                 </div>
             </div>
@@ -1577,10 +1620,6 @@ Dynamic Analysis & Recommendations
                                                 <span class="text-sm font-medium">${((analysis.confidence * 100) || 0).toFixed(0)}%</span>
                                             </div>
                                         </div>
-                                        <div>
-                                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Recommendations</label>
-                                            <p class="text-gray-900 dark:text-white">${escapeHtml(analysis.recommendations_text || 'No recommendations available')}</p>
-                                        </div>
                                     </div>
                                 </div>
                                 
@@ -2078,7 +2117,7 @@ Dynamic Analysis & Recommendations
                 if (awards.length === 0) {
                     tbody.innerHTML = `
                         <tr>
-                            <td colspan="8" class="px-6 py-8 text-center text-text-muted-light dark:text-text-muted-dark">
+                            <td colspan="9" class="px-6 py-8 text-center text-text-muted-light dark:text-text-muted-dark">
                                 <div class="flex flex-col items-center gap-2">
                                     <span class="material-symbols-outlined text-4xl text-text-muted-light dark:text-text-muted-dark">folder_open</span>
                                     <p class="text-lg font-medium">No awards uploaded yet</p>
@@ -2098,6 +2137,9 @@ Dynamic Analysis & Recommendations
                     
                     return `
                         <tr class="hover:bg-primary/5 transition-colors">
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <input type="checkbox" class="row-checkbox rounded border-gray-300 text-primary focus:ring-primary" value="${award.id}" onchange="updateBulkActions()">
+                            </td>
                             <td class="px-6 py-4 whitespace-nowrap font-semibold text-primary">${escapeHtml(award.title || award.file_name || 'Untitled')}</td>
                             <td class="px-6 py-4 whitespace-nowrap text-text-muted-light dark:text-text-muted-dark">${escapeHtml(analysis.predicted_category || 'Not Analyzed')}</td>
                             <td class="px-6 py-4 whitespace-nowrap">
@@ -2157,6 +2199,9 @@ Dynamic Analysis & Recommendations
                         </tr>
                     `;
                 }).join('');
+                
+                // Update bulk actions after rendering
+                updateBulkActions();
             }
             
             // Helper functions
@@ -2236,9 +2281,171 @@ Dynamic Analysis & Recommendations
             // Make the filterAwardsList function globally available
             window.filterAwardsList = filterAwardsList;
             
+            // Bulk selection functions
+            function toggleSelectAll() {
+                const selectAllCheckbox = document.getElementById('select-all');
+                const rowCheckboxes = document.querySelectorAll('.row-checkbox');
+                
+                rowCheckboxes.forEach(checkbox => {
+                    checkbox.checked = selectAllCheckbox.checked;
+                });
+                
+                updateBulkActions();
+            }
+            
+            function updateBulkActions() {
+                const selectedCheckboxes = document.querySelectorAll('.row-checkbox:checked');
+                const bulkActionsDiv = document.getElementById('bulk-actions');
+                const selectedCountSpan = document.getElementById('selected-count');
+                const selectAllCheckbox = document.getElementById('select-all');
+                const rowCheckboxes = document.querySelectorAll('.row-checkbox');
+                
+                if (selectedCheckboxes.length > 0) {
+                    bulkActionsDiv.classList.remove('hidden');
+                    selectedCountSpan.textContent = `${selectedCheckboxes.length} selected`;
+                } else {
+                    bulkActionsDiv.classList.add('hidden');
+                }
+                
+                // Update select all checkbox state
+                if (rowCheckboxes.length === 0) {
+                    selectAllCheckbox.checked = false;
+                    selectAllCheckbox.indeterminate = false;
+                } else if (selectedCheckboxes.length === rowCheckboxes.length) {
+                    selectAllCheckbox.checked = true;
+                    selectAllCheckbox.indeterminate = false;
+                } else if (selectedCheckboxes.length > 0) {
+                    selectAllCheckbox.checked = false;
+                    selectAllCheckbox.indeterminate = true;
+                } else {
+                    selectAllCheckbox.checked = false;
+                    selectAllCheckbox.indeterminate = false;
+                }
+            }
+            
+            // Global variable to store selected IDs for bulk delete
+            let pendingBulkDeleteIds = [];
+            
+            async function bulkDeleteSelected() {
+                const selectedCheckboxes = document.querySelectorAll('.row-checkbox:checked');
+                
+                if (selectedCheckboxes.length === 0) {
+                    showNotification('No awards selected for deletion', 'error');
+                    return;
+                }
+                
+                const selectedIds = Array.from(selectedCheckboxes).map(cb => cb.value);
+                
+                // Show the bulk delete modal instead of browser confirm
+                showBulkDeleteModal(selectedIds);
+            }
+            
+            function showBulkDeleteModal(selectedIds) {
+                pendingBulkDeleteIds = selectedIds;
+                const modal = document.getElementById('bulkDeleteModal');
+                const modalContent = document.getElementById('bulkDeleteModalContent');
+                const messageElement = document.getElementById('bulkDeleteMessage');
+                
+                // Update the message with the count
+                messageElement.textContent = `Are you sure you want to delete ${selectedIds.length} selected award(s)? This action cannot be undone and will permanently remove the awards and their associated files.`;
+                
+                modal.classList.remove('hidden');
+                
+                // Trigger animation
+                setTimeout(() => {
+                    modalContent.classList.remove('scale-95', 'opacity-0');
+                    modalContent.classList.add('scale-100', 'opacity-100');
+                }, 10);
+            }
+            
+            function hideBulkDeleteModal() {
+                const modal = document.getElementById('bulkDeleteModal');
+                const modalContent = document.getElementById('bulkDeleteModalContent');
+                
+                modalContent.classList.remove('scale-100', 'opacity-100');
+                modalContent.classList.add('scale-95', 'opacity-0');
+                
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                    pendingBulkDeleteIds = [];
+                }, 300);
+            }
+            
+            async function confirmBulkDelete() {
+                if (pendingBulkDeleteIds.length === 0) {
+                    return;
+                }
+                
+                hideBulkDeleteModal();
+                
+                try {
+                    const deletePromises = pendingBulkDeleteIds.map(async (awardId) => {
+                        // Extract file ID similar to the individual delete function
+                        let fileId;
+                        if (awardId.startsWith('file_')) {
+                            const withoutPrefix = awardId.replace('file_', '');
+                            const parts = withoutPrefix.split('_');
+                            fileId = parts[parts.length - 1];
+                        } else {
+                            fileId = awardId;
+                        }
+                        
+                        if (!fileId) {
+                            throw new Error(`Could not extract file ID from award ID: ${awardId}`);
+                        }
+                        
+                        // Use the correct DELETE method and URL format like the individual delete function
+                        const deleteUrl = `api/delete-award.php?id=${encodeURIComponent(fileId)}`;
+                        const response = await fetch(deleteUrl, {
+                            method: 'DELETE'
+                        });
+                        
+                        if (!response.ok) {
+                            const errorData = await response.json().catch(() => ({ error: response.statusText }));
+                            throw new Error(errorData.error || 'Failed to delete award');
+                        }
+                        
+                        return await response.json();
+                    });
+                    
+                    const results = await Promise.all(deletePromises);
+                    
+                    // Check if all deletions were successful
+                    const failedCount = results.filter(r => !r.success).length;
+                    const successCount = results.length - failedCount;
+                    
+                    if (successCount > 0) {
+                        showNotification(`Successfully deleted ${successCount} award(s)`, 'success');
+                        
+                        // Refresh the award list
+                        await loadAwardListData();
+                        
+                        // Hide bulk actions
+                        updateBulkActions();
+                    }
+                    
+                    if (failedCount > 0) {
+                        showNotification(`${failedCount} award(s) could not be deleted`, 'error');
+                    }
+                    
+                } catch (error) {
+                    console.error('Bulk delete error:', error);
+                    showNotification('Error during bulk deletion: ' + error.message, 'error');
+                }
+            }
+            
+            // Make bulk functions globally available
+            window.toggleSelectAll = toggleSelectAll;
+            window.updateBulkActions = updateBulkActions;
+            window.bulkDeleteSelected = bulkDeleteSelected;
+            window.hideBulkDeleteModal = hideBulkDeleteModal;
+            window.confirmBulkDelete = confirmBulkDelete;
+            
             // Modal event listeners
             document.getElementById('deleteCancelBtn').addEventListener('click', hideDeleteModal);
             document.getElementById('deleteConfirmBtn').addEventListener('click', confirmDelete);
+            document.getElementById('bulkDeleteCancelBtn').addEventListener('click', hideBulkDeleteModal);
+            document.getElementById('bulkDeleteConfirmBtn').addEventListener('click', confirmBulkDelete);
             document.getElementById('reanalyzeCancelBtn').addEventListener('click', hideReanalyzeModal);
             document.getElementById('reanalyzeConfirmBtn').addEventListener('click', confirmReanalyze);
             document.getElementById('viewCloseBtn').addEventListener('click', hideViewModal);
@@ -2269,6 +2476,12 @@ Dynamic Analysis & Recommendations
                 }
             });
             
+            document.getElementById('bulkDeleteModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    hideBulkDeleteModal();
+                }
+            });
+            
             // Description Modal Event Listeners
             document.getElementById('descriptionCloseBtn').addEventListener('click', hideDescriptionModal);
             
@@ -2292,6 +2505,8 @@ Dynamic Analysis & Recommendations
                         hideEligibleAwardsModal();
                     } else if (!document.getElementById('descriptionModal').classList.contains('hidden')) {
                         hideDescriptionModal();
+                    } else if (!document.getElementById('bulkDeleteModal').classList.contains('hidden')) {
+                        hideBulkDeleteModal();
                     }
                 }
             });
@@ -2579,7 +2794,36 @@ Dynamic Analysis & Recommendations
                         }, 1000);
                         
                     } else {
-                        throw new Error(data.error || 'Analysis failed');
+                        // Handle different types of errors gracefully
+                        let errorMessage = data.error || 'Analysis failed';
+                        let errorTitle = 'Analysis Error';
+                        
+                        if (data.error_type === 'OCR_NOT_INSTALLED') {
+                            errorTitle = 'Image Processing Unavailable';
+                            errorMessage = data.error + '\n\nThis server does not have OCR (Optical Character Recognition) installed. Please convert your image to PDF or DOCX format for text extraction.';
+                            
+                            if (data.instructions) {
+                                errorMessage += '\n\nInstallation Instructions:';
+                                data.instructions.forEach(instruction => {
+                                    errorMessage += '\n• ' + instruction;
+                                });
+                            }
+                        } else if (data.error_type === 'OCR_DISABLED') {
+                            errorTitle = 'Image Processing Disabled';
+                            errorMessage = data.error + '\n\nPlease convert your image to PDF or DOCX format for text extraction.';
+                        }
+                        
+                        // Reset button state and progress
+                        clearInterval(progressInterval);
+                        progressSection.classList.add('hidden');
+                        analyzeBtn.disabled = false;
+                        btnText.textContent = 'Analyze Award';
+                        loadingIcon.classList.add('hidden');
+                        
+                        // Show error in a more user-friendly way with better formatting
+                        const formattedMessage = errorMessage.replace(/\n/g, '\n');
+                        alert(errorTitle + ':\n\n' + formattedMessage);
+                        return;
                     }
                 }, 500);
             })
@@ -2628,11 +2872,9 @@ Dynamic Analysis & Recommendations
             
             // Clear analysis containers
             const awardAnalysisList = document.getElementById('award-analysis-list');
-            const recommendationsList = document.getElementById('recommendations-list');
             const fullExtractedText = document.getElementById('full-extracted-text');
             
             if (awardAnalysisList) awardAnalysisList.innerHTML = '';
-            if (recommendationsList) recommendationsList.innerHTML = '';
             if (fullExtractedText) fullExtractedText.textContent = '';
         }
         
@@ -2760,7 +3002,6 @@ Dynamic Analysis & Recommendations
             const results = document.getElementById('analysis-results');
             const fullExtractedText = document.getElementById('full-extracted-text');
             const awardAnalysisList = document.getElementById('award-analysis-list');
-            const recommendationsList = document.getElementById('recommendations-list');
             
             // Clear any cached results first
             console.log('Clearing previous analysis results...');
@@ -2784,55 +3025,44 @@ Dynamic Analysis & Recommendations
             if (awardAnalysisList) {
                 awardAnalysisList.innerHTML = '';
                 if (data.analysis && Array.isArray(data.analysis)) {
-                    console.log('Displaying', data.analysis.length, 'analysis results');
-                    data.analysis.forEach((award, index) => {
-                        console.log(`Processing award ${index + 1}:`, award.category || award.name);
-                        const card = createAwardAnalysisCard(award);
-                        awardAnalysisList.appendChild(card);
-                    });
+                    console.log('Total analysis results received:', data.analysis.length);
+                    
+                    // Filter and limit results to reduce information overload
+                    // Priority: Eligible first, then Partially Eligible, then best scores
+                    const eligibleAwards = data.analysis.filter(award => award.status === 'Eligible');
+                    const partialAwards = data.analysis.filter(award => award.status === 'Partially Eligible');
+                    const notEligibleAwards = data.analysis.filter(award => award.status === 'Not Eligible');
+                    
+                    // Limit to max 5 results total, prioritizing eligible awards
+                    let displayAwards = [];
+                    displayAwards = displayAwards.concat(eligibleAwards);
+                    displayAwards = displayAwards.concat(partialAwards.slice(0, 3)); // Max 3 partial
+                    displayAwards = displayAwards.concat(notEligibleAwards.slice(0, 2)); // Max 2 not eligible
+                    displayAwards = displayAwards.slice(0, 5); // Total max 5
+                    
+                    console.log('Displaying', displayAwards.length, 'filtered analysis results');
+                    if (displayAwards.length > 0) {
+                        displayAwards.forEach((award, index) => {
+                            console.log(`Processing award ${index + 1}:`, award.category || award.name, `(${award.status})`);
+                            const card = createAwardAnalysisCard(award);
+                            awardAnalysisList.appendChild(card);
+                        });
+                    } else {
+                        console.log('No meaningful analysis results found after filtering');
+                        awardAnalysisList.innerHTML = `
+                            <div class="text-center py-8">
+                                <div class="material-symbols-outlined text-6xl text-gray-400 mb-4">search_off</div>
+                                <p class="text-text-muted-light dark:text-text-muted-dark text-lg mb-2">No Award Matches Found</p>
+                                <p class="text-text-muted-light dark:text-text-muted-dark">Your document didn't match the criteria for any ICONS Awards. Consider revising the content to better align with award requirements.</p>
+                            </div>
+                        `;
+                    }
                 } else {
                     console.log('No analysis results found in data');
                     awardAnalysisList.innerHTML = '<p class="text-text-muted-light dark:text-text-muted-dark">No analysis results available.</p>';
                 }
             }
             
-            // Display recommendations with structured format
-            recommendationsList.innerHTML = '';
-            if (data.recommendations && Array.isArray(data.recommendations)) {
-                data.recommendations.forEach((recommendation, index) => {
-                const recElement = document.createElement('div');
-                
-                // Determine icon and styling based on recommendation type
-                let icon = 'lightbulb';
-                let bgClass = 'bg-primary/5';
-                let iconClass = 'text-primary';
-                
-                if (recommendation.startsWith('Analysis Summary:')) {
-                    icon = 'analytics';
-                    bgClass = 'bg-blue-50 dark:bg-blue-900/20';
-                    iconClass = 'text-blue-600';
-                } else if (recommendation.startsWith('Recommendation Insights:')) {
-                    icon = 'strategy';
-                    bgClass = 'bg-green-50 dark:bg-green-900/20';
-                    iconClass = 'text-green-600';
-                } else if (recommendation.startsWith('Evidence Snippets:')) {
-                    icon = 'description';
-                    bgClass = 'bg-purple-50 dark:bg-purple-900/20';
-                    iconClass = 'text-purple-600';
-                }
-                
-                recElement.className = `flex items-start gap-3 p-4 ${bgClass} rounded-lg border border-border-light dark:border-border-dark`;
-                recElement.innerHTML = `
-                    <span class="material-symbols-outlined ${iconClass} mt-0.5">${icon}</span>
-                    <div class="flex-1">
-                        <span class="text-sm text-text-light dark:text-text-dark leading-relaxed">${recommendation}</span>
-                    </div>
-                `;
-                recommendationsList.appendChild(recElement);
-                });
-            } else {
-                recommendationsList.innerHTML = '<p class="text-text-muted-light dark:text-text-muted-dark">No recommendations available.</p>';
-            }
             
             // Scroll to results
             results.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -2842,26 +3072,25 @@ Dynamic Analysis & Recommendations
             const card = document.createElement('div');
             card.className = 'bg-card-light dark:bg-card-dark/50 rounded-xl p-6 border border-border-light dark:border-border-dark';
             
-            // Determine status color and icon
-            let statusColor, statusIcon;
+            // Determine status color, icon, and descriptive message
+            let statusColor, statusIcon, statusMessage;
             switch (award.status) {
                 case 'Eligible':
                     statusColor = 'green';
                     statusIcon = 'check_circle';
+                    statusMessage = `🎉 Excellent! Your document qualifies for the ${award.title || award.category}. You should apply for this award!`;
                     break;
                 case 'Partially Eligible':
                     statusColor = 'yellow';
                     statusIcon = 'warning';
+                    statusMessage = `👍 Good potential for the ${award.title || award.category}. With some refinements, you could be eligible for this award.`;
                     break;
                 default:
                     statusColor = 'red';
                     statusIcon = 'cancel';
+                    statusMessage = `Your document doesn't currently meet the criteria for the ${award.title || award.category}. Consider revising to better align with the award requirements.`;
             }
             
-            // Create matched keyword badges
-            const keywordBadges = (award.matched_keywords || []).map(k => 
-                `<span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-${statusColor}-100 text-${statusColor}-800">${k}</span>`
-            ).join(' ');
             
             // Score is already in percent 0..100
             const displayScore = Number(award.score).toFixed(1);
@@ -2927,10 +3156,13 @@ Dynamic Analysis & Recommendations
                     </div>
                 </div>
                 
-                <div class="mb-4">
-                    <p class="text-sm text-text-muted-light dark:text-text-muted-dark mb-2">Matched Keywords:</p>
-                    <div class="flex flex-wrap gap-2">${keywordBadges || '<span class="text-xs text-text-muted-light dark:text-text-muted-dark">No keywords matched</span>'}</div>
+                <div class="mb-4 p-3 rounded-lg bg-${statusColor}-50 dark:bg-${statusColor}-900/20 border border-${statusColor}-200 dark:border-${statusColor}-800">
+                    <div class="flex items-start gap-2">
+                        <span class="material-symbols-outlined text-${statusColor}-600 text-lg mt-0.5">${statusIcon}</span>
+                        <p class="text-sm text-${statusColor}-800 dark:text-${statusColor}-200 leading-relaxed">${statusMessage}</p>
+                    </div>
                 </div>
+                
                 
             `;
             

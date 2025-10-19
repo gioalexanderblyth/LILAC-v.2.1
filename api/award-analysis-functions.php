@@ -4,6 +4,97 @@
 require_once 'config.php';
 
 /**
+ * Load award thresholds from awards-rules.json
+ */
+function loadAwardThresholds() {
+    static $thresholds = null;
+    
+    if ($thresholds !== null) {
+        return $thresholds;
+    }
+    
+    $rulesPath = __DIR__ . '/../assets/awards-rules.json';
+    if (file_exists($rulesPath)) {
+        $rules = json_decode(file_get_contents($rulesPath), true);
+        if ($rules && isset($rules['thresholds'])) {
+            $thresholds = $rules['thresholds'];
+        }
+    }
+    
+    // Fallback to default thresholds if file doesn't exist or is invalid
+    if (!$thresholds) {
+        $thresholds = [
+            'eligible' => 90,
+            'partial' => 80,
+            'not_eligible' => 60
+        ];
+        logActivity('Using default thresholds - awards-rules.json not found or invalid', 'WARNING');
+    }
+    
+    return $thresholds;
+}
+
+/**
+ * Load keyword mapping/synonyms for improved matching (Option 3)
+ */
+function getKeywordMapping() {
+    static $keywordMap = null;
+    
+    if ($keywordMap !== null) {
+        return $keywordMap;
+    }
+    
+    // Option 3: Enhanced keyword mapping with synonyms
+    $keywordMap = [
+        "global citizenship" => ["world citizen", "international involvement", "global awareness", "global responsibility"],
+        "sustainability" => ["eco-friendly", "green program", "environmental project", "sustainable development", "climate action"],
+        "leadership" => ["management", "guidance", "administration", "directorship", "mentorship"],
+        "international" => ["global", "worldwide", "overseas", "cross-border", "multinational"],
+        "education" => ["learning", "teaching", "academic", "scholarly", "pedagogical"],
+        "collaboration" => ["partnership", "cooperation", "alliance", "joint effort", "working together"],
+        "innovation" => ["creativity", "novel approach", "breakthrough", "cutting-edge", "pioneering"],
+        "diversity" => ["inclusivity", "multicultural", "variety", "different backgrounds", "equity"],
+        "community" => ["society", "public", "stakeholders", "neighborhood", "collective"],
+        "program" => ["initiative", "project", "endeavor", "scheme", "campaign"],
+        "research" => ["study", "investigation", "analysis", "scholarship", "academic work"],
+        "student" => ["learner", "pupil", "scholar", "participant", "trainee"],
+        "faculty" => ["staff", "teachers", "professors", "instructors", "educators"],
+        "university" => ["institution", "college", "school", "academy", "higher education"],
+        "exchange" => ["student mobility", "study abroad", "international program", "cross-cultural"],
+        "award" => ["recognition", "honor", "prize", "certificate", "accolade"],
+        "achievement" => ["accomplishment", "success", "milestone", "progress", "breakthrough"]
+    ];
+    
+    return $keywordMap;
+}
+
+/**
+ * Apply keyword mapping to expand search terms (Option 3)
+ */
+function expandKeywordsWithMapping($keywords) {
+    $keywordMap = getKeywordMapping();
+    $expandedKeywords = $keywords;
+    
+    foreach ($keywords as $keyword) {
+        $keywordLower = strtolower($keyword);
+        
+        // Check if this keyword has synonyms
+        if (isset($keywordMap[$keywordLower])) {
+            $expandedKeywords = array_merge($expandedKeywords, $keywordMap[$keywordLower]);
+        }
+        
+        // Also check for partial matches
+        foreach ($keywordMap as $baseTerm => $synonyms) {
+            if (strpos($keywordLower, $baseTerm) !== false || strpos($baseTerm, $keywordLower) !== false) {
+                $expandedKeywords = array_merge($expandedKeywords, $synonyms);
+            }
+        }
+    }
+    
+    return array_unique($expandedKeywords);
+}
+
+/**
  * Extract text from uploaded file based on file type
  */
 function extractTextFromFile($filePath, $mimeType) {
@@ -19,7 +110,16 @@ function extractTextFromFile($filePath, $mimeType) {
         case 'image/jpeg':
         case 'image/png':
         case 'image/jpg':
-            $text = extractTextFromImage($filePath);
+            $result = extractTextFromImage($filePath);
+            
+            // Check if the result is a JSON error response (for missing OCR)
+            $jsonError = json_decode($result, true);
+            if ($jsonError && isset($jsonError['error'])) {
+                // Return the error response directly to be handled by the upload handler
+                return $result;
+            }
+            
+            $text = $result;
             break;
         default:
             throw new Exception('Unsupported file type: ' . $mimeType);
@@ -29,10 +129,117 @@ function extractTextFromFile($filePath, $mimeType) {
 }
 
 /**
- * Extract text from PDF using simple text extraction
+ * Extract text from PDF using robust methods (Option 2 - Enhanced Text Extraction)
  */
 function extractTextFromPDF($filePath) {
-    $content = file_get_contents($filePath);
+    // Check file size limit
+    if (!file_exists($filePath)) {
+        throw new Exception('PDF file not found: ' . $filePath);
+    }
+    
+    $fileSize = filesize($filePath);
+    if ($fileSize > MAX_PDF_SIZE) {
+        throw new Exception('PDF file too large: ' . round($fileSize / 1024 / 1024, 2) . 'MB (max: ' . (MAX_PDF_SIZE / 1024 / 1024) . 'MB)');
+    }
+    
+    logActivity("Starting PDF text extraction for: $filePath", 'INFO');
+    
+    // Option 2: Try pdftotext first (enhanced with direct stdout capture)
+    if (isPdftotextAvailable()) {
+        try {
+            // Enhanced approach: Try direct stdout first, then fallback to file
+            $command = 'pdftotext -layout ' . escapeshellarg($filePath) . ' - 2>&1';
+            $text = shell_exec($command);
+            
+            if (!empty(trim($text))) {
+                logActivity('PDF text extracted successfully using pdftotext stdout', 'INFO');
+                return trim($text);
+            }
+        } catch (Exception $e) {
+            logActivity('Direct PDF extraction failed, trying file-based method: ' . $e->getMessage(), 'WARNING');
+        }
+        
+        // Fallback to file-based extraction
+        return extractTextFromPDFWithPdftotext($filePath);
+    }
+    
+    // Option 2: Enhanced fallback - try basic file_get_contents first
+    try {
+        logActivity('Attempting basic PDF text extraction via file_get_contents', 'INFO');
+        $uploaded_text = file_get_contents($filePath);
+        
+        if ($uploaded_text && !empty($uploaded_text)) {
+            return extractTextFromPDFFallback($uploaded_text);
+        }
+    } catch (Exception $e) {
+        logActivity('Basic PDF extraction failed: ' . $e->getMessage(), 'WARNING');
+    }
+    
+    // Final fallback to basic extraction with clear warning
+    logActivity('pdftotext not available, using fallback PDF extraction method', 'WARNING');
+    error_log('WARNING: pdftotext not available, using basic PDF text extraction');
+    
+    return extractTextFromPDFFallback($filePath);
+}
+
+/**
+ * Extract text from PDF using pdftotext command
+ */
+function extractTextFromPDFWithPdftotext($filePath) {
+    $tempOutput = tempnam(sys_get_temp_dir(), 'pdftotext_') . '.txt';
+    
+    try {
+        // Use pdftotext with layout preservation
+        $command = 'pdftotext -layout ' . escapeshellarg($filePath) . ' ' . escapeshellarg($tempOutput) . ' 2>&1';
+        $output = shell_exec($command);
+        
+        if (!file_exists($tempOutput)) {
+            throw new Exception('pdftotext failed to create output file');
+        }
+        
+        $text = file_get_contents($tempOutput);
+        if ($text === false) {
+            throw new Exception('Failed to read pdftotext output');
+        }
+        
+        // Clean up temporary file
+        unlink($tempOutput);
+        
+        if (empty(trim($text))) {
+            throw new Exception('pdftotext returned empty text');
+        }
+        
+        return trim($text);
+        
+    } catch (Exception $e) {
+        // Clean up on error
+        if (file_exists($tempOutput)) {
+            unlink($tempOutput);
+        }
+        
+        // Fallback to basic method
+        logActivity('pdftotext failed: ' . $e->getMessage() . ', using fallback', 'WARNING');
+        return extractTextFromPDFFallback($filePath);
+    }
+}
+
+/**
+ * Fallback PDF text extraction method (Option 2 - Enhanced)
+ */
+function extractTextFromPDFFallback($filePathOrContent) {
+    // Handle both file path and direct content
+    if (is_string($filePathOrContent) && file_exists($filePathOrContent)) {
+        // It's a file path
+        $content = file_get_contents($filePathOrContent);
+        logActivity('Using file_get_contents for PDF extraction as suggested', 'INFO');
+    } else {
+        // Assume it's already content
+        $content = $filePathOrContent;
+    }
+    
+    if (empty($content)) {
+        throw new Exception('No content available for PDF text extraction');
+    }
     
     // Simple regex to extract text between stream objects
     preg_match_all('/stream\s*(.*?)\s*endstream/s', $content, $matches);
@@ -50,82 +257,270 @@ function extractTextFromPDF($filePath) {
 }
 
 /**
- * Extract text from DOCX file
+ * Extract text from DOCX file using ZipArchive and proper XML parsing (Option 2 - Enhanced)
  */
 function extractTextFromDOCX($filePath) {
+    if (!file_exists($filePath)) {
+        throw new Exception('DOCX file not found: ' . $filePath);
+    }
+    
+    logActivity("Starting DOCX text extraction for: $filePath", 'INFO');
+    
     // Check if ZipArchive class is available
     if (!class_exists('ZipArchive')) {
-        // Fallback: return a placeholder text for testing
-        error_log('ZipArchive not available, using fallback text extraction');
-        return 'This is a test document containing information about international education initiatives, leadership programs, and institutional achievements that may qualify for various ICONS Awards 2025 categories. The document includes details about community development projects, sustainability initiatives, and global citizenship programs that demonstrate excellence in internationalization efforts.';
+        logActivity('ZipArchive not available, using fallback text extraction', 'WARNING');
+        return extractTextFromDOCXFallback($filePath);
     }
     
     $zip = new ZipArchive();
-    if ($zip->open($filePath) === TRUE) {
+    $result = $zip->open($filePath);
+    
+    if ($result !== TRUE) {
+        throw new Exception('Could not open DOCX file as ZIP archive. Error code: ' . $result);
+    }
+    
+    try {
+        // Get document.xml content
         $document = $zip->getFromName('word/document.xml');
         $zip->close();
         
-        if ($document) {
-            // Remove XML tags and clean up
-            $text = strip_tags($document);
-            $text = html_entity_decode($text, ENT_QUOTES, 'UTF-8');
-            $text = preg_replace('/\s+/', ' ', $text);
-            return trim($text);
+        if ($document === false || empty($document)) {
+            throw new Exception('Could not read word/document.xml from DOCX file');
         }
+        
+        // Parse XML and extract text from <w:t> elements in order
+        $text = extractTextFromDOCXXML($document);
+        
+        if (empty(trim($text))) {
+            throw new Exception('No text content found in DOCX document');
+        }
+        
+        return trim($text);
+        
+    } catch (Exception $e) {
+        $zip->close();
+        logActivity('DOCX extraction failed: ' . $e->getMessage() . ', using fallback', 'WARNING');
+        return extractTextFromDOCXFallback($filePath);
     }
-    
-    throw new Exception('Could not extract text from DOCX file');
 }
 
 /**
- * Extract text from image using OCR
+ * Extract text from DOCX XML content by parsing <w:t> elements
+ */
+function extractTextFromDOCXXML($xmlContent) {
+    // Use DOMDocument for proper XML parsing
+    if (class_exists('DOMDocument')) {
+        try {
+            $dom = new DOMDocument();
+            $dom->loadXML($xmlContent);
+            
+            $xpath = new DOMXPath($dom);
+            $xpath->registerNamespace('w', 'http://schemas.openxmlformats.org/wordprocessingml/2006/main');
+            
+            // Get all text nodes in document order
+            $textNodes = $xpath->query('//w:t');
+            $textParts = [];
+            
+            foreach ($textNodes as $node) {
+                $textParts[] = $node->textContent;
+            }
+            
+            $text = implode(' ', $textParts);
+            
+            // Clean up the text
+            $text = html_entity_decode($text, ENT_QUOTES, 'UTF-8');
+            $text = preg_replace('/\s+/', ' ', $text);
+            
+            return trim($text);
+            
+        } catch (Exception $e) {
+            logActivity('DOMDocument parsing failed: ' . $e->getMessage(), 'WARNING');
+        }
+    }
+    
+    // Fallback to regex extraction
+    return extractTextFromDOCXRegex($xmlContent);
+}
+
+/**
+ * Extract text using regex as fallback
+ */
+function extractTextFromDOCXRegex($xmlContent) {
+    // Simple regex to match <w:t> elements
+    preg_match_all('/<w:t[^>]*>(.*?)<\/w:t>/s', $xmlContent, $matches);
+    
+    $text = '';
+    if (!empty($matches[1])) {
+        foreach ($matches[1] as $match) {
+            $text .= $match . ' ';
+        }
+    }
+    
+    // If no w:t tags found, try strip_tags as last resort
+    if (empty(trim($text))) {
+        $text = strip_tags($xmlContent);
+    }
+    
+    $text = html_entity_decode($text, ENT_QUOTES, 'UTF-8');
+    $text = preg_replace('/\s+/', ' ', $text);
+    
+    return trim($text);
+}
+
+/**
+ * Fallback DOCX text extraction when ZipArchive is not available (Option 2 - Enhanced)
+ */
+function extractTextFromDOCXFallback($filePath) {
+    logActivity('Using fallback DOCX text extraction - ZipArchive not available', 'WARNING');
+    
+    try {
+        // Option 2: Try to read as ZIP file manually (basic approach)
+        if (function_exists('zip_open')) {
+            $zip = zip_open($filePath);
+            if ($zip) {
+                while ($entry = zip_read($zip)) {
+                    if (zip_entry_name($entry) === 'word/document.xml') {
+                        zip_entry_open($zip, $entry);
+                        $document_xml = zip_entry_read($entry, zip_entry_filesize($entry));
+                        zip_entry_close($entry);
+                        
+                        if ($document_xml) {
+                            // Use strip_tags as suggested in Option 2
+                            $uploaded_text = strip_tags($document_xml);
+                            $uploaded_text = html_entity_decode($uploaded_text, ENT_QUOTES, 'UTF-8');
+                            $uploaded_text = preg_replace('/\s+/', ' ', $uploaded_text);
+                            
+                            if (!empty(trim($uploaded_text))) {
+                                logActivity('DOCX text extracted successfully using fallback method', 'INFO');
+                                zip_close($zip);
+                                return trim($uploaded_text);
+                            }
+                        }
+                    }
+                }
+                zip_close($zip);
+            }
+        }
+        
+        // Final fallback message
+        return 'Document could not be fully processed due to missing ZipArchive support. Please install the ZipArchive PHP extension for proper DOCX text extraction, or convert the document to PDF format. Document information about international education initiatives, leadership programs, and institutional achievements may qualify for various ICONS Awards 2025 categories.';
+        
+    } catch (Exception $e) {
+        logActivity('DOCX fallback extraction failed: ' . $e->getMessage(), 'ERROR');
+        return 'Document processing failed: ' . $e->getMessage() . '. Please ensure the file is a valid DOCX document or convert to PDF format.';
+    }
+}
+
+/**
+ * Extract text from image using OCR (Option 1 - Enhanced OCR)
  */
 function extractTextFromImage($filePath) {
-    // Get Tesseract path from config
+    if (!ENABLE_OCR) {
+        logActivity('OCR is disabled in configuration', 'WARNING');
+        return json_encode([
+            'error' => 'OCR_DISABLED',
+            'message' => 'OCR functionality is disabled in configuration. Please enable OCR to process image files.',
+            'user_message' => 'Image processing is currently disabled. Please convert your image to PDF or DOCX format for text extraction.'
+        ]);
+    }
+    
+    $tesseractPath = getTesseractPath();
+    if (!$tesseractPath) {
+        logActivity('Tesseract OCR not found on system', 'ERROR');
+        return json_encode([
+            'error' => 'OCR_NOT_INSTALLED',
+            'message' => 'Tesseract OCR is required for image text extraction but was not found.',
+            'user_message' => 'Image text extraction requires Tesseract OCR which is not installed on this server. Please convert your image to PDF or DOCX format, or contact your administrator to install Tesseract OCR.',
+            'instructions' => [
+                'Windows: Download from https://github.com/UB-Mannheim/tesseract/wiki',
+                'Linux: Install with "sudo apt-get install tesseract-ocr"',
+                'macOS: Install with "brew install tesseract"'
+            ]
+        ]);
+    }
+    
+    if (!file_exists($filePath)) {
+        throw new Exception('Image file not found: ' . $filePath);
+    }
+    
+    logActivity("Starting OCR extraction for image: $filePath", 'INFO');
+    
+    // Option 1: Enhanced OCR with direct stdout capture (as suggested)
     try {
-        $tesseractPath = getTesseractPath();
+        // Use Tesseract with stdout output for better reliability
+        $command = escapeshellcmd($tesseractPath) . ' ' . escapeshellarg($filePath) . ' stdout 2>&1';
+        
+        logActivity("Executing OCR command: $command", 'DEBUG');
+        
+        // Capture output directly from tesseract
+        $extractedText = shell_exec($command);
+        
+        if ($extractedText === null) {
+            throw new Exception('Failed to execute OCR command');
+        }
+        
+        $extractedText = trim($extractedText);
+        
+        if (empty($extractedText)) {
+            throw new Exception('OCR returned no text content. Image may not contain extractable text.');
+        }
+        
+        logActivity('OCR extraction completed successfully', 'INFO');
+        return $extractedText;
+        
     } catch (Exception $e) {
-        error_log("Error getting Tesseract path: " . $e->getMessage());
-        // Fallback: try to find tesseract in PATH
-        $output = shell_exec('which tesseract 2>/dev/null || where tesseract 2>nul');
-        if ($output) {
-            $tesseractPath = trim($output);
-        } else {
-            throw new Exception('Tesseract OCR not found. Please install Tesseract OCR for image text extraction.');
-        }
+        logActivity('OCR extraction failed: ' . $e->getMessage(), 'ERROR');
+        
+        // Fallback: Try traditional file-based method
+        return extractTextFromImageFallback($filePath, $tesseractPath);
     }
-    
-    if (!file_exists($tesseractPath)) {
-        // Fallback: try to find tesseract in PATH
-        $output = shell_exec('which tesseract 2>/dev/null || where tesseract 2>nul');
-        if ($output) {
-            $tesseractPath = trim($output);
-        } else {
-            throw new Exception('Tesseract OCR not found. Please install Tesseract OCR for image text extraction.');
-        }
-    }
-    
-    // Create temporary file for output
+}
+
+/**
+ * Fallback OCR method using temporary files
+ */
+function extractTextFromImageFallback($filePath, $tesseractPath) {
     $outputFile = tempnam(sys_get_temp_dir(), 'ocr_output');
+    $tempFiles = [$outputFile];
     
-    // Run Tesseract OCR
-    $command = escapeshellcmd($tesseractPath) . ' ' . escapeshellarg($filePath) . ' ' . escapeshellarg($outputFile);
-    $output = shell_exec($command . ' 2>&1');
-    
-    if (file_exists($outputFile . '.txt')) {
-        $text = file_get_contents($outputFile . '.txt');
-        unlink($outputFile . '.txt');
-        unlink($outputFile);
-        return trim($text);
+    try {
+        // Run Tesseract OCR with temporary file output
+        $command = escapeshellcmd($tesseractPath) . ' ' . escapeshellarg($filePath) . ' ' . escapeshellarg($outputFile) . ' 2>&1';
+        
+        $commandOutput = shell_exec($command);
+        
+        // Check for output file (.txt extension is automatically added by tesseract)
+        $textFile = $outputFile . '.txt';
+        $tempFiles[] = $textFile;
+        
+        if (file_exists($textFile)) {
+            $text = file_get_contents($textFile);
+            if ($text !== false && !empty(trim($text))) {
+                return trim($text);
+            }
+        }
+        
+        throw new Exception('OCR extraction failed: ' . ($commandOutput ?: 'No output from tesseract command'));
+        
+    } catch (Exception $e) {
+        throw new Exception('OCR processing failed: ' . $e->getMessage());
+    } finally {
+        // Clean up temporary files
+        foreach ($tempFiles as $tempFile) {
+            if (file_exists($tempFile)) {
+                unlink($tempFile);
+            }
+        }
     }
-    
-    throw new Exception('OCR extraction failed: ' . $output);
 }
 
 /**
  * Semantic analysis function for award criteria matching
  */
 function analyzeTextAgainstCriteria($text, $awardsCriteria) {
+    // Load thresholds from awards-rules.json
+    $thresholds = loadAwardThresholds();
+    
     $results = [];
     $textLower = strtolower($text);
     
@@ -182,14 +577,12 @@ function analyzeTextAgainstCriteria($text, $awardsCriteria) {
         
         // Only include awards with meaningful scores (> 40%) and relevance validation
         if ($finalScore > 40 && $isRelevant) {
-            // Updated eligibility: ≥90% score AND at least 2 direct hits for Eligible/Recognized
+            // Use centralized thresholds for eligibility
             $status = 'Not Eligible';
-            if ($finalScore >= 90 && $directHits >= 2) {
+            if ($finalScore >= $thresholds['eligible'] && $directHits >= 2) {
                 $status = 'Eligible';
-            } elseif ($finalScore >= 80 && $directHits >= 1) {
-                $status = 'Needs Attention';
-            } elseif ($finalScore >= 60 && $directHits >= 1) {
-                $status = 'Not Eligible';
+            } elseif ($finalScore >= $thresholds['partial'] && $directHits >= 1) {
+                $status = 'Partially Eligible';
             }
             
             // Build full checklist of criteria (met/unmet)
@@ -398,26 +791,6 @@ function generateAwardRecommendation($award, $matchedCriteria, $score) {
     }
 }
 
-/**
- * Generate recommendations
- */
-function generateRecommendations($analysis) {
-    if (empty($analysis)) {
-        return [
-            "Analysis Summary: No strong award matches found in the current document.",
-            "Recommendation Insights: Consider reviewing content alignment with ICONS Awards 2025 criteria.",
-            "Evidence Snippets: Focus on developing measurable outcomes and strategic documentation."
-        ];
-    }
-    
-    $topMatch = $analysis[0];
-    
-    return [
-        "Analysis Summary: Strong alignment found with {$topMatch['category']} (Score: {$topMatch['score']}%)",
-        "Recommendation Insights: Consider strengthening evidence for {$topMatch['category']} criteria.",
-        "Evidence Snippets: Review the extracted text for relevant supporting information."
-    ];
-}
 
 /**
  * Store analysis results with fallback
@@ -522,6 +895,9 @@ function storeAnalysisResults($awardName, $description, $extractedText, $analysi
 }
 
 function performIconsAnalysis($rawText, $dataset) {
+    // Load thresholds from awards-rules.json
+    $thresholds = loadAwardThresholds();
+    
     // Preprocess input
     $text = strtolower($rawText);
     $textTokens = preprocessText($text);
@@ -546,9 +922,12 @@ function performIconsAnalysis($rawText, $dataset) {
             $title = $award['title'] ?? 'Unknown Award';
             $keywords = $award['keywords'] ?? [];
             
-            // Tokenize award keywords
+            // Option 3: Apply keyword mapping/synonyms for improved matching
+            $expandedKeywords = expandKeywordsWithMapping($keywords);
+            
+            // Tokenize award keywords (including expanded synonyms)
             $awardTokens = [];
-            foreach ($keywords as $kw) {
+            foreach ($expandedKeywords as $kw) {
                 $awardTokens = array_merge($awardTokens, preprocessText(strtolower($kw)));
             }
             $awardTokens = array_unique($awardTokens);
@@ -580,24 +959,48 @@ function performIconsAnalysis($rawText, $dataset) {
             $baseScore = min(1.0, $similarity + $boost);
             $weightedScore = min(1.0, $baseScore * $weight);
             
-            // Thresholds
+            // Use centralized thresholds
+            $scorePercent = $weightedScore * 100;
             $eligibility = 'Not Eligible';
-            if ($weightedScore >= 0.90) { $eligibility = 'Eligible'; }
-            elseif ($weightedScore >= 0.80) { $eligibility = 'Needs Attention'; }
-            
-            // Matched keywords (phrase presence)
-            $matchedKeywords = [];
-            foreach ($keywords as $kw) {
-                if (stripos($text, $kw) !== false) { $matchedKeywords[] = $kw; }
+            if ($scorePercent >= $thresholds['eligible']) { 
+                $eligibility = 'Eligible'; 
+            } elseif ($scorePercent >= $thresholds['partial']) { 
+                $eligibility = 'Partially Eligible'; 
             }
             
-            $results[] = [
-                'title' => $title,
-                'category' => $categoryLabel,
-                'score' => round($weightedScore * 100, 1),
-                'status' => $eligibility,
-                'matched_keywords' => $matchedKeywords
-            ];
+            // Option 3: Enhanced matched keywords (including synonyms used for matching)
+            $matchedKeywords = [];
+            $matchedSynonyms = [];
+            
+            // Check original keywords
+            foreach ($keywords as $kw) {
+                if (stripos($text, $kw) !== false) { 
+                    $matchedKeywords[] = $kw; 
+                }
+            }
+            
+            // Check expanded keywords/synonyms
+            foreach ($expandedKeywords as $kw) {
+                if (stripos($text, $kw) !== false && !in_array($kw, $matchedKeywords)) { 
+                    $matchedSynonyms[] = $kw; 
+                }
+            }
+            
+            // Filter out awards with very low scores to reduce information overload
+            // Only include results that have meaningful scores (>= 25%) OR have matched keywords
+            $hasMatchedKeywords = !empty($matchedKeywords) || !empty($matchedSynonyms);
+            $hasMeaningfulScore = $scorePercent >= 25;
+            
+            if ($hasMeaningfulScore || $hasMatchedKeywords) {
+                $results[] = [
+                    'title' => $title,
+                    'category' => $categoryLabel,
+                    'score' => round($weightedScore * 100, 1),
+                    'status' => $eligibility,
+                    'matched_keywords' => $matchedKeywords,
+                    'matched_synonyms' => $matchedSynonyms
+                ];
+            }
         }
     }
     

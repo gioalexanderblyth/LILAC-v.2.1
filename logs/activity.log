@@ -1910,3 +1910,421 @@
 [2025-10-16 07:45:16] [INFO] Using file-based database fallback
 [2025-10-16 08:11:33] [WARNING] SQLite connection failed: could not find driver
 [2025-10-16 08:11:33] [INFO] Using file-based database fallback
+[2025-10-19 07:16:36] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 07:16:36] [INFO] Using file-based database fallback
+[2025-10-19 07:16:36] [INFO] Analysis stored in file-based fallback: C:\Users\Administrator\Documents\GitHub\LILAC-v.2.1\api/../data/analysis_1760858196_68f4905488b94.json
+[2025-10-19 07:16:38] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 07:16:38] [INFO] Using file-based database fallback
+[2025-10-19 07:16:38] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 07:16:38] [INFO] Using file-based database fallback
+[2025-10-19 15:38:42] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 15:38:42] [INFO] Using file-based database fallback
+[2025-10-19 15:38:42] [INFO] Analysis stored in file-based fallback: C:\Users\Administrator\Documents\GitHub\LILAC-v.2.1\api/../data/analysis_1760888322_68f50602161d5.json
+[2025-10-19 15:38:43] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 15:38:43] [INFO] Using file-based database fallback
+[2025-10-19 15:38:43] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 15:38:43] [INFO] Using file-based database fallback
+[2025-10-19 15:38:43] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 15:38:43] [INFO] Using file-based database fallback
+[2025-10-19 15:44:17] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 15:44:17] [INFO] Using file-based database fallback
+[2025-10-19 15:44:18] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 15:44:18] [INFO] Using file-based database fallback
+[2025-10-19 15:44:18] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 15:44:18] [INFO] Using file-based database fallback
+[2025-10-19 15:44:20] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 15:44:20] [INFO] Using file-based database fallback
+[2025-10-19 15:44:20] [INFO] Award deleted successfully: 68f5060215aee_1760888322_TESSTTAWARDDD.docx, analysis_1760888322_68f50602161d5.json
+[2025-10-19 15:44:20] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 15:44:20] [INFO] Using file-based database fallback
+[2025-10-19 15:44:20] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 15:44:20] [INFO] Using file-based database fallback
+[2025-10-19 15:44:21] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 15:44:21] [INFO] Using file-based database fallback
+[2025-10-19 15:44:21] [INFO] Award deleted successfully: 68f4905488832_1760858196_TESSTTAWARDDD.docx, analysis_1760858196_68f4905488b94.json
+[2025-10-19 15:44:21] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 15:44:21] [INFO] Using file-based database fallback
+[2025-10-19 16:33:58] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 16:33:58] [INFO] Using file-based database fallback
+[2025-10-19 16:33:58] [WARNING] ZipArchive not available, using fallback text extraction
+[2025-10-19 16:33:58] [WARNING] Using fallback DOCX text extraction - ZipArchive not available
+[2025-10-19 16:33:58] [INFO] Analysis stored in file-based fallback: C:\Users\Administrator\Documents\GitHub\LILAC-v.2.1\api/../data/analysis_1760891638_68f512f604546.json
+[2025-10-19 16:33:59] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 16:33:59] [INFO] Using file-based database fallback
+[2025-10-19 16:33:59] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 16:33:59] [INFO] Using file-based database fallback
+[2025-10-19 16:34:07] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 16:34:07] [INFO] Using file-based database fallback
+[2025-10-19 16:34:07] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 16:34:07] [INFO] Using file-based database fallback
+[2025-10-19 16:34:14] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 16:34:14] [INFO] Using file-based database fallback
+[2025-10-19 16:34:14] [WARNING] ZipArchive not available, using fallback text extraction
+[2025-10-19 16:34:14] [WARNING] Using fallback DOCX text extraction - ZipArchive not available
+[2025-10-19 16:34:14] [INFO] Analysis stored in file-based fallback: C:\Users\Administrator\Documents\GitHub\LILAC-v.2.1\api/../data/analysis_1760891654_68f51306e8a00.json
+[2025-10-19 16:34:16] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 16:34:16] [INFO] Using file-based database fallback
+[2025-10-19 16:34:16] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 16:34:16] [INFO] Using file-based database fallback
+[2025-10-19 16:34:16] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 16:34:16] [INFO] Using file-based database fallback
+[2025-10-19 16:37:47] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 16:37:47] [INFO] Using file-based database fallback
+[2025-10-19 16:37:47] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 16:37:47] [INFO] Using file-based database fallback
+[2025-10-19 16:37:47] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 16:37:47] [INFO] Using file-based database fallback
+[2025-10-19 16:37:49] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 16:37:49] [INFO] Using file-based database fallback
+[2025-10-19 16:37:49] [INFO] Award deleted successfully: 68f51306e87ff_1760891654_TESSTTAWARDDD.docx, analysis_1760891654_68f51306e8a00.json
+[2025-10-19 16:37:49] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 16:37:49] [INFO] Using file-based database fallback
+[2025-10-19 16:37:49] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 16:37:49] [INFO] Using file-based database fallback
+[2025-10-19 16:37:50] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 16:37:50] [INFO] Using file-based database fallback
+[2025-10-19 16:37:50] [INFO] Award deleted successfully: 68f512f6041d9_1760891638_testaward.docx, analysis_1760891638_68f512f604546.json
+[2025-10-19 16:37:50] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 16:37:50] [INFO] Using file-based database fallback
+[2025-10-19 16:38:00] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 16:38:00] [INFO] Using file-based database fallback
+[2025-10-19 16:38:00] [WARNING] ZipArchive not available, using fallback text extraction
+[2025-10-19 16:38:00] [WARNING] Using fallback DOCX text extraction - ZipArchive not available
+[2025-10-19 16:38:00] [INFO] Analysis stored in file-based fallback: C:\Users\Administrator\Documents\GitHub\LILAC-v.2.1\api/../data/analysis_1760891880_68f513e8d043c.json
+[2025-10-19 16:38:02] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 16:38:02] [INFO] Using file-based database fallback
+[2025-10-19 16:38:02] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 16:38:02] [INFO] Using file-based database fallback
+[2025-10-19 16:38:11] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 16:38:11] [INFO] Using file-based database fallback
+[2025-10-19 16:38:11] [WARNING] ZipArchive not available, using fallback text extraction
+[2025-10-19 16:38:11] [WARNING] Using fallback DOCX text extraction - ZipArchive not available
+[2025-10-19 16:38:11] [INFO] Analysis stored in file-based fallback: C:\Users\Administrator\Documents\GitHub\LILAC-v.2.1\api/../data/analysis_1760891891_68f513f35e1e2.json
+[2025-10-19 16:38:12] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 16:38:12] [INFO] Using file-based database fallback
+[2025-10-19 16:38:12] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 16:38:12] [INFO] Using file-based database fallback
+[2025-10-19 16:38:12] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 16:38:12] [INFO] Using file-based database fallback
+[2025-10-19 16:52:12] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 16:52:12] [INFO] Using file-based database fallback
+[2025-10-19 16:52:13] [INFO] Analysis stored in file-based fallback: C:\Users\Administrator\Documents\GitHub\LILAC-v.2.1\api/../data/analysis_1760892733_68f5173d0ea19.json
+[2025-10-19 16:52:14] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 16:52:14] [INFO] Using file-based database fallback
+[2025-10-19 16:52:14] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 16:52:14] [INFO] Using file-based database fallback
+[2025-10-19 16:52:14] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 16:52:14] [INFO] Using file-based database fallback
+[2025-10-19 16:52:14] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 16:52:14] [INFO] Using file-based database fallback
+[2025-10-19 16:52:17] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 16:52:17] [INFO] Using file-based database fallback
+[2025-10-19 16:52:17] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 16:52:17] [INFO] Using file-based database fallback
+[2025-10-19 16:52:17] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 16:52:17] [INFO] Using file-based database fallback
+[2025-10-19 16:52:17] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 16:52:17] [INFO] Using file-based database fallback
+[2025-10-19 16:52:47] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 16:52:47] [INFO] Using file-based database fallback
+[2025-10-19 16:52:47] [INFO] Analysis stored in file-based fallback: C:\Users\Administrator\Documents\GitHub\LILAC-v.2.1\api/../data/analysis_1760892767_68f5175f14508.json
+[2025-10-19 16:52:48] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 16:52:48] [INFO] Using file-based database fallback
+[2025-10-19 16:52:48] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 16:52:48] [INFO] Using file-based database fallback
+[2025-10-19 16:52:48] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 16:52:48] [INFO] Using file-based database fallback
+[2025-10-19 16:52:48] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 16:52:48] [INFO] Using file-based database fallback
+[2025-10-19 16:52:48] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 16:52:48] [INFO] Using file-based database fallback
+[2025-10-19 17:14:37] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:14:37] [INFO] Using file-based database fallback
+[2025-10-19 17:14:37] [ERROR] Tesseract OCR not found on system
+[2025-10-19 17:17:50] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:17:50] [INFO] Using file-based database fallback
+[2025-10-19 17:17:50] [ERROR] Tesseract OCR not found on system
+[2025-10-19 17:17:50] [INFO] Analysis stored in file-based fallback: C:\Users\Administrator\Documents\GitHub\LILAC-v.2.1\api/../data/analysis_1760894270_68f51d3eb8089.json
+[2025-10-19 17:17:52] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:17:52] [INFO] Using file-based database fallback
+[2025-10-19 17:17:52] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:17:52] [INFO] Using file-based database fallback
+[2025-10-19 17:17:52] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:17:52] [INFO] Using file-based database fallback
+[2025-10-19 17:17:52] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:17:52] [INFO] Using file-based database fallback
+[2025-10-19 17:17:52] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:17:52] [INFO] Using file-based database fallback
+[2025-10-19 17:17:52] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:17:52] [INFO] Using file-based database fallback
+[2025-10-19 17:33:48] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:33:48] [INFO] Using file-based database fallback
+[2025-10-19 17:33:48] [INFO] Starting DOCX text extraction for: C:\Users\Administrator\AppData\Local\Temp\php84FF.tmp
+[2025-10-19 17:33:48] [WARNING] ZipArchive not available, using fallback text extraction
+[2025-10-19 17:33:48] [WARNING] Using fallback DOCX text extraction - ZipArchive not available
+[2025-10-19 17:33:48] [INFO] Analysis stored in file-based fallback: C:\Users\Administrator\Documents\GitHub\LILAC-v.2.1\api/../data/analysis_1760895228_68f520fcbff78.json
+[2025-10-19 17:33:50] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:33:50] [INFO] Using file-based database fallback
+[2025-10-19 17:33:50] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:33:50] [INFO] Using file-based database fallback
+[2025-10-19 17:33:50] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:33:50] [INFO] Using file-based database fallback
+[2025-10-19 17:33:50] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:33:50] [INFO] Using file-based database fallback
+[2025-10-19 17:33:50] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:33:50] [INFO] Using file-based database fallback
+[2025-10-19 17:33:50] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:33:50] [INFO] Using file-based database fallback
+[2025-10-19 17:33:50] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:33:50] [INFO] Using file-based database fallback
+[2025-10-19 17:34:02] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:34:02] [INFO] Using file-based database fallback
+[2025-10-19 17:34:02] [ERROR] Tesseract OCR not found on system
+[2025-10-19 17:34:03] [INFO] Analysis stored in file-based fallback: C:\Users\Administrator\Documents\GitHub\LILAC-v.2.1\api/../data/analysis_1760895243_68f5210b01aa6.json
+[2025-10-19 17:34:04] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:34:04] [INFO] Using file-based database fallback
+[2025-10-19 17:34:04] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:34:04] [INFO] Using file-based database fallback
+[2025-10-19 17:34:04] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:34:04] [INFO] Using file-based database fallback
+[2025-10-19 17:34:04] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:34:04] [INFO] Using file-based database fallback
+[2025-10-19 17:34:04] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:34:04] [INFO] Using file-based database fallback
+[2025-10-19 17:34:04] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:34:04] [INFO] Using file-based database fallback
+[2025-10-19 17:34:04] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:34:04] [INFO] Using file-based database fallback
+[2025-10-19 17:34:04] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:34:04] [INFO] Using file-based database fallback
+[2025-10-19 17:36:34] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:36:34] [INFO] Using file-based database fallback
+[2025-10-19 17:36:34] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:36:34] [INFO] Using file-based database fallback
+[2025-10-19 17:36:34] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:36:34] [INFO] Using file-based database fallback
+[2025-10-19 17:36:34] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:36:34] [INFO] Using file-based database fallback
+[2025-10-19 17:36:34] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:36:34] [INFO] Using file-based database fallback
+[2025-10-19 17:36:34] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:36:34] [INFO] Using file-based database fallback
+[2025-10-19 17:36:34] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:36:34] [INFO] Using file-based database fallback
+[2025-10-19 17:36:34] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:36:34] [INFO] Using file-based database fallback
+[2025-10-19 17:36:38] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:36:38] [INFO] Using file-based database fallback
+[2025-10-19 17:36:38] [INFO] Award deleted successfully: 68f5210b0182c_1760895243_testimage.png, analysis_1760895243_68f5210b01aa6.json
+[2025-10-19 17:36:38] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:36:38] [INFO] Using file-based database fallback
+[2025-10-19 17:36:38] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:36:38] [INFO] Using file-based database fallback
+[2025-10-19 17:36:38] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:36:38] [INFO] Using file-based database fallback
+[2025-10-19 17:36:38] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:36:38] [INFO] Using file-based database fallback
+[2025-10-19 17:36:38] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:36:38] [INFO] Using file-based database fallback
+[2025-10-19 17:36:38] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:36:38] [INFO] Using file-based database fallback
+[2025-10-19 17:36:38] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:36:38] [INFO] Using file-based database fallback
+[2025-10-19 17:36:40] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:36:40] [INFO] Using file-based database fallback
+[2025-10-19 17:36:40] [INFO] Award deleted successfully: 68f520fcbfb76_1760895228_TESSTTAWARDDD.docx, analysis_1760895228_68f520fcbff78.json
+[2025-10-19 17:36:40] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:36:40] [INFO] Using file-based database fallback
+[2025-10-19 17:36:40] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:36:40] [INFO] Using file-based database fallback
+[2025-10-19 17:36:40] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:36:40] [INFO] Using file-based database fallback
+[2025-10-19 17:36:40] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:36:40] [INFO] Using file-based database fallback
+[2025-10-19 17:36:40] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:36:40] [INFO] Using file-based database fallback
+[2025-10-19 17:36:40] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:36:40] [INFO] Using file-based database fallback
+[2025-10-19 17:36:41] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:36:41] [INFO] Using file-based database fallback
+[2025-10-19 17:36:41] [INFO] Award deleted successfully: 68f51d3eb7c4f_1760894270_testimage.png, analysis_1760894270_68f51d3eb8089.json
+[2025-10-19 17:36:41] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:36:41] [INFO] Using file-based database fallback
+[2025-10-19 17:36:41] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:36:41] [INFO] Using file-based database fallback
+[2025-10-19 17:36:41] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:36:41] [INFO] Using file-based database fallback
+[2025-10-19 17:36:41] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:36:41] [INFO] Using file-based database fallback
+[2025-10-19 17:36:41] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:36:41] [INFO] Using file-based database fallback
+[2025-10-19 17:36:43] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:36:43] [INFO] Using file-based database fallback
+[2025-10-19 17:36:43] [INFO] Award deleted successfully: 68f5175f142c9_1760892767_testimage.png, analysis_1760892767_68f5175f14508.json
+[2025-10-19 17:36:43] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:36:43] [INFO] Using file-based database fallback
+[2025-10-19 17:36:43] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:36:43] [INFO] Using file-based database fallback
+[2025-10-19 17:36:43] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:36:43] [INFO] Using file-based database fallback
+[2025-10-19 17:36:43] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:36:43] [INFO] Using file-based database fallback
+[2025-10-19 17:36:45] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:36:45] [INFO] Using file-based database fallback
+[2025-10-19 17:36:45] [INFO] Award deleted successfully: 68f5173d0e4ce_1760892733_testimage.png, analysis_1760892733_68f5173d0ea19.json
+[2025-10-19 17:36:45] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:36:45] [INFO] Using file-based database fallback
+[2025-10-19 17:36:45] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:36:45] [INFO] Using file-based database fallback
+[2025-10-19 17:36:45] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:36:45] [INFO] Using file-based database fallback
+[2025-10-19 17:36:46] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:36:46] [INFO] Using file-based database fallback
+[2025-10-19 17:36:46] [INFO] Award deleted successfully: 68f513f35de21_1760891891_testaward.docx, analysis_1760891891_68f513f35e1e2.json
+[2025-10-19 17:36:46] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:36:46] [INFO] Using file-based database fallback
+[2025-10-19 17:36:46] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:36:46] [INFO] Using file-based database fallback
+[2025-10-19 17:36:48] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:36:48] [INFO] Using file-based database fallback
+[2025-10-19 17:36:48] [INFO] Award deleted successfully: 68f513e8d0232_1760891880_TESSTTAWARDDD.docx, analysis_1760891880_68f513e8d043c.json
+[2025-10-19 17:36:48] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:36:48] [INFO] Using file-based database fallback
+[2025-10-19 17:37:02] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:37:02] [INFO] Using file-based database fallback
+[2025-10-19 17:37:02] [ERROR] Tesseract OCR not found on system
+[2025-10-19 17:37:02] [INFO] Analysis stored in file-based fallback: C:\Users\Administrator\Documents\GitHub\LILAC-v.2.1\api/../data/analysis_1760895422_68f521bec8573.json
+[2025-10-19 17:37:04] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:37:04] [INFO] Using file-based database fallback
+[2025-10-19 17:37:04] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:37:04] [INFO] Using file-based database fallback
+[2025-10-19 17:44:23] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:44:23] [INFO] Using file-based database fallback
+[2025-10-19 17:44:23] [INFO] Starting DOCX text extraction for: C:\Users\Administrator\AppData\Local\Temp\php33D4.tmp
+[2025-10-19 17:44:23] [WARNING] ZipArchive not available, using fallback text extraction
+[2025-10-19 17:44:23] [WARNING] Using fallback DOCX text extraction - ZipArchive not available
+[2025-10-19 17:44:23] [INFO] Analysis stored in file-based fallback: C:\Users\Administrator\Documents\GitHub\LILAC-v.2.1\api/../data/analysis_1760895863_68f5237758652.json
+[2025-10-19 17:44:24] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:44:24] [INFO] Using file-based database fallback
+[2025-10-19 17:44:24] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:44:24] [INFO] Using file-based database fallback
+[2025-10-19 17:44:24] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:44:24] [INFO] Using file-based database fallback
+[2025-10-19 17:53:46] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:53:46] [INFO] Using file-based database fallback
+[2025-10-19 17:53:47] [INFO] Starting DOCX text extraction for: C:\Users\Administrator\AppData\Local\Temp\phpCD20.tmp
+[2025-10-19 17:53:47] [WARNING] ZipArchive not available, using fallback text extraction
+[2025-10-19 17:53:47] [WARNING] Using fallback DOCX text extraction - ZipArchive not available
+[2025-10-19 17:53:47] [INFO] Analysis stored in file-based fallback: C:\Users\Administrator\Documents\GitHub\LILAC-v.2.1\api/../data/analysis_1760896427_68f525ab05225.json
+[2025-10-19 17:53:48] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:53:48] [INFO] Using file-based database fallback
+[2025-10-19 17:53:48] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:53:48] [INFO] Using file-based database fallback
+[2025-10-19 17:53:48] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:53:48] [INFO] Using file-based database fallback
+[2025-10-19 17:53:48] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:53:48] [INFO] Using file-based database fallback
+[2025-10-19 17:53:58] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:53:58] [INFO] Using file-based database fallback
+[2025-10-19 17:53:58] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:53:58] [INFO] Using file-based database fallback
+[2025-10-19 17:53:58] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:53:58] [INFO] Using file-based database fallback
+[2025-10-19 17:53:58] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:53:58] [INFO] Using file-based database fallback
+[2025-10-19 17:54:01] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:54:01] [INFO] Using file-based database fallback
+[2025-10-19 17:54:01] [INFO] Award deleted successfully: 68f525ab04f7f_1760896427_testaward.docx, analysis_1760896427_68f525ab05225.json
+[2025-10-19 17:54:01] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:54:01] [INFO] Using file-based database fallback
+[2025-10-19 17:54:01] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:54:01] [INFO] Using file-based database fallback
+[2025-10-19 17:54:01] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:54:01] [INFO] Using file-based database fallback
+[2025-10-19 17:54:03] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:54:03] [INFO] Using file-based database fallback
+[2025-10-19 17:54:03] [INFO] Award deleted successfully: 68f52377583a6_1760895863_TESSTTAWARDDD.docx, analysis_1760895863_68f5237758652.json
+[2025-10-19 17:54:03] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:54:03] [INFO] Using file-based database fallback
+[2025-10-19 17:54:03] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:54:03] [INFO] Using file-based database fallback
+[2025-10-19 17:54:06] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:54:06] [INFO] Using file-based database fallback
+[2025-10-19 17:54:06] [INFO] Award deleted successfully: 68f521bec80c5_1760895422_testimage.png, analysis_1760895422_68f521bec8573.json
+[2025-10-19 17:54:06] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:54:06] [INFO] Using file-based database fallback
+[2025-10-19 17:54:15] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:54:15] [INFO] Using file-based database fallback
+[2025-10-19 17:54:15] [ERROR] Tesseract OCR not found on system
+[2025-10-19 17:54:15] [INFO] Analysis stored in file-based fallback: C:\Users\Administrator\Documents\GitHub\LILAC-v.2.1\api/../data/analysis_1760896455_68f525c798871.json
+[2025-10-19 17:54:17] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:54:17] [INFO] Using file-based database fallback
+[2025-10-19 17:54:17] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:54:17] [INFO] Using file-based database fallback
+[2025-10-19 17:54:29] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:54:29] [INFO] Using file-based database fallback
+[2025-10-19 17:54:29] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:54:29] [INFO] Using file-based database fallback
+[2025-10-19 17:54:37] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:54:37] [INFO] Using file-based database fallback
+[2025-10-19 17:54:37] [INFO] Award deleted successfully: 68f525c7985ec_1760896455_testimage.png, analysis_1760896455_68f525c798871.json
+[2025-10-19 17:54:37] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:54:37] [INFO] Using file-based database fallback
+[2025-10-19 17:56:11] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:56:11] [INFO] Using file-based database fallback
+[2025-10-19 17:59:18] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 17:59:18] [INFO] Using file-based database fallback
+[2025-10-19 18:00:01] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 18:00:01] [INFO] Using file-based database fallback
+[2025-10-19 18:00:07] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 18:00:07] [INFO] Using file-based database fallback
+[2025-10-19 18:00:07] [INFO] Starting DOCX text extraction for: C:\Users\Administrator\AppData\Local\Temp\php9C51.tmp
+[2025-10-19 18:00:07] [WARNING] ZipArchive not available, using fallback text extraction
+[2025-10-19 18:00:07] [WARNING] Using fallback DOCX text extraction - ZipArchive not available
+[2025-10-19 18:00:07] [INFO] Analysis stored in file-based fallback: C:\Users\Administrator\Documents\GitHub\LILAC-v.2.1\api/../data/analysis_1760896807_68f5272794176.json
+[2025-10-19 18:00:09] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 18:00:09] [INFO] Using file-based database fallback
+[2025-10-19 18:00:09] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 18:00:09] [INFO] Using file-based database fallback
+[2025-10-19 18:00:11] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 18:00:11] [INFO] Using file-based database fallback
+[2025-10-19 18:00:11] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 18:00:11] [INFO] Using file-based database fallback
+[2025-10-19 18:10:25] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 18:10:25] [INFO] Using file-based database fallback
+[2025-10-19 18:10:25] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 18:10:25] [INFO] Using file-based database fallback
+[2025-10-19 18:10:29] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 18:10:29] [INFO] Using file-based database fallback
+[2025-10-19 18:10:29] [INFO] Award deleted successfully: 68f5272793ef9_1760896807_TESSTTAWARDDD.docx, analysis_1760896807_68f5272794176.json
+[2025-10-19 18:10:29] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 18:10:29] [INFO] Using file-based database fallback
+[2025-10-19 18:10:37] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 18:10:37] [INFO] Using file-based database fallback
+[2025-10-19 18:10:37] [INFO] Starting DOCX text extraction for: C:\Users\Administrator\AppData\Local\Temp\php375D.tmp
+[2025-10-19 18:10:37] [WARNING] ZipArchive not available, using fallback text extraction
+[2025-10-19 18:10:37] [WARNING] Using fallback DOCX text extraction - ZipArchive not available
+[2025-10-19 18:10:37] [INFO] Analysis stored in file-based fallback: C:\Users\Administrator\Documents\GitHub\LILAC-v.2.1\api/../data/analysis_1760897437_68f5299d25294.json
+[2025-10-19 18:10:38] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 18:10:38] [INFO] Using file-based database fallback
+[2025-10-19 18:10:38] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 18:10:38] [INFO] Using file-based database fallback
+[2025-10-19 18:10:41] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 18:10:41] [INFO] Using file-based database fallback
+[2025-10-19 18:10:41] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 18:10:41] [INFO] Using file-based database fallback
+[2025-10-19 18:10:47] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 18:10:47] [INFO] Using file-based database fallback
+[2025-10-19 18:10:47] [INFO] Award deleted successfully: 68f5299d24fcc_1760897437_TESSTTAWARDDD.docx, analysis_1760897437_68f5299d25294.json
+[2025-10-19 18:10:47] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 18:10:47] [INFO] Using file-based database fallback
+[2025-10-19 18:12:49] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 18:12:49] [INFO] Using file-based database fallback
+[2025-10-19 18:12:49] [INFO] Starting DOCX text extraction for: C:\Users\Administrator\AppData\Local\Temp\php3C08.tmp
+[2025-10-19 18:12:49] [WARNING] ZipArchive not available, using fallback text extraction
+[2025-10-19 18:12:49] [WARNING] Using fallback DOCX text extraction - ZipArchive not available
+[2025-10-19 18:12:49] [INFO] Analysis stored in file-based fallback: C:\Users\Administrator\Documents\GitHub\LILAC-v.2.1\api/../data/analysis_1760897569_68f52a2161b37.json
+[2025-10-19 18:12:50] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 18:12:50] [INFO] Using file-based database fallback
+[2025-10-19 18:12:50] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 18:12:50] [INFO] Using file-based database fallback

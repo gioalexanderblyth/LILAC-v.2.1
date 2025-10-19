@@ -24,11 +24,16 @@ define('ALLOWED_FILE_TYPES', [
 // OCR Configuration
 define('TESSERACT_PATH_LINUX', '/usr/bin/tesseract');
 define('TESSERACT_PATH_WINDOWS', 'C:\Program Files\Tesseract-OCR\tesseract.exe');
+define('ENABLE_OCR', true); // Toggle OCR functionality
 
 // Analysis configuration
 define('MIN_SCORE_THRESHOLD', 20); // Minimum score to include in results
 define('ELIGIBLE_SCORE_THRESHOLD', 80); // Score threshold for "Eligible" status
 define('PARTIAL_SCORE_THRESHOLD', 60); // Score threshold for "Partially Eligible" status
+
+// File processing limits
+define('MAX_PDF_SIZE', 50 * 1024 * 1024); // 50MB max for PDF processing
+define('OCR_TIMEOUT', 120); // OCR timeout in seconds
 
 /**
  * Get database connection with fallback options
@@ -187,14 +192,70 @@ function validateFileUpload($file) {
 }
 
 /**
- * Get Tesseract OCR path based on operating system
+ * Get Tesseract OCR path based on operating system and availability
  */
 function getTesseractPath() {
-    if (PHP_OS_FAMILY === 'Windows') {
-        return TESSERACT_PATH_WINDOWS;
-    } else {
-        return TESSERACT_PATH_LINUX;
+    static $tesseractPath = null;
+    
+    if ($tesseractPath !== null) {
+        return $tesseractPath;
     }
+    
+    if (!ENABLE_OCR) {
+        return null;
+    }
+    
+    // Check common paths based on OS
+    $commonPaths = [];
+    if (PHP_OS_FAMILY === 'Windows') {
+        $commonPaths = [
+            TESSERACT_PATH_WINDOWS,
+            'tesseract.exe',
+            'C:\\Program Files (x86)\\Tesseract-OCR\\tesseract.exe'
+        ];
+    } else {
+        $commonPaths = [
+            TESSERACT_PATH_LINUX,
+            '/usr/local/bin/tesseract',
+            '/opt/homebrew/bin/tesseract',
+            'tesseract'
+        ];
+    }
+    
+    foreach ($commonPaths as $path) {
+        if ($path === 'tesseract' || $path === 'tesseract.exe') {
+            // Check if in PATH
+            $output = shell_exec((PHP_OS_FAMILY === 'Windows' ? 'where' : 'which') . ' ' . escapeshellarg($path) . ' 2>nul 2>/dev/null');
+            if (!empty($output)) {
+                $tesseractPath = trim($output);
+                break;
+            }
+        } else {
+            if (file_exists($path)) {
+                $tesseractPath = $path;
+                break;
+            }
+        }
+    }
+    
+    return $tesseractPath;
+}
+
+/**
+ * Check if pdftotext is available
+ */
+function isPdftotextAvailable() {
+    static $available = null;
+    
+    if ($available !== null) {
+        return $available;
+    }
+    
+    $command = (PHP_OS_FAMILY === 'Windows' ? 'where' : 'which') . ' pdftotext 2>nul 2>/dev/null';
+    $output = shell_exec($command);
+    $available = !empty(trim($output));
+    
+    return $available;
 }
 
 /**
@@ -227,6 +288,24 @@ function sanitizeInput($data) {
 function generateUniqueFileName($originalName) {
     $extension = pathinfo($originalName, PATHINFO_EXTENSION);
     return uniqid() . '_' . time() . '.' . $extension;
+}
+
+/**
+ * Generate safe randomized filename
+ */
+function generateSafeFileName($originalName, $extension) {
+    // Create a secure random filename with timestamp and random component
+    $timestamp = time();
+    $random = bin2hex(random_bytes(8));
+    $extension = strtolower(trim($extension, '.'));
+    
+    // Sanitize extension to prevent path traversal
+    $extension = preg_replace('/[^a-z0-9]/', '', $extension);
+    if (empty($extension)) {
+        $extension = 'file';
+    }
+    
+    return $timestamp . '_' . $random . '.' . $extension;
 }
 
 // Initialize database connection

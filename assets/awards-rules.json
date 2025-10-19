@@ -1,5 +1,10 @@
 {
   "match_threshold": 0.5,
+  "thresholds": {
+    "eligible": 90,
+    "partial": 80,
+    "not_eligible": 60
+  },
   "categories": {
     "gca": {
       "name": "Global Citizenship Award",

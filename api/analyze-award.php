@@ -145,10 +145,6 @@ try {
     $analysisId = storeAnalysisResults($awardName, $description, $extractedText, $analysis, $uploadedFile, $isReanalyze);
     error_log("Analysis results stored with ID: " . $analysisId);
 
-    // Generate recommendations
-    error_log("Starting to generate recommendations");
-    $recommendations = generateRecommendations($analysis);
-    error_log("Recommendations generated successfully");
     
     // Build counts for eligibility
     $eligibleCount = 0; $partialCount = 0; $notEligibleCount = 0;
@@ -168,7 +164,6 @@ try {
         'analysis_id' => $analysisId,
         'detected_text' => $extractedText,
         'analysis' => $analysis,
-        'recommendations' => $recommendations,
         'eligible_count' => $eligibleCount,
         'partial_count' => $partialCount,
         'not_eligible_count' => $notEligibleCount,

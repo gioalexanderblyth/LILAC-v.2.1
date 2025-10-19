@@ -19,6 +19,9 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 require_once 'config.php';
 
 try {
+    // Get database connection
+    $pdo = getDatabaseConnection();
+    
     $input = json_decode(file_get_contents('php://input'), true);
     
     if (!$input) {
