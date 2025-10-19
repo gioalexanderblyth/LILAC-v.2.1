@@ -2328,3 +2328,12 @@
 [2025-10-19 18:12:50] [INFO] Using file-based database fallback
 [2025-10-19 18:12:50] [WARNING] SQLite connection failed: could not find driver
 [2025-10-19 18:12:50] [INFO] Using file-based database fallback
+[2025-10-19 18:13:15] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 18:13:15] [INFO] Using file-based database fallback
+[2025-10-19 18:13:15] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 18:13:15] [INFO] Using file-based database fallback
+[2025-10-19 18:13:20] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 18:13:20] [INFO] Using file-based database fallback
+[2025-10-19 18:13:20] [INFO] Award deleted successfully: 68f52a21618c6_1760897569_testaward.docx, analysis_1760897569_68f52a2161b37.json
+[2025-10-19 18:13:20] [WARNING] SQLite connection failed: could not find driver
+[2025-10-19 18:13:20] [INFO] Using file-based database fallback
