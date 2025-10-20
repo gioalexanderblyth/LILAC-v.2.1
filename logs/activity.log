@@ -2360,3 +2360,17 @@
 [2025-10-20 07:13:38] [INFO] SQLite database connection established successfully
 [2025-10-20 07:36:39] [INFO] SQLite database connection established successfully
 [2025-10-20 07:36:40] [INFO] SQLite database connection established successfully
+[2025-10-20 06:09:09] [WARNING] SQLite connection failed: could not find driver
+[2025-10-20 06:09:09] [INFO] Using file-based database fallback
+[2025-10-20 06:09:11] [WARNING] SQLite connection failed: could not find driver
+[2025-10-20 06:09:11] [INFO] Using file-based database fallback
+[2025-10-20 06:10:07] [WARNING] SQLite connection failed: could not find driver
+[2025-10-20 06:10:07] [INFO] Using file-based database fallback
+[2025-10-20 06:10:09] [WARNING] SQLite connection failed: could not find driver
+[2025-10-20 06:10:09] [INFO] Using file-based database fallback
+[2025-10-20 06:10:10] [WARNING] SQLite connection failed: could not find driver
+[2025-10-20 06:10:10] [INFO] Using file-based database fallback
+[2025-10-20 06:29:56] [WARNING] SQLite connection failed: could not find driver
+[2025-10-20 06:29:56] [INFO] Using file-based database fallback
+[2025-10-20 06:29:57] [WARNING] SQLite connection failed: could not find driver
+[2025-10-20 06:29:57] [INFO] Using file-based database fallback
