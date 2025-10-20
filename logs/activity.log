@@ -2360,3 +2360,34 @@
 [2025-10-20 07:13:38] [INFO] SQLite database connection established successfully
 [2025-10-20 07:36:39] [INFO] SQLite database connection established successfully
 [2025-10-20 07:36:40] [INFO] SQLite database connection established successfully
+[2025-10-20 07:46:20] [INFO] SQLite database connection established successfully
+[2025-10-20 07:46:20] [INFO] Starting DOCX text extraction for: C:\xampp\tmp\php10FB.tmp
+[2025-10-20 07:46:20] [WARNING] ZipArchive not available, using fallback text extraction
+[2025-10-20 07:46:20] [WARNING] Using fallback DOCX text extraction - ZipArchive not available
+[2025-10-20 07:46:22] [INFO] SQLite database connection established successfully
+[2025-10-20 07:46:22] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 07:46:26] [INFO] SQLite database connection established successfully
+[2025-10-20 07:46:26] [INFO] SQLite database connection established successfully
+[2025-10-20 07:46:26] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 07:48:18] [INFO] SQLite database connection established successfully
+[2025-10-20 07:48:18] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 07:48:35] [INFO] SQLite database connection established successfully
+[2025-10-20 07:48:35] [ERROR] Tesseract OCR not found on system
+[2025-10-20 07:48:37] [INFO] SQLite database connection established successfully
+[2025-10-20 07:48:37] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 07:51:47] [INFO] SQLite database connection established successfully
+[2025-10-20 07:51:47] [ERROR] Tesseract OCR not found on system
+[2025-10-20 07:51:49] [INFO] SQLite database connection established successfully
+[2025-10-20 07:51:49] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 07:52:28] [INFO] SQLite database connection established successfully
+[2025-10-20 07:52:28] [INFO] Starting DOCX text extraction for: C:\xampp\tmp\phpACE8.tmp
+[2025-10-20 07:52:28] [WARNING] ZipArchive not available, using fallback text extraction
+[2025-10-20 07:52:28] [WARNING] Using fallback DOCX text extraction - ZipArchive not available
+[2025-10-20 07:52:29] [INFO] SQLite database connection established successfully
+[2025-10-20 07:52:29] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 07:53:13] [INFO] SQLite database connection established successfully
+[2025-10-20 07:53:13] [INFO] Starting DOCX text extraction for: C:\xampp\tmp\php5EA5.tmp
+[2025-10-20 07:53:13] [WARNING] ZipArchive not available, using fallback text extraction
+[2025-10-20 07:53:13] [WARNING] Using fallback DOCX text extraction - ZipArchive not available
+[2025-10-20 07:53:15] [INFO] SQLite database connection established successfully
+[2025-10-20 07:53:15] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
