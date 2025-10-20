@@ -506,46 +506,18 @@
                                     <th class="text-left py-2 font-medium">Remarks</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr class="border-b border-gray-100 dark:border-gray-700 last:border-b-0">
-                                    <td class="py-3 text-gray-900 dark:text-gray-100">Outstanding International Education Program</td>
-                                    <td class="py-3 text-gray-900 dark:text-gray-100">4/5</td>
-                                    <td class="py-3">
-                                        <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                                            <div class="bg-blue-500 h-2 rounded-full" style="width: 80%"></div>
+                            <tbody id="analyticsTableBody">
+                                <!-- Dynamic content will be loaded here -->
+                                <tr id="loadingRow">
+                                    <td colspan="4" class="py-8 text-center text-gray-500 dark:text-gray-400">
+                                        <div class="flex items-center justify-center">
+                                            <svg class="animate-spin h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24">
+                                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                            </svg>
+                                            Loading analytics data...
                                         </div>
                                     </td>
-                                    <td class="py-3 text-gray-600 dark:text-gray-400 text-xs">"Needs more proof of collaboration"</td>
-                                </tr>
-                                <tr class="border-b border-gray-100 dark:border-gray-700 last:border-b-0">
-                                    <td class="py-3 text-gray-900 dark:text-gray-100">International Leadership Award</td>
-                                    <td class="py-3 text-gray-900 dark:text-gray-100">5/5</td>
-                                    <td class="py-3">
-                                        <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                                            <div class="bg-green-500 h-2 rounded-full" style="width: 100%"></div>
-                                        </div>
-                                    </td>
-                                    <td class="py-3 text-gray-600 dark:text-gray-400 text-xs">"All requirements satisfied"</td>
-                                </tr>
-                                <tr class="border-b border-gray-100 dark:border-gray-700 last:border-b-0">
-                                    <td class="py-3 text-gray-900 dark:text-gray-100">Innovation in Global Learning</td>
-                                    <td class="py-3 text-gray-900 dark:text-gray-100">2/6</td>
-                                    <td class="py-3">
-                                        <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                                            <div class="bg-orange-500 h-2 rounded-full" style="width: 33.33%"></div>
-                                        </div>
-                                    </td>
-                                    <td class="py-3 text-gray-600 dark:text-gray-400 text-xs">"Submit project proposals"</td>
-                                </tr>
-                                <tr>
-                                    <td class="py-3 text-gray-900 dark:text-gray-100">Community Engagement Award</td>
-                                    <td class="py-3 text-gray-900 dark:text-gray-100">1/4</td>
-                                    <td class="py-3">
-                                        <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                                            <div class="bg-red-500 h-2 rounded-full" style="width: 25%"></div>
-                                        </div>
-                                    </td>
-                                    <td class="py-3 text-gray-600 dark:text-gray-400 text-xs">"Lacking volunteer logs"</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -557,7 +529,7 @@
             <div class="col-span-12 lg:col-span-3">
                 <div class="analytics-card p-6 min-h-full border-l-4 border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-800/50">
                     <h3 class="text-lg font-bold text-gray-900 dark:text-gray-100 mb-4">Analysis & Recommendations</h3>
-                    <div class="space-y-4">
+                    <div id="recommendationsContainer" class="space-y-4">
                         <div class="flex items-start gap-3">
                             <span class="material-symbols-outlined text-green-600 dark:text-green-400 text-xl pt-1">check_circle</span>
                             <p class="text-sm text-gray-700 dark:text-gray-300 font-medium">Your department achieved <span class="font-bold text-green-700 dark:text-green-400">80%</span> of award qualifications this cycle.</p>
@@ -2572,6 +2544,12 @@
                 processContent.classList.add('hidden');
                 awardListContent.classList.add('hidden');
                 
+                // Load dynamic analytics data when switching to analytics tab
+                // Small delay to ensure canvas elements are visible
+                setTimeout(() => {
+                    loadAnalyticsData();
+                }, 100);
+                
             };
             
             const switchToAwardList = () => {
@@ -2631,8 +2609,7 @@
             // Initialize award analysis form
             initializeAwardAnalysisForm();
             
-            // Initialize Analytics Dashboard Charts
-            initializeAnalyticsCharts();
+            // Note: Analytics charts are initialized when switching to analytics tab via loadAnalyticsData()
         });
         
         // Award Analysis Form Functions
@@ -3264,7 +3241,12 @@
         // Status Analysis Donut Chart
         const statusCtx = document.getElementById('statusChart');
         if (statusCtx) {
-            new Chart(statusCtx.getContext('2d'), {
+            // Destroy existing chart if it exists
+            if (window.statusChartInstance) {
+                window.statusChartInstance.destroy();
+            }
+            
+            window.statusChartInstance = new Chart(statusCtx.getContext('2d'), {
                 type: 'doughnut',
                 data: {
                     labels: ['Fully Met', 'Partially Met', 'Under Review', 'Unqualified/Rejected'],
@@ -3316,7 +3298,12 @@
         // Award Fulfillment Trends Chart
         const trendsCtx = document.getElementById('trendsChart');
         if (trendsCtx) {
-            new Chart(trendsCtx.getContext('2d'), {
+            // Destroy existing chart if it exists
+            if (window.trendsChartInstance) {
+                window.trendsChartInstance.destroy();
+            }
+            
+            window.trendsChartInstance = new Chart(trendsCtx.getContext('2d'), {
                 type: 'bar',
                 data: {
                     labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
@@ -3390,6 +3377,105 @@
 
     function closeModal() {
         document.getElementById('kpiModal').classList.add('hidden');
+    }
+
+    // Award Details Function
+    function showAwardDetails(awardName) {
+        // Award details mapping
+        const awardDetails = {
+            'Global Citizenship Award': {
+                criteria: 'Global leadership, intercultural understanding, community engagement, inclusive programs, ethical governance, sustainable impact',
+                requirements: 'Documentation of global initiatives, partnership agreements, impact reports, leadership evidence',
+                progress: '4/6 criteria met',
+                nextSteps: 'Complete global partnership documentation and sustainability reports'
+            },
+            'Outstanding International Education Program Award': {
+                criteria: 'International education program, inclusive internationalization, collaborative innovation, student mobility, research partnership, access to global opportunities',
+                requirements: 'Program documentation, student mobility statistics, partnership agreements, impact assessment',
+                progress: '5/5 criteria met',
+                nextSteps: 'All requirements satisfied - ready for submission'
+            },
+            'Sustainability Award': {
+                criteria: 'Environmental sustainability initiatives, green campus programs, sustainable development goals, environmental impact reduction, sustainability education, community environmental programs',
+                requirements: 'Environmental policy documents, sustainability metrics, program reports, impact assessments',
+                progress: '3/7 criteria met',
+                nextSteps: 'Develop comprehensive environmental policy and implement sustainability education programs'
+            },
+            'Best ASEAN Awareness Initiative Award': {
+                criteria: 'ASEAN partnership networks, regional collaboration, ASEAN cultural programs, regional research initiatives, ASEAN student exchanges, community ASEAN awareness',
+                requirements: 'ASEAN partnership documentation, cultural program reports, exchange statistics, community engagement records',
+                progress: '6/8 criteria met',
+                nextSteps: 'Expand community ASEAN awareness programs and document regional research collaborations'
+            },
+            'Emerging Leadership Award': {
+                criteria: 'Leadership development, leadership excellence, innovation, strategic growth, empowering others, internationalization leadership',
+                requirements: 'Leadership program documentation, innovation projects, strategic planning documents, team development records',
+                progress: '4/5 criteria met',
+                nextSteps: 'Complete strategic growth documentation and team empowerment evidence'
+            },
+            'Internationalization Leadership Award': {
+                criteria: 'Internationalization leadership, institutional leadership, strategic leadership, executive leadership, transformational leader, visionary leadership, leadership excellence',
+                requirements: 'Leadership vision documents, institutional transformation records, executive leadership evidence, strategic planning documentation',
+                progress: '7/7 criteria met',
+                nextSteps: 'Exemplary internationalization leadership - ready for submission'
+            },
+            'Best CHED Regional Office for Internationalization Award': {
+                criteria: 'Regional office coordination, CHED compliance, regional internationalization support, regional partnership development, regional resource management',
+                requirements: 'CHED compliance documentation, regional coordination reports, partnership development records, resource management plans',
+                progress: '2/4 criteria met',
+                nextSteps: 'Strengthen regional office coordination and complete CHED compliance documentation'
+            },
+            'Most Promising Regional IRO Community Award': {
+                criteria: 'IRO community building, regional networking, community development, collaborative initiatives, knowledge sharing, regional growth potential',
+                requirements: 'Community development plans, networking documentation, collaboration records, knowledge sharing initiatives, growth metrics',
+                progress: '3/6 criteria met',
+                nextSteps: 'Develop comprehensive IRO community building strategy and implement knowledge sharing programs'
+            }
+        };
+
+        const details = awardDetails[awardName] || {
+            criteria: 'No criteria information available',
+            requirements: 'No requirements information available',
+            progress: 'Progress information not available',
+            nextSteps: 'Contact administrator for more information'
+        };
+
+        const content = `
+            <div class="space-y-6">
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-6 dark:bg-blue-900/20 dark:border-blue-700">
+                    <h3 class="font-bold text-blue-800 dark:text-blue-300 mb-4 text-lg">${awardName}</h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <h4 class="font-semibold text-gray-800 dark:text-gray-200 mb-2">Current Progress</h4>
+                            <p class="text-sm text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 p-3 rounded border">${details.progress}</p>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-gray-800 dark:text-gray-200 mb-2">Next Steps</h4>
+                            <p class="text-sm text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 p-3 rounded border">${details.nextSteps}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 border border-gray-200 rounded-lg p-6 dark:bg-gray-800/50 dark:border-gray-600">
+                    <h4 class="font-semibold text-gray-800 dark:text-gray-200 mb-3">Evaluation Criteria</h4>
+                    <p class="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">${details.criteria}</p>
+                </div>
+
+                <div class="bg-gray-50 border border-gray-200 rounded-lg p-6 dark:bg-gray-800/50 dark:border-gray-600">
+                    <h4 class="font-semibold text-gray-800 dark:text-gray-200 mb-3">Required Documentation</h4>
+                    <p class="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">${details.requirements}</p>
+                </div>
+
+                <div class="flex justify-end gap-3 pt-4 border-t border-gray-200 dark:border-gray-600">
+                    <button onclick="closeModal()" class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-600 hover:bg-gray-200 dark:hover:bg-gray-500 rounded-lg transition-colors">
+                        Close
+                    </button>
+                </div>
+            </div>
+        `;
+        
+        showModal(`📋 ${awardName} - Details & Requirements`, content);
     }
 
     // KPI Click Functions
@@ -3757,6 +3843,287 @@
         showModal('📈 Success Rate - Performance Analytics', content);
     }
 
+    // Chart update functions
+    function updateStatusChart(statusData, hasUploads = null) {
+        const statusCtx = document.getElementById('statusChart');
+        if (!statusCtx) {
+            console.error('Status chart canvas not found');
+            return;
+        }
+        
+        console.log('Updating status chart with data:', statusData, 'hasUploads:', hasUploads);
+        
+        // Destroy existing chart if it exists
+        if (window.statusChartInstance) {
+            window.statusChartInstance.destroy();
+        }
+        
+        const isDarkMode = document.documentElement.classList.contains('dark');
+        const textColor = isDarkMode ? '#e2e8f0' : '#0f172a';
+        
+        // Use provided hasUploads flag or calculate it from data
+        const hasAnyUploads = hasUploads !== null ? hasUploads : (statusData.fully_met + statusData.partially_met + statusData.under_review) > 0;
+        
+        let chartLabels, chartData, chartColors;
+        
+        if (!hasAnyUploads) {
+            // Empty state - show gray circle like empty progress bar
+            chartLabels = ['No Uploads Yet'];
+            chartData = [100];
+            chartColors = [isDarkMode ? '#374151' : '#d1d5db']; // Gray color
+        } else {
+            // Have uploads - show status breakdown
+            chartLabels = ['Fully Met', 'Partially Met', 'Under Review', 'Unqualified/Rejected'];
+            chartData = [
+                statusData.fully_met || 0,
+                statusData.partially_met || 0,
+                statusData.under_review || 0,
+                statusData.unqualified || 0
+            ];
+            chartColors = ['#3b82f6', '#a78bfa', '#facc15', '#ef4444'];
+        }
+        
+        window.statusChartInstance = new Chart(statusCtx.getContext('2d'), {
+            type: 'doughnut',
+            data: {
+                labels: chartLabels,
+                datasets: [{
+                    data: chartData,
+                    backgroundColor: chartColors,
+                    borderWidth: 0,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                aspectRatio: 1.2,
+                animation: false,
+                cutout: '75%',
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'bottom',
+                        labels: {
+                            usePointStyle: true,
+                            pointStyle: 'circle',
+                            padding: 20,
+                            color: textColor,
+                            font: {
+                                size: 12,
+                                family: 'Inter'
+                            }
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                if (context.parsed !== null) {
+                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    const percentage = total > 0 ? Math.round((context.parsed / total) * 100) : 0;
+                                    label += context.parsed + ' (' + percentage + '%)';
+                                }
+                                return label;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+    
+    function updateTrendsChart(trendsData) {
+        const trendsCtx = document.getElementById('trendsChart');
+        if (!trendsCtx) return;
+        
+        // Destroy existing chart if it exists
+        if (window.trendsChartInstance) {
+            window.trendsChartInstance.destroy();
+        }
+        
+        const isDarkMode = document.documentElement.classList.contains('dark');
+        const textColor = isDarkMode ? '#e2e8f0' : '#0f172a';
+        const gridColor = isDarkMode ? '#334155' : '#e2e8f0';
+        
+        window.trendsChartInstance = new Chart(trendsCtx.getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: trendsData.labels || ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
+                datasets: [
+                    {
+                        label: 'Eligible Submissions',
+                        data: trendsData.eligible || [],
+                        backgroundColor: '#2563eb',
+                        borderColor: '#2563eb',
+                        borderWidth: 0,
+                        barPercentage: 0.9,
+                        categoryPercentage: 0.8,
+                    },
+                    {
+                        label: 'Total Submissions',
+                        data: trendsData.total || [],
+                        backgroundColor: '#6b7280',
+                        borderColor: '#6b7280',
+                        borderWidth: 0,
+                        barPercentage: 0.9,
+                        categoryPercentage: 0.8,
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: {
+                            display: false
+                        },
+                        ticks: {
+                            color: textColor,
+                            font: {
+                                size: 11
+                            }
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: gridColor
+                        },
+                        ticks: {
+                            color: textColor,
+                            font: {
+                                size: 11
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+    
+    function updateRecommendations(recommendationsData) {
+        const recommendationsContainer = document.getElementById('recommendationsContainer');
+        if (!recommendationsContainer) {
+            console.error('Recommendations container not found');
+            return;
+        }
+        
+        recommendationsContainer.innerHTML = recommendationsData.map((rec, index) => {
+            const shouldAddBorder = index > 0 && rec.type === 'suggestion';
+            const borderClass = shouldAddBorder ? 'border-t border-gray-200 dark:border-gray-600 pt-4' : '';
+            
+            return `
+                <div class="flex items-start gap-3 ${borderClass}">
+                    <span class="material-symbols-outlined text-${rec.iconColor} dark:text-${rec.iconColor.replace('-600', '-400')} text-xl pt-1">${rec.icon}</span>
+                    <p class="text-sm text-gray-700 dark:text-gray-300">${rec.text}</p>
+                </div>
+            `;
+        }).join('');
+    }
+
+    // Helper function to convert Tailwind color classes to hex values for progress bars
+    function getProgressBarColor(colorClass) {
+        const colorMap = {
+            'red-500': '#ef4444',
+            'yellow-500': '#eab308',
+            'blue-500': '#3b82f6',
+            'green-500': '#10b981'
+        };
+        return colorMap[colorClass] || '#6b7280'; // fallback to gray
+    }
+
+    // Load dynamic analytics data for the awards table
+    async function loadAnalyticsData() {
+        try {
+            const response = await fetch('api/awards-analytics.php');
+            if (!response.ok) {
+                throw new Error('Failed to fetch analytics data');
+            }
+            
+            const result = await response.json();
+            if (!result.success) {
+                throw new Error(result.error || 'Failed to load analytics data');
+            }
+            
+            const tableBody = document.getElementById('analyticsTableBody');
+            if (!tableBody) {
+                console.error('Analytics table body not found');
+                return;
+            }
+            
+            // Clear loading row
+            const loadingRow = document.getElementById('loadingRow');
+            if (loadingRow) {
+                loadingRow.remove();
+            }
+            
+            // Populate table with dynamic data
+            tableBody.innerHTML = result.data.map((award, index) => {
+                const isLast = index === result.data.length - 1;
+                const borderClass = isLast ? '' : 'border-b border-gray-100 dark:border-gray-700';
+                
+                return `
+                    <tr class="${borderClass} hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+                        <td class="py-3">
+                            <button class="text-left text-gray-900 dark:text-gray-100 hover:text-primary-600 dark:hover:text-primary-400 font-medium transition-colors cursor-pointer" onclick="showAwardDetails('${award.award_name}')">
+                                ${award.award_name}
+                            </button>
+                        </td>
+                        <td class="py-3 text-gray-900 dark:text-gray-100">${award.criteria_met}/${award.total_criteria}</td>
+                        <td class="py-3">
+                            <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                                <div class="h-2 rounded-full transition-all duration-300" style="width: ${Math.min(award.progress_percentage, 100)}%; background-color: ${getProgressBarColor(award.progress_color)}"></div>
+                            </div>
+                        </td>
+                        <td class="py-3 text-gray-600 dark:text-gray-400 text-xs">"${award.remark}"</td>
+                    </tr>
+                `;
+            }).join('');
+            
+            // Update charts and recommendations with dynamic data
+            if (result.status_analysis) {
+                updateStatusChart(result.status_analysis, result.has_uploads);
+            }
+            if (result.trends) {
+                updateTrendsChart(result.trends);
+            }
+            if (result.recommendations) {
+                updateRecommendations(result.recommendations);
+            }
+            
+        } catch (error) {
+            console.error('Error loading analytics data:', error);
+            
+            // Show error state
+            const tableBody = document.getElementById('analyticsTableBody');
+            if (tableBody) {
+                const loadingRow = document.getElementById('loadingRow');
+                if (loadingRow) {
+                    loadingRow.innerHTML = `
+                        <td colspan="4" class="py-8 text-center text-red-500 dark:text-red-400">
+                            <div class="flex flex-col items-center justify-center">
+                                <span class="material-symbols-outlined text-4xl mb-2">error</span>
+                                <p>Failed to load analytics data</p>
+                                <button onclick="loadAnalyticsData()" class="mt-2 px-4 py-2 text-sm bg-primary text-white rounded hover:bg-primary/90 transition-colors">
+                                    Retry
+                                </button>
+                            </div>
+                        </td>
+                    `;
+                }
+            }
+        }
+    }
+
     // Load profile picture from localStorage if available
     document.addEventListener('DOMContentLoaded', function() {
         try {
@@ -3776,6 +4143,9 @@
         } catch (error) {
             console.log('No profile data found in localStorage');
         }
+        
+        // Load analytics data when the page loads
+        loadAnalyticsData();
     });
 </script>
 </body></html>

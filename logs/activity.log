@@ -2337,3 +2337,24 @@
 [2025-10-19 18:13:20] [INFO] Award deleted successfully: 68f52a21618c6_1760897569_testaward.docx, analysis_1760897569_68f52a2161b37.json
 [2025-10-19 18:13:20] [WARNING] SQLite connection failed: could not find driver
 [2025-10-19 18:13:20] [INFO] Using file-based database fallback
+[2025-10-20 06:25:37] [INFO] SQLite database connection established successfully
+[2025-10-20 06:25:37] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 06:27:00] [INFO] SQLite database connection established successfully
+[2025-10-20 06:27:00] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 06:27:13] [INFO] SQLite database connection established successfully
+[2025-10-20 06:27:13] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 06:45:44] [INFO] SQLite database connection established successfully
+[2025-10-20 06:45:44] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 06:58:06] [INFO] SQLite database connection established successfully
+[2025-10-20 06:58:07] [INFO] SQLite database connection established successfully
+[2025-10-20 07:01:30] [INFO] SQLite database connection established successfully
+[2025-10-20 07:01:32] [INFO] SQLite database connection established successfully
+[2025-10-20 07:01:34] [INFO] SQLite database connection established successfully
+[2025-10-20 07:03:22] [INFO] SQLite database connection established successfully
+[2025-10-20 07:03:25] [INFO] SQLite database connection established successfully
+[2025-10-20 07:05:11] [INFO] SQLite database connection established successfully
+[2025-10-20 07:05:13] [INFO] SQLite database connection established successfully
+[2025-10-20 07:07:22] [INFO] SQLite database connection established successfully
+[2025-10-20 07:07:23] [INFO] SQLite database connection established successfully
+[2025-10-20 07:13:36] [INFO] SQLite database connection established successfully
+[2025-10-20 07:13:38] [INFO] SQLite database connection established successfully
