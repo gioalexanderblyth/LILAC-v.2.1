@@ -424,16 +424,30 @@ function extractTextFromImage($filePath) {
         ]);
     }
     
+    // Validate file exists and is readable
+    if (!file_exists($filePath)) {
+        logActivity('Image file not found: ' . $filePath, 'ERROR');
+        return json_encode([
+            'error' => 'FILE_NOT_FOUND',
+            'message' => 'Image file not found on server.',
+            'user_message' => 'The uploaded image file could not be located on the server. Please try uploading again.'
+        ]);
+    }
+    
+    if (!is_readable($filePath)) {
+        logActivity('Image file not readable: ' . $filePath, 'ERROR');
+        return json_encode([
+            'error' => 'FILE_NOT_READABLE',
+            'message' => 'Image file exists but is not readable.',
+            'user_message' => 'The uploaded image file cannot be read. Please check file permissions or try uploading again.'
+        ]);
+    }
+    
     $tesseractPath = getTesseractPath();
     if (!$tesseractPath) {
-        logActivity('Tesseract OCR not found on system. Checked paths: ' . implode(', ', [
-            TESSERACT_PATH_WINDOWS,
-            'tesseract.exe (in PATH)',
-            'C:\\Program Files (x86)\\Tesseract-OCR\\tesseract.exe',
-            'C:\\Program Files\\Tesseract-OCR\\tesseract.exe'
-        ]), 'ERROR');
+        logActivity('Tesseract OCR not found on system', 'ERROR');
         
-        // Test if tesseract command exists but wasn't found
+        // Try to find tesseract using system command
         $testCommand = (PHP_OS_FAMILY === 'Windows' ? 'where tesseract.exe 2>nul' : 'which tesseract 2>/dev/null');
         $testOutput = shell_exec($testCommand);
         logActivity('Tesseract PATH test result: ' . ($testOutput ? trim($testOutput) : 'Not found'), 'DEBUG');
@@ -448,81 +462,112 @@ function extractTextFromImage($filePath) {
                 'Add to system PATH or restart your web server',
                 'Linux: Install with "sudo apt-get install tesseract-ocr"',
                 'macOS: Install with "brew install tesseract"'
-            ],
-            'debug_info' => [
-                'os_family' => PHP_OS_FAMILY,
-                'checked_paths' => [
-                    TESSERACT_PATH_WINDOWS,
-                    'tesseract.exe (in PATH)',
-                    'C:\\Program Files (x86)\\Tesseract-OCR\\tesseract.exe',
-                    'C:\\Program Files\\Tesseract-OCR\\tesseract.exe'
-                ],
-                'path_test' => $testOutput ? trim($testOutput) : 'Not found'
             ]
         ]);
     }
     
-    if (!file_exists($filePath)) {
-        throw new Exception('Image file not found: ' . $filePath);
-    }
-    
     logActivity("Starting OCR extraction for image: $filePath", 'INFO');
     
-    // Option 1: Enhanced OCR with direct stdout capture (as suggested)
+    // Try multiple OCR approaches for better reliability
+    $extractedText = null;
+    $lastError = '';
+    
+    // Method 1: Direct stdout capture with error handling
     try {
-        // Use Tesseract with stdout output for better reliability
-        $command = escapeshellcmd($tesseractPath) . ' ' . escapeshellarg($filePath) . ' stdout 2>&1';
-        
+        $command = escapeshellcmd($tesseractPath) . ' ' . escapeshellarg($filePath) . ' stdout -l eng 2>&1';
         logActivity("Executing OCR command: $command", 'DEBUG');
         
-        // Capture output directly from tesseract
         $extractedText = shell_exec($command);
         
-        // Log the raw output for debugging
-        logActivity("OCR command raw output: " . ($extractedText ?: 'NULL') . " (length: " . strlen($extractedText ?? '') . ")", 'DEBUG');
-        
-        if ($extractedText === null) {
-            // Try to get error output
-            $errorCommand = escapeshellcmd($tesseractPath) . ' --version 2>&1';
-            $versionOutput = shell_exec($errorCommand);
-            logActivity("Tesseract version test: " . ($versionOutput ?: 'FAILED'), 'ERROR');
+        if ($extractedText !== null) {
+            $extractedText = trim($extractedText);
             
-            throw new Exception('Failed to execute OCR command - Tesseract may not be properly installed or accessible');
+            // Check if we got actual text, not just error messages
+            if (!empty($extractedText) && !preg_match('/^(Error|Warning|Tesseract|Usage)/i', $extractedText)) {
+                $textLength = strlen($extractedText);
+                $wordCount = str_word_count($extractedText);
+                
+                logActivity("OCR extracted: $textLength characters, $wordCount words. Sample: " . substr($extractedText, 0, 100), 'INFO');
+                
+                // Check if we got meaningful text (not just a few characters or words)
+                if ($textLength >= 20 && $wordCount >= 3) {
+                    logActivity('OCR extraction successful via stdout, extracted ' . strlen($extractedText) . ' characters', 'INFO');
+                    return $extractedText;
+                } else {
+                    logActivity("OCR returned minimal text - might be poor quality: '$extractedText'", 'WARNING');
+                    $lastError = 'OCR returned minimal text: ' . $extractedText;
+                }
+            } else {
+                $lastError = 'stdout method returned invalid output: ' . ($extractedText ?: 'null');
+            }
+        } else {
+            $lastError = 'stdout method returned null';
         }
-        
-        $extractedText = trim($extractedText);
-        
-        if (empty($extractedText)) {
-            logActivity('OCR returned empty text - this may be normal for images without text', 'WARNING');
-            throw new Exception('OCR returned no text content. Image may not contain extractable text.');
-        }
-        
-        logActivity('OCR extraction completed successfully, extracted ' . strlen($extractedText) . ' characters', 'INFO');
-        return $extractedText;
         
     } catch (Exception $e) {
-        logActivity('OCR extraction failed: ' . $e->getMessage(), 'ERROR');
-        
-        // Fallback: Try traditional file-based method
-        try {
-            return extractTextFromImageFallback($filePath, $tesseractPath);
-        } catch (Exception $fallbackException) {
-            logActivity('OCR fallback also failed: ' . $fallbackException->getMessage(), 'ERROR');
-            
-            // Return a more helpful error message
-            return json_encode([
-                'error' => 'OCR_EXTRACTION_FAILED',
-                'message' => 'OCR extraction failed on both primary and fallback methods.',
-                'user_message' => 'Unable to extract text from the image. This could be due to poor image quality, missing text, or OCR configuration issues. Please try converting the image to PDF or DOCX format.',
-                'debug_info' => [
-                    'primary_error' => $e->getMessage(),
-                    'fallback_error' => $fallbackException->getMessage(),
-                    'tesseract_path' => $tesseractPath,
-                    'file_exists' => file_exists($filePath)
-                ]
-            ]);
-        }
+        $lastError = 'stdout method failed: ' . $e->getMessage();
+        logActivity("OCR stdout method failed: " . $e->getMessage(), 'WARNING');
     }
+    
+    // Method 2: Fallback using temporary files
+    try {
+        $fallbackResult = extractTextFromImageFallback($filePath, $tesseractPath);
+        if (!empty($fallbackResult)) {
+            logActivity('OCR extraction successful via fallback method, extracted ' . strlen($fallbackResult) . ' characters', 'INFO');
+            return $fallbackResult;
+        }
+        $lastError .= '; fallback returned empty';
+    } catch (Exception $e) {
+        $lastError .= '; fallback failed: ' . $e->getMessage();
+        logActivity("OCR fallback method failed: " . $e->getMessage(), 'WARNING');
+    }
+    
+    // Method 3: Try with different language settings and options
+    try {
+        $command = escapeshellcmd($tesseractPath) . ' ' . escapeshellarg($filePath) . ' stdout --psm 6 -c tessedit_char_whitelist=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 2>&1';
+        $extractedText = shell_exec($command);
+        
+        if ($extractedText && !empty(trim($extractedText))) {
+            $cleanedText = trim($extractedText);
+            if (!preg_match('/^(Error|Warning|Tesseract|Usage)/i', $cleanedText)) {
+                $textLength = strlen($cleanedText);
+                $wordCount = str_word_count($cleanedText);
+                
+                logActivity("Alternative OCR extracted: $textLength characters, $wordCount words. Sample: " . substr($cleanedText, 0, 100), 'INFO');
+                
+                if ($textLength >= 20 && $wordCount >= 3) {
+                    logActivity('OCR extraction successful via alternative method, extracted ' . strlen($cleanedText) . ' characters', 'INFO');
+                    return $cleanedText;
+                } else {
+                    logActivity("Alternative OCR returned minimal text: '$cleanedText'", 'WARNING');
+                }
+            }
+        }
+    } catch (Exception $e) {
+        logActivity("OCR alternative method failed: " . $e->getMessage(), 'WARNING');
+    }
+    
+    // All methods failed - return helpful error with guidance
+    logActivity('All OCR methods failed. Last error: ' . $lastError, 'ERROR');
+    
+    return json_encode([
+        'error' => 'OCR_EXTRACTION_FAILED',
+        'message' => 'All OCR extraction methods failed.',
+        'user_message' => 'Unable to extract text from the image. This could be due to poor image quality, incorrect image format, or OCR configuration issues. Please try: 1) Converting to PDF or DOCX format, 2) Using a higher quality image, or 3) Ensuring the image contains clear, readable text.',
+        'debug_info' => [
+            'file_size' => filesize($filePath),
+            'tesseract_path' => $tesseractPath,
+            'last_error' => $lastError,
+            'file_exists' => file_exists($filePath),
+            'file_readable' => is_readable($filePath)
+        ],
+        'suggestions' => [
+            'Try a higher resolution image',
+            'Ensure the text is clearly visible',
+            'Convert to PDF format instead',
+            'Check that the image is not corrupted'
+        ]
+    ]);
 }
 
 /**
@@ -533,10 +578,12 @@ function extractTextFromImageFallback($filePath, $tesseractPath) {
     $tempFiles = [$outputFile];
     
     try {
-        // Run Tesseract OCR with temporary file output
-        $command = escapeshellcmd($tesseractPath) . ' ' . escapeshellarg($filePath) . ' ' . escapeshellarg($outputFile) . ' 2>&1';
+        // Run Tesseract OCR with temporary file output and proper language settings
+        $command = escapeshellcmd($tesseractPath) . ' ' . escapeshellarg($filePath) . ' ' . escapeshellarg($outputFile) . ' -l eng 2>&1';
+        logActivity("Fallback OCR command: $command", 'DEBUG');
         
         $commandOutput = shell_exec($command);
+        logActivity("Fallback OCR output: " . ($commandOutput ?: 'NULL'), 'DEBUG');
         
         // Check for output file (.txt extension is automatically added by tesseract)
         $textFile = $outputFile . '.txt';
@@ -545,13 +592,29 @@ function extractTextFromImageFallback($filePath, $tesseractPath) {
         if (file_exists($textFile)) {
             $text = file_get_contents($textFile);
             if ($text !== false && !empty(trim($text))) {
-                return trim($text);
+                $cleanText = trim($text);
+                // Filter out common OCR artifacts and error messages
+                if (!preg_match('/^(Error|Warning|Tesseract|Usage|No such file)/i', $cleanText)) {
+                    $textLength = strlen($cleanText);
+                    $wordCount = str_word_count($cleanText);
+                    
+                    logActivity("Fallback OCR extracted: $textLength characters, $wordCount words. Sample: " . substr($cleanText, 0, 100), 'INFO');
+                    
+                    // Check if we got meaningful text
+                    if ($textLength >= 20 && $wordCount >= 3) {
+                        logActivity('Fallback OCR successful, extracted ' . strlen($cleanText) . ' characters', 'INFO');
+                        return $cleanText;
+                    } else {
+                        logActivity("Fallback OCR returned minimal text: '$cleanText'", 'WARNING');
+                    }
+                }
             }
         }
         
         throw new Exception('OCR extraction failed: ' . ($commandOutput ?: 'No output from tesseract command'));
         
     } catch (Exception $e) {
+        logActivity('Fallback OCR failed: ' . $e->getMessage(), 'ERROR');
         throw new Exception('OCR processing failed: ' . $e->getMessage());
     } finally {
         // Clean up temporary files
@@ -949,6 +1012,223 @@ function storeAnalysisResults($awardName, $description, $extractedText, $analysi
     }
 }
 
+/**
+ * Get weighted keyword criteria for smart scoring
+ */
+function getWeightedKeywordCriteria() {
+    return [
+        'Sustainability Award' => [
+            'sustainability' => [
+                'keywords' => ['sustainability', 'sustainable', 'eco', 'green'],
+                'weight' => 50
+            ],
+            'environmental_impact' => [
+                'keywords' => ['environment', 'ecology', 'conservation', 'waste reduction', 'climate', 'environmental awareness'],
+                'weight' => 30
+            ],
+            'social_responsibility' => [
+                'keywords' => ['social responsibility', 'community sustainability', 'social'],
+                'weight' => 20
+            ]
+        ],
+        'Global Citizenship Award' => [
+            'global_citizenship' => [
+                'keywords' => ['global citizenship', 'global awareness', 'citizenship'],
+                'weight' => 40
+            ],
+            'intercultural' => [
+                'keywords' => ['intercultural understanding', 'intercultural', 'diversity', 'cross-cultural'],
+                'weight' => 35
+            ],
+            'community_engagement' => [
+                'keywords' => ['community engagement', 'leadership', 'responsible leadership'],
+                'weight' => 25
+            ]
+        ],
+        'Outstanding International Education Program Award' => [
+            'international_education' => [
+                'keywords' => ['international education', 'exchange', 'academic exchange'],
+                'weight' => 45
+            ],
+            'collaboration' => [
+                'keywords' => ['cross-border collaboration', 'academic partnership', 'partnership'],
+                'weight' => 30
+            ],
+            'inclusive_education' => [
+                'keywords' => ['inclusive', 'global education', 'mobility', 'internationalization'],
+                'weight' => 25
+            ]
+        ],
+        'Best ASEAN Awareness Initiative Award' => [
+            'asean_identity' => [
+                'keywords' => ['asean', 'asean integration', 'asean community'],
+                'weight' => 50
+            ],
+            'regional_cooperation' => [
+                'keywords' => ['regional cooperation', 'regional solidarity', 'southeast asia'],
+                'weight' => 30
+            ],
+            'cultural_understanding' => [
+                'keywords' => ['cultural understanding', 'cultural'],
+                'weight' => 20
+            ]
+        ],
+        'Emerging Leadership Award' => [
+            'leadership' => [
+                'keywords' => ['emerging leader', 'young leader', 'leadership growth', 'leadership'],
+                'weight' => 45
+            ],
+            'innovation' => [
+                'keywords' => ['innovation', 'innovative', 'initiative'],
+                'weight' => 30
+            ],
+            'collaboration_mentorship' => [
+                'keywords' => ['collaboration', 'mentorship', 'mentor'],
+                'weight' => 25
+            ]
+        ],
+        'Internationalization Leadership Award' => [
+            'strategic_leadership' => [
+                'keywords' => ['strategic vision', 'institutional leadership', 'strategic'],
+                'weight' => 40
+            ],
+            'governance' => [
+                'keywords' => ['governance', 'ethical leadership', 'resilience'],
+                'weight' => 35
+            ],
+            'global_excellence' => [
+                'keywords' => ['global excellence', 'internationalization', 'international'],
+                'weight' => 25
+            ]
+        ],
+        'Best CHED Regional Office for Internationalization Award' => [
+            'ched_regional' => [
+                'keywords' => ['ched', 'regional office', 'regional program'],
+                'weight' => 50
+            ],
+            'policy_coordination' => [
+                'keywords' => ['policy', 'coordination', 'administrative leadership'],
+                'weight' => 30
+            ],
+            'izn_promotion' => [
+                'keywords' => ['izn promotion', 'promotion', 'internationalization'],
+                'weight' => 20
+            ]
+        ],
+        'Most Promising Regional IRO Community Award' => [
+            'iro_network' => [
+                'keywords' => ['iro network', 'international relations office', 'iro'],
+                'weight' => 40
+            ],
+            'collaboration' => [
+                'keywords' => ['collaboration', 'regional partnership', 'partnership'],
+                'weight' => 35
+            ],
+            'community_initiative' => [
+                'keywords' => ['shared initiative', 'community', 'regional cooperation'],
+                'weight' => 25
+            ]
+        ]
+    ];
+}
+
+/**
+ * Compute smart weighted award match score
+ */
+function computeWeightedAwardMatch($certificateText, $awardTitle, $fallbackKeywords = []) {
+    $text = strtolower($certificateText);
+    $criteria = getWeightedKeywordCriteria();
+    
+    // Log for debugging
+    error_log("Computing match for award: '$awardTitle' with text: " . substr($text, 0, 100));
+    
+    // Always check for title match first as it's a strong signal
+    $titleInText = stripos($text, strtolower($awardTitle)) !== false;
+    
+    // Check if we have specific criteria for this award
+    if (isset($criteria[$awardTitle])) {
+        $awardCriteria = $criteria[$awardTitle];
+        $score = 0;
+        $totalWeight = 100;
+        $matchedThemes = [];
+        $matchedKeywords = [];
+        
+        // Check for keyword matches by theme
+        foreach ($awardCriteria as $theme => $data) {
+            $themeMatched = false;
+            foreach ($data['keywords'] as $keyword) {
+                $keywordLower = strtolower($keyword);
+                if (strpos($text, $keywordLower) !== false) {
+                    $score += $data['weight'];
+                    $matchedThemes[] = $theme;
+                    $matchedKeywords[] = $keyword;
+                    $themeMatched = true;
+                    error_log("Matched keyword '$keyword' in theme '$theme' for award '$awardTitle'");
+                    break; // Only count each theme once
+                }
+            }
+        }
+        
+        // Calculate percentage
+        $percentage = ($score / $totalWeight) * 100;
+        
+        // Handle case where award title appears in text (strong signal)
+        if ($titleInText) {
+            $percentage = max($percentage, 80); // Minimum 80% if title matches
+            if (!in_array('title_match', $matchedKeywords)) {
+                $matchedKeywords[] = 'title_match';
+            }
+            error_log("Title match detected for '$awardTitle', setting score to " . $percentage);
+        }
+        
+    } else {
+        // Fallback to traditional keyword matching if no specific criteria
+        $score = 0;
+        $matchedKeywords = [];
+        
+        foreach ($fallbackKeywords as $keyword) {
+            if (strpos($text, strtolower($keyword)) !== false) {
+                $score += 10; // 10 points per keyword in fallback mode
+                $matchedKeywords[] = $keyword;
+            }
+        }
+        
+        $percentage = min(100, $score);
+        
+        // Bonus for exact title match
+        if ($titleInText) {
+            $percentage = max($percentage, 60);
+            $matchedKeywords[] = 'title_match';
+        }
+        
+        error_log("Using fallback method for '$awardTitle', score: " . $percentage);
+    }
+    
+    // Ensure minimum score if we found any matches or title match
+    if ((!empty($matchedKeywords) || $titleInText) && $percentage < 15) {
+        $percentage = max($percentage, 15); // Minimum 15% for any valid match
+    }
+    
+    // Determine eligibility based on improved thresholds
+    $status = 'Not Eligible';
+    if ($percentage >= 90) {
+        $status = 'Eligible';
+    } elseif ($percentage >= 70) {
+        $status = 'Partially Eligible';
+    } elseif ($percentage >= 50) {
+        $status = 'Almost Eligible';
+    }
+    
+    error_log("Final result for '$awardTitle': score=$percentage%, status=$status, keywords=" . implode(',', $matchedKeywords));
+    
+    return [
+        'match_score' => round($percentage, 1),
+        'status' => $status,
+        'matched_keywords' => $matchedKeywords,
+        'method' => isset($criteria[$awardTitle]) ? 'weighted_themes' : 'fallback_keywords'
+    ];
+}
+
 function performIconsAnalysis($rawText, $dataset) {
     // Load thresholds from awards-rules.json
     $thresholds = loadAwardThresholds();
@@ -988,84 +1268,55 @@ function performIconsAnalysis($rawText, $dataset) {
             $awardTokens = array_unique($awardTokens);
             if (count($awardTokens) === 0) { continue; }
             
-            // Jaccard similarity
-            $intersection = array_intersect($textTokenSet, $awardTokens);
-            $union = array_unique(array_merge($textTokenSet, $awardTokens));
-            $similarity = count($union) > 0 ? (count($intersection) / count($union)) : 0.0;
+            // Use the new smart weighted scoring system
+            $weightedResult = computeWeightedAwardMatch($rawText, $title, $keywords);
+            $scorePercent = $weightedResult['match_score'];
+            $eligibility = $weightedResult['status'];
+            $weightedMatchedKeywords = $weightedResult['matched_keywords'];
+            $scoringMethod = $weightedResult['method'];
             
-            // Semantic boost
-            $boost = 0.0;
-            foreach ($semanticMap as $root => $rels) {
-                if (strpos($text, $root) !== false) { $boost = max($boost, 0.1); }
-                else {
-                    foreach ($rels as $rel) {
-                        if (strpos($text, $rel) !== false) { $boost = max($boost, 0.1); break; }
-                    }
-                }
-            }
-            
-            // Category weights
-            $weight = 1.0;
-            $catLower = strtolower($categoryLabel);
-            if (strpos($catLower, 'individual') !== false) { $weight = 1.1; }
-            elseif (strpos($catLower, 'special') !== false) { $weight = 1.0; }
-            else { $weight = 1.0; }
-            
-            $baseScore = min(1.0, $similarity + $boost);
-            $weightedScore = min(1.0, $baseScore * $weight);
-            
-            // Use centralized thresholds
-            $scorePercent = $weightedScore * 100;
-            $eligibility = 'Not Eligible';
-            if ($scorePercent >= $thresholds['eligible']) { 
-                $eligibility = 'Eligible'; 
-            } elseif ($scorePercent >= $thresholds['partial']) { 
-                $eligibility = 'Partially Eligible'; 
-            }
-            
-            // Option 3: Enhanced matched keywords (including synonyms used for matching)
-            $matchedKeywords = [];
+            // Separate matched original keywords from synonyms for display  
+            $matchedOriginalKeywords = [];
             $matchedSynonyms = [];
             
-            // Check original keywords
+            // Check which keywords are original vs expanded
             foreach ($keywords as $kw) {
-                if (stripos($text, $kw) !== false) { 
-                    $matchedKeywords[] = $kw; 
+                if (stripos($rawText, $kw) !== false && in_array($kw, $weightedMatchedKeywords)) { 
+                    $matchedOriginalKeywords[] = $kw; 
                 }
             }
             
-            // Special case: if the award title appears in the text, include it
-            if (stripos($text, $title) !== false && !in_array($title, $matchedKeywords)) {
-                $matchedKeywords[] = $title;
-            }
-            
-            // Check expanded keywords/synonyms
             foreach ($expandedKeywords as $kw) {
-                if (stripos($text, $kw) !== false && !in_array($kw, $matchedKeywords)) { 
+                if (stripos($rawText, $kw) !== false && !in_array($kw, $weightedMatchedKeywords)) { 
                     $matchedSynonyms[] = $kw; 
                 }
             }
             
-            // Filter out awards with very low scores to reduce information overload
-            // Only include results that have meaningful scores (>= 10%) OR have matched keywords
-            $hasMatchedKeywords = !empty($matchedKeywords) || !empty($matchedSynonyms);
-            $hasMeaningfulScore = $scorePercent >= 10;
+            // More lenient filtering - include results if they have any score or matched keywords
+            $hasMatchedKeywords = !empty($weightedMatchedKeywords) || !empty($matchedOriginalKeywords) || !empty($matchedSynonyms);
+            $hasAnyScore = $scorePercent > 0;
             
-            // For award certificates, be more lenient - include if we found any keywords
-            if ($hasMeaningfulScore || $hasMatchedKeywords || $scorePercent > 0) {
+            // Include results with any meaningful score or keyword matches (much more lenient)
+            if ($hasAnyScore || $hasMatchedKeywords) {
+                error_log("Adding result for '$title': score=$scorePercent, status=$eligibility, hasScore=$hasAnyScore, hasKeywords=$hasMatchedKeywords");
                 $results[] = [
                     'title' => $title,
                     'name' => $title,  // Add name field for frontend compatibility
                     'category' => $title,  // Use title as category for display
                     'award_category' => $categoryLabel,  // Keep original category for reference
-                    'score' => round($weightedScore * 100, 1),
+                    'score' => $scorePercent,
                     'status' => $eligibility,
-                    'matched_keywords' => $matchedKeywords,
-                    'matched_synonyms' => $matchedSynonyms
+                    'matched_keywords' => $matchedOriginalKeywords,
+                    'matched_synonyms' => $matchedSynonyms,
+                    'scoring_method' => $scoringMethod
                 ];
+            } else {
+                error_log("Skipping '$title': score=$scorePercent, hasScore=$hasAnyScore, hasKeywords=$hasMatchedKeywords");
             }
         }
     }
+    
+    error_log("Total results found: " . count($results));
     
     // Sort by score desc
     usort($results, function($a, $b) { return ($b['score'] ?? 0) <=> ($a['score'] ?? 0); });
@@ -1123,3 +1374,4 @@ function stemWord($word) {
     return strlen($word) >= 3 ? $word : $originalWord;
 }
 ?>
+

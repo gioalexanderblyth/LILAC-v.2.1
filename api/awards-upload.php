@@ -107,6 +107,7 @@ try {
     }
     
     // Force fresh analysis - always extract text from uploaded file
+    $timestamp = date('Y-m-d H:i:s');
     $extractedText = extractTextFromFile($filePath, $mimeType);
     error_log("[$timestamp] Extracted text for file '" . $file['name'] . "': " . substr($extractedText, 0, 100) . "...");
     
@@ -119,12 +120,25 @@ try {
             'success' => false,
             'error' => $jsonError['user_message'] ?? $jsonError['message'],
             'error_type' => $jsonError['error'],
-            'file_type' => $mimeType
+            'file_type' => $mimeType,
+            'file_name' => $file['name']
         ];
         
+        // Add additional helpful information based on error type
         if (isset($jsonError['instructions'])) {
             $response['instructions'] = $jsonError['instructions'];
         }
+        
+        if (isset($jsonError['suggestions'])) {
+            $response['suggestions'] = $jsonError['suggestions'];
+        }
+        
+        if (isset($jsonError['debug_info'])) {
+            $response['debug_info'] = $jsonError['debug_info'];
+        }
+        
+        // Log the specific error for debugging
+        error_log("Image processing error for file '{$file['name']}': " . json_encode($jsonError));
         
         header('Content-Type: application/json');
         echo json_encode($response);
@@ -133,6 +147,43 @@ try {
     
     if (empty($extractedText)) {
         throw new Exception('Could not extract text from the uploaded file');
+    }
+    
+    // For images, check if we extracted meaningful text (not just whitespace or very short content)
+    if (in_array($mimeType, ['image/jpeg', 'image/png', 'image/jpg'])) {
+        $textLength = strlen(trim($extractedText));
+        $wordCount = str_word_count(trim($extractedText));
+        
+        error_log("OCR extracted text length: $textLength characters, word count: $wordCount");
+        error_log("Sample of extracted text: " . substr($extractedText, 0, 200));
+        
+        // If we got very little text, it might indicate OCR issues
+        if ($textLength < 50 || $wordCount < 10) {
+            error_log("WARNING: OCR extracted very little text - might indicate OCR failure or poor image quality");
+            
+            // Return a more informative error for images with poor OCR results
+            http_response_code(400);
+            $response = [
+                'success' => false,
+                'error' => 'Insufficient text extracted from image',
+                'error_type' => 'OCR_LOW_QUALITY',
+                'file_type' => $mimeType,
+                'file_name' => $file['name'],
+                'extracted_length' => $textLength,
+                'word_count' => $wordCount,
+                'sample_text' => substr($extractedText, 0, 100),
+                'suggestions' => [
+                    'The image quality might be too low for text extraction',
+                    'Try using a higher resolution image',
+                    'Ensure the text in the image is clear and readable',
+                    'Consider converting to PDF format instead'
+                ]
+            ];
+            
+            header('Content-Type: application/json');
+            echo json_encode($response);
+            exit();
+        }
     }
     
     // Load ICONS 2025 awards dataset (updated schema)
@@ -284,74 +335,46 @@ function performIconsAnalysis($rawText, $dataset) {
             $awardTokens = array_unique($awardTokens);
             if (count($awardTokens) === 0) { continue; }
             
-            // Jaccard similarity
-            $intersection = array_intersect($textTokenSet, $awardTokens);
-            $union = array_unique(array_merge($textTokenSet, $awardTokens));
-            $similarity = count($union) > 0 ? (count($intersection) / count($union)) : 0.0;
+            // Use the new smart weighted scoring system
+            $weightedResult = computeWeightedAwardMatch($rawText, $title, $keywords);
+            $scorePercent = $weightedResult['match_score'];
+            $eligibility = $weightedResult['status'];
+            $weightedMatchedKeywords = $weightedResult['matched_keywords'];
+            $scoringMethod = $weightedResult['method'];
             
-            // Semantic boost
-            $boost = 0.0;
-            foreach ($semanticMap as $root => $rels) {
-                if (strpos($text, $root) !== false) { $boost = max($boost, 0.1); }
-                else {
-                    foreach ($rels as $rel) {
-                        if (strpos($text, $rel) !== false) { $boost = max($boost, 0.1); break; }
-                    }
-                }
-            }
-            
-            // Category weights
-            $weight = 1.0;
-            $catLower = strtolower($categoryLabel);
-            if (strpos($catLower, 'individual') !== false) { $weight = 1.1; }
-            elseif (strpos($catLower, 'special') !== false) { $weight = 1.0; }
-            else { $weight = 1.0; }
-            
-            $baseScore = min(1.0, $similarity + $boost);
-            $weightedScore = min(1.0, $baseScore * $weight);
-            
-            // Use centralized thresholds
-            $scorePercent = $weightedScore * 100;
-            $eligibility = 'Not Eligible';
-            if ($scorePercent >= $thresholds['eligible']) { 
-                $eligibility = 'Eligible'; 
-            } elseif ($scorePercent >= $thresholds['partial']) { 
-                $eligibility = 'Partially Eligible'; 
-            }
-            
-            // Option 3: Enhanced matched keywords (including synonyms used for matching)
-            $matchedKeywords = [];
+            // Separate matched original keywords from synonyms for display
+            $matchedOriginalKeywords = [];
             $matchedSynonyms = [];
             
-            // Check original keywords
+            // Check which keywords are original vs expanded
             foreach ($keywords as $kw) {
-                if (stripos($text, $kw) !== false) { 
-                    $matchedKeywords[] = $kw; 
+                if (stripos($rawText, $kw) !== false && in_array($kw, $weightedMatchedKeywords)) { 
+                    $matchedOriginalKeywords[] = $kw; 
                 }
             }
             
-            // Check expanded keywords/synonyms
             foreach ($expandedKeywords as $kw) {
-                if (stripos($text, $kw) !== false && !in_array($kw, $matchedKeywords)) { 
+                if (stripos($rawText, $kw) !== false && !in_array($kw, $weightedMatchedKeywords)) { 
                     $matchedSynonyms[] = $kw; 
                 }
             }
             
-            // Filter out awards with very low scores to reduce information overload
-            // Only include results that have meaningful scores (>= 10%) OR have matched keywords
-            $hasMatchedKeywords = !empty($matchedKeywords) || !empty($matchedSynonyms);
-            $hasMeaningfulScore = $scorePercent >= 10;
+            // More lenient filtering - include results if they have any score or matched keywords
+            $hasMatchedKeywords = !empty($weightedMatchedKeywords) || !empty($matchedOriginalKeywords) || !empty($matchedSynonyms);
+            $hasAnyScore = $scorePercent > 0;
             
-            if ($hasMeaningfulScore || $hasMatchedKeywords) {
+            // Include results with any meaningful score or keyword matches (much more lenient)
+            if ($hasAnyScore || $hasMatchedKeywords) {
                 $results[] = [
                     'title' => $title,
                     'name' => $title,  // Add name field for frontend compatibility
                     'category' => $title,  // Use title as category for display
                     'award_category' => $categoryLabel,  // Keep original category for reference
-                    'score' => round($weightedScore * 100, 1),
+                    'score' => $scorePercent,
                     'status' => $eligibility,
-                    'matched_keywords' => $matchedKeywords,
-                    'matched_synonyms' => $matchedSynonyms
+                    'matched_keywords' => $matchedOriginalKeywords,
+                    'matched_synonyms' => $matchedSynonyms,
+                    'scoring_method' => $scoringMethod
                 ];
             }
         }

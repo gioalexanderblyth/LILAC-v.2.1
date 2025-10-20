@@ -2804,6 +2804,20 @@
                         } else if (data.error_type === 'OCR_DISABLED') {
                             errorTitle = 'Image Processing Disabled';
                             errorMessage = data.error + '\n\nPlease convert your image to PDF or DOCX format for text extraction.';
+                        } else if (data.error_type === 'OCR_LOW_QUALITY') {
+                            errorTitle = 'Image Text Extraction Failed';
+                            errorMessage = data.error + '\n\nOnly extracted ' + (data.extracted_length || 0) + ' characters from the image.';
+                            
+                            if (data.suggestions) {
+                                errorMessage += '\n\nSuggestions:';
+                                data.suggestions.forEach(suggestion => {
+                                    errorMessage += '\n• ' + suggestion;
+                                });
+                            }
+                            
+                            if (data.sample_text) {
+                                errorMessage += '\n\nExtracted text preview: "' + data.sample_text + '"';
+                            }
                         }
                         
                         // Reset button state and progress
@@ -3019,36 +3033,59 @@
                 awardAnalysisList.innerHTML = '';
                 if (data.analysis && Array.isArray(data.analysis)) {
                     console.log('Total analysis results received:', data.analysis.length);
+                    console.log('Analysis data sample:', JSON.stringify(data.analysis.slice(0, 2), null, 2));
                     
                     // Filter and limit results to reduce information overload
-                    // Priority: Eligible first, then Partially Eligible, then best scores
+                    // Priority: Eligible first, then Partially Eligible, then Almost Eligible, then Not Eligible
                     const eligibleAwards = data.analysis.filter(award => award.status === 'Eligible');
                     const partialAwards = data.analysis.filter(award => award.status === 'Partially Eligible');
+                    const almostEligibleAwards = data.analysis.filter(award => award.status === 'Almost Eligible');
                     const notEligibleAwards = data.analysis.filter(award => award.status === 'Not Eligible');
+                    
+                    console.log('Filtering results:', {
+                        eligible: eligibleAwards.length,
+                        partial: partialAwards.length,
+                        almostEligible: almostEligibleAwards.length,
+                        notEligible: notEligibleAwards.length
+                    });
                     
                     // Limit to max 5 results total, prioritizing eligible awards
                     let displayAwards = [];
                     displayAwards = displayAwards.concat(eligibleAwards);
                     displayAwards = displayAwards.concat(partialAwards.slice(0, 3)); // Max 3 partial
-                    displayAwards = displayAwards.concat(notEligibleAwards.slice(0, 2)); // Max 2 not eligible
+                    displayAwards = displayAwards.concat(almostEligibleAwards.slice(0, 2)); // Max 2 almost eligible
+                    displayAwards = displayAwards.concat(notEligibleAwards.slice(0, 1)); // Max 1 not eligible
                     displayAwards = displayAwards.slice(0, 5); // Total max 5
                     
                     console.log('Displaying', displayAwards.length, 'filtered analysis results');
                     if (displayAwards.length > 0) {
                         displayAwards.forEach((award, index) => {
-                            console.log(`Processing award ${index + 1}:`, award.category || award.name, `(${award.status})`);
+                            console.log(`Processing award ${index + 1}:`, award.category || award.name || award.title, `(${award.status})`);
                             const card = createAwardAnalysisCard(award);
                             awardAnalysisList.appendChild(card);
                         });
                     } else {
-                        console.log('No meaningful analysis results found after filtering');
-                        awardAnalysisList.innerHTML = `
-                            <div class="text-center py-8">
-                                <div class="material-symbols-outlined text-6xl text-gray-400 mb-4">search_off</div>
-                                <p class="text-text-muted-light dark:text-text-muted-dark text-lg mb-2">No Award Matches Found</p>
-                                <p class="text-text-muted-light dark:text-text-muted-dark">Your document didn't match the criteria for any ICONS Awards. Consider revising the content to better align with award requirements.</p>
-                            </div>
-                        `;
+                        // Fallback: Show any results with a score > 0, even if status doesn't match expected categories
+                        console.log('No results found with standard categories, trying fallback with any results with score > 0');
+                        const fallbackAwards = data.analysis.filter(award => (award.score || 0) > 0);
+                        console.log('Fallback found', fallbackAwards.length, 'results with score > 0');
+                        
+                        if (fallbackAwards.length > 0) {
+                            fallbackAwards.slice(0, 5).forEach((award, index) => {
+                                console.log(`Processing fallback award ${index + 1}:`, award.category || award.name || award.title, `(${award.status})`);
+                                const card = createAwardAnalysisCard(award);
+                                awardAnalysisList.appendChild(card);
+                            });
+                        } else {
+                            console.log('No analysis results found after fallback');
+                            awardAnalysisList.innerHTML = `
+                                <div class="text-center py-8">
+                                    <div class="material-symbols-outlined text-6xl text-gray-400 mb-4">search_off</div>
+                                    <p class="text-text-muted-light dark:text-text-muted-dark text-lg mb-2">No Award Matches Found</p>
+                                    <p class="text-text-muted-light dark:text-text-muted-dark">Your document didn't match the criteria for any ICONS Awards. Consider revising the content to better align with award requirements.</p>
+                                </div>
+                            `;
+                        }
                     }
                 } else {
                     console.log('No analysis results found in data');

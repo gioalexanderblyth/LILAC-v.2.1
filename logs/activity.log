@@ -105,3 +105,644 @@ operable program or batch file.
 [2025-10-20 08:01:29] [INFO] Using file-based database fallback
 [2025-10-20 08:01:29] [WARNING] SQLite connection failed: could not find driver
 [2025-10-20 08:01:29] [INFO] Using file-based database fallback
+[2025-10-20 08:08:19] [WARNING] SQLite connection failed: could not find driver
+[2025-10-20 08:08:19] [INFO] Using file-based database fallback
+[2025-10-20 08:08:25] [WARNING] SQLite connection failed: could not find driver
+[2025-10-20 08:08:25] [INFO] Using file-based database fallback
+[2025-10-20 08:08:25] [INFO] Starting OCR extraction for image: C:\Users\Administrator\AppData\Local\Temp\php7D7.tmp
+[2025-10-20 08:08:25] [DEBUG] Executing OCR command: C:^\Users^\Administrator^\Downloads^\THESIS DOCS^\tesseract.exe "C:\Users\Administrator\AppData\Local\Temp\php7D7.tmp" stdout 2>&1
+[2025-10-20 08:08:25] [DEBUG] OCR command raw output: 'C:\Users\Administrator\Downloads\THESIS' is not recognized as an internal or external command,
+operable program or batch file.
+ (length: 128)
+[2025-10-20 08:08:25] [INFO] OCR extraction completed successfully, extracted 127 characters
+[2025-10-20 08:08:25] [INFO] Analysis stored in file-based fallback: C:\Users\Administrator\Documents\GitHub\LILAC-v.2.1\api/../data/analysis_1760947705_68f5edf9e5495.json
+[2025-10-20 08:08:27] [WARNING] SQLite connection failed: could not find driver
+[2025-10-20 08:08:27] [INFO] Using file-based database fallback
+[2025-10-20 08:08:27] [WARNING] SQLite connection failed: could not find driver
+[2025-10-20 08:08:27] [INFO] Using file-based database fallback
+[2025-10-20 08:08:27] [WARNING] SQLite connection failed: could not find driver
+[2025-10-20 08:08:27] [INFO] Using file-based database fallback
+[2025-10-20 08:08:27] [WARNING] SQLite connection failed: could not find driver
+[2025-10-20 08:08:27] [INFO] Using file-based database fallback
+[2025-10-20 08:08:27] [WARNING] SQLite connection failed: could not find driver
+[2025-10-20 08:08:27] [INFO] Using file-based database fallback
+[2025-10-20 08:10:10] [WARNING] SQLite connection failed: could not find driver
+[2025-10-20 08:10:10] [INFO] Using file-based database fallback
+[2025-10-20 08:12:07] [WARNING] SQLite connection failed: could not find driver
+[2025-10-20 08:12:07] [INFO] Using file-based database fallback
+[2025-10-20 08:12:07] [INFO] Starting OCR extraction for image: C:\Users\Administrator\AppData\Local\Temp\php6849.tmp
+[2025-10-20 08:12:07] [DEBUG] Executing OCR command: C:^\Users^\Administrator^\Downloads^\THESIS DOCS^\tesseract.exe "C:\Users\Administrator\AppData\Local\Temp\php6849.tmp" stdout 2>&1
+[2025-10-20 08:12:07] [DEBUG] OCR command raw output: 'C:\Users\Administrator\Downloads\THESIS' is not recognized as an internal or external command,
+operable program or batch file.
+ (length: 128)
+[2025-10-20 08:12:07] [INFO] OCR extraction completed successfully, extracted 127 characters
+[2025-10-20 08:12:07] [INFO] Analysis stored in file-based fallback: C:\Users\Administrator\Documents\GitHub\LILAC-v.2.1\api/../data/analysis_1760947927_68f5eed73572a.json
+[2025-10-20 08:12:08] [WARNING] SQLite connection failed: could not find driver
+[2025-10-20 08:12:08] [INFO] Using file-based database fallback
+[2025-10-20 08:12:08] [WARNING] SQLite connection failed: could not find driver
+[2025-10-20 08:12:08] [INFO] Using file-based database fallback
+[2025-10-20 08:12:08] [WARNING] SQLite connection failed: could not find driver
+[2025-10-20 08:12:08] [INFO] Using file-based database fallback
+[2025-10-20 08:12:08] [WARNING] SQLite connection failed: could not find driver
+[2025-10-20 08:12:08] [INFO] Using file-based database fallback
+[2025-10-20 08:12:08] [WARNING] SQLite connection failed: could not find driver
+[2025-10-20 08:12:08] [INFO] Using file-based database fallback
+[2025-10-20 08:12:08] [WARNING] SQLite connection failed: could not find driver
+[2025-10-20 08:12:08] [INFO] Using file-based database fallback
+[2025-10-20 08:12:59] [WARNING] SQLite connection failed: could not find driver
+[2025-10-20 08:12:59] [INFO] Using file-based database fallback
+[2025-10-20 08:13:05] [WARNING] SQLite connection failed: could not find driver
+[2025-10-20 08:13:05] [INFO] Using file-based database fallback
+[2025-10-20 08:13:05] [INFO] Starting OCR extraction for image: C:\Users\Administrator\AppData\Local\Temp\php4D3C.tmp
+[2025-10-20 08:13:05] [DEBUG] Executing OCR command: C:^\Users^\Administrator^\Downloads^\THESIS DOCS^\tesseract.exe "C:\Users\Administrator\AppData\Local\Temp\php4D3C.tmp" stdout 2>&1
+[2025-10-20 08:13:05] [DEBUG] OCR command raw output: 'C:\Users\Administrator\Downloads\THESIS' is not recognized as an internal or external command,
+operable program or batch file.
+ (length: 128)
+[2025-10-20 08:13:05] [INFO] OCR extraction completed successfully, extracted 127 characters
+[2025-10-20 08:13:05] [INFO] Analysis stored in file-based fallback: C:\Users\Administrator\Documents\GitHub\LILAC-v.2.1\api/../data/analysis_1760947985_68f5ef11c9486.json
+[2025-10-20 08:13:07] [WARNING] SQLite connection failed: could not find driver
+[2025-10-20 08:13:07] [INFO] Using file-based database fallback
+[2025-10-20 08:13:07] [WARNING] SQLite connection failed: could not find driver
+[2025-10-20 08:13:07] [INFO] Using file-based database fallback
+[2025-10-20 08:13:07] [WARNING] SQLite connection failed: could not find driver
+[2025-10-20 08:13:07] [INFO] Using file-based database fallback
+[2025-10-20 08:13:07] [WARNING] SQLite connection failed: could not find driver
+[2025-10-20 08:13:07] [INFO] Using file-based database fallback
+[2025-10-20 08:13:07] [WARNING] SQLite connection failed: could not find driver
+[2025-10-20 08:13:07] [INFO] Using file-based database fallback
+[2025-10-20 08:13:07] [WARNING] SQLite connection failed: could not find driver
+[2025-10-20 08:13:07] [INFO] Using file-based database fallback
+[2025-10-20 08:13:07] [WARNING] SQLite connection failed: could not find driver
+[2025-10-20 08:13:07] [INFO] Using file-based database fallback
+[2025-10-20 14:08:47] [WARNING] PDO SQLite extension not available, using file-based fallback
+[2025-10-20 16:14:03] [INFO] SQLite database connection established successfully
+[2025-10-20 16:14:05] [INFO] SQLite database connection established successfully
+[2025-10-20 16:15:46] [INFO] SQLite database connection established successfully
+[2025-10-20 16:15:46] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 16:15:46] [INFO] SQLite database connection established successfully
+[2025-10-20 16:15:46] [INFO] SQLite database connection established successfully
+[2025-10-20 16:15:46] [INFO] SQLite database connection established successfully
+[2025-10-20 16:15:46] [INFO] SQLite database connection established successfully
+[2025-10-20 16:15:46] [INFO] SQLite database connection established successfully
+[2025-10-20 16:15:46] [INFO] SQLite database connection established successfully
+[2025-10-20 16:15:46] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 16:15:46] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 16:15:46] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 16:15:46] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 16:15:46] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 16:15:46] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 16:16:00] [INFO] SQLite database connection established successfully
+[2025-10-20 16:16:00] [INFO] SQLite database connection established successfully
+[2025-10-20 16:16:00] [INFO] SQLite database connection established successfully
+[2025-10-20 16:16:00] [INFO] Award deleted successfully: 68f5ebf5cedf8_1760947189_Test_Award_3_Image.png, analysis_1760947189_68f5ebf5cf06c.json
+[2025-10-20 16:16:00] [INFO] SQLite database connection established successfully
+[2025-10-20 16:16:00] [INFO] Award deleted successfully: 68f5ec586251c_1760947288_Test_Award_3_Image.png, analysis_1760947288_68f5ec586284a.json
+[2025-10-20 16:16:00] [INFO] Award deleted successfully: 68f5ec201d9ce_1760947232_Test_Award_3_Image.png, analysis_1760947232_68f5ec201dca6.json
+[2025-10-20 16:16:00] [INFO] SQLite database connection established successfully
+[2025-10-20 16:16:00] [INFO] Award deleted successfully: 68f5ef11c925c_1760947985_Test_Award_4_Image.png, analysis_1760947985_68f5ef11c9486.json
+[2025-10-20 16:16:00] [INFO] Award deleted successfully: 68f5eed7354dc_1760947927_Test_Award_4_Image.png, analysis_1760947927_68f5eed73572a.json
+[2025-10-20 16:16:00] [INFO] SQLite database connection established successfully
+[2025-10-20 16:16:00] [INFO] Award deleted successfully: 68f5edf9e5057_1760947705_Test_Award_4_Image.png, analysis_1760947705_68f5edf9e5495.json
+[2025-10-20 16:16:00] [INFO] SQLite database connection established successfully
+[2025-10-20 16:16:00] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 16:28:13] [INFO] SQLite database connection established successfully
+[2025-10-20 16:32:11] [INFO] SQLite database connection established successfully
+[2025-10-20 16:32:11] [INFO] Starting OCR extraction for image: D:\xampp\tmp\phpAFC0.tmp
+[2025-10-20 16:32:11] [DEBUG] Executing OCR command: C:^\Users^\Administrator^\Downloads^\THESIS DOCS^\tesseract.exe "D:\xampp\tmp\phpAFC0.tmp" stdout 2>&1
+[2025-10-20 16:32:11] [DEBUG] OCR command raw output: 'C:\Users\Administrator\Downloads\THESIS' is not recognized as an internal or external command,
+operable program or batch file.
+ (length: 128)
+[2025-10-20 16:32:11] [INFO] OCR extraction completed successfully, extracted 127 characters
+[2025-10-20 16:32:13] [INFO] SQLite database connection established successfully
+[2025-10-20 16:32:13] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 16:32:34] [INFO] SQLite database connection established successfully
+[2025-10-20 16:32:34] [INFO] Starting OCR extraction for image: D:\xampp\tmp\php9B8.tmp
+[2025-10-20 16:32:34] [DEBUG] Executing OCR command: C:^\Users^\Administrator^\Downloads^\THESIS DOCS^\tesseract.exe "D:\xampp\tmp\php9B8.tmp" stdout 2>&1
+[2025-10-20 16:32:34] [DEBUG] OCR command raw output: 'C:\Users\Administrator\Downloads\THESIS' is not recognized as an internal or external command,
+operable program or batch file.
+ (length: 128)
+[2025-10-20 16:32:34] [INFO] OCR extraction completed successfully, extracted 127 characters
+[2025-10-20 16:32:36] [INFO] SQLite database connection established successfully
+[2025-10-20 16:32:36] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 16:32:47] [INFO] SQLite database connection established successfully
+[2025-10-20 16:36:52] [INFO] SQLite database connection established successfully
+[2025-10-20 16:36:52] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 16:36:55] [INFO] SQLite database connection established successfully
+[2025-10-20 16:36:55] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 16:43:42] [INFO] SQLite database connection established successfully
+[2025-10-20 16:43:48] [INFO] SQLite database connection established successfully
+[2025-10-20 16:43:48] [INFO] Starting OCR extraction for image: D:\xampp\tmp\php4F9B.tmp
+[2025-10-20 16:43:48] [DEBUG] Executing OCR command: C:^\Users^\Administrator^\Downloads^\THESIS DOCS^\tesseract.exe "D:\xampp\tmp\php4F9B.tmp" stdout 2>&1
+[2025-10-20 16:43:48] [DEBUG] OCR command raw output: 'C:\Users\Administrator\Downloads\THESIS' is not recognized as an internal or external command,
+operable program or batch file.
+ (length: 128)
+[2025-10-20 16:43:48] [INFO] OCR extraction completed successfully, extracted 127 characters
+[2025-10-20 16:43:49] [INFO] SQLite database connection established successfully
+[2025-10-20 16:43:49] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 16:43:59] [INFO] SQLite database connection established successfully
+[2025-10-20 16:43:59] [INFO] Starting OCR extraction for image: D:\xampp\tmp\php7DC0.tmp
+[2025-10-20 16:43:59] [DEBUG] Executing OCR command: C:^\Users^\Administrator^\Downloads^\THESIS DOCS^\tesseract.exe "D:\xampp\tmp\php7DC0.tmp" stdout 2>&1
+[2025-10-20 16:43:59] [DEBUG] OCR command raw output: 'C:\Users\Administrator\Downloads\THESIS' is not recognized as an internal or external command,
+operable program or batch file.
+ (length: 128)
+[2025-10-20 16:43:59] [INFO] OCR extraction completed successfully, extracted 127 characters
+[2025-10-20 16:44:01] [INFO] SQLite database connection established successfully
+[2025-10-20 16:44:01] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 16:44:03] [INFO] SQLite database connection established successfully
+[2025-10-20 16:44:03] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 16:44:05] [INFO] SQLite database connection established successfully
+[2025-10-20 16:44:06] [INFO] SQLite database connection established successfully
+[2025-10-20 16:44:06] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 16:44:17] [INFO] SQLite database connection established successfully
+[2025-10-20 16:55:54] [INFO] SQLite database connection established successfully
+[2025-10-20 16:55:55] [INFO] SQLite database connection established successfully
+[2025-10-20 16:55:55] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 16:58:11] [INFO] SQLite database connection established successfully
+[2025-10-20 16:58:11] [INFO] SQLite database connection established successfully
+[2025-10-20 16:58:20] [INFO] SQLite database connection established successfully
+[2025-10-20 16:58:20] [INFO] Starting OCR extraction for image: D:\xampp\tmp\php9ED7.tmp
+[2025-10-20 16:58:20] [DEBUG] Executing OCR command: C:^\Users^\Administrator^\Downloads^\THESIS DOCS^\tesseract.exe "D:\xampp\tmp\php9ED7.tmp" stdout 2>&1
+[2025-10-20 16:58:20] [DEBUG] OCR command raw output: 'C:\Users\Administrator\Downloads\THESIS' is not recognized as an internal or external command,
+operable program or batch file.
+ (length: 128)
+[2025-10-20 16:58:20] [INFO] OCR extraction completed successfully, extracted 127 characters
+[2025-10-20 16:58:21] [INFO] SQLite database connection established successfully
+[2025-10-20 16:58:22] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:02:14] [INFO] SQLite database connection established successfully
+[2025-10-20 17:02:23] [INFO] SQLite database connection established successfully
+[2025-10-20 17:02:23] [INFO] Starting DOCX text extraction for: D:\xampp\tmp\php5623.tmp
+[2025-10-20 17:02:23] [WARNING] ZipArchive not available, using fallback text extraction
+[2025-10-20 17:02:23] [WARNING] Using fallback DOCX text extraction - ZipArchive not available
+[2025-10-20 17:02:25] [INFO] SQLite database connection established successfully
+[2025-10-20 17:02:25] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:02:35] [INFO] SQLite database connection established successfully
+[2025-10-20 17:02:35] [INFO] Starting OCR extraction for image: D:\xampp\tmp\php84A6.tmp
+[2025-10-20 17:02:35] [DEBUG] Executing OCR command: C:^\Users^\Administrator^\Downloads^\THESIS DOCS^\tesseract.exe "D:\xampp\tmp\php84A6.tmp" stdout 2>&1
+[2025-10-20 17:02:35] [DEBUG] OCR command raw output: 'C:\Users\Administrator\Downloads\THESIS' is not recognized as an internal or external command,
+operable program or batch file.
+ (length: 128)
+[2025-10-20 17:02:35] [INFO] OCR extraction completed successfully, extracted 127 characters
+[2025-10-20 17:02:37] [INFO] SQLite database connection established successfully
+[2025-10-20 17:02:37] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:02:37] [INFO] SQLite database connection established successfully
+[2025-10-20 17:02:37] [INFO] Starting OCR extraction for image: D:\xampp\tmp\php8C97.tmp
+[2025-10-20 17:02:37] [DEBUG] Executing OCR command: C:^\Users^\Administrator^\Downloads^\THESIS DOCS^\tesseract.exe "D:\xampp\tmp\php8C97.tmp" stdout 2>&1
+[2025-10-20 17:02:37] [DEBUG] OCR command raw output: 'C:\Users\Administrator\Downloads\THESIS' is not recognized as an internal or external command,
+operable program or batch file.
+ (length: 128)
+[2025-10-20 17:02:37] [INFO] OCR extraction completed successfully, extracted 127 characters
+[2025-10-20 17:02:39] [INFO] SQLite database connection established successfully
+[2025-10-20 17:02:39] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:02:44] [INFO] SQLite database connection established successfully
+[2025-10-20 17:02:44] [INFO] Starting OCR extraction for image: D:\xampp\tmp\phpA792.tmp
+[2025-10-20 17:02:44] [DEBUG] Executing OCR command: C:^\Users^\Administrator^\Downloads^\THESIS DOCS^\tesseract.exe "D:\xampp\tmp\phpA792.tmp" stdout 2>&1
+[2025-10-20 17:02:44] [DEBUG] OCR command raw output: 'C:\Users\Administrator\Downloads\THESIS' is not recognized as an internal or external command,
+operable program or batch file.
+ (length: 128)
+[2025-10-20 17:02:44] [INFO] OCR extraction completed successfully, extracted 127 characters
+[2025-10-20 17:02:46] [INFO] SQLite database connection established successfully
+[2025-10-20 17:02:46] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:02:57] [INFO] SQLite database connection established successfully
+[2025-10-20 17:02:57] [INFO] Starting DOCX text extraction for: D:\xampp\tmp\phpD7EA.tmp
+[2025-10-20 17:02:57] [WARNING] ZipArchive not available, using fallback text extraction
+[2025-10-20 17:02:57] [WARNING] Using fallback DOCX text extraction - ZipArchive not available
+[2025-10-20 17:02:58] [INFO] SQLite database connection established successfully
+[2025-10-20 17:02:58] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:03:13] [INFO] SQLite database connection established successfully
+[2025-10-20 17:03:13] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:16:06] [INFO] SQLite database connection established successfully
+[2025-10-20 17:16:12] [INFO] SQLite database connection established successfully
+[2025-10-20 17:16:12] [INFO] Starting OCR extraction for image: D:\xampp\tmp\phpF915.tmp
+[2025-10-20 17:16:12] [DEBUG] Executing OCR command: C:^\Users^\Administrator^\Downloads^\THESIS DOCS^\tesseract.exe "D:\xampp\tmp\phpF915.tmp" stdout -l eng 2>&1
+[2025-10-20 17:16:12] [INFO] OCR extraction successful via stdout, extracted 127 characters
+[2025-10-20 17:16:14] [INFO] SQLite database connection established successfully
+[2025-10-20 17:16:14] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:16:14] [INFO] SQLite database connection established successfully
+[2025-10-20 17:16:14] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:16:14] [INFO] SQLite database connection established successfully
+[2025-10-20 17:16:14] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:16:15] [INFO] SQLite database connection established successfully
+[2025-10-20 17:16:15] [INFO] SQLite database connection established successfully
+[2025-10-20 17:16:15] [INFO] SQLite database connection established successfully
+[2025-10-20 17:16:15] [INFO] SQLite database connection established successfully
+[2025-10-20 17:16:15] [INFO] SQLite database connection established successfully
+[2025-10-20 17:16:15] [INFO] SQLite database connection established successfully
+[2025-10-20 17:16:15] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:16:15] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:16:15] [INFO] SQLite database connection established successfully
+[2025-10-20 17:16:15] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:16:15] [INFO] SQLite database connection established successfully
+[2025-10-20 17:16:15] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:16:15] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:16:15] [INFO] SQLite database connection established successfully
+[2025-10-20 17:16:16] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:16:16] [INFO] SQLite database connection established successfully
+[2025-10-20 17:16:16] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:16:16] [INFO] SQLite database connection established successfully
+[2025-10-20 17:16:16] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:16:16] [INFO] SQLite database connection established successfully
+[2025-10-20 17:16:16] [INFO] SQLite database connection established successfully
+[2025-10-20 17:16:16] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:16:16] [INFO] SQLite database connection established successfully
+[2025-10-20 17:16:17] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:16:17] [INFO] SQLite database connection established successfully
+[2025-10-20 17:16:17] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:16:17] [INFO] SQLite database connection established successfully
+[2025-10-20 17:16:17] [INFO] SQLite database connection established successfully
+[2025-10-20 17:16:17] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:16:17] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:16:17] [INFO] SQLite database connection established successfully
+[2025-10-20 17:16:17] [INFO] SQLite database connection established successfully
+[2025-10-20 17:16:17] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:16:17] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:16:17] [INFO] SQLite database connection established successfully
+[2025-10-20 17:16:17] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:16:17] [INFO] SQLite database connection established successfully
+[2025-10-20 17:16:17] [INFO] SQLite database connection established successfully
+[2025-10-20 17:16:18] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:16:18] [INFO] SQLite database connection established successfully
+[2025-10-20 17:16:18] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:16:18] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:16:18] [INFO] SQLite database connection established successfully
+[2025-10-20 17:16:18] [INFO] SQLite database connection established successfully
+[2025-10-20 17:16:18] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:16:18] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:16:18] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:16:18] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:16:18] [INFO] SQLite database connection established successfully
+[2025-10-20 17:16:18] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:16:18] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:16:19] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:19:08] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:08] [INFO] Starting OCR extraction for image: D:\xampp\tmp\phpA99F.tmp
+[2025-10-20 17:19:08] [DEBUG] Executing OCR command: C:^\Users^\Administrator^\Downloads^\THESIS DOCS^\tesseract.exe "D:\xampp\tmp\phpA99F.tmp" stdout -l eng 2>&1
+[2025-10-20 17:19:08] [INFO] OCR extraction successful via stdout, extracted 127 characters
+[2025-10-20 17:19:09] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:09] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:19:09] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:09] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:19:09] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:09] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:19:09] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:09] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:19:09] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:09] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:09] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:09] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:09] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:19:09] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:09] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:19:09] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:09] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:19:09] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:10] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:19:10] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:10] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:10] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:19:10] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:10] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:19:10] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:10] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:19:10] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:10] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:19:10] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:10] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:19:10] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:10] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:19:10] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:10] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:19:10] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:10] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:19:10] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:10] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:19:10] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:10] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:19:10] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:10] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:19:10] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:10] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:19:10] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:10] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:19:10] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:10] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:19:10] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:10] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:19:10] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:10] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:19:10] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:10] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:19:10] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:19:10] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:19:10] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:19:10] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:19:14] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:14] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:19:14] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:14] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:14] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:14] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:14] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:14] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:14] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:19:14] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:14] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:19:14] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:19:14] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:14] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:19:14] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:19:14] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:14] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:19:14] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:19:15] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:15] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:19:15] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:15] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:15] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:15] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:15] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:19:15] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:15] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:19:15] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:19:15] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:15] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:19:15] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:19:15] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:15] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:19:15] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:15] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:15] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:19:15] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:15] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:19:15] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:19:15] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:15] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:15] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:19:15] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:15] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:19:15] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:15] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:19:15] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:15] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:19:15] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:15] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:19:15] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:15] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:19:15] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:15] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:19:15] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:19:15] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:19:15] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:19:15] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:19:18] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:18] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:18] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:18] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:18] [INFO] Award deleted successfully: 68ec853612027_1760331062.docx, upload_analysis_1760331062_68ec8536134f0.json
+[2025-10-20 17:19:18] [INFO] Award deleted successfully: 68ec8c7b0e669_1760332923.docx, upload_analysis_1760332923_68ec8c7b0fdb0.json
+[2025-10-20 17:19:18] [INFO] Award deleted successfully: upload_analysis_1760327896_68ec78d88f31d.json
+[2025-10-20 17:19:18] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:18] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:18] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:18] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:18] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:18] [INFO] Award deleted successfully: upload_analysis_1760327285_68ec7675bf3b2.json
+[2025-10-20 17:19:18] [INFO] Award deleted successfully: upload_analysis_1760327476_68ec773417dca.json
+[2025-10-20 17:19:18] [INFO] Award deleted successfully: upload_analysis_1760327653_68ec77e515fd6.json
+[2025-10-20 17:19:18] [INFO] Award deleted successfully: upload_analysis_1760327516_68ec775cddd40.json
+[2025-10-20 17:19:18] [INFO] Award deleted successfully: upload_analysis_1760327264_68ec7660d6f90.json
+[2025-10-20 17:19:18] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:18] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:18] [INFO] Award deleted successfully: upload_analysis_1760318375_68ec53a7e758d.json
+[2025-10-20 17:19:18] [INFO] Award deleted successfully: upload_analysis_1760284598_68ebcfb66909c.json
+[2025-10-20 17:19:18] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:18] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:18] [INFO] Award deleted successfully: upload_analysis_1760284179_68ebce13610f9.json
+[2025-10-20 17:19:18] [INFO] Award deleted successfully: upload_analysis_1760328075_68ec798b30023.json
+[2025-10-20 17:19:18] [INFO] Award deleted successfully: upload_analysis_1760283062_68ebc9b6b1461.json
+[2025-10-20 17:19:18] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:18] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:18] [INFO] Award deleted successfully: upload_analysis_1760282743_68ebc877dccab.json
+[2025-10-20 17:19:18] [INFO] Award deleted successfully: upload_analysis_1760283584_68ebcbc03635f.json
+[2025-10-20 17:19:18] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:18] [INFO] Award deleted successfully: upload_analysis_1760282478_68ebc76ec0712.json
+[2025-10-20 17:19:18] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:18] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:18] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:18] [INFO] Award deleted successfully: upload_analysis_1760282662_68ebc8266a45d.json
+[2025-10-20 17:19:18] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:18] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:18] [INFO] Award deleted successfully: upload_analysis_1760282270_68ebc69e486b7.json
+[2025-10-20 17:19:18] [INFO] Award deleted successfully: upload_analysis_1760280546_68ebbfe253eff.json
+[2025-10-20 17:19:18] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:18] [INFO] Award deleted successfully: upload_analysis_1760281470_68ebc37e4b538.json
+[2025-10-20 17:19:18] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:18] [INFO] Award deleted successfully: upload_analysis_1760281136_68ebc23098d60.json
+[2025-10-20 17:19:18] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:18] [INFO] Award deleted successfully: upload_analysis_1760280332_68ebbf0c1a4d0.json
+[2025-10-20 17:19:18] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:18] [INFO] Award deleted successfully: upload_analysis_1760279903_68ebbd5f784ef.json
+[2025-10-20 17:19:18] [INFO] Award deleted successfully: upload_analysis_1760279486_68ebbbbe0f99a.json
+[2025-10-20 17:19:18] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:18] [INFO] Award deleted successfully: upload_analysis_1760279707_68ebbc9bd3c13.json
+[2025-10-20 17:19:18] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:18] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:18] [INFO] Award deleted successfully: upload_analysis_1760279301_68ebbb05c6230.json
+[2025-10-20 17:19:18] [INFO] Award deleted successfully: upload_analysis_1760278411_68ebb78ba67df.json
+[2025-10-20 17:19:18] [INFO] Award deleted successfully: upload_analysis_1760278623_68ebb85f5c0f6.json
+[2025-10-20 17:19:18] [INFO] SQLite database connection established successfully
+[2025-10-20 17:19:18] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:22:04] [INFO] SQLite database connection established successfully
+[2025-10-20 17:22:04] [INFO] Starting OCR extraction for image: D:\xampp\tmp\php5836.tmp
+[2025-10-20 17:22:04] [DEBUG] Executing OCR command: C:^\Users^\Administrator^\Downloads^\THESIS DOCS^\tesseract.exe "D:\xampp\tmp\php5836.tmp" stdout -l eng 2>&1
+[2025-10-20 17:22:04] [INFO] OCR extraction successful via stdout, extracted 127 characters
+[2025-10-20 17:22:05] [INFO] SQLite database connection established successfully
+[2025-10-20 17:22:05] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:22:06] [INFO] SQLite database connection established successfully
+[2025-10-20 17:22:07] [INFO] SQLite database connection established successfully
+[2025-10-20 17:22:07] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:22:10] [INFO] SQLite database connection established successfully
+[2025-10-20 17:22:11] [INFO] SQLite database connection established successfully
+[2025-10-20 17:22:11] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:22:18] [INFO] SQLite database connection established successfully
+[2025-10-20 17:22:18] [INFO] Starting DOCX text extraction for: D:\xampp\tmp\php90CB.tmp
+[2025-10-20 17:22:18] [WARNING] ZipArchive not available, using fallback text extraction
+[2025-10-20 17:22:18] [WARNING] Using fallback DOCX text extraction - ZipArchive not available
+[2025-10-20 17:22:20] [INFO] SQLite database connection established successfully
+[2025-10-20 17:22:20] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:25:07] [INFO] SQLite database connection established successfully
+[2025-10-20 17:25:07] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:25:09] [INFO] SQLite database connection established successfully
+[2025-10-20 17:25:10] [INFO] SQLite database connection established successfully
+[2025-10-20 17:25:10] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:41:18] [INFO] SQLite database connection established successfully
+[2025-10-20 17:41:22] [INFO] SQLite database connection established successfully
+[2025-10-20 17:41:22] [INFO] Starting OCR extraction for image: D:\xampp\tmp\php415.tmp
+[2025-10-20 17:41:22] [DEBUG] Executing OCR command: C:^\Users^\Administrator^\Downloads^\THESIS DOCS^\tesseract.exe "D:\xampp\tmp\php415.tmp" stdout -l eng 2>&1
+[2025-10-20 17:41:22] [INFO] OCR extracted: 127 characters, 19 words. Sample: 'C:\Users\Administrator\Downloads\THESIS' is not recognized as an internal or external command,
+oper
+[2025-10-20 17:41:22] [INFO] OCR extraction successful via stdout, extracted 127 characters
+[2025-10-20 17:41:23] [INFO] SQLite database connection established successfully
+[2025-10-20 17:41:23] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:41:25] [INFO] SQLite database connection established successfully
+[2025-10-20 17:41:25] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:41:33] [INFO] SQLite database connection established successfully
+[2025-10-20 17:41:33] [INFO] Starting OCR extraction for image: D:\xampp\tmp\php3028.tmp
+[2025-10-20 17:41:33] [DEBUG] Executing OCR command: C:^\Users^\Administrator^\Downloads^\THESIS DOCS^\tesseract.exe "D:\xampp\tmp\php3028.tmp" stdout -l eng 2>&1
+[2025-10-20 17:41:33] [INFO] OCR extracted: 127 characters, 19 words. Sample: 'C:\Users\Administrator\Downloads\THESIS' is not recognized as an internal or external command,
+oper
+[2025-10-20 17:41:33] [INFO] OCR extraction successful via stdout, extracted 127 characters
+[2025-10-20 17:41:35] [INFO] SQLite database connection established successfully
+[2025-10-20 17:41:35] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:41:37] [INFO] SQLite database connection established successfully
+[2025-10-20 17:41:37] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:41:39] [INFO] SQLite database connection established successfully
+[2025-10-20 17:41:41] [INFO] SQLite database connection established successfully
+[2025-10-20 17:41:41] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:46:26] [INFO] SQLite database connection established successfully
+[2025-10-20 17:46:32] [INFO] SQLite database connection established successfully
+[2025-10-20 17:46:32] [INFO] Starting OCR extraction for image: D:\xampp\tmp\phpBEE8.tmp
+[2025-10-20 17:46:32] [DEBUG] Executing OCR command: C:^\Users^\Administrator^\Downloads^\THESIS DOCS^\tesseract.exe "D:\xampp\tmp\phpBEE8.tmp" stdout -l eng 2>&1
+[2025-10-20 17:46:32] [INFO] OCR extracted: 127 characters, 19 words. Sample: 'C:\Users\Administrator\Downloads\THESIS' is not recognized as an internal or external command,
+oper
+[2025-10-20 17:46:32] [INFO] OCR extraction successful via stdout, extracted 127 characters
+[2025-10-20 17:46:33] [INFO] SQLite database connection established successfully
+[2025-10-20 17:46:33] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:46:33] [INFO] SQLite database connection established successfully
+[2025-10-20 17:46:33] [WARNING] Database connection failed in awards.php: SQLSTATE[HY000]: General error: 1 no such column: predicted_category
+[2025-10-20 17:50:55] [INFO] SQLite database connection established successfully
+[2025-10-20 17:50:55] [INFO] SQLite database connection established successfully
+[2025-10-20 17:51:01] [INFO] SQLite database connection established successfully
+[2025-10-20 17:51:01] [INFO] Starting DOCX text extraction for: D:\xampp\tmp\phpDAEA.tmp
+[2025-10-20 17:51:01] [WARNING] ZipArchive not available, using fallback text extraction
+[2025-10-20 17:51:01] [WARNING] Using fallback DOCX text extraction - ZipArchive not available
+[2025-10-20 17:51:02] [INFO] SQLite database connection established successfully
+[2025-10-20 17:51:06] [INFO] SQLite database connection established successfully
+[2025-10-20 17:53:29] [INFO] SQLite database connection established successfully
+[2025-10-20 17:53:31] [INFO] SQLite database connection established successfully
+[2025-10-20 17:53:32] [INFO] SQLite database connection established successfully
+[2025-10-20 17:53:34] [INFO] SQLite database connection established successfully
+[2025-10-20 18:04:47] [INFO] SQLite database connection established successfully
+[2025-10-20 18:04:48] [INFO] SQLite database connection established successfully
+[2025-10-20 18:04:54] [INFO] SQLite database connection established successfully
+[2025-10-20 18:04:54] [INFO] Starting OCR extraction for image: D:\xampp\tmp\php91BD.tmp
+[2025-10-20 18:04:54] [DEBUG] Executing OCR command: C:^\Users^\Administrator^\Downloads^\THESIS DOCS^\tesseract.exe "D:\xampp\tmp\php91BD.tmp" stdout -l eng 2>&1
+[2025-10-20 18:04:54] [INFO] OCR extracted: 127 characters, 19 words. Sample: 'C:\Users\Administrator\Downloads\THESIS' is not recognized as an internal or external command,
+oper
+[2025-10-20 18:04:54] [INFO] OCR extraction successful via stdout, extracted 127 characters
+[2025-10-20 18:04:56] [INFO] SQLite database connection established successfully
+[2025-10-20 18:04:57] [INFO] SQLite database connection established successfully
+[2025-10-20 18:04:58] [INFO] SQLite database connection established successfully
+[2025-10-20 18:05:08] [INFO] SQLite database connection established successfully
+[2025-10-20 18:05:08] [INFO] Starting DOCX text extraction for: D:\xampp\tmp\phpC7A3.tmp
+[2025-10-20 18:05:08] [WARNING] ZipArchive not available, using fallback text extraction
+[2025-10-20 18:05:08] [WARNING] Using fallback DOCX text extraction - ZipArchive not available
+[2025-10-20 18:05:09] [INFO] SQLite database connection established successfully
+[2025-10-20 18:05:11] [INFO] SQLite database connection established successfully
+[2025-10-20 18:10:12] [INFO] SQLite database connection established successfully
+[2025-10-20 18:10:13] [INFO] SQLite database connection established successfully
+[2025-10-20 18:10:18] [INFO] SQLite database connection established successfully
+[2025-10-20 18:10:18] [INFO] Starting OCR extraction for image: D:\xampp\tmp\php8469.tmp
+[2025-10-20 18:10:18] [DEBUG] Executing OCR command: C:^\Users^\Administrator^\Downloads^\THESIS DOCS^\tesseract.exe "D:\xampp\tmp\php8469.tmp" stdout -l eng 2>&1
+[2025-10-20 18:10:18] [INFO] OCR extracted: 127 characters, 19 words. Sample: 'C:\Users\Administrator\Downloads\THESIS' is not recognized as an internal or external command,
+oper
+[2025-10-20 18:10:18] [INFO] OCR extraction successful via stdout, extracted 127 characters
+[2025-10-20 18:10:20] [INFO] SQLite database connection established successfully
+[2025-10-20 18:10:20] [INFO] SQLite database connection established successfully
+[2025-10-20 18:10:26] [INFO] SQLite database connection established successfully
+[2025-10-20 18:10:26] [INFO] Starting DOCX text extraction for: D:\xampp\tmp\phpA34C.tmp
+[2025-10-20 18:10:26] [WARNING] ZipArchive not available, using fallback text extraction
+[2025-10-20 18:10:26] [WARNING] Using fallback DOCX text extraction - ZipArchive not available
+[2025-10-20 18:10:28] [INFO] SQLite database connection established successfully
+[2025-10-20 18:10:28] [INFO] SQLite database connection established successfully
+[2025-10-20 16:11:45] [WARNING] PDO SQLite extension not available, using file-based fallback
+[2025-10-20 18:18:50] [INFO] SQLite database connection established successfully
+[2025-10-20 16:18:50] [WARNING] PDO SQLite extension not available, using file-based fallback
+[2025-10-20 18:18:51] [INFO] SQLite database connection established successfully
+[2025-10-20 18:18:52] [INFO] SQLite database connection established successfully
+[2025-10-20 18:18:52] [INFO] SQLite database connection established successfully
+[2025-10-20 18:18:53] [INFO] SQLite database connection established successfully
+[2025-10-20 18:19:51] [INFO] SQLite database connection established successfully
+[2025-10-20 18:19:53] [INFO] SQLite database connection established successfully
+[2025-10-20 18:19:55] [INFO] SQLite database connection established successfully
+[2025-10-20 18:19:58] [INFO] SQLite database connection established successfully
+[2025-10-20 18:22:32] [INFO] SQLite database connection established successfully
+[2025-10-20 18:22:38] [INFO] SQLite database connection established successfully
+[2025-10-20 18:22:38] [INFO] Starting DOCX text extraction for: D:\xampp\tmp\phpCCF7.tmp
+[2025-10-20 18:22:38] [WARNING] ZipArchive not available, using fallback text extraction
+[2025-10-20 18:22:38] [WARNING] Using fallback DOCX text extraction - ZipArchive not available
+[2025-10-20 18:22:39] [INFO] SQLite database connection established successfully
+[2025-10-20 18:22:40] [INFO] SQLite database connection established successfully
+[2025-10-20 18:36:56] [INFO] SQLite database connection established successfully
+[2025-10-20 18:36:57] [INFO] SQLite database connection established successfully
+[2025-10-20 18:36:57] [INFO] SQLite database connection established successfully
+[2025-10-20 18:36:59] [INFO] SQLite database connection established successfully
+[2025-10-20 18:37:00] [INFO] SQLite database connection established successfully
+[2025-10-20 18:37:02] [INFO] SQLite database connection established successfully
+[2025-10-20 18:37:02] [INFO] SQLite database connection established successfully
+[2025-10-20 18:37:03] [INFO] SQLite database connection established successfully
+[2025-10-20 18:37:08] [INFO] SQLite database connection established successfully
+[2025-10-20 18:37:08] [INFO] Starting DOCX text extraction for: D:\xampp\tmp\php1201.tmp
+[2025-10-20 18:37:08] [WARNING] ZipArchive not available, using fallback text extraction
+[2025-10-20 18:37:08] [WARNING] Using fallback DOCX text extraction - ZipArchive not available
+[2025-10-20 18:37:09] [INFO] SQLite database connection established successfully
+[2025-10-20 18:37:09] [INFO] SQLite database connection established successfully
+[2025-10-20 18:37:10] [INFO] SQLite database connection established successfully
+[2025-10-20 18:39:21] [INFO] SQLite database connection established successfully
+[2025-10-20 18:39:22] [INFO] SQLite database connection established successfully
+[2025-10-20 18:39:33] [INFO] SQLite database connection established successfully
+[2025-10-20 18:41:02] [INFO] SQLite database connection established successfully
+[2025-10-20 18:41:03] [INFO] SQLite database connection established successfully
+[2025-10-20 18:41:13] [INFO] SQLite database connection established successfully
+[2025-10-20 18:41:13] [INFO] Starting DOCX text extraction for: D:\xampp\tmp\phpD033.tmp
+[2025-10-20 18:41:13] [WARNING] ZipArchive not available, using fallback text extraction
+[2025-10-20 18:41:13] [WARNING] Using fallback DOCX text extraction - ZipArchive not available
+[2025-10-20 18:41:14] [INFO] SQLite database connection established successfully
+[2025-10-20 18:41:18] [INFO] SQLite database connection established successfully
+[2025-10-20 18:53:29] [INFO] SQLite database connection established successfully
+[2025-10-20 18:53:29] [INFO] SQLite database connection established successfully
+[2025-10-20 18:53:35] [INFO] SQLite database connection established successfully
+[2025-10-20 18:53:35] [INFO] Starting DOCX text extraction for: D:\xampp\tmp\php23EC.tmp
+[2025-10-20 18:53:35] [WARNING] ZipArchive not available, using fallback text extraction
+[2025-10-20 18:53:35] [WARNING] Using fallback DOCX text extraction - ZipArchive not available
+[2025-10-20 18:53:37] [INFO] SQLite database connection established successfully
+[2025-10-20 18:53:38] [INFO] SQLite database connection established successfully
+[2025-10-20 18:57:32] [INFO] SQLite database connection established successfully
+[2025-10-20 18:57:34] [INFO] SQLite database connection established successfully
+[2025-10-20 18:57:34] [INFO] SQLite database connection established successfully
+[2025-10-20 19:00:49] [INFO] SQLite database connection established successfully
+[2025-10-20 19:00:50] [INFO] SQLite database connection established successfully
+[2025-10-20 19:00:51] [INFO] SQLite database connection established successfully
+[2025-10-20 19:00:51] [INFO] SQLite database connection established successfully
+[2025-10-20 19:00:51] [INFO] SQLite database connection established successfully
+[2025-10-20 19:00:53] [INFO] SQLite database connection established successfully
+[2025-10-20 19:19:07] [INFO] SQLite database connection established successfully
+[2025-10-20 19:19:09] [INFO] SQLite database connection established successfully
+[2025-10-20 19:19:16] [INFO] SQLite database connection established successfully
+[2025-10-20 19:19:16] [INFO] Starting DOCX text extraction for: D:\xampp\tmp\phpA86F.tmp
+[2025-10-20 19:19:16] [WARNING] ZipArchive not available, using fallback text extraction
+[2025-10-20 19:19:16] [WARNING] Using fallback DOCX text extraction - ZipArchive not available
+[2025-10-20 19:19:18] [INFO] SQLite database connection established successfully
+[2025-10-20 19:19:21] [INFO] SQLite database connection established successfully
+[2025-10-20 19:21:40] [INFO] SQLite database connection established successfully
+[2025-10-20 19:21:42] [INFO] SQLite database connection established successfully
+[2025-10-20 19:21:43] [INFO] SQLite database connection established successfully
+[2025-10-20 19:23:47] [INFO] SQLite database connection established successfully
+[2025-10-20 19:23:48] [INFO] SQLite database connection established successfully
+[2025-10-20 19:23:48] [INFO] SQLite database connection established successfully
+[2025-10-20 19:24:04] [INFO] SQLite database connection established successfully
+[2025-10-20 19:24:04] [INFO] Starting DOCX text extraction for: D:\xampp\tmp\phpB9B.tmp
+[2025-10-20 19:24:04] [WARNING] ZipArchive not available, using fallback text extraction
+[2025-10-20 19:24:04] [WARNING] Using fallback DOCX text extraction - ZipArchive not available
+[2025-10-20 19:24:05] [INFO] SQLite database connection established successfully
+[2025-10-20 19:24:05] [INFO] SQLite database connection established successfully
+[2025-10-20 19:24:06] [INFO] SQLite database connection established successfully
+[2025-10-20 19:24:06] [INFO] SQLite database connection established successfully
+[2025-10-20 19:30:04] [INFO] SQLite database connection established successfully
+[2025-10-20 19:30:04] [INFO] SQLite database connection established successfully
+[2025-10-20 19:30:10] [INFO] SQLite database connection established successfully
+[2025-10-20 19:30:10] [INFO] Starting DOCX text extraction for: D:\xampp\tmp\phpA033.tmp
+[2025-10-20 19:30:10] [WARNING] ZipArchive not available, using fallback text extraction
+[2025-10-20 19:30:10] [WARNING] Using fallback DOCX text extraction - ZipArchive not available
+[2025-10-20 19:30:11] [INFO] SQLite database connection established successfully
+[2025-10-20 19:30:11] [INFO] SQLite database connection established successfully
+[2025-10-20 19:30:13] [INFO] SQLite database connection established successfully
