@@ -1215,7 +1215,23 @@
                     // Refresh the awards list to show updated results
                     await window.loadAwardListData();
                 } else {
-                    throw new Error(reanalyzeData.error || 'Re-analysis failed');
+                    // Handle OCR-related errors with better messaging
+                    let errorMessage = reanalyzeData.error || 'Re-analysis failed';
+                    
+                    if (reanalyzeData.error_type === 'OCR_NOT_INSTALLED') {
+                        errorMessage = 'Image Processing Unavailable\n\nThis server does not have OCR (Optical Character Recognition) installed. Please convert your image to PDF or DOCX format for text extraction.';
+                        
+                        if (reanalyzeData.instructions) {
+                            errorMessage += '\n\nInstallation Instructions:';
+                            reanalyzeData.instructions.forEach(instruction => {
+                                errorMessage += '\n• ' + instruction;
+                            });
+                        }
+                    } else if (reanalyzeData.error_type === 'OCR_DISABLED') {
+                        errorMessage = 'Image Processing Disabled\n\nPlease convert your image to PDF or DOCX format for text extraction.';
+                    }
+                    
+                    throw new Error(errorMessage);
                 }
                 
             } catch (error) {

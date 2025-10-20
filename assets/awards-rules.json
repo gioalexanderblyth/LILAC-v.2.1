@@ -1,9 +1,9 @@
 {
   "match_threshold": 0.5,
   "thresholds": {
-    "eligible": 90,
-    "partial": 80,
-    "not_eligible": 60
+    "eligible": 50,
+    "partial": 30,
+    "not_eligible": 10
   },
   "categories": {
     "gca": {

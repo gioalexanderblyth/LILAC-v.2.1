@@ -118,6 +118,26 @@ try {
     error_log("Text extraction completed, length: " . strlen($extractedText));
     error_log("Extracted text preview: " . substr($extractedText, 0, 100) . "...");
     
+    // Check if the extraction returned a JSON error response (e.g., missing OCR)
+    $jsonError = json_decode($extractedText, true);
+    if ($jsonError && isset($jsonError['error'])) {
+        // Handle OCR-related errors gracefully
+        error_log("OCR error detected: " . ($jsonError['error'] ?? 'unknown'));
+        
+        http_response_code(400);
+        $response = [
+            'success' => false,
+            'error' => $jsonError['user_message'] ?? $jsonError['message'],
+            'error_type' => $jsonError['error'],
+            'file_type' => $fileType,
+            'instructions' => $jsonError['instructions'] ?? null
+        ];
+        
+        ob_clean();
+        echo json_encode($response);
+        exit;
+    }
+    
     if (empty($extractedText)) {
         throw new Exception('Could not extract text from the uploaded file');
     }

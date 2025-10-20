@@ -338,14 +338,16 @@ function performIconsAnalysis($rawText, $dataset) {
             }
             
             // Filter out awards with very low scores to reduce information overload
-            // Only include results that have meaningful scores (>= 25%) OR have matched keywords
+            // Only include results that have meaningful scores (>= 10%) OR have matched keywords
             $hasMatchedKeywords = !empty($matchedKeywords) || !empty($matchedSynonyms);
-            $hasMeaningfulScore = $scorePercent >= 25;
+            $hasMeaningfulScore = $scorePercent >= 10;
             
             if ($hasMeaningfulScore || $hasMatchedKeywords) {
                 $results[] = [
                     'title' => $title,
-                    'category' => $categoryLabel,
+                    'name' => $title,  // Add name field for frontend compatibility
+                    'category' => $title,  // Use title as category for display
+                    'award_category' => $categoryLabel,  // Keep original category for reference
                     'score' => round($weightedScore * 100, 1),
                     'status' => $eligibility,
                     'matched_keywords' => $matchedKeywords,

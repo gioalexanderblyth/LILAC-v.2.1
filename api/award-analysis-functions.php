@@ -624,8 +624,8 @@ function analyzeTextAgainstCriteria($text, $awardsCriteria) {
         $directHits = count($matchedCriteria);
         $isRelevant = validateRelevance($award['category'], $textLower, $matchedCriteria);
         
-        // Only include awards with meaningful scores (> 40%) and relevance validation
-        if ($finalScore > 40 && $isRelevant) {
+        // Only include awards with meaningful scores (> 25%) and relevance validation
+        if ($finalScore > 25 && $isRelevant) {
             // Use centralized thresholds for eligibility
             $status = 'Not Eligible';
             if ($finalScore >= $thresholds['eligible'] && $directHits >= 2) {
@@ -791,12 +791,18 @@ function validateRelevance($category, $textLower, $matchedCriteria) {
     switch ($category) {
         case 'Sustainability Award':
             // Must contain environmental/eco-related terms
-            $ecoTerms = ['environmental', 'green', 'carbon', 'renewable', 'climate', 'eco', 'sustainability', 'conservation', 'waste', 'energy', 'biodiversity'];
+            $ecoTerms = ['environmental', 'green', 'carbon', 'renewable', 'climate', 'eco', 'sustainability', 'conservation', 'waste', 'energy', 'biodiversity', 'sustainable'];
             foreach ($ecoTerms as $term) {
                 if (strpos($textLower, $term) !== false) {
                     return true;
                 }
             }
+            
+            // If it's clearly an award document mentioning sustainability, allow it
+            if (strpos($textLower, 'award') !== false && (strpos($textLower, 'sustainability') !== false || strpos($textLower, 'sustainable') !== false)) {
+                return true;
+            }
+            
             return false;
             
         case 'Emerging Leadership Award':
@@ -1028,6 +1034,11 @@ function performIconsAnalysis($rawText, $dataset) {
                 }
             }
             
+            // Special case: if the award title appears in the text, include it
+            if (stripos($text, $title) !== false && !in_array($title, $matchedKeywords)) {
+                $matchedKeywords[] = $title;
+            }
+            
             // Check expanded keywords/synonyms
             foreach ($expandedKeywords as $kw) {
                 if (stripos($text, $kw) !== false && !in_array($kw, $matchedKeywords)) { 
@@ -1036,14 +1047,17 @@ function performIconsAnalysis($rawText, $dataset) {
             }
             
             // Filter out awards with very low scores to reduce information overload
-            // Only include results that have meaningful scores (>= 25%) OR have matched keywords
+            // Only include results that have meaningful scores (>= 10%) OR have matched keywords
             $hasMatchedKeywords = !empty($matchedKeywords) || !empty($matchedSynonyms);
-            $hasMeaningfulScore = $scorePercent >= 25;
+            $hasMeaningfulScore = $scorePercent >= 10;
             
-            if ($hasMeaningfulScore || $hasMatchedKeywords) {
+            // For award certificates, be more lenient - include if we found any keywords
+            if ($hasMeaningfulScore || $hasMatchedKeywords || $scorePercent > 0) {
                 $results[] = [
                     'title' => $title,
-                    'category' => $categoryLabel,
+                    'name' => $title,  // Add name field for frontend compatibility
+                    'category' => $title,  // Use title as category for display
+                    'award_category' => $categoryLabel,  // Keep original category for reference
                     'score' => round($weightedScore * 100, 1),
                     'status' => $eligibility,
                     'matched_keywords' => $matchedKeywords,
