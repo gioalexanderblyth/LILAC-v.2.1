@@ -426,15 +426,38 @@ function extractTextFromImage($filePath) {
     
     $tesseractPath = getTesseractPath();
     if (!$tesseractPath) {
-        logActivity('Tesseract OCR not found on system', 'ERROR');
+        logActivity('Tesseract OCR not found on system. Checked paths: ' . implode(', ', [
+            TESSERACT_PATH_WINDOWS,
+            'tesseract.exe (in PATH)',
+            'C:\\Program Files (x86)\\Tesseract-OCR\\tesseract.exe',
+            'C:\\Program Files\\Tesseract-OCR\\tesseract.exe'
+        ]), 'ERROR');
+        
+        // Test if tesseract command exists but wasn't found
+        $testCommand = (PHP_OS_FAMILY === 'Windows' ? 'where tesseract.exe 2>nul' : 'which tesseract 2>/dev/null');
+        $testOutput = shell_exec($testCommand);
+        logActivity('Tesseract PATH test result: ' . ($testOutput ? trim($testOutput) : 'Not found'), 'DEBUG');
+        
         return json_encode([
             'error' => 'OCR_NOT_INSTALLED',
             'message' => 'Tesseract OCR is required for image text extraction but was not found.',
-            'user_message' => 'Image text extraction requires Tesseract OCR which is not installed on this server. Please convert your image to PDF or DOCX format, or contact your administrator to install Tesseract OCR.',
+            'user_message' => 'Image text extraction requires Tesseract OCR which is not installed on this server. Please convert your image to PDF or DOCX format, or install Tesseract OCR.',
             'instructions' => [
-                'Windows: Download from https://github.com/UB-Mannheim/tesseract/wiki',
+                'Windows: Download Tesseract from https://github.com/UB-Mannheim/tesseract/wiki',
+                'Install to default path: C:\\Program Files\\Tesseract-OCR\\',
+                'Add to system PATH or restart your web server',
                 'Linux: Install with "sudo apt-get install tesseract-ocr"',
                 'macOS: Install with "brew install tesseract"'
+            ],
+            'debug_info' => [
+                'os_family' => PHP_OS_FAMILY,
+                'checked_paths' => [
+                    TESSERACT_PATH_WINDOWS,
+                    'tesseract.exe (in PATH)',
+                    'C:\\Program Files (x86)\\Tesseract-OCR\\tesseract.exe',
+                    'C:\\Program Files\\Tesseract-OCR\\tesseract.exe'
+                ],
+                'path_test' => $testOutput ? trim($testOutput) : 'Not found'
             ]
         ]);
     }
@@ -455,24 +478,50 @@ function extractTextFromImage($filePath) {
         // Capture output directly from tesseract
         $extractedText = shell_exec($command);
         
+        // Log the raw output for debugging
+        logActivity("OCR command raw output: " . ($extractedText ?: 'NULL') . " (length: " . strlen($extractedText ?? '') . ")", 'DEBUG');
+        
         if ($extractedText === null) {
-            throw new Exception('Failed to execute OCR command');
+            // Try to get error output
+            $errorCommand = escapeshellcmd($tesseractPath) . ' --version 2>&1';
+            $versionOutput = shell_exec($errorCommand);
+            logActivity("Tesseract version test: " . ($versionOutput ?: 'FAILED'), 'ERROR');
+            
+            throw new Exception('Failed to execute OCR command - Tesseract may not be properly installed or accessible');
         }
         
         $extractedText = trim($extractedText);
         
         if (empty($extractedText)) {
+            logActivity('OCR returned empty text - this may be normal for images without text', 'WARNING');
             throw new Exception('OCR returned no text content. Image may not contain extractable text.');
         }
         
-        logActivity('OCR extraction completed successfully', 'INFO');
+        logActivity('OCR extraction completed successfully, extracted ' . strlen($extractedText) . ' characters', 'INFO');
         return $extractedText;
         
     } catch (Exception $e) {
         logActivity('OCR extraction failed: ' . $e->getMessage(), 'ERROR');
         
         // Fallback: Try traditional file-based method
-        return extractTextFromImageFallback($filePath, $tesseractPath);
+        try {
+            return extractTextFromImageFallback($filePath, $tesseractPath);
+        } catch (Exception $fallbackException) {
+            logActivity('OCR fallback also failed: ' . $fallbackException->getMessage(), 'ERROR');
+            
+            // Return a more helpful error message
+            return json_encode([
+                'error' => 'OCR_EXTRACTION_FAILED',
+                'message' => 'OCR extraction failed on both primary and fallback methods.',
+                'user_message' => 'Unable to extract text from the image. This could be due to poor image quality, missing text, or OCR configuration issues. Please try converting the image to PDF or DOCX format.',
+                'debug_info' => [
+                    'primary_error' => $e->getMessage(),
+                    'fallback_error' => $fallbackException->getMessage(),
+                    'tesseract_path' => $tesseractPath,
+                    'file_exists' => file_exists($filePath)
+                ]
+            ]);
+        }
     }
 }
 

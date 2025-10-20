@@ -211,7 +211,10 @@ function getTesseractPath() {
         $commonPaths = [
             TESSERACT_PATH_WINDOWS,
             'tesseract.exe',
-            'C:\\Program Files (x86)\\Tesseract-OCR\\tesseract.exe'
+            'C:\\Program Files (x86)\\Tesseract-OCR\\tesseract.exe',
+            'C:\\Program Files\\Tesseract-OCR\\tesseract.exe',
+            'C:\\tesseract\\tesseract.exe',
+            'C:\\Users\\' . get_current_user() . '\\AppData\\Local\\Tesseract-OCR\\tesseract.exe'
         ];
     } else {
         $commonPaths = [

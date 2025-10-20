@@ -2358,6 +2358,7 @@
 [2025-10-20 07:07:23] [INFO] SQLite database connection established successfully
 [2025-10-20 07:13:36] [INFO] SQLite database connection established successfully
 [2025-10-20 07:13:38] [INFO] SQLite database connection established successfully
+<<<<<<< Updated upstream
 [2025-10-20 07:36:39] [INFO] SQLite database connection established successfully
 [2025-10-20 07:36:40] [INFO] SQLite database connection established successfully
 [2025-10-20 06:09:09] [WARNING] SQLite connection failed: could not find driver
@@ -2374,3 +2375,25 @@
 [2025-10-20 06:29:56] [INFO] Using file-based database fallback
 [2025-10-20 06:29:57] [WARNING] SQLite connection failed: could not find driver
 [2025-10-20 06:29:57] [INFO] Using file-based database fallback
+=======
+[2025-10-20 05:20:41] [WARNING] SQLite connection failed: could not find driver
+[2025-10-20 05:20:41] [INFO] Using file-based database fallback
+[2025-10-20 05:20:42] [WARNING] SQLite connection failed: could not find driver
+[2025-10-20 05:20:42] [INFO] Using file-based database fallback
+[2025-10-20 05:21:09] [WARNING] SQLite connection failed: could not find driver
+[2025-10-20 05:21:09] [INFO] Using file-based database fallback
+[2025-10-20 05:21:09] [INFO] Starting DOCX text extraction for: C:\Users\Administrator\AppData\Local\Temp\phpE4B8.tmp
+[2025-10-20 05:21:09] [WARNING] ZipArchive not available, using fallback text extraction
+[2025-10-20 05:21:09] [WARNING] Using fallback DOCX text extraction - ZipArchive not available
+[2025-10-20 05:21:09] [INFO] Analysis stored in file-based fallback: C:\Users\Administrator\Documents\GitHub\LILAC-v.2.1\api/../data/analysis_1760937669_68f5c6c5d3f3e.json
+[2025-10-20 05:21:11] [WARNING] SQLite connection failed: could not find driver
+[2025-10-20 05:21:11] [INFO] Using file-based database fallback
+[2025-10-20 05:21:11] [WARNING] SQLite connection failed: could not find driver
+[2025-10-20 05:21:11] [INFO] Using file-based database fallback
+[2025-10-20 05:21:13] [WARNING] SQLite connection failed: could not find driver
+[2025-10-20 05:21:13] [INFO] Using file-based database fallback
+[2025-10-20 05:43:59] [WARNING] SQLite connection failed: could not find driver
+[2025-10-20 05:43:59] [INFO] Using file-based database fallback
+[2025-10-20 05:43:59] [WARNING] SQLite connection failed: could not find driver
+[2025-10-20 05:44:00] [INFO] Using file-based database fallback
+>>>>>>> Stashed changes
