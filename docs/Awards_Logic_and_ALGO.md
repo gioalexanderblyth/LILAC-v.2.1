@@ -1,214 +1,81 @@
-🏆 ICONS 2025 — Core 4 Awards Logic
+🧩 Main Goal
 
-These are the main Institutional and Individual awards your system evaluates text against.
+The algorithm determines whether an uploaded award certificate qualifies the organization (or individual) for a specific academic or institutional award based on how closely the certificate’s data matches the award’s criteria.
 
-🏫 1. Global Citizenship Award
+⚙️ Algorithm Logic (Simplified Version)
+1. Input Data
 
-Goal: Identify programs that foster intercultural understanding, global engagement, and active citizenship.
+Award criteria — stored in the database (e.g., keywords, year, type, category, institution, etc.)
 
-Key criteria keywords:
+Uploaded award certificate — when uploaded, the system extracts metadata (like award name, category, description, and other text data).
 
-global citizenship
+2. Similarity Checking
 
-intercultural understanding
+For each uploaded certificate, the system performs a textual similarity check between:
 
-community engagement
+The certificate’s extracted content, and
 
-student mobility
+Each award’s defined criteria in the database.
 
-responsible leadership
+👉 The system may use Jaccard Similarity, Cosine Similarity, or a keyword matching function.
 
-global collaboration
+3. Compute Similarity Score
 
-cross-cultural activities
-
-changemaker development
-
-Weight: Institutional — 1.0x
-
-Thresholds:
-
-≥ 80% → Eligible
-
-60–79% → Partially Eligible
-
-< 60% → Not Eligible
-
-🌏 2. Outstanding International Education Program Award
-
-Goal: Detect initiatives that promote internationalization in academics, inclusive global opportunities, and cross-border education.
-
-Key criteria keywords:
-
-international education
-
-cross-border collaboration
-
-global partnerships
-
-academic mobility
-
-exchange programs
-
-inclusivity
-
-innovation
-
-collaborative projects
-
-Weight: Institutional — 1.0x
-
-Thresholds:
-
-≥ 80% → Eligible
-
-60–79% → Partially Eligible
-
-< 60% → Not Eligible
-
-🌿 3. Sustainability Award
-
-Goal: Recognize efforts that promote sustainability, environmental awareness, and long-term commitment to green initiatives.
-
-Key criteria keywords:
-
-sustainability
-
-environmental awareness
-
-green initiative
-
-eco-friendly practices
-
-carbon reduction
-
-long-term sustainability program
-
-community sustainability outreach
-
-Weight: Institutional — 1.0x
-
-Thresholds:
-
-≥ 80% → Eligible
-
-60–79% → Partially Eligible
-
-< 60% → Not Eligible
-
-👥 4. Internationalization Leadership Award
-
-Goal: Identify strong leadership and governance driving internationalization strategies within HEIs.
-
-Key criteria keywords:
-
-internationalization leadership
-
-institutional leadership
-
-strategic vision
-
-governance
-
-mentorship
-
-ethical leadership
-
-collaboration excellence
-
-capacity building
-
-Weight: Individual — 1.1x
-
-Thresholds:
-
-≥ 80% → Eligible
-
-60–79% → Partially Eligible
-
-< 60% → Not Eligible
-
-⚙️ Algorithm (Jaccard + Semantic Scoring Hybrid)
-Step 1: Preprocessing
-
-Convert both award text and award criteria keywords into lowercase.
-
-Remove stopwords (“the”, “of”, “and”, etc.).
-
-Tokenize into word sets.
-
-Step 2: Jaccard Similarity
-
-Compute overlap ratio between the uploaded document and each award’s keyword set.
-
-𝐽
-(
-𝐴
-,
-𝐵
-)
-=
-∣
-𝐴
-∩
-𝐵
-∣
-∣
-𝐴
-∪
-𝐵
-∣
-J(A,B)=
-∣A∪B∣
-∣A∩B∣
-	​
-
-
-Where:
-
-A = set of unique words from uploaded text
-
-B = set of unique keywords for the award
+Each comparison produces a percentage match (0–100%), showing how close the certificate is to meeting the award’s criteria.
 
 Example:
 
-A = {international, partnership, students, research, ASEAN}
-B = {international, collaboration, program, education}
-J = 2 / 7 = 0.2857 → 28.57%
+Certificate	Award Criteria	Similarity Score
+“Sustainability Award 2024”	“Environmental Sustainability Award”	92%
+“Leadership in Education”	“Outstanding Leadership Award”	78%
+4. Determine Eligibility
 
-Step 3: Semantic Synonym Scoring
+Once a percentage score is computed, the algorithm applies your new threshold rule:
 
-Boost scores using synonym mapping and semantic similarity (via a lightweight NLP model or a synonyms.json file).
+Score (%)	Eligibility Result
+90–100%	✅ Eligible
+70–89%	⚠️ Almost Eligible
+Below 70%	❌ Not Eligible
+5. Output / Display
 
-For example:
+The system displays the results in the Awards Page table:
 
-"partnership" ≈ "collaboration"
-"mobility" ≈ "exchange"
-"leadership" ≈ "governance"
+The name of the uploaded certificate,
 
+The award title it was compared to,
 
-This adds +10–20% to the match if strong synonyms are found.
+The percentage match, and
 
-Step 4: Weighted Aggregation
+The eligibility label (“Eligible”, “Almost Eligible”, or “Not Eligible”).
 
-Combine base Jaccard score + semantic boost × type multiplier:
+🔍 Example Simulation
 
-final_score = (jaccard_score + semantic_bonus) × type_weight
+Uploaded Certificate:
 
-Step 5: Eligibility Classification
-if final_score ≥ 80 → Eligible ✅
-elif final_score ≥ 60 → Partially Eligible ⚠️
-else → Not Eligible ❌
+“Sustainability and Environmental Excellence Award 2024”
 
-Step 6: Output Format
+Award in Database:
 
-Each award should display like this:
+“Environmental Sustainability Award”
 
-🏅 Internationalization Leadership Award
-Type: Individual
-Score: 92%
-✅ Eligible
-Criteria Matched:
-- leadership excellence
-- internationalization leadership
-- institutional leadership
+Similarity Computed: 0.91 → 91%
+
+✅ Result: Eligible
+
+💡 Summary of Simplified Logic
+
+User uploads an award certificate.
+
+System extracts text (title, description).
+
+System compares text against stored award criteria.
+
+System calculates similarity percentage.
+
+Based on the percentage, it classifies eligibility:
+
+≥ 90 → Eligible
+
+70–89 → Almost Eligible
+
+< 70 → Not Eligible

@@ -1,0 +1,79 @@
+# Apache configuration for LILAC application
+RewriteEngine On
+
+# Enable PHP file processing
+<Files "*.php">
+    SetHandler application/x-httpd-php
+</Files>
+
+# Set default index file
+DirectoryIndex index.html dashboard.html
+
+# Allow .htaccess overrides
+AllowOverride All
+
+# Set proper MIME types
+<IfModule mod_mime.c>
+    AddType application/x-httpd-php .php
+    AddType image/jpeg .jpg .jpeg
+    AddType image/png .png
+    AddType application/pdf .pdf
+    AddType application/vnd.openxmlformats-officedocument.wordprocessingml.document .docx
+</IfModule>
+
+# Enable CORS for API calls
+<IfModule mod_headers.c>
+    Header always set Access-Control-Allow-Origin "*"
+    Header always set Access-Control-Allow-Methods "GET, POST, OPTIONS, PUT, DELETE"
+    Header always set Access-Control-Allow-Headers "Content-Type, Authorization, X-Requested-With, X-User, X-Role"
+    
+    # Handle preflight OPTIONS requests
+    RewriteCond %{REQUEST_METHOD} OPTIONS
+    RewriteRule ^(.*)$ $1 [R=200,L]
+</IfModule>
+
+# Security headers
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options nosniff
+    Header always set X-Frame-Options DENY
+    Header always set X-XSS-Protection "1; mode=block"
+</IfModule>
+
+# File upload limits (adjust based on your needs)
+php_value upload_max_filesize 10M
+php_value post_max_size 10M
+php_value max_execution_time 300
+php_value memory_limit 256M
+
+# Enable error logging
+<IfModule mod_log_config.c>
+    LogFormat "%h %l %u %t \"%r\" %>s %O \"%{Referer}i\" \"%{User-Agent}i\"" combined
+    CustomLog logs/access.log combined
+    ErrorLog logs/error.log
+</IfModule>
+
+# Deny access to sensitive files
+<FilesMatch "\.(ini|log|conf|cnf|txt|md)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Protect uploads directory from direct PHP execution
+<Directory "uploads/">
+    <FilesMatch "\.(php|php3|php4|php5|phtml|pl|py|jsp|asp|sh|cgi)$">
+        Order allow,deny
+        Deny from all
+    </FilesMatch>
+</Directory>
+
+# Protect database directory
+<Directory "database/">
+    Order allow,deny
+    Deny from all
+</Directory>
+
+# Protect logs directory
+<Directory "logs/">
+    Order allow,deny
+    Deny from all
+</Directory>

@@ -42,9 +42,23 @@ function getDatabaseConnection() {
     static $pdo = null;
     
     if ($pdo === null) {
+        // Check if SQLite extension is available first
+        if (!extension_loaded('pdo_sqlite')) {
+            logActivity('PDO SQLite extension not available, using file-based fallback', 'WARNING');
+            $pdo = new FileBasedDatabase();
+            return $pdo;
+        }
+        
         // Try SQLite first
         try {
             $dbPath = __DIR__ . '/../database/lilac.db';
+            
+            // Ensure database directory exists
+            $dbDir = dirname($dbPath);
+            if (!is_dir($dbDir)) {
+                mkdir($dbDir, 0755, true);
+            }
+            
             $pdo = new PDO('sqlite:' . $dbPath);
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
@@ -60,6 +74,12 @@ function getDatabaseConnection() {
             // Fallback: Use file-based storage
             $pdo = new FileBasedDatabase();
             logActivity('Using file-based database fallback', 'INFO');
+        } catch (Exception $e) {
+            logActivity('Database connection error: ' . $e->getMessage(), 'WARNING');
+            
+            // Fallback: Use file-based storage
+            $pdo = new FileBasedDatabase();
+            logActivity('Using file-based database fallback due to general error', 'INFO');
         }
     }
     
@@ -106,8 +126,8 @@ class FileBasedDatabase {
 class FileBasedStatement {
     private $data;
     
-    public function __construct($data) {
-        $this->data = $data;
+    public function __construct($data = []) {
+        $this->data = is_array($data) ? $data : [];
     }
     
     public function execute($params = []) {
@@ -120,6 +140,18 @@ class FileBasedStatement {
     
     public function fetch($mode = PDO::FETCH_ASSOC) {
         return $this->data[0] ?? false;
+    }
+    
+    public function rowCount() {
+        return count($this->data);
+    }
+    
+    public function bindParam($parameter, &$variable, $type = null) {
+        return true;
+    }
+    
+    public function bindValue($parameter, $value, $type = null) {
+        return true;
     }
 }
 
@@ -211,7 +243,11 @@ function getTesseractPath() {
         $commonPaths = [
             TESSERACT_PATH_WINDOWS,
             'tesseract.exe',
-            'C:\\Program Files (x86)\\Tesseract-OCR\\tesseract.exe'
+            'C:\\Program Files (x86)\\Tesseract-OCR\\tesseract.exe',
+            'C:\\Program Files\\Tesseract-OCR\\tesseract.exe',
+            'C:\\tesseract\\tesseract.exe',
+            'C:\\Users\\' . get_current_user() . '\\AppData\\Local\\Tesseract-OCR\\tesseract.exe',
+            'C:\\Users\\Administrator\\Downloads\\THESIS DOCS\\tesseract.exe'
         ];
     } else {
         $commonPaths = [

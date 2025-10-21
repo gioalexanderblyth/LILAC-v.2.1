@@ -148,7 +148,14 @@ function listAwards($pdo) {
         $awards = [];
         
         if (is_dir($dataDir)) {
-            $files = glob($dataDir . 'analysis_*.json');
+            // Look for both analysis_*.json and upload_analysis_*.json files
+            $files = array_merge(
+                glob($dataDir . 'analysis_*.json'),
+                glob($dataDir . 'upload_analysis_*.json')
+            );
+            
+            // Debug: Log how many files we found
+            error_log("Award list: Found " . count($files) . " analysis files in " . $dataDir);
             
             foreach ($files as $file) {
                 $content = file_get_contents($file);
@@ -182,8 +189,8 @@ function listAwards($pdo) {
                             'created_at' => $data['created_at'] ?? date('Y-m-d H:i:s'),
                             'analysis' => [
                                 'confidence' => ($bestMatch['score'] ?? 0) / 100,
-                                'predicted_category' => $bestMatch['category'] ?? 'Not Analyzed',
-                                'matched_criteria' => $bestMatch['matched_criteria'] ?? [],
+                                'predicted_category' => $bestMatch['title'] ?? $bestMatch['category'] ?? 'Not Analyzed',
+                                'matched_criteria' => $bestMatch['matched_keywords'] ?? $bestMatch['matched_criteria'] ?? [],
                                 'status' => $bestMatch['status'] ?? 'Not Analyzed'
                             ]
                         ];
@@ -244,6 +251,12 @@ function listAwards($pdo) {
             }
         }
         
+        // Debug: Log final award count and sample
+        error_log("Award list: Returning " . count($awards) . " awards");
+        if (count($awards) > 0) {
+            error_log("Sample award: " . json_encode($awards[0]));
+        }
+        
         echo json_encode($awards);
         return;
     }
@@ -264,7 +277,11 @@ function detail($pdo, $id) {
         $fileId = str_replace('file_', '', $id);
         
         if (is_dir($dataDir)) {
-            $files = glob($dataDir . 'analysis_*.json');
+            // Look for both analysis_*.json and upload_analysis_*.json files
+            $files = array_merge(
+                glob($dataDir . 'analysis_*.json'),
+                glob($dataDir . 'upload_analysis_*.json')
+            );
             foreach ($files as $file) {
                 if (strpos(basename($file, '.json'), $fileId) !== false) {
                     $analysisFile = $file;
@@ -296,14 +313,14 @@ function detail($pdo, $id) {
                 $analysis = [
                     'id' => 1,
                     'award_id' => $id,
-                    'predicted_category' => $bestMatch['category'] ?? 'Not Analyzed',
+                    'predicted_category' => $bestMatch['title'] ?? $bestMatch['category'] ?? 'Not Analyzed',
                     'confidence' => ($bestMatch['score'] ?? 0) / 100,
-                    'matched_categories_json' => json_encode($bestMatch['matched_criteria'] ?? []),
-                    'checklist_json' => json_encode($bestMatch['matched_criteria'] ?? []),
+                    'matched_categories_json' => json_encode($bestMatch['matched_keywords'] ?? $bestMatch['matched_criteria'] ?? []),
+                    'checklist_json' => json_encode($bestMatch['matched_keywords'] ?? $bestMatch['matched_criteria'] ?? []),
                     'recommendations_text' => $bestMatch['recommendation'] ?? 'No recommendations available.',
-                    'evidence_json' => json_encode($bestMatch['matched_criteria'] ?? []),
+                    'evidence_json' => json_encode($bestMatch['matched_keywords'] ?? $bestMatch['matched_criteria'] ?? []),
                     'manual_overridden' => 0,
-                    'final_category' => $bestMatch['category'] ?? 'Not Analyzed',
+                    'final_category' => $bestMatch['title'] ?? $bestMatch['category'] ?? 'Not Analyzed',
                     'created_at' => $data['created_at'] ?? date('Y-m-d H:i:s'),
                     // Include the full analysis results for the view modal
                     'analysis_results' => $data['analysis_results'] ?? '[]',
