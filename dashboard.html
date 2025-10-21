@@ -3,6 +3,21 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>LILAC Dashboard</title>
+<script>
+// Immediate redirect logic - execute as early as possible
+(function() {
+    try {
+        var isLocal = location.hostname === '127.0.0.1' || location.hostname === 'localhost';
+        if (isLocal && (location.port === '' || location.port === '80')) {
+            var pathname = location.pathname;
+            // Keep the full path including /LILAC-v.2.1 when redirecting to port 8000
+            var target = location.protocol + '//' + 'localhost:8000' + pathname + location.search + location.hash;
+            location.replace(target);
+            return;
+        }
+    } catch (e) { }
+})();
+</script>
 <link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
@@ -604,11 +619,19 @@
     (function() {
         try {
             var isLocal = location.hostname === '127.0.0.1' || location.hostname === 'localhost';
-            if (isLocal && location.port !== '8000') {
-                var target = location.protocol + '//' + 'localhost' + ':8000' + location.pathname + location.search + location.hash;
+            if (isLocal && (location.port === '' || location.port === '80')) {
+                // Remove the /LILAC-v.2.1 prefix when redirecting to port 8000
+                var pathname = location.pathname;
+                if (pathname.startsWith('/LILAC-v.2.1/')) {
+                    pathname = pathname.replace('/LILAC-v.2.1', '');
+                }
+                var target = location.protocol + '//' + 'localhost:8000' + pathname + location.search + location.hash;
+                console.log('Redirecting from', location.href, 'to', target);
                 location.replace(target);
             }
-        } catch (e) { }
+        } catch (e) { 
+            console.error('Redirect error:', e);
+        }
     })();
 </script>
 </body></html>

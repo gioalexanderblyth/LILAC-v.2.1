@@ -179,6 +179,68 @@
         .no-scrollbar::-webkit-scrollbar {
             display: none; /* Chrome, Safari */
         }
+        
+        /* Custom scrollbar styling for all elements */
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: #cbd5e1 #f1f5f9;
+        }
+        
+        /* Firefox scrollbar styling */
+        html {
+            scrollbar-width: thin;
+            scrollbar-color: #cbd5e1 #f1f5f9;
+        }
+        
+        /* Dark mode Firefox scrollbar */
+        .dark * {
+            scrollbar-color: #475569 #1e293b;
+        }
+        .dark html {
+            scrollbar-color: #475569 #1e293b;
+        }
+        
+        /* WebKit scrollbar styling (Chrome, Safari, Edge) */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+            transition: background-color 0.2s ease;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        
+        ::-webkit-scrollbar-corner {
+            background: #f1f5f9;
+        }
+        
+        /* Dark mode WebKit scrollbar styling */
+        .dark ::-webkit-scrollbar-track {
+            background: #1e293b;
+        }
+        
+        .dark ::-webkit-scrollbar-thumb {
+            background: #475569;
+        }
+        
+        .dark ::-webkit-scrollbar-thumb:hover {
+            background: #64748b;
+        }
+        
+        .dark ::-webkit-scrollbar-corner {
+            background: #1e293b;
+        }
         /* New counter cards styling is handled by Tailwind classes */
         .tab-underline {
             position: relative;
@@ -554,15 +616,12 @@
     </div>
 
     <!-- Modal for KPI Details -->
-    <div id="kpiModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
-        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-4xl w-full max-h-[90vh] overflow-hidden">
+    <div id="kpiModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-4xl w-full my-8">
             <div class="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
                 <h2 id="modalTitle" class="text-xl font-bold text-gray-900 dark:text-gray-100"></h2>
-                <button onclick="closeModal()" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
-                    <span class="material-symbols-outlined">close</span>
-                </button>
             </div>
-            <div id="modalContent" class="p-6 overflow-y-auto max-h-[calc(90vh-120px)]">
+            <div id="modalContent" class="p-6">
                 <!-- Dynamic content will be inserted here -->
             </div>
         </div>
@@ -2066,6 +2125,9 @@
                     
                     renderAwardList(filteredAwardsData);
                     
+                    // Check for URL parameters to automatically filter by award
+                    handleUrlParameters();
+                    
                     // Update counters with calculated stats
                     const calculatedStats = {
                         total: awardsWithAnalysis.length,
@@ -3283,7 +3345,12 @@
         try {
             var isLocal = location.hostname === '127.0.0.1' || location.hostname === 'localhost';
             if (isLocal && location.port !== '8000') {
-                var target = location.protocol + '//' + 'localhost' + ':8000' + location.pathname + location.search + location.hash;
+                // Remove the /LILAC-v.2.1 prefix when redirecting to port 8000
+                var pathname = location.pathname;
+                if (pathname.startsWith('/LILAC-v.2.1/')) {
+                    pathname = pathname.replace('/LILAC-v.2.1', '');
+                }
+                var target = location.protocol + '//' + 'localhost' + ':8000' + pathname + location.search + location.hash;
                 location.replace(target);
             }
         } catch (e) { }
@@ -3520,15 +3587,150 @@
                     <p class="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">${details.requirements}</p>
                 </div>
 
-                <div class="flex justify-end gap-3 pt-4 border-t border-gray-200 dark:border-gray-600">
-                    <button onclick="closeModal()" class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-600 hover:bg-gray-200 dark:hover:bg-gray-500 rounded-lg transition-colors">
-                        Close
+                <div class="flex justify-between items-center pt-4 border-t border-gray-200 dark:border-gray-600">
+                    <button onclick="viewFullDetailsForAward('${awardName}')" class="px-4 py-2 text-sm font-medium text-white bg-primary hover:bg-primary/90 rounded-lg transition-colors">
+                        View Full Details
                     </button>
+                    <div class="flex gap-3">
+                        <button onclick="closeModal()" class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-600 hover:bg-gray-200 dark:hover:bg-gray-500 rounded-lg transition-colors">
+                            Close
+                        </button>
+                    </div>
                 </div>
             </div>
         `;
         
         showModal(`📋 ${awardName} - Details & Requirements`, content);
+    }
+
+    // View Full Details for Award - navigates to dedicated page with all uploads for specific award
+    function viewFullDetailsForAward(awardName) {
+        // Close the current modal first
+        closeModal();
+        
+        // Map award names to page file names
+        const awardPageMap = {
+            'Global Citizenship Award': 'global-citizenship-award.html',
+            'Outstanding International Education Program Award': 'outstanding-international-education-award.html',
+            'Sustainability Award': 'sustainability-award.html',
+            'Best ASEAN Awareness Initiative Award': 'best-asean-awareness-award.html',
+            'Emerging Leadership Award': 'emerging-leadership-award.html',
+            'Internationalization Leadership Award': 'internationalization-leadership-award.html',
+            'Best CHED Regional Office for Internationalization Award': 'best-ched-regional-office-award.html',
+            'Most Promising Regional IRO Community Award': 'most-promising-iro-community-award.html'
+        };
+        
+        const pageName = awardPageMap[awardName];
+        if (!pageName) {
+            showNotification('Award page not found', 'error');
+            return;
+        }
+        
+        // Navigate to dedicated award page
+        const currentPath = window.location.pathname;
+        const baseUrl = currentPath.includes('/LILAC-v.2.1/') ? 
+            window.location.origin + '/LILAC-v.2.1/' + pageName : 
+            window.location.origin + '/' + pageName;
+        
+        window.location.href = baseUrl;
+    }
+
+    // Show modal with all uploads for a specific award
+    function showAwardSpecificModal(awardName, matchingAwards) {
+        // Create modal HTML content
+        const uploadsContent = matchingAwards.map((award, index) => {
+            const analysis = award.analysis || {};
+            let analysisResults = [];
+            try {
+                analysisResults = analysis.analysis_results ? JSON.parse(analysis.analysis_results) : [];
+            } catch (e) {
+                console.warn('Error parsing analysis results:', e);
+            }
+            
+            // Filter results for this specific award
+            const awardResults = analysisResults.filter(result => 
+                result.award_name === awardName || 
+                result.award_category === awardName ||
+                result.category === awardName
+            );
+
+            return `
+                <div class="border border-gray-200 dark:border-gray-600 rounded-lg p-4 mb-4">
+                    <div class="flex justify-between items-start mb-3">
+                        <div>
+                            <h4 class="font-semibold text-gray-900 dark:text-white">${award.title || 'Untitled Document'}</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">${award.file_name || 'Unknown file'}</p>
+                        </div>
+                        <button onclick="window.viewAward('${award.id}')" class="px-3 py-1 text-sm bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors">
+                            View Details
+                        </button>
+                    </div>
+                    
+                    ${awardResults.length > 0 ? `
+                        <div class="space-y-2">
+                            <h5 class="font-medium text-gray-700 dark:text-gray-300">Analysis Results for ${awardName}:</h5>
+                            ${awardResults.map(result => `
+                                <div class="bg-gray-50 dark:bg-gray-700 p-3 rounded">
+                                    <div class="flex items-center justify-between">
+                                        <span class="font-medium text-gray-900 dark:text-white">${result.award_name || result.category || awardName}</span>
+                                        <span class="px-2 py-1 rounded text-xs font-medium ${result.status === 'Eligible' ? 'bg-green-100 text-green-800' : result.status === 'Partially Eligible' ? 'bg-yellow-100 text-yellow-800' : 'bg-red-100 text-red-800'}">
+                                            ${result.status || 'Unknown'}
+                                        </span>
+                                    </div>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">${result.recommendation || 'No recommendation available'}</p>
+                                </div>
+                            `).join('')}
+                        </div>
+                    ` : `
+                        <p class="text-sm text-gray-500 dark:text-gray-400">No analysis results available for this award category.</p>
+                    `}
+                </div>
+            `;
+        }).join('');
+
+        const modalContent = `
+            <div class="space-y-4">
+                <div class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-lg p-4">
+                    <h3 class="text-lg font-semibold text-blue-900 dark:text-blue-100 mb-2">${awardName}</h3>
+                    <p class="text-sm text-blue-700 dark:text-blue-300">Found ${matchingAwards.length} upload(s) related to this award.</p>
+                </div>
+                
+                <div class="max-h-96 overflow-y-auto">
+                    ${uploadsContent || '<p class="text-gray-500 dark:text-gray-400 text-center py-8">No uploads found for this award.</p>'}
+                </div>
+            </div>
+        `;
+
+        // Create and show the modal
+        const modal = document.createElement('div');
+        modal.className = 'fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4';
+        modal.innerHTML = `
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-4xl w-full max-h-[80vh] overflow-y-auto">
+                <div class="p-6">
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="flex items-center gap-3">
+                            <div class="flex items-center justify-center w-10 h-10 bg-blue-100 dark:bg-blue-900/20 rounded-full">
+                                <svg class="w-5 h-5 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                </svg>
+                            </div>
+                            <h2 class="text-xl font-semibold text-gray-900 dark:text-white">Award Details: ${awardName}</h2>
+                        </div>
+                        <button onclick="this.closest('.fixed').remove()" class="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
+                            <svg class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    
+                    <div class="modal-content">
+                        ${modalContent}
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        document.body.appendChild(modal);
     }
 
     // KPI Click Functions
