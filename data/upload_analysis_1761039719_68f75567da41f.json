@@ -1,9 +1,9 @@
 {
-    "title": "asd",
-    "description": "asd",
-    "file_name": "Test_Award_1.docx",
-    "file_path": "D:\\xampp\\tmp\\php8493.tmp",
+    "title": "Test",
+    "description": "test",
+    "file_name": "Test_Award_2.docx",
+    "file_path": "D:\\xampp\\tmp\\php74B1.tmp",
     "detected_text": "Document could not be fully processed due to missing ZipArchive support. Please install the ZipArchive PHP extension for proper DOCX text extraction, or convert the document to PDF format. Document information about international education initiatives, leadership programs, and institutional achievements may qualify for various ICONS Awards 2025 categories.",
     "analysis_results": "[{\"title\":\"Emerging Leadership Award\",\"name\":\"Emerging Leadership Award\",\"category\":\"Emerging Leadership Award\",\"award_category\":\"Individual Awards\",\"score\":75,\"status\":\"Partially Eligible\",\"matched_keywords\":[\"initiative\"],\"matched_synonyms\":[],\"scoring_method\":\"weighted_themes\"},{\"title\":\"Outstanding International Education Program Award\",\"name\":\"Outstanding International Education Program Award\",\"category\":\"Outstanding International Education Program Award\",\"award_category\":\"Institutional Awards\",\"score\":45,\"status\":\"Not Eligible\",\"matched_keywords\":[\"international education\"],\"matched_synonyms\":[],\"scoring_method\":\"weighted_themes\"},{\"title\":\"Global Citizenship Award\",\"name\":\"Global Citizenship Award\",\"category\":\"Global Citizenship Award\",\"award_category\":\"Institutional Awards\",\"score\":25,\"status\":\"Not Eligible\",\"matched_keywords\":[\"leadership\"],\"matched_synonyms\":[],\"scoring_method\":\"weighted_themes\"},{\"title\":\"Internationalization Leadership Award\",\"name\":\"Internationalization Leadership Award\",\"category\":\"Internationalization Leadership Award\",\"award_category\":\"Individual Awards\",\"score\":25,\"status\":\"Not Eligible\",\"matched_keywords\":[],\"matched_synonyms\":[],\"scoring_method\":\"weighted_themes\"},{\"title\":\"Best CHED Regional Office for Internationalization Award\",\"name\":\"Best CHED Regional Office for Internationalization Award\",\"category\":\"Best CHED Regional Office for Internationalization Award\",\"award_category\":\"Special Awards\",\"score\":0,\"status\":\"Not Eligible\",\"matched_keywords\":[],\"matched_synonyms\":[\"initiative\"],\"scoring_method\":\"weighted_themes\"}]",
-    "created_at": "2025-10-21 11:08:12"
+    "created_at": "2025-10-21 11:41:59"
 }
