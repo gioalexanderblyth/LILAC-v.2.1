@@ -2430,7 +2430,12 @@ function renderSidebarCalendar() {
         try {
             var isLocal = location.hostname === '127.0.0.1' || location.hostname === 'localhost';
             if (isLocal && location.port !== '8000') {
-                var target = location.protocol + '//' + 'localhost' + ':8000' + location.pathname + location.search + location.hash;
+                // Remove the /LILAC-v.2.1 prefix when redirecting to port 8000
+                var pathname = location.pathname;
+                if (pathname.startsWith('/LILAC-v.2.1/')) {
+                    pathname = pathname.replace('/LILAC-v.2.1', '');
+                }
+                var target = location.protocol + '//' + 'localhost' + ':8000' + pathname + location.search + location.hash;
                 location.replace(target);
             }
         } catch (e) { }
