@@ -74,6 +74,36 @@ try {
     
     error_log("Form data - Award name: '$awardName', Description: '$description', File: " . ($uploadedFile ? $uploadedFile['name'] : 'none') . ", Reanalyze: " . ($isReanalyze ? 'yes' : 'no'));
 
+    // IMMEDIATE BACKUP - Create award file as soon as we have the uploaded file data
+    if ($uploadedFile && $uploadedFile['error'] === UPLOAD_ERR_OK && !$isReanalyze) {
+        try {
+            $immediateData = [
+                'title' => $awardName,
+                'description' => $description,
+                'file_name' => $uploadedFile['name'],
+                'file_path' => '',
+                'detected_text' => '',
+                'analysis_results' => '[]',
+                'created_at' => date('Y-m-d H:i:s')
+            ];
+            
+            $dataDir = __DIR__ . '/../data/';
+            if (!is_dir($dataDir)) {
+                @mkdir($dataDir, 0755, true);
+            }
+            
+            $immediateFile = $dataDir . 'upload_analysis_' . time() . '_' . uniqid() . '.json';
+            $result = @file_put_contents($immediateFile, json_encode($immediateData, JSON_PRETTY_PRINT));
+            
+            if ($result !== false) {
+                error_log("IMMEDIATE BACKUP SUCCESS in analyze-award.php: " . $immediateFile);
+                $GLOBALS['award_backup_file'] = $immediateFile;
+            }
+        } catch (Exception $e) {
+            error_log("Immediate backup failed in analyze-award.php: " . $e->getMessage());
+        }
+    }
+
     // Validate required fields
     if ($isReanalyze) {
         // For re-analysis, only need the file
@@ -177,6 +207,28 @@ try {
     
     // Log completion
     error_log("[$timestamp] ANALYSIS COMPLETED SUCCESSFULLY - Results count: " . count($analysis));
+    
+    // UPDATE BACKUP FILE with complete analysis results
+    if (isset($GLOBALS['award_backup_file']) && file_exists($GLOBALS['award_backup_file'])) {
+        try {
+            $completeData = [
+                'title' => $awardName,
+                'description' => $description,
+                'file_name' => $uploadedFile['name'] ?? 'unknown',
+                'file_path' => $uploadedFile['tmp_name'] ?? '',
+                'detected_text' => $extractedText,
+                'analysis_results' => json_encode($analysis),
+                'created_at' => date('Y-m-d H:i:s')
+            ];
+            
+            $result = @file_put_contents($GLOBALS['award_backup_file'], json_encode($completeData, JSON_PRETTY_PRINT));
+            if ($result !== false) {
+                error_log("BACKUP UPDATED with analysis results: " . $GLOBALS['award_backup_file']);
+            }
+        } catch (Exception $e) {
+            error_log("Failed to update backup file: " . $e->getMessage());
+        }
+    }
     
     // Return the analysis results
     $response = [

@@ -486,10 +486,24 @@
                     try { updateRequirementsFromAnalysis(res); } catch {}
                     refreshStats();
                     
-                    // Refresh award list data if the function exists
+                    // IMMEDIATE REFRESH - Force reload awards list
+                    console.log('Upload successful - refreshing awards list');
+                    
+                    // Try multiple refresh methods
                     if (typeof loadAwardListData === 'function') {
                         loadAwardListData();
                     }
+                    
+                    // Force page reload to show new award immediately
+                    setTimeout(() => {
+                        if (window.location.pathname.includes('awards') || 
+                            window.location.search.includes('awards') ||
+                            document.querySelector('[data-awards-list]') ||
+                            document.title.includes('Awards')) {
+                            console.log('Reloading page to show new award');
+                            window.location.reload();
+                        }
+                    }, 500);
                     
                     // Hide progress after delay
                     setTimeout(() => {
