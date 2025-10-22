@@ -113,7 +113,6 @@
                                         <option value="">All Status</option>
                                         <option value="eligible">Eligible</option>
                                         <option value="partially-eligible">Partially Eligible</option>
-                                        <option value="not-eligible">Not Eligible</option>
                                     </select>
                                 </div>
                             </div>
@@ -160,7 +159,7 @@
 
         async function loadAwardDocuments() {
             try {
-                const response = await fetch('api/awards.php?action=list');
+                const response = await fetch('../api/awards.php?action=list');
                 if (!response.ok) throw new Error('Failed to load award data');
                 
                 const allAwards = await response.json();
@@ -168,7 +167,7 @@
                 
                 for (const award of allAwards) {
                     try {
-                        const analysisResponse = await fetch(`api/awards.php?action=detail&id=${award.id}`);
+                        const analysisResponse = await fetch(`../api/awards.php?action=detail&id=${award.id}`);
                         if (analysisResponse.ok) {
                             const detailData = await analysisResponse.json();
                             const analysis = detailData.analysis || {};
@@ -188,15 +187,23 @@
                                     );
                                     
                                     if (hasMatch) {
-                                        matchingDocuments.push({
-                                            ...award,
-                                            analysis: analysis,
-                                            matchingResult: analysisResults.find(result => 
-                                                result.award_name === AWARD_NAME || 
-                                                result.category === AWARD_NAME ||
-                                                result.award_category === AWARD_NAME
-                                            )
-                                        });
+                                        const matchingResult = analysisResults.find(result => 
+                                            result.award_name === AWARD_NAME || 
+                                            result.category === AWARD_NAME ||
+                                            result.award_category === AWARD_NAME
+                                        );
+                                        
+                                        // Only include documents that are eligible or partially eligible
+                                        if (matchingResult && matchingResult.status) {
+                                            const status = matchingResult.status.toLowerCase();
+                                            if (status === 'eligible' || status === 'partially eligible') {
+                                                matchingDocuments.push({
+                                                    ...award,
+                                                    analysis: analysis,
+                                                    matchingResult: matchingResult
+                                                });
+                                            }
+                                        }
                                     }
                                 } catch (e) {
                                     console.warn('Error parsing analysis results:', e);
@@ -215,8 +222,9 @@
                 
             } catch (error) {
                 console.error('Error loading award documents:', error);
-                document.getElementById('loadingState').innerHTML = 
-                    '<div class="text-center py-12"><span class="material-symbols-outlined text-6xl text-red-500 mb-4">error</span><p class="text-red-600">Failed to load documents</p></div>';
+                // Hide loading state and show empty state instead of error
+                document.getElementById('loadingState').style.display = 'none';
+                document.getElementById('emptyState').classList.remove('hidden');
             }
         }
 

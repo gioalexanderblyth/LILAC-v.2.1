@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8"/>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>Sustainability Award - LILAC</title>
+    <meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Internationalization Leadership Award - LILAC</title>
     <link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect"/>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
@@ -12,8 +11,7 @@
         (function() {
             const savedTheme = localStorage.getItem('theme');
             const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            const shouldBeDark = savedTheme === 'dark' || (!savedTheme && prefersDark);
-            if (shouldBeDark) document.documentElement.classList.add('dark');
+            if (savedTheme === 'dark' || (!savedTheme && prefersDark)) document.documentElement.classList.add('dark');
         })();
     </script>
     <script>
@@ -22,12 +20,10 @@
             theme: {
                 extend: {
                     colors: {
-                        "primary": { DEFAULT: "#137fec", "50": "#e8f2fe", "100": "#d1e6fd", "200": "#a2cbfb", "300": "#74b1f9", "400": "#4596f7", "500": "#137fec", "600": "#0f66bc", "700": "#0c4c8d", "800": "#08335d", "900": "#04192e" },
-                        "background-light": "#f1f5f9", "background-dark": "#0f172a",
-                        "card-light": "#ffffff", "card-dark": "#1e293b",
-                        "text-light": "#0f172a", "text-dark": "#e2e8f0",
-                        "text-muted-light": "#64748b", "text-muted-dark": "#94a3b8",
-                        "border-light": "#e2e8f0", "border-dark": "#334155",
+                        "primary": { DEFAULT: "#137fec" },
+                        "background-light": "#f1f5f9", "background-dark": "#0f172a", "card-light": "#ffffff", "card-dark": "#1e293b",
+                        "text-light": "#0f172a", "text-dark": "#e2e8f0", "text-muted-light": "#64748b", "text-muted-dark": "#94a3b8",
+                        "border-light": "#e2e8f0", "border-dark": "#334155"
                     },
                     fontFamily: { "display": ["Inter", "sans-serif"] }
                 }
@@ -46,22 +42,21 @@
                         <span class="material-symbols-outlined">arrow_back</span>
                     </button>
                     <div>
-                        <h1 class="text-2xl font-bold text-text-light dark:text-text-dark">Sustainability Award</h1>
-                        <p class="text-sm text-text-muted-light dark:text-text-muted-dark">Central Hub for Sustainability Award Documents</p>
+                        <h1 class="text-2xl font-bold text-text-light dark:text-text-dark">Internationalization Leadership Award</h1>
+                        <p class="text-sm text-text-muted-light dark:text-text-muted-dark">Central Hub for Internationalization Leadership Award Documents</p>
                     </div>
                 </div>
             </header>
-
             <div class="p-6">
                 <div class="max-w-7xl mx-auto">
-                    <div class="mb-8 bg-gradient-to-r from-emerald-50 to-emerald-100 dark:from-emerald-900/20 dark:to-emerald-800/20 rounded-xl p-6 border border-emerald-200 dark:border-emerald-700">
+                    <div class="mb-8 bg-gradient-to-r from-indigo-50 to-indigo-100 dark:from-indigo-900/20 dark:to-indigo-800/20 rounded-xl p-6 border border-indigo-200 dark:border-indigo-700">
                         <div class="flex items-center gap-4 mb-4">
-                            <div class="w-12 h-12 bg-emerald-600 rounded-lg flex items-center justify-center">
-                                <span class="material-symbols-outlined text-white text-2xl">eco</span>
+                            <div class="w-12 h-12 bg-indigo-600 rounded-lg flex items-center justify-center">
+                                <span class="material-symbols-outlined text-white text-2xl">leaderboard</span>
                             </div>
                             <div>
-                                <h2 class="text-2xl font-bold text-emerald-900 dark:text-emerald-100">Sustainability Award</h2>
-                                <p class="text-emerald-700 dark:text-emerald-300">Recognition for environmental sustainability initiatives and green campus programs</p>
+                                <h2 class="text-2xl font-bold text-indigo-900 dark:text-indigo-100">Internationalization Leadership Award</h2>
+                                <p class="text-indigo-700 dark:text-indigo-300">Recognition for exemplary internationalization leadership and institutional excellence</p>
                             </div>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
@@ -79,7 +74,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="bg-card-light dark:bg-card-dark rounded-xl border border-border-light dark:border-border-dark">
                         <div class="p-6 border-b border-border-light dark:border-border-dark">
                             <div class="flex justify-between items-center">
@@ -90,7 +84,6 @@
                                         <option value="">All Status</option>
                                         <option value="eligible">Eligible</option>
                                         <option value="partially-eligible">Partially Eligible</option>
-                                        <option value="not-eligible">Not Eligible</option>
                                     </select>
                                 </div>
                             </div>
@@ -109,7 +102,7 @@
                                 <div id="emptyState" class="hidden text-center py-12">
                                     <span class="material-symbols-outlined text-6xl text-text-muted-light dark:text-text-muted-dark mb-4">inbox</span>
                                     <h4 class="text-lg font-semibold text-text-light dark:text-text-dark mb-2">No Documents Found</h4>
-                                    <p class="text-text-muted-light dark:text-text-muted-dark">No documents match the Sustainability Award criteria.</p>
+                                    <p class="text-text-muted-light dark:text-text-muted-dark">No documents match the Internationalization Leadership Award criteria.</p>
                                 </div>
                             </div>
                         </div>
@@ -117,14 +110,13 @@
                 </div>
             </div>
     </main>
-
     <script>
         let allDocuments = [], filteredDocuments = [];
-        const AWARD_NAME = 'Sustainability Award';
+        const AWARD_NAME = 'Internationalization Leadership Award';
         const AWARD_KEYWORDS = [
-            'sustainability', 'environmental', 'green campus', 'climate change', 
-            'renewable energy', 'waste reduction', 'carbon footprint', 'eco-friendly',
-            'sustainable development', 'green initiatives', 'environmental impact'
+            'internationalization leadership', 'institutional leadership', 'strategic leadership',
+            'executive leadership', 'transformational leader', 'visionary leadership',
+            'leadership excellence', 'international strategy', 'global leadership'
         ];
 
         document.addEventListener('DOMContentLoaded', async function() {
@@ -134,7 +126,7 @@
 
         async function loadAwardDocuments() {
             try {
-                const response = await fetch('api/awards.php?action=list');
+                const response = await fetch('../api/awards.php?action=list');
                 if (!response.ok) throw new Error('Failed to load award data');
                 
                 const allAwards = await response.json();
@@ -142,7 +134,7 @@
                 
                 for (const award of allAwards) {
                     try {
-                        const analysisResponse = await fetch(`api/awards.php?action=detail&id=${award.id}`);
+                        const analysisResponse = await fetch(`../api/awards.php?action=detail&id=${award.id}`);
                         if (analysisResponse.ok) {
                             const detailData = await analysisResponse.json();
                             const analysis = detailData.analysis || {};
@@ -162,15 +154,23 @@
                                     );
                                     
                                     if (hasMatch) {
-                                        matchingDocuments.push({
-                                            ...award,
-                                            analysis: analysis,
-                                            matchingResult: analysisResults.find(result => 
-                                                result.award_name === AWARD_NAME || 
-                                                result.category === AWARD_NAME ||
-                                                result.award_category === AWARD_NAME
-                                            )
-                                        });
+                                        const matchingResult = analysisResults.find(result => 
+                                            result.award_name === AWARD_NAME || 
+                                            result.category === AWARD_NAME ||
+                                            result.award_category === AWARD_NAME
+                                        );
+                                        
+                                        // Only include documents that are eligible or partially eligible
+                                        if (matchingResult && matchingResult.status) {
+                                            const status = matchingResult.status.toLowerCase();
+                                            if (status === 'eligible' || status === 'partially eligible') {
+                                                matchingDocuments.push({
+                                                    ...award,
+                                                    analysis: analysis,
+                                                    matchingResult: matchingResult
+                                                });
+                                            }
+                                        }
                                     }
                                 } catch (e) { console.warn('Error parsing analysis results:', e); }
                             }
@@ -185,8 +185,9 @@
                 
             } catch (error) {
                 console.error('Error loading award documents:', error);
-                document.getElementById('loadingState').innerHTML = 
-                    '<div class="text-center py-12"><span class="material-symbols-outlined text-6xl text-red-500 mb-4">error</span><p class="text-red-600">Failed to load documents</p></div>';
+                // Hide loading state and show empty state instead of error
+                document.getElementById('loadingState').style.display = 'none';
+                document.getElementById('emptyState').classList.remove('hidden');
             }
         }
 
@@ -220,7 +221,7 @@
                             <button onclick="viewDocumentDetails('${doc.id}')" class="px-3 py-1 bg-primary text-white text-sm rounded-lg hover:bg-primary/90 transition-colors">View Details</button>
                         </div>
                     </div>
-                    ${matchingResult && matchingResult.recommendation ? `<div class="mt-3 p-3 bg-emerald-50 dark:bg-emerald-900/20 rounded-lg"><p class="text-sm text-emerald-700 dark:text-emerald-300"><strong>Recommendation:</strong> ${matchingResult.recommendation}</p></div>` : ''}
+                    ${matchingResult && matchingResult.recommendation ? `<div class="mt-3 p-3 bg-indigo-50 dark:bg-indigo-900/20 rounded-lg"><p class="text-sm text-indigo-700 dark:text-indigo-300"><strong>Recommendation:</strong> ${matchingResult.recommendation}</p></div>` : ''}
                 </div>`;
             }).join('');
         }

@@ -620,6 +620,9 @@
         <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-4xl w-full my-8">
             <div class="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
                 <h2 id="modalTitle" class="text-xl font-bold text-gray-900 dark:text-gray-100"></h2>
+                <button id="modalCloseButton" onclick="closeModal()" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
             </div>
             <div id="modalContent" class="p-6">
                 <!-- Dynamic content will be inserted here -->
@@ -3493,6 +3496,14 @@
         document.getElementById('modalTitle').textContent = title;
         document.getElementById('modalContent').innerHTML = content;
         document.getElementById('kpiModal').classList.remove('hidden');
+        
+        // Hide X button for "Eligible Requirements per Award" modal (identified by "Details & Requirements" in title)
+        const closeButton = document.getElementById('modalCloseButton');
+        if (title.includes('Details & Requirements')) {
+            closeButton.style.display = 'none';
+        } else {
+            closeButton.style.display = 'block';
+        }
     }
 
     function closeModal() {
@@ -3610,14 +3621,14 @@
         
         // Map award names to page file names
         const awardPageMap = {
-            'Global Citizenship Award': 'global-citizenship-award.html',
-            'Outstanding International Education Program Award': 'outstanding-international-education-award.html',
-            'Sustainability Award': 'sustainability-award.html',
-            'Best ASEAN Awareness Initiative Award': 'best-asean-awareness-award.html',
-            'Emerging Leadership Award': 'emerging-leadership-award.html',
-            'Internationalization Leadership Award': 'internationalization-leadership-award.html',
-            'Best CHED Regional Office for Internationalization Award': 'best-ched-regional-office-award.html',
-            'Most Promising Regional IRO Community Award': 'most-promising-iro-community-award.html'
+            'Global Citizenship Award': 'awards/global-citizenship-award.html',
+            'Outstanding International Education Program Award': 'awards/outstanding-international-education-award.html',
+            'Sustainability Award': 'awards/sustainability-award.html',
+            'Best ASEAN Awareness Initiative Award': 'awards/best-asean-awareness-award.html',
+            'Emerging Leadership Award': 'awards/emerging-leadership-award.html',
+            'Internationalization Leadership Award': 'awards/internationalization-leadership-award.html',
+            'Best CHED Regional Office for Internationalization Award': 'awards/best-ched-regional-office-award.html',
+            'Most Promising Regional IRO Community Award': 'awards/most-promising-iro-community-award.html'
         };
         
         const pageName = awardPageMap[awardName];
