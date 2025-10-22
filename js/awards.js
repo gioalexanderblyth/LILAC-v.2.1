@@ -2,7 +2,7 @@
 (function() {
     // Check if running on correct server
     if (location.protocol === 'file:') {
-        alert('⚠️ Server Required\n\nThis page must be served from a web server to work properly.\n\nPlease use the start-server.bat file to start the PHP server, then access the page at:\nhttp://localhost:8080/awards.html');
+        alert('⚠️ Server Required\n\nThis page must be served from a web server to work properly.\n\nPlease use the start-server.bat file to start the PHP server, then access the page at:\nhttp://localhost:8080/pages/awards.html');
         return;
     }
     

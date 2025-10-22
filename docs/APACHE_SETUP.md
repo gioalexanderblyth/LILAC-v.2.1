@@ -20,8 +20,8 @@ This guide will help you configure Apache web server to run the LILAC applicatio
 2. **Restart Apache** when prompted
 
 3. **Access your application:**
-   - http://localhost/dashboard.html
-   - or http://localhost:8000/dashboard.html
+   - http://localhost/pages/dashboard.html
+   - or http://localhost:8000/pages/dashboard.html
 
 ### Option 2: Manual Setup
 

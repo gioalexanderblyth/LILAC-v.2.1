@@ -18,7 +18,7 @@ class DashboardManager {
         const savedUser = localStorage.getItem("lilac_user") || sessionStorage.getItem("lilac_user");
         if (!savedUser) {
             // Redirect to login if not authenticated
-            window.location.href = "index.html";
+            window.location.href = "pages/index.html";
             return;
         }
         

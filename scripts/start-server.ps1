@@ -13,12 +13,12 @@ if ($choice -eq "1") {
     Write-Host "Starting with Apache (supports remote access)..." -ForegroundColor Cyan
     
     # Check if Apache configuration setup exists
-    if (Test-Path ".\setup-apache.ps1") {
+    if (Test-Path ".\scripts\setup-apache.ps1") {
         Write-Host "Running Apache setup..." -ForegroundColor Yellow
-        & ".\setup-apache.ps1"
+        & ".\scripts\setup-apache.ps1"
     } else {
         Write-Host "Running Apache startup..." -ForegroundColor Yellow
-        & ".\start-apache.ps1"
+        & ".\scripts\start-apache.ps1"
     }
     exit 0
 }
@@ -43,7 +43,7 @@ if ($choice -eq "2" -or -not $choice) {
 
     # Wait 3 seconds then open browser
     Start-Sleep -Seconds 3
-    Start-Process "http://localhost:$PORT/LILAC-v.2.1/dashboard.html"
+    Start-Process "http://localhost:$PORT/LILAC-v.2.1/pages/dashboard.html"
 
     Write-Host "Starting server... Press Ctrl+C to stop" -ForegroundColor Green
     Write-Host "⚠️  For remote access, colleagues should use your IP address instead of localhost" -ForegroundColor Yellow

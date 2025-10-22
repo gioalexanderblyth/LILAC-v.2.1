@@ -12,7 +12,7 @@ Write-Host "LILAC Apache Setup Script (Remote Access Support)" -ForegroundColor 
 Write-Host "=================================================" -ForegroundColor Green
 Write-Host ""
 
-$PROJECT_PATH = Get-Location
+$PROJECT_PATH = (Get-Location).Parent
 $CONFIG_FILE = Join-Path $PROJECT_PATH "lilac-apache.conf"
 $HTACCESS_FILE = Join-Path $PROJECT_PATH ".htaccess"
 
@@ -59,10 +59,10 @@ if (-not $ApacheConfDir) {
     )
 
     foreach ($path in $possiblePaths) {
-        $matches = Get-ChildItem $path -ErrorAction SilentlyContinue
-        foreach ($match in $matches) {
-            if (Test-Path (Join-Path $match.FullName "httpd.conf")) {
-                $ApacheConfDir = $match.FullName
+        $foundPaths = Get-ChildItem $path -ErrorAction SilentlyContinue
+        foreach ($foundPath in $foundPaths) {
+            if (Test-Path (Join-Path $foundPath.FullName "httpd.conf")) {
+                $ApacheConfDir = $foundPath.FullName
                 Write-Host "Found Apache config: $ApacheConfDir" -ForegroundColor Green
                 break
             }
@@ -129,9 +129,9 @@ Write-Host ""
 Write-Host "Remote Access Information:" -ForegroundColor Yellow
 Write-Host "=========================" -ForegroundColor Yellow
 Write-Host "Your colleague can access the system at:" -ForegroundColor White
-Write-Host "  http://$YourIP/dashboard.html" -ForegroundColor Cyan
+Write-Host "  http://$YourIP/pages/dashboard.html" -ForegroundColor Cyan
 Write-Host "  or" -ForegroundColor White
-Write-Host "  http://$YourIP:8000/dashboard.html" -ForegroundColor Cyan
+Write-Host "  http://$YourIP:8000/pages/dashboard.html" -ForegroundColor Cyan
 Write-Host ""
 Write-Host "Next steps:" -ForegroundColor Yellow
 Write-Host "1. Restart Apache service:" -ForegroundColor White
@@ -142,7 +142,7 @@ Write-Host "   - Allow Apache through Windows Firewall" -ForegroundColor Cyan
 Write-Host "   - Or temporarily disable firewall for testing" -ForegroundColor Cyan
 Write-Host ""
 Write-Host "3. Test local access first:" -ForegroundColor White
-Write-Host "   http://localhost/dashboard.html" -ForegroundColor Cyan
+Write-Host "   http://localhost/pages/dashboard.html" -ForegroundColor Cyan
 Write-Host ""
 
 # Check if Apache service needs restart
@@ -160,7 +160,7 @@ if ($apacheService) {
             Write-Host "Apache restarted!" -ForegroundColor Green
             Write-Host ""
             Write-Host "Share this URL with your colleague:" -ForegroundColor Yellow
-            Write-Host "http://$YourIP/dashboard.html" -ForegroundColor Green
+            Write-Host "http://$YourIP/pages/dashboard.html" -ForegroundColor Green
         }
     }
 }

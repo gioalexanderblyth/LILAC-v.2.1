@@ -3,7 +3,7 @@ Write-Host "Starting LILAC Events System with Apache (Remote Access)..." -Foregr
 Write-Host ""
 
 # Configuration
-$PROJECT_PATH = Get-Location
+$PROJECT_PATH = (Get-Location).Parent
 $APACHE_CONFIG = Join-Path $PROJECT_PATH "lilac-apache.conf"
 
 Write-Host "Project Path: $PROJECT_PATH" -ForegroundColor Cyan
@@ -51,18 +51,18 @@ Write-Host ""
 Write-Host "🌐 Remote Access Information:" -ForegroundColor Green
 Write-Host "============================" -ForegroundColor Green
 Write-Host "Your colleague can access the system remotely at:" -ForegroundColor Yellow
-Write-Host "  http://$YourIP/dashboard.html" -ForegroundColor Cyan
+Write-Host "  http://$YourIP/pages/dashboard.html" -ForegroundColor Cyan
 Write-Host "  or" -ForegroundColor White
-Write-Host "  http://$YourIP:8000/dashboard.html" -ForegroundColor Cyan
+Write-Host "  http://$YourIP:8000/pages/dashboard.html" -ForegroundColor Cyan
 Write-Host ""
 Write-Host "Local access URLs:" -ForegroundColor Yellow
-Write-Host "  http://localhost/dashboard.html" -ForegroundColor Cyan
-Write-Host "  http://localhost:8000/dashboard.html" -ForegroundColor Cyan
+Write-Host "  http://localhost/pages/dashboard.html" -ForegroundColor Cyan
+Write-Host "  http://localhost:8000/pages/dashboard.html" -ForegroundColor Cyan
 Write-Host ""
 
 # Instructions for configuration
 Write-Host "📋 Configuration Steps:" -ForegroundColor Yellow
-Write-Host "1. Run setup script: .\setup-apache.ps1" -ForegroundColor White
+Write-Host "1. Run setup script: .\scripts\setup-apache.ps1" -ForegroundColor White
 Write-Host "2. Or manually copy lilac-apache.conf to Apache conf/extra/" -ForegroundColor White
 Write-Host "3. Add 'Include conf/extra/lilac.conf' to httpd.conf" -ForegroundColor White
 Write-Host "4. Restart Apache service" -ForegroundColor White
@@ -92,12 +92,12 @@ if ($apacheConfDir) {
     $configure = Read-Host "Do you want to configure Apache automatically now? (y/N)"
     if ($configure -eq "y" -or $configure -eq "Y") {
         Write-Host "Running setup script..." -ForegroundColor Yellow
-        & ".\setup-apache.ps1" -ApacheConfDir $apacheConfDir -YourIP $YourIP
+        & ".\scripts\setup-apache.ps1" -ApacheConfDir $apacheConfDir -YourIP $YourIP
         exit 0
     }
 } else {
     Write-Host "Could not locate Apache configuration directory automatically." -ForegroundColor Yellow
-    Write-Host "Please run: .\setup-apache.ps1" -ForegroundColor White
+    Write-Host "Please run: .\scripts\setup-apache.ps1" -ForegroundColor White
 }
 
 Write-Host ""
@@ -106,10 +106,10 @@ Start-Sleep -Seconds 3
 
 # Try to open the application - check both ports
 try {
-    Start-Process "http://localhost/dashboard.html"
+    Start-Process "http://localhost/pages/dashboard.html"
 } catch {
     try {
-        Start-Process "http://localhost:8000/dashboard.html"
+        Start-Process "http://localhost:8000/pages/dashboard.html"
     } catch {
         Write-Host "Could not open browser automatically." -ForegroundColor Yellow
     }
@@ -117,7 +117,7 @@ try {
 
 Write-Host ""
 Write-Host "🚀 LILAC is ready for remote access!" -ForegroundColor Green
-Write-Host "Share this URL with your colleague: http://$YourIP/dashboard.html" -ForegroundColor Cyan
+Write-Host "Share this URL with your colleague: http://$YourIP/pages/dashboard.html" -ForegroundColor Cyan
 Write-Host ""
 Write-Host "⚠️  Firewall Note: If your colleague cannot connect," -ForegroundColor Yellow
 Write-Host "   check Windows Firewall settings for Apache/HTTP traffic." -ForegroundColor White
