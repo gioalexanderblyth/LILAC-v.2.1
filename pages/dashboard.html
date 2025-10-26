@@ -167,7 +167,8 @@
 <aside class="sidebar bg-card-light dark:bg-card-dark border-r border-border-light dark:border-border-dark flex flex-col">
 <div class="flex items-center justify-start px-4 h-20 border-b border-border-light dark:border-border-dark">
 <div class="flex items-center gap-3">
-<img alt="CPU LILAC Logo" class="h-11 w-11" src="assets/images/cpu-logo.svg.png" width="32" height="32"/>
+<img alt="CPU LILAC Logo" class="h-11 w-11" src="../assets/images/cpu-logo.png?v=1" width="32" height="32" onerror="this.style.display='none'; document.getElementById('logo-fallback').style.display='flex'; console.error('Logo failed to load:', this.src);"/>
+<div class="h-11 w-11 bg-primary rounded-lg flex items-center justify-center text-white font-bold text-sm" style="display: none;" id="logo-fallback">CPU</div>
 <h1 class="text-xl font-bold text-text-light dark:text-text-dark sidebar-logo-text hidden">LILAC</h1>
 </div>
 </div>
