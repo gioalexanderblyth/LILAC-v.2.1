@@ -32,6 +32,22 @@
                 document.documentElement.classList.add('dark');
             }
         })();
+        
+        // Control entrance animation - only show on first login
+        (function() {
+            // Check if this is a fresh login (no previous session)
+            const hasSeenDashboard = sessionStorage.getItem('hasSeenDashboard');
+            
+            if (hasSeenDashboard) {
+                // User has already seen dashboard in this session, disable animation
+                document.addEventListener('DOMContentLoaded', function() {
+                    document.body.classList.add('no-animation');
+                });
+            } else {
+                // First time seeing dashboard in this session, show animation
+                sessionStorage.setItem('hasSeenDashboard', 'true');
+            }
+        })();
 </script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
@@ -105,6 +121,72 @@
         .chartjs-legend-color {
             color: theme('colors.text-light');
         }
+        /* Sidebar entrance animation */
+        @keyframes slideInFromLeft {
+            from {
+                transform: translateX(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes slideInFromRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .sidebar {
+            animation: slideInFromLeft 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .main-content {
+            animation: slideInFromRight 0.6s cubic-bezier(0.4, 0, 0.2, 1) 0.2s both;
+        }
+        
+        /* Only show animation on first visit to dashboard */
+        .no-animation .sidebar {
+            animation: none;
+        }
+        
+        .no-animation .main-content {
+            animation: none;
+        }
+        
+        .no-animation .content-card {
+            animation: none;
+        }
+        
+        /* Staggered animations for content */
+        .content-card {
+            animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) both;
+        }
+        
+        .content-card:nth-child(1) { animation-delay: 0.4s; }
+        .content-card:nth-child(2) { animation-delay: 0.5s; }
+        .content-card:nth-child(3) { animation-delay: 0.6s; }
+        .content-card:nth-child(4) { animation-delay: 0.7s; }
+        .content-card:nth-child(5) { animation-delay: 0.8s; }
+        
         .sidebar-collapsed .sidebar-text {
             display: none;
         }
@@ -259,7 +341,7 @@
 </div>
 </header>
 <div class="max-w-7xl mx-auto mt-4 lg:mt-6">
-<div class="bg-card-light dark:bg-card-dark p-6 rounded-xl shadow-soft border border-border-light dark:border-border-dark">
+<div class="bg-card-light dark:bg-card-dark p-6 rounded-xl shadow-soft border border-border-light dark:border-border-dark content-card">
 <div class="flex flex-col sm:flex-row justify-between items-start gap-4">
 <div>
 <h2 class="text-xl font-bold text-text-light dark:text-text-dark">Awards Progress</h2>
@@ -297,7 +379,7 @@
 </div>
 </div>
 <div class="mt-6 lg:mt-8 grid grid-cols-1 md:grid-cols-2 @[90rem]:grid-cols-3 gap-6 lg:gap-8">
-<div class="bg-card-light dark:bg-card-dark p-6 rounded-xl shadow-soft border border-border-light dark:border-border-dark">
+<div class="bg-card-light dark:bg-card-dark p-6 rounded-xl shadow-soft border border-border-light dark:border-border-dark content-card">
 <div class="flex justify-between items-start">
 <h3 class="font-bold text-text-light dark:text-text-dark">Events &amp; Activities</h3>
 <a class="text-sm font-medium text-primary-600 dark:text-primary-400 hover:underline" href="dashboard.html">View All</a>
@@ -322,7 +404,7 @@
 </div>
 </div>
 </div>
-<div class="bg-card-light dark:bg-card-dark p-6 rounded-xl shadow-soft border border-border-light dark:border-border-dark">
+<div class="bg-card-light dark:bg-card-dark p-6 rounded-xl shadow-soft border border-border-light dark:border-border-dark content-card">
 <div class="flex justify-between items-start">
 <h3 class="font-bold text-text-light dark:text-text-dark">Scheduler</h3>
 <a class="text-sm font-medium text-primary-600 dark:text-primary-400 hover:underline" href="scheduler.html">View All</a>
@@ -351,7 +433,7 @@
 </div>
 </div>
 </div>
-<div class="bg-card-light dark:bg-card-dark p-6 rounded-xl shadow-soft border border-border-light dark:border-border-dark">
+<div class="bg-card-light dark:bg-card-dark p-6 rounded-xl shadow-soft border border-border-light dark:border-border-dark content-card">
 <div class="flex justify-between items-start">
 <h3 class="font-bold text-text-light dark:text-text-dark">MOUs &amp; MOAs</h3>
 <a class="text-sm font-medium text-primary-600 dark:text-primary-400 hover:underline" href="dashboard.html">View all</a>
@@ -381,7 +463,7 @@
 </div>
 </div>
 </div>
-<div class="bg-card-light dark:bg-card-dark p-6 rounded-xl shadow-soft border border-border-light dark:border-border-dark">
+<div class="bg-card-light dark:bg-card-dark p-6 rounded-xl shadow-soft border border-border-light dark:border-border-dark content-card">
 <div class="flex justify-between items-start">
 <h3 class="font-bold text-text-light dark:text-text-dark">Templates</h3>
 <a class="text-sm font-medium text-primary-600 dark:text-primary-400 hover:underline" href="dashboard.html">View All</a>
@@ -398,7 +480,7 @@
 </a>
 </div>
 </div>
-<div class="bg-card-light dark:bg-card-dark p-6 rounded-xl shadow-soft border border-border-light dark:border-border-dark">
+<div class="bg-card-light dark:bg-card-dark p-6 rounded-xl shadow-soft border border-border-light dark:border-border-dark content-card">
 <div class="flex justify-between items-start">
 <h3 class="font-bold text-text-light dark:text-text-dark">Registrar Forms</h3>
 <a class="text-sm font-medium text-primary-600 dark:text-primary-400 hover:underline" href="dashboard.html">View All</a>
