@@ -689,7 +689,7 @@
         initAI();
         refreshStats();
         // Preload requirements map
-        fetch('assets/award_requirements.json')
+        fetch('data/criteria/award_requirements.json')
             .then(r => r.ok ? r.json() : {})
             .then(json => { window.AWARD_REQUIREMENTS = json || {}; })
             .catch(() => { window.AWARD_REQUIREMENTS = {}; });

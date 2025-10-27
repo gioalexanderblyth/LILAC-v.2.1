@@ -23,7 +23,7 @@ function loadAwardsCriteria() {
 
 // Load award requirements data
 function loadAwardRequirements() {
-    $file = dirname(__DIR__) . '/assets/award_requirements.json';
+    $file = dirname(__DIR__) . '/data/criteria/award_requirements.json';
     if (!file_exists($file)) {
         return [];
     }
