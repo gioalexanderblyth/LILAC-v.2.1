@@ -174,7 +174,7 @@ try {
 
     // Load ICONS 2025 awards dataset (updated schema)
     error_log("Loading ICONS 2025 awards dataset");
-    $criteriaPath = __DIR__ . '/../assets/icons2025_awards.json';
+    $criteriaPath = __DIR__ . '/../data/criteria/icons2025_awards.json';
     if (!file_exists($criteriaPath)) {
         throw new Exception('ICONS 2025 awards dataset not found');
     }

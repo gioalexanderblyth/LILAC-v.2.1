@@ -13,7 +13,7 @@ require_once 'config.php';
 
 // Load award criteria data
 function loadAwardsCriteria() {
-    $file = dirname(__DIR__) . '/assets/awards-criteria.json';
+    $file = dirname(__DIR__) . '/data/criteria/awards-criteria.json';
     if (!file_exists($file)) {
         return [];
     }

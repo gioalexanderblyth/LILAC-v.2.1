@@ -13,7 +13,7 @@ function loadAwardThresholds() {
         return $thresholds;
     }
     
-    $rulesPath = __DIR__ . '/../assets/awards-rules.json';
+    $rulesPath = __DIR__ . '/../data/criteria/awards-rules.json';
     if (file_exists($rulesPath)) {
         $rules = json_decode(file_get_contents($rulesPath), true);
         if ($rules && isset($rules['thresholds'])) {

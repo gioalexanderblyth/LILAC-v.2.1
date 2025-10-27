@@ -1,6 +1,6 @@
 <?php
 function load_rules() {
-    $file = dirname(__DIR__) . '/assets/awards-rules.json';
+    $file = dirname(__DIR__) . '/data/criteria/awards-rules.json';
     if (!file_exists($file)) { return []; }
     $json = file_get_contents($file);
     return json_decode($json, true) ?: [];
